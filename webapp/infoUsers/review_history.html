@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Review History</title>
+    <script src="../include.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/store_style.css">
+    <style>
+        main {
+            width: 1200px;
+            margin: 20px auto;
+            padding: 0;
+        }
+
+        #container {
+            display: flex;
+            background-color: #eeeeee;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            margin-left: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<header data-include="header.html"></header>
+
+<main>
+    <div id="container">
+        <div data-include="user_sidebar.html"></div>
+        <div class="main-content">
+            <h2 data-lang-key="reviewHistory">Lịch sử đánh giá</h2>
+            <p data-lang-key="reviewHistoryPage">Đây là trang lịch sử đánh giá sản phẩm. Nội dung sẽ được cập nhật sớm.</p>
+        </div>
+    </div>
+</main>
+
+<footer data-include="footer.html"></footer>
+</body>
+</html>

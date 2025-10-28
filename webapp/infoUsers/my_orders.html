@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+    <script src="../include.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/store_style.css">
+    <style>
+        main {
+            width: 1200px;
+            margin: 20px auto;
+            padding: 0;
+        }
+
+        #container {
+            display: flex;
+            background-color: #eeeeee;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            margin-left: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #eee;
+            transition: box-shadow 0.3s;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .order-header .order-id {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .order-header .order-status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .order-status.completed { background-color: #28a745; }
+        .order-status.pending { background-color: #ffc107; color: #333; }
+        .order-status.cancelled { background-color: #dc3545; }
+
+        .order-body {
+            display: flex;
+            gap: 15px;
+        }
+
+        .order-body img {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .order-details {
+            flex-grow: 1;
+        }
+
+        .order-details .product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .order-footer {
+            text-align: right;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<header data-include="header.html"></header>
+
+<main>
+    <div id="container">
+        <div data-include="user_sidebar.html"></div>
+        <div class="main-content">
+            <h2 data-lang-key="myOrders">Đơn hàng của tôi</h2>
+            <div class="order-list">
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">Mã đơn hàng: #12345</span>
+                        <span class="order-status completed">Đã hoàn thành</span>
+                    </div>
+                    <div class="order-body">
+                        <img src="https://via.placeholder.com/80" alt="Product Image">
+                        <div class="order-details">
+                            <div class="product-name">Sản phẩm A</div>
+                            <div>Ngày đặt: 20/10/2025</div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <span>Tổng tiền: 1.200.000₫</span>
+                    </div>
+                </div>
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">Mã đơn hàng: #12346</span>
+                        <span class="order-status pending">Đang xử lý</span>
+                    </div>
+                    <div class="order-body">
+                        <img src="https://via.placeholder.com/80" alt="Product Image">
+                        <div class="order-details">
+                            <div class="product-name">Sản phẩm B</div>
+                            <div>Ngày đặt: 25/10/2025</div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <span>Tổng tiền: 850.000₫</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer data-include="footer.html"></footer>
+</body>
+</html>

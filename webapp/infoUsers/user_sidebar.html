@@ -1,0 +1,112 @@
+<div class="left-sidebar">
+    <div class="user-info">
+        <img src="https://i.pinimg.com/1200x/44/80/45/448045692c52f8e84fdad5ccc69f1939.jpg" alt="User Avatar">
+        <span>nguyenvan</span>
+    </div>
+    <hr>
+    <ul class="nav-menu">
+        <li><a href="infoUser.html" id="nav-user-profile"><i class="fa-solid fa-user"></i> <span data-lang-key="userInfo">Thông tin người dùng</span></a></li>
+        <li><a href="addresses.html" id="nav-addresses"><i class="fa-solid fa-location-dot"></i> <span data-lang-key="address">Địa chỉ</span></a></li>
+        <li><a href="view_history.html" id="nav-view-history"><i class="fa-solid fa-clock-rotate-left"></i> <span data-lang-key="viewHistory">Lịch sử đã xem</span></a></li>
+        <li><a href="my_orders.html" id="nav-my-orders"><i class="fa-solid fa-box"></i> <span data-lang-key="myOrders">Đơn hàng của tôi</span></a></li>
+        <li><a href="review_history.html" id="nav-review-history"><i class="fa-solid fa-star"></i> <span data-lang-key="reviewHistory">Lịch sử đánh giá</span></a></li>
+        <hr>
+        <li><a href="settings.html" id="nav-settings"><i class="fa-solid fa-gear"></i> <span data-lang-key="settings">Cài đặt</span></a></li>
+        <li><a href="support.html" id="nav-support"><i class="fa-solid fa-circle-question"></i> <span data-lang-key="support">Hỗ trợ</span></a></li>
+        <hr>
+        <li><a><i class="fa-solid fa-right-from-bracket"></i> <span data-lang-key="logout">Đăng xuất</span></a></li>
+    </ul>
+</div>
+<style>
+    .left-sidebar {
+        width: 240px;
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+    }
+
+    .user-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .user-info img {
+        width: 85px;
+        height: 85px;
+        margin-bottom: 10px;
+        border-radius: 50%;
+    }
+
+    .user-info span {
+        font-weight: bold;
+    }
+
+    .nav-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-menu li {
+        margin-bottom: 15px;
+    }
+
+    .nav-menu a {
+        text-decoration: none;
+        color: #333;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-menu li.active a {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .nav-menu hr {
+        border: 0;
+        border-top: 1px solid #ddd;
+        margin: 20px 0;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = window.location.pathname.split("/").pop();
+        let navId = '';
+        switch(currentPage) {
+            case 'infoUser.html':
+                navId = 'nav-user-profile';
+                break;
+            case 'addresses.html':
+                navId = 'nav-addresses';
+                break;
+            case 'view_history.html':
+                navId = 'nav-view-history';
+                break;
+            case 'my_orders.html':
+                navId = 'nav-my-orders';
+                break;
+            case 'review_history.html':
+                navId = 'nav-review-history';
+                break;
+            case 'settings.html':
+                navId = 'nav-settings';
+                break;
+            case 'support.html':
+                navId = 'nav-support';
+                break;
+        }
+        if (navId) {
+            const activeLink = document.getElementById(navId);
+            if(activeLink) {
+                activeLink.parentElement.classList.add('active');
+            }
+        }
+    });
+</script>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Information</title>
+    <script src="../include.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        main {
+            width: 1200px;
+            margin: 20px auto;
+            padding: 0;
+        }
+
+        #container {
+            display: flex;
+            background-color: #eeeeee;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            margin-left: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-profile-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .user-profile-card h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .user-info-fields {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .field {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            background-color: #f9f9f9;
+            transition: background 0.3s;
+        }
+
+        .field i {
+            margin-right: 15px;
+            color: #007bff;
+            width: 25px;
+            text-align: center;
+        }
+
+        .field:hover {
+            background-color: #e6f0ff;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg,#007bff,#00bfff);
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn.cancel {
+            background: #aaa;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<header data-include="../header.html"></header>
+
+<main>
+    <div id="container">
+        <div data-include="user_sidebar.html"></div>
+        <div class="main-content">
+            <div class="user-profile-card">
+                <h2 data-lang-key="userInfo">Thông tin người dùng</h2>
+                <div class="user-info-fields">
+                    <div class="field">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="editable" data-key="name">Nguyễn Văn A</span>
+                    </div>
+                    <div class="field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span class="editable" data-key="email">nguyenvan@example.com</span>
+                    </div>
+                    <div class="field">
+                        <i class="fa-solid fa-phone"></i>
+                        <span class="editable" data-key="phone">0987654321</span>
+                    </div>
+                    <div class="field">
+                        <i class="fa-solid fa-venus-mars"></i>
+                        <span class="editable" data-key="gender" data-value="1">Nam</span>
+                    </div>
+                    <div class="field">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span class="editable" data-key="dob">01/01/1990</span>
+                    </div>
+                    <div class="field">
+                        <i class="fa-solid fa-lock"></i>
+                        <span class="editable" data-key="password">********</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button id="edit-btn" class="btn">Sửa</button>
+                    <button id="save-btn" class="btn" style="display:none;">Lưu</button>
+                    <button id="cancel-btn" class="btn cancel" style="display:none;">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer data-include="../footer.html"></footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const editBtn = document.getElementById('edit-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+
+        let backup = {};
+
+        function toggleEditMode(isEditing) {
+            const editableFields = document.querySelectorAll('.editable');
+            
+            if (isEditing) {
+                editableFields.forEach(span => {
+                    const key = span.dataset.key;
+                    backup[key] = span.textContent;
+                    if (key === 'gender') backup[key] = span.dataset.value;
+
+                    let input;
+                    switch(key) {
+                        case 'gender':
+                            input = document.createElement('select');
+                            const male = new Option('Nam', '1');
+                            const female = new Option('Nữ', '0');
+                            input.add(male);
+                            input.add(female);
+                            input.value = span.dataset.value;
+                            break;
+                        case 'password':
+                            input = document.createElement('input');
+                            input.type = 'password';
+                            input.placeholder = 'Nhập mật khẩu mới';
+                            break;
+                        case 'dob':
+                            input = document.createElement('input');
+                            input.type = 'date';
+                            const dateParts = span.textContent.split('/');
+                            if(dateParts.length === 3) {
+                                input.value = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                            }
+                            break;
+                        default:
+                            input = document.createElement('input');
+                            input.type = 'text';
+                            input.value = span.textContent;
+                    }
+                    input.classList.add('editable-input');
+                    input.dataset.key = key;
+                    span.replaceWith(input);
+                });
+
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline-block';
+                cancelBtn.style.display = 'inline-block';
+            } else {
+                const inputs = document.querySelectorAll('.editable-input');
+                inputs.forEach(input => {
+                    const key = input.dataset.key;
+                    let span = document.createElement('span');
+                    span.classList.add('editable');
+                    span.dataset.key = key;
+                    
+                    if (key === 'gender') {
+                        span.dataset.value = backup[key];
+                        span.textContent = backup[key] === '1' ? 'Nam' : 'Nữ';
+                    } else {
+                        span.textContent = backup[key];
+                    }
+                    input.replaceWith(span);
+                });
+
+                editBtn.style.display = 'inline-block';
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
+            }
+        }
+
+        editBtn.addEventListener('click', () => toggleEditMode(true));
+        cancelBtn.addEventListener('click', () => toggleEditMode(false));
+
+        saveBtn.addEventListener('click', function() {
+            const inputs = document.querySelectorAll('.editable-input');
+            let updatedData = {};
+
+            inputs.forEach(input => {
+                const key = input.dataset.key;
+                let span = document.createElement('span');
+                span.classList.add('editable');
+                span.dataset.key = key;
+
+                switch(key) {
+                    case 'password':
+                        span.textContent = input.value ? '********' : backup[key];
+                        updatedData[key] = input.value;
+                        break;
+                    case 'gender':
+                        span.dataset.value = input.value;
+                        span.textContent = input.options[input.selectedIndex].text;
+                        updatedData[key] = input.value;
+                        break;
+                    case 'dob':
+                        const dateParts = input.value.split('-');
+                        if(dateParts.length === 3) {
+                            span.textContent = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+                        } else {
+                            span.textContent = backup[key];
+                        }
+                        updatedData[key] = input.value;
+                        break;
+                    default:
+                        span.textContent = input.value;
+                        updatedData[key] = input.value;
+                }
+                input.replaceWith(span);
+            });
+
+            editBtn.style.display = 'inline-block';
+            saveBtn.style.display = 'none';
+            cancelBtn.style.display = 'none';
+
+            console.log('Updated data:', updatedData);
+            alert('Thông tin đã được cập nhật!');
+        });
+    });
+</script>
+</body>
+</html>
