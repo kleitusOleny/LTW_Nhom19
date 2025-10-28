@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Information</title>
+    <script src="include.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        main {
+            width: 1200px;
+            margin: 20px auto;
+            padding: 0;
+        }
+
+        #container {
+            display: flex;
+            background-color: #eeeeee;
+        }
+
+        .left-sidebar {
+            width: 240px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-info img {
+            width: 85px;
+            height: 85px;
+            margin-bottom: 5px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-info span {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-menu li {
+            margin-bottom: 15px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .nav-menu li.active a {
+            color: #007bff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .nav-menu hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            margin-left: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-details h2 {
+            margin-top: 0;
+        }
+
+        .shipping-info, .delivery-info {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .shipping-info h3, .delivery-info h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .product-info img {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+        }
+
+        .product-details {
+            flex-grow: 1;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: red;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff9e6;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .actions button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<header data-include="header.html"></header>
+
+<main>
+    <div id="container">
+        <div class="left-sidebar">
+            <div class="user-info">
+                <img src="https://i.pinimg.com/1200x/44/80/45/448045692c52f8e84fdad5ccc69f1939.jpg" alt="User Avatar">
+                <span>nguyenvan</span>
+            </div>
+            <hr>
+            <ul class="nav-menu">
+                <li><a class="active" data-target="user-profile"><i class="fa-solid fa-user"></i> <span data-lang-key="userInfo">Thông tin người dùng</span></a></li>
+                <li><a class="active" data-target="addresses"><i class="fa-solid fa-location-dot"></i> <span data-lang-key="address">Địa chỉ</span></a></li>
+                <li><a class="active" data-target="view-history"><i class="fa-solid fa-clock-rotate-left"></i> <span data-lang-key="viewHistory">Lịch sử đã xem</span></a></li>
+                <li class="active"><a data-target="my-orders"><i class="fa-solid fa-box"></i> <span data-lang-key="myOrders">Đơn hàng của tôi</span></a></li>
+                <li><a class="active" data-target="review-history"><i class="fa-solid fa-star"></i> <span data-lang-key="reviewHistory">Lịch sử đánh giá</span></a></li>
+                <hr>
+                <li><a class="active" data-target="settings"><i class="fa-solid fa-gear"></i> <span data-lang-key="settings">Cài đặt</span></a></li>
+                <li><a class="active" data-target="support"><i class="fa-solid fa-circle-question"></i> <span data-lang-key="support">Hỗ trợ</span></a></li>
+                <hr>
+                <li><a class="active"><i class="fa-solid fa-right-from-bracket"></i> <span data-lang-key="logout">Đăng xuất</span></a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div id="user-profile" class="content-section" style="display: none;">
+                <h2 data-lang-key="userInfo">Thông tin người dùng</h2>
+                <p data-lang-key="userInfoPage">Đây là trang thông tin người dùng.</p>
+            </div>
+
+            <div id="addresses" class="content-section" style="display: none;">
+                <h2 data-lang-key="address">Địa chỉ</h2>
+                <p data-lang-key="addressPage">Đây là trang quản lý địa chỉ.</p>
+            </div>
+
+            <div id="view-history" class="content-section" style="display: none;">
+                <h2 data-lang-key="viewHistory">Lịch sử đã xem</h2>
+                <p data-lang-key="viewHistoryPage">Đây là trang lịch sử các sản phẩm đã xem.</p>
+            </div>
+
+            <div id="my-orders" class="content-section">
+                <div class="order-details">
+                    <h2 data-lang-key="orderDetails">Chi tiết đơn hàng</h2>
+                    <p data-lang-key="thankYou">Cảm ơn quý khách đã tham gia mua sắm!</p>
+                    <div class="shipping-info">
+                        <h3 data-lang-key="shippingAddress">Địa chỉ nhận hàng</h3>
+                        <p><strong>Nguyễn Văn A</strong></p>
+                        <p>94 Nguyễn Hữu Tiến, Tây Thạnh, Tân Phú, thành phố Hồ Chí Minh</p>
+                    </div>
+                    <div class="product-info">
+                        <img src="https://via.placeholder.com/80" alt="Product Image">
+                        <div class="product-details">
+                            <p>Mẹ con</p>
+                            <p>Số lượng: 2</p>
+                        </div>
+                        <div class="product-price">
+                            <p>5,600,000 VNĐ</p>
+                        </div>
+                    </div>
+                    <div class="delivery-info">
+                        <h3 data-lang-key="shippingInfo">Thông tin vận chuyển</h3>
+                        <p><span data-lang-key="orderDate">Ngày tạo đơn hàng</span>: 01-01-2025</p>
+                        <p><span data-lang-key="deliveryDate">Ngày giao</span>: 10-01-2025</p>
+                        <p><span data-lang-key="paymentMethod">Phương thức thanh toán</span>: COD (Tiền mặt)</p>
+                    </div>
+                    <div class="actions">
+                        <span data-lang-key="itemReceived">Đã nhận được hàng</span>
+                        <button data-lang-key="buyAgain">Mua lại</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="review-history" class="content-section" style="display: none;">
+                <h2 data-lang-key="reviewHistory">Lịch sử đánh giá</h2>
+                <p data-lang-key="reviewHistoryPage">Đây là trang lịch sử đánh giá sản phẩm.</p>
+            </div>
+
+            <div id="settings" class="content-section" style="display: none;">
+                <h2 data-lang-key="settings">Cài đặt</h2>
+                <div> </div>
+            </div>
+
+            <div id="support" class="content-section" style="display: none;">
+                <h2 data-lang-key="support">Hỗ trợ</h2>
+                <p data-lang-key="supportPage">Đây là trang hỗ trợ khách hàng.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer data-include="footer.html"></footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuLinks = document.querySelectorAll('.nav-menu a[data-target]');
+        const contentSections = document.querySelectorAll('.content-section');
+        const menuItems = document.querySelectorAll('.nav-menu li');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const targetId = this.getAttribute('data-target');
+                if (!targetId) return;
+
+                contentSections.forEach(section => {
+                    section.style.display = 'none';
+                });
+
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
+
+                menuItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.parentElement.classList.add('active');
+            });
+        });
+    });
+</script>
+<script src="language.js"></script>
+</body>
+</html>
