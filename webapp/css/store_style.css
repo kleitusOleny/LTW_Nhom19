@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-decoration: none;
 }
 
 body {
@@ -80,6 +81,9 @@ header
 
 .nav ul li a.active {
     color: #c78c8c;
+}
+#language{
+    cursor: pointer;
 }
 
 /*
