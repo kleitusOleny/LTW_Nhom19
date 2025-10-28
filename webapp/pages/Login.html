@@ -55,6 +55,19 @@
             gap: 8px;
         }
 
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-wrapper #eyeIcon {
+            position: absolute;
+            transform: translateY(-50%);
+            top: 50%;
+            right: 15px;
+            cursor: pointer;
+        }
+
         .username-input label, .password-input label {
             font-weight: bold;
             font-size: 1rem;
@@ -120,6 +133,10 @@
         }
 
         .register-account {
+            display: flex;
+            flex-direction: row;
+            gap: 3px;
+            justify-content: center;
             text-align: center;
             font-size: 0.9rem;
             color: #555;
@@ -135,6 +152,43 @@
         .register-account a:hover {
             text-decoration: underline;
         }
+
+        .reminder {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reminder label {
+            font-size: 14px;
+        }
+
+        .social-login {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 2px solid #555;
+            padding: 8px 8px;
+            border-radius: 10px;
+        }
+
+        .social-login div {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .social-login img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .social-login img:hover {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 50px;
+            transition: box-shadow 0.2s ease;
+        }
     </style>
 </head>
 <body>
@@ -148,7 +202,24 @@
 
         <div class="password-input">
             <label for="password">Mật Khẩu</label>
-            <input type="password" id="password" name="password" placeholder="Nhập mật khẩu hiện có" required>
+            <div class="input-wrapper">
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu hiện có" required>
+                <span id="eyeIcon">
+                    <ion-icon name="eye-off-outline"></ion-icon>
+                </span>
+            </div>
+        </div>
+
+        <div class="reminder">
+            <div class="remind-item">
+                <input type="checkbox" id="remind-uppercase" name="remind-uppercase" disabled>
+                <label for="remind-uppercase">Password phải bao gồm chữ hoa và chữ thường</label>
+            </div>
+            <div class="remind-item">
+                <input type="checkbox" id="remind-special" name="remind-special" disabled>
+                <label for="remind-special">Password phải bao gồm kí tự đặc biệt</label>
+            </div>
+            <div id="line">━━━━━━━━━━━━━━━━━━━━━━━━</div>
         </div>
 
         <div class="remember-me-input">
@@ -158,10 +229,30 @@
         </div>
         <button>Đăng Nhập</button>
         <div class="register-account">
-            <label>Chưa có tài khoản?</label>
+            <div id="register-remind">Chưa có tài khoản?</div>
             <a href="#">Đăng Kí</a>
+        </div>
+        <div class="social-login">
+            <div id="social-remind">Chọn phương thức khác để đăng nhập:</div>
+            <img src="../assets/google-icon.png">
         </div>
     </form>
 </div>
+<script>
+    let eyeClosed = document.getElementById('eyeIcon').querySelector('ion-icon');
+    let passwordReveal = document.getElementById('password');
+
+    eyeClosed.onclick = () => {
+        if (passwordReveal.type === 'password') {
+            passwordReveal.type = 'text';
+            eyeClosed.setAttribute('name', 'eye-outline');
+        } else {
+            passwordReveal.type = 'password';
+            eyeClosed.setAttribute('name', 'eye-off-outline');
+        }
+    }
+</script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
