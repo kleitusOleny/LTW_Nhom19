@@ -153,15 +153,6 @@
             text-decoration: underline;
         }
 
-        .reminder {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .reminder label {
-            font-size: 14px;
-        }
-
         .social-login {
             display: flex;
             flex-direction: row;
@@ -189,6 +180,12 @@
             border-radius: 50px;
             transition: box-shadow 0.2s ease;
         }
+
+        .label-with-icon {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 </head>
 <body>
@@ -196,30 +193,18 @@
     <h2>Đăng Nhập</h2>
     <form id="login-form">
         <div class="username-input">
-            <label for="username">Tài Khoản</label>
+            <label for="username" class="label-with-icon"><ion-icon name="person-outline"></ion-icon>Tài Khoản</label>
             <input type="username" id="username" name="username" placeholder="Nhập tài khoản hoặc email hiện có" required>
         </div>
 
         <div class="password-input">
-            <label for="password">Mật Khẩu</label>
+            <label for="password" class="label-with-icon"><ion-icon name="lock-closed-outline"></ion-icon>Mật Khẩu</label>
             <div class="input-wrapper">
                 <input type="password" id="password" name="password" placeholder="Nhập mật khẩu hiện có" required>
                 <span id="eyeIcon">
                     <ion-icon name="eye-off-outline"></ion-icon>
                 </span>
             </div>
-        </div>
-
-        <div class="reminder">
-            <div class="remind-item">
-                <input type="checkbox" id="remind-uppercase" name="remind-uppercase" disabled>
-                <label for="remind-uppercase">Mật khẩu phải bao gồm chữ hoa và chữ thường</label>
-            </div>
-            <div class="remind-item">
-                <input type="checkbox" id="remind-special" name="remind-special" disabled>
-                <label for="remind-special">Mật khẩu phải bao gồm kí tự đặc biệt</label>
-            </div>
-            <div id="line">━━━━━━━━━━━━━━━━━━━━━━━━</div>
         </div>
 
         <div class="remember-me-input">
