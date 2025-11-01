@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lỗi</title>
+    <link rel="stylesheet" href="error_style.css">
+</head>
+<body>
+<div data-include="../layout/header.html"></div>
+
+<div class="error-container">
+    <div id="error-code" class="error-code">404</div>
+    <h1 id="error-title">Không tìm thấy trang</h1>
+    <p id="error-message">Rất tiếc, trang bạn yêu cầu không tồn tại. Vui lòng kiểm tra lại đường dẫn hoặc quay về trang
+        chủ.</p>
+    <p class="support-info">Nếu sự cố vẫn tiếp diễn, vui lòng liên hệ bộ phận hỗ trợ qua số: <strong>1900 8888</strong>
+    </p>
+    <a href="#" class="home-button">Quay lại trang chủ</a>
+</div>
+
+<div data-include="../layout/footer.html"></div>
+
+<script src="../include.js"></script>
+<!-- cách sử dụng script: error.html?code=500 -->
+<script>
+    const defaultErrors = {
+        404: {
+            title: 'Không tìm thấy trang',
+            message: 'Rất tiếc, trang bạn yêu cầu không tồn tại. Vui lòng kiểm tra lại đường dẫn hoặc quay về trang chủ.'
+        },
+        500: {
+            title: 'Lỗi máy chủ',
+            message: 'Máy chủ gặp sự cố, vui lòng thử lại sau.'
+        },
+        403: {
+            title: 'Không có quyền truy cập',
+            message: 'Bạn không có quyền truy cập vào trang này.'
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const params = new URLSearchParams(window.location.search);
+
+        const errorCode = params.get('code') || '404';
+        const errorTitle = params.get('title');
+        const errorMessage = params.get('message');
+
+        document.getElementById('error-code').textContent = errorCode;
+
+        if (errorTitle) {
+            document.getElementById('error-title').textContent = errorTitle;
+        } else if (defaultErrors[errorCode]) {
+            document.getElementById('error-title').textContent = defaultErrors[errorCode].title;
+        }
+
+        if (errorMessage) {
+            document.getElementById('error-message').textContent = errorMessage;
+        } else if (defaultErrors[errorCode]) {
+            document.getElementById('error-message').textContent = defaultErrors[errorCode].message;
+        }
+    });
+
+</script>
+</body>
+</html>
