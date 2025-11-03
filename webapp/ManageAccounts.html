@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts Manage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Bricolage Grotesque, sans-serif, serif;
+        }
+        .dashboard-container {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: 250px 1fr
+        }
+
+        .dashboard-sidebar {
+            background-color: #21232d;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eaedfd;
+            height: 70px;
+        }
+
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding-top: 150px;
+            list-style-type: none;
+        }
+
+        .a-with-icon {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            width: 200px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .a-with-icon ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .a-with-icon:hover {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+        .group-icon {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 50px;
+            padding-bottom: 10px;
+        }
+        .icon-header {
+            width: 30px;
+            height: 30px;
+            padding-top: 10px;
+            cursor: pointer;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+        }
+        .search {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding-left: 50px;
+        }
+        .search input {
+            width: 300px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .search input:focus {
+            border-color: #6341ff;
+            box-shadow: 0 0 1px #6341ff;
+            outline: none;
+        }
+        #searchIcon {
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            padding: 5px 5px 5px 5px;
+        }
+        #searchIcon:hover, .icon-header:hover {
+            color: #6341ff;
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+        .text {
+            color: #decdcd;
+            display: flex;
+            justify-content: center;
+            padding-top: 95px;
+            font-size: 12px;
+        }
+        /* ------*/
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .account-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9em;
+            background-color: white;
+            color: #333;
+        }
+
+        .account-table th,
+        .account-table td {
+            border: 1px solid #ddd;
+            padding: 10px 14px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .account-table thead .sample {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .account-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .account-table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .account-table .col-tick {
+            width: 1%;
+        }
+        .account-table .col-id {
+            width: 10%;
+        }
+        .account-table .col-email {
+            width: 30%;
+        }
+        .account-table .col-phone {
+            width: 20%;
+        }
+        .account-table .col-status {
+            width: 10%;
+        }
+        .account-table .col-action {
+            width: 15%;
+        }
+        /*  <button class="edit btn">Sửa</button>
+            <button class="delete btn">Xoá</button>
+            <button class="info btn">Chi Tiết</button> */
+        .cell-action .btn {
+            margin-right: 1px;
+            border-radius: 5px;
+            height: 30px;
+            cursor: pointer;
+            border: solid 2px #ccc;
+        }
+        .cell-action .delete, .cell-action .edit {
+            width: 50px;
+        }
+        .cell-action .info {
+            width: 70px;
+        }
+        .cell-action .btn:hover {
+            border-color: #6341ff;
+            transform: scale(1.02);
+            transition: transform 0.2s ease;
+        }
+        /* ---*/
+        .button-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .button-group .icon-group{
+            display: flex;
+            gap: 15px;
+            margin-right: 50px;
+            margin-top: 25px;
+        }
+        .button-group .icon-group .icon{
+            cursor: pointer;
+            font-size: 24px;
+            color: #555;
+        }
+        .button-group .icon-group .icon:hover{
+            color: #6341ff;
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+        .button-group .button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .del {
+            margin-left: 15px;
+            color: #fff;
+            background-color: #ff4747;
+        }
+        .button-group .del:hover {
+            background-color: #e63939;
+        }
+        .add {
+            margin-left: 10px;
+            background-color: #0872fa;
+            color: #fff;
+        }
+        .button-group .add:hover {
+            background-color: #0663dc;
+        }
+        /* ===== PHẦN CSS POP-UP ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            gap: 25px;
+            padding: 2.5rem 3rem;
+            width: 25rem;
+            border: 2px solid black;
+        }
+
+        #add-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .username-input, .password-input {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 90%;
+        }
+
+        .username-input label, .password-input label {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #555;
+            width: 200px;
+            margin-top: 5px;
+        }
+
+        .username-input input, .password-input input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .username-input input:focus, .password-input input:focus {
+            border-color: #6341ff;
+            outline: none;
+        }
+        .label-with-icon {
+            display: flex;
+            gap: 3px;
+        }
+        .group-button-action {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .account-button {
+            width: 100px;
+            padding: 14px 0;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .add-account-btn {
+            background: #08c249;
+        }
+        .add-account-btn:hover {
+            background: #06a13d;
+        }
+        .cancel {
+            background: #e80f0f;
+        }
+        .cancel:hover {
+            background: #c70d0d;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="dashboard-sidebar">
+            <ul class="sidebar-items">
+                <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+            </ul>
+            <div class="text">Được update tới 2025</div>
+        </nav>
+        <div class="dashboard-content">
+            <header class="dashboard-header">
+                <div class="search">
+                    <input type="text">
+                    <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+                </div>
+                <div class="group-icon">
+                    <ion-icon name="notifications-outline" class="icon-header"></ion-icon>
+                    <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
+                </div>
+            </header>
+            <div class="button-group">
+                <div class="func-group">
+                    <button class="button del">Xoá Ô Được Chọn</button>
+                    <button class="button add" id="open-modal-btn">Thêm</button>
+                </div>
+                <div class="icon-group">
+                    <ion-icon name="refresh-outline" class="icon"></ion-icon>
+                    <ion-icon name="swap-vertical-outline" class="icon"></ion-icon>
+                    <ion-icon name="funnel-outline" class="icon"></ion-icon>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="account-table">
+                    <thead>
+                        <tr class="sample">
+                            <th class="col-tick">Chọn</th>
+                            <th class="col-id">ID Tài Khoản</th>
+                            <th class="col-email">Email</th>
+                            <th class="col-phone">Số Liên Lạc</th>
+                            <th class="col-status">Số Tiền Bỏ Ra</th>
+                            <th class="col-action">Hành Động</th>
+                        </tr>
+                        <tr class="accounts">
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                            <td class="cell-id">1001</td>
+                            <td class="cell-email">nguyenvana@email.com</td>
+                            <td class="cell-phone">0901 234 567</td>
+                            <td class="cell-status">2500000đ</td>
+                            <td class="cell-action">
+                                <button class="edit btn">Sửa</button>
+                                <button class="delete btn">Xoá</button>
+                                <button class="info btn">Chi Tiết</button>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="account-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="add-account-modal">
+        <div class="modal-content">
+            <form id="add-form">
+                <div class="username-input">
+                    <label for="username" class="label-with-icon"><ion-icon name="person-outline"></ion-icon>Tài Khoản</label>
+                    <input type="username" id="username" name="username" placeholder="Nhập Email" required>
+                </div>
+                <div class="password-input">
+                    <label for="password" class="label-with-icon"><ion-icon name="lock-closed-outline"></ion-icon>Mật Khẩu</label>
+                    <input type="text" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                </div>
+                <div class="group-button-action">
+                    <button type="submit" class="add-account-btn account-button">Thêm</button>
+                    <button type="button" class="cancel account-button" id="close-modal-btn">Huỷ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById('add-account-modal');
+            const openBtn = document.getElementById('open-modal-btn');
+            const closeBtn = document.getElementById('close-modal-btn');
+
+            function showModal() {
+                modal.classList.add('show');
+            }
+            function hideModal() {
+                modal.classList.remove('show');
+            }
+            openBtn.addEventListener('click', showModal);
+            closeBtn.addEventListener('click', hideModal);
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
