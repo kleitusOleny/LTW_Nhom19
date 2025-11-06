@@ -1,0 +1,158 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    .favorites-container {
+        font-family: 'Roboto', sans-serif;
+        background: #fff;
+        border-radius: 8px;
+        padding: 30px 10px 30px 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
+    }
+
+    .favorites-container h2 {
+        margin-bottom: 25px;
+        font-size: 26px;
+        color: #8c3333;
+        font-family: Roboto, serif;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+
+    .favorites-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        max-height: 500px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .product-card {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 200px;
+        background-color: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-image i {
+        font-size: 50px;
+        color: #c7a17a;
+    }
+
+    .product-info {
+        padding: 15px;
+    }
+
+    .product-info h3 {
+        font-size: 18px;
+        margin: 0 0 10px 0;
+        color: #333;
+    }
+
+    .product-info .price {
+        font-size: 16px;
+        font-weight: 700;
+        color: #8c3333;
+        margin-bottom: 15px;
+    }
+
+    .remove-favorite-btn {
+        background-color: #8c3333;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    .remove-favorite-btn:hover {
+        background-color: #7a2b2b;
+    }
+
+    .empty-favorites {
+        text-align: center;
+        padding: 50px;
+        color: #777;
+        grid-column: 1 / -1;
+    }
+</style>
+
+<div class="favorites-container">
+    <h2 data-lang-key="favorites">Danh sách yêu thích</h2>
+    <div class="favorites-list"></div>
+</div>
+
+<script>
+    (function() {
+        const favorites = [
+            {name: "Vang đỏ cao cấp", price: "1.200.000₫", iconClass: "fa-wine-bottle"},
+            {name: "Rượu mạnh thượng hạng", price: "2.500.000₫", iconClass: "fa-martini-glass-citrus"},
+            {name: "Vang trắng nhẹ", price: "950.000₫", iconClass: "fa-wine-glass"},
+            {name: "Vang đỏ cao cấp", price: "1.200.000₫", iconClass: "fa-wine-bottle"},
+            {name: "Rượu mạnh thượng hạng", price: "2.500.000₫", iconClass: "fa-martini-glass-citrus"},
+            {name: "Vang trắng nhẹ", price: "950.000₫", iconClass: "fa-wine-glass"},
+            {name: "Vang đỏ cao cấp", price: "1.200.000₫", iconClass: "fa-wine-bottle"},
+            {name: "Rượu mạnh thượng hạng", price: "2.500.000₫", iconClass: "fa-martini-glass-citrus"},
+            {name: "Vang trắng nhẹ", price: "950.000₫", iconClass: "fa-wine-glass"},
+        ];
+
+        const container = document.querySelector(".favorites-container .favorites-list");
+        if (!container) return;
+        
+        container.innerHTML = "";
+
+        if (favorites.length === 0) {
+            container.innerHTML = `<div class="empty-favorites">Bạn chưa có sản phẩm yêu thích nào.</div>`;
+            return;
+        }
+
+        favorites.forEach(product => {
+            const card = document.createElement("div");
+            card.classList.add("product-card");
+            card.innerHTML = `
+            <div class="product-image">
+                <i class="fa-solid ${product.iconClass}"></i>
+            </div>
+            <div class="product-info">
+                <h3>${product.name}</h3>
+                <p class="price">${product.price}</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>`;
+            container.appendChild(card);
+        });
+        container.addEventListener("wheel", function (e) {
+            const scrollTop = container.scrollTop;
+            const scrollHeight = container.scrollHeight;
+            const offsetHeight = container.offsetHeight;
+            const delta = e.deltaY;
+
+            if (
+                (delta > 0 && scrollTop + offsetHeight >= scrollHeight) ||
+                (delta < 0 && scrollTop <= 0)
+            ) {
+                e.preventDefault();
+            }
+        }, {passive: false});
+    })();
+</script>
