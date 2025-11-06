@@ -1,19 +1,22 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-    #main-content {
+    #history-card {
         font-family: 'Roboto', sans-serif;
-        color: #333;
+        background: #fff;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
     }
 
-    #main-content h2 {
-        font-family: 'Roboto', sans-serif;
-        font-weight: 700;
-        color: #8c3333;
+    #history-card h2 {
+        margin-bottom: 25px;
         font-size: 26px;
+        color: #8c3333;
+        font-family: Roboto, serif;
         border-bottom: 1px solid #eee;
         padding-bottom: 15px;
-        margin-bottom: 25px;
     }
 
     .review-history-list {
@@ -59,7 +62,8 @@
         margin: 0;
         font-size: 18px;
     }
-    #reviews-container{
+
+    #reviews-container {
         max-height: 500px;
         overflow-y: auto;
         padding-right: 10px;
@@ -79,17 +83,10 @@
         font-size: 16px;
         line-height: 1.6;
     }
-
-    .empty-history {
-        text-align: center;
-        padding: 50px;
-        color: #777;
-    }
 </style>
 
-<div id="main-content">
+<div id="history-card">
     <h2 data-lang-key="reviewHistory">Lịch sử đánh giá</h2>
-
     <div id="reviews-container" class="review-history-list">
         <div class="review-card">
             <div class="review-header">
@@ -112,11 +109,10 @@
                 <p class="review-comment">"Chất lượng tuyệt vời, hương vị đậm đà. Sẽ mua lại lần nữa."</p>
             </div>
         </div>
-
         <div class="review-card">
             <div class="review-header">
                 <div class="product-image">
-                    <i class="fa-solid fa-martini-glass-citrus"></i>
+                    <i class="fa-solid fa-wine-bottle"></i>
                 </div>
                 <div class="product-details">
                     <h3>Rượu mạnh thượng hạng</h3>
@@ -134,70 +130,31 @@
                 <p class="review-comment">"Sản phẩm xứng đáng với giá tiền. Rất hài lòng."</p>
             </div>
         </div>
+        <div class="review-card">
+            <div class="review-header">
+                <div class="product-image">
+                    <i class="fa-solid fa-wine-bottle"></i>
+                </div>
+                <div class="product-details">
+                    <h3>Vang hồng ngọt</h3>
+                    <p class="review-date">Đã đánh giá vào ngày 01/10/2025</p>
+                </div>
+            </div>
+            <div class="review-body">
+                <div class="star-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="review-comment">"Ngon tuyệt, sẽ giới thiệu cho bạn bè."</p>
+            </div>
+        </div>
     </div>
 </div>
 <script>
-    const reviews = [
-        {
-            productName: "Vang đỏ cao cấp",
-            reviewDate: "20/10/2025",
-            rating: 4.5,
-            comment: "Chất lượng tuyệt vời, hương vị đậm đà. Sẽ mua lại lần nữa."
-        },
-        {
-            productName: "Vang trắng nhẹ",
-            reviewDate: "15/09/2025",
-            rating: 3,
-            comment: "Vị khá ổn nhưng hơi nhạt."
-        },
-        {
-            productName: "Vang hồng ngọt",
-            reviewDate: "01/10/2025",
-            rating: 5,
-            comment: "Ngon tuyệt, sẽ giới thiệu cho bạn bè."
-        }
-    ];
-
-    function renderStars(rating) {
-        let starsHTML = '';
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 >= 0.5;
-        for (let i = 0; i < fullStars; i++) {
-            starsHTML += '<i class="fa-solid fa-star"></i>';
-        }
-        if (halfStar) {
-            starsHTML += '<i class="fa-solid fa-star-half-stroke"></i>';
-        }
-        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-        for (let i = 0; i < emptyStars; i++) {
-            starsHTML += '<i class="fa-regular fa-star"></i>';
-        }
-        return starsHTML;
-    }
-
     const container = document.getElementById('reviews-container');
-    reviews.forEach(review => {
-        const reviewCard = document.createElement('div');
-        reviewCard.classList.add('review-card');
-        reviewCard.innerHTML = `
-        <div class="review-header">
-            <div class="product-image">
-                <i class="fa-solid fa-wine-bottle"></i>
-            </div>
-            <div class="product-details">
-                <h3>${review.productName}</h3>
-                <p class="review-date">Đã đánh giá vào ngày ${review.reviewDate}</p>
-            </div>
-        </div>
-        <div class="review-body">
-            <div class="star-rating">
-                ${renderStars(review.rating)}
-            </div>
-            <p class="review-comment">"${review.comment}"</p>
-        </div>
-    `;
-        container.appendChild(reviewCard);
-    });
     container.addEventListener("wheel", function (e) {
         const scrollTop = container.scrollTop;
         const scrollHeight = container.scrollHeight;
@@ -212,4 +169,3 @@
         }
     }, {passive: false});
 </script>
-

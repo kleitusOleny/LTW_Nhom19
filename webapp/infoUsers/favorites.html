@@ -90,69 +90,91 @@
         background-color: #7a2b2b;
     }
 
-    .empty-favorites {
-        text-align: center;
-        padding: 50px;
-        color: #777;
-        grid-column: 1 / -1;
-    }
 </style>
 
 <div class="favorites-container">
     <h2 data-lang-key="favorites">Danh sách yêu thích</h2>
-    <div class="favorites-list"></div>
-</div>
-
-<script>
-    (function() {
-        const favorites = [
-            {name: "Vang đỏ cao cấp", price: "1.200.000₫", iconClass: "fa-wine-bottle"},
-            {name: "Rượu mạnh thượng hạng", price: "2.500.000₫", iconClass: "fa-martini-glass-citrus"},
-            {name: "Vang trắng nhẹ", price: "950.000₫", iconClass: "fa-wine-glass"},
-            {name: "Vang đỏ cao cấp", price: "1.200.000₫", iconClass: "fa-wine-bottle"},
-            {name: "Rượu mạnh thượng hạng", price: "2.500.000₫", iconClass: "fa-martini-glass-citrus"},
-            {name: "Vang trắng nhẹ", price: "950.000₫", iconClass: "fa-wine-glass"},
-            {name: "Vang đỏ cao cấp", price: "1.200.000₫", iconClass: "fa-wine-bottle"},
-            {name: "Rượu mạnh thượng hạng", price: "2.500.000₫", iconClass: "fa-martini-glass-citrus"},
-            {name: "Vang trắng nhẹ", price: "950.000₫", iconClass: "fa-wine-glass"},
-        ];
-
-        const container = document.querySelector(".favorites-container .favorites-list");
-        if (!container) return;
-        
-        container.innerHTML = "";
-
-        if (favorites.length === 0) {
-            container.innerHTML = `<div class="empty-favorites">Bạn chưa có sản phẩm yêu thích nào.</div>`;
-            return;
-        }
-
-        favorites.forEach(product => {
-            const card = document.createElement("div");
-            card.classList.add("product-card");
-            card.innerHTML = `
+    <div class="favorites-list">
+        <div class="product-card">
             <div class="product-image">
-                <i class="fa-solid ${product.iconClass}"></i>
+                <i class="fa-solid fa-wine-bottle"></i>
             </div>
             <div class="product-info">
-                <h3>${product.name}</h3>
-                <p class="price">${product.price}</p>
+                <h3>Vang đỏ cao cấp</h3>
+                <p class="price">1.200.000₫</p>
                 <button class="remove-favorite-btn">Bỏ yêu thích</button>
-            </div>`;
-            container.appendChild(card);
-        });
-        container.addEventListener("wheel", function (e) {
-            const scrollTop = container.scrollTop;
-            const scrollHeight = container.scrollHeight;
-            const offsetHeight = container.offsetHeight;
-            const delta = e.deltaY;
+            </div>
+        </div>
 
-            if (
-                (delta > 0 && scrollTop + offsetHeight >= scrollHeight) ||
-                (delta < 0 && scrollTop <= 0)
-            ) {
-                e.preventDefault();
-            }
-        }, {passive: false});
-    })();
+        <div class="product-card">
+            <div class="product-image">
+                <i class="fa-solid fa-martini-glass-citrus"></i>
+            </div>
+            <div class="product-info">
+                <h3>Rượu mạnh thượng hạng</h3>
+                <p class="price">2.500.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <i class="fa-solid fa-wine-glass"></i>
+            </div>
+            <div class="product-info">
+                <h3>Vang trắng nhẹ</h3>
+                <p class="price">950.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <i class="fa-solid fa-wine-bottle"></i>
+            </div>
+            <div class="product-info">
+                <h3>Vang đỏ cao cấp</h3>
+                <p class="price">1.200.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <i class="fa-solid fa-martini-glass-citrus"></i>
+            </div>
+            <div class="product-info">
+                <h3>Rượu mạnh thượng hạng</h3>
+                <p class="price">2.500.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <i class="fa-solid fa-wine-glass"></i>
+            </div>
+            <div class="product-info">
+                <h3>Vang trắng nhẹ</h3>
+                <p class="price">950.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const container = document.querySelector(".favorites-container .favorites-list");
+    container.addEventListener("wheel", function (e) {
+        const scrollTop = container.scrollTop;
+        const scrollHeight = container.scrollHeight;
+        const offsetHeight = container.offsetHeight;
+        const delta = e.deltaY;
+
+        if (
+            (delta > 0 && scrollTop + offsetHeight >= scrollHeight) ||
+            (delta < 0 && scrollTop <= 0)
+        ) {
+            e.preventDefault();
+        }
+    }, {passive: false});
 </script>

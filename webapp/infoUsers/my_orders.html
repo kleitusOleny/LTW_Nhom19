@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -47,7 +49,7 @@
         border-left: 3px solid transparent;
         transition: all 0.3s ease;
     }
-    
+
     .order-card:hover {
         background-color: #f5f5f5;
         border-left-color: #c7a17a;
@@ -103,65 +105,8 @@
         padding: 10px 15px;
         border: none;
         border-radius: 5px;
-        cursor: pointer;
         font-size: 14px;
-        transition: opacity 0.3s;
-    }
-
-    .order-actions .btn:hover {
-        opacity: 0.8;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-    }
-
-    .modal-content {
-        background-color: #fefefe;
-        margin: 10% auto;
-        padding: 20px;
-        width: 90%;
-        max-width: 600px;
-        border-radius: 8px;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
-        margin-bottom: 15px;
-    }
-
-    .close-btn {
-        cursor: pointer;
-        font-size: 28px;
-    }
-
-    .product-item {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 10px 0;
-        border-bottom: 1px solid #f5f5f5;
-    }
-
-    .product-item:last-child {
-        border-bottom: none;
-    }
-
-    .product-item img {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
+        cursor: not-allowed;
     }
 
     .tracking-bar-container {
@@ -197,7 +142,6 @@
         background-color: #8c3333;
         transform: translateY(-50%);
         z-index: 2;
-        transition: width 0.4s ease;
     }
 
     .tracking-step {
@@ -213,7 +157,6 @@
         border-radius: 50%;
         margin: 0 auto 10px;
         border: 3px solid #f8f9fa;
-        transition: background-color 0.4s ease;
     }
 
     .tracking-step.active .step-dot {
@@ -231,186 +174,92 @@
 
     <div class="order-filter">
         <select id="statusFilter">
-            <option value="all">Tất cả trạng thái</option>
-            <option value="pending">Đang xử lý</option>
-            <option value="completed">Hoàn thành</option>
-            <option value="cancelled">Đã hủy</option>
+            <option selected>Tất cả trạng thái</option>
+            <option>Đang xử lý</option>
+            <option>Hoàn thành</option>
+            <option>Đã hủy</option>
         </select>
     </div>
 
-    <div class="order-list"></div>
-</div>
-
-<div id="detailsModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Chi tiết đơn hàng</h3>
-            <span class="close-btn">&times;</span>
-        </div>
-        <div class="modal-body"></div>
-    </div>
-</div>
-
-<script>
-    function initOrdersPage() {
-        const orders = [
-            {id: 1001, status: 'completed', date: '15/01/2025', total: '2.350.000₫', tracking: 'delivered'},
-            {id: 1002, status: 'pending', date: '18/01/2025', total: '950.000₫', tracking: 'shipping'},
-            {id: 1003, status: 'cancelled', date: '20/01/2025', total: '1.200.000₫', tracking: null}
-        ];
-
-        const orderDetails = {
-            "#1001": [{
-                img: 'https://i.pinimg.com/564x/da/46/44/da4644498b04a337438a2d6f0a7a112e.jpg',
-                name: 'Vang đỏ cao cấp',
-                qty: 2,
-                price: '2.800.000₫'
-            }],
-            "#1002": [{
-                img: 'https://i.pinimg.com/564x/da/46/44/da4644498b04a337438a2d6f0a7a112e.jpg',
-                name: 'Rượu mạnh thượng hạng',
-                qty: 1,
-                price: '2.500.000₫'
-            }],
-            "#1003": [{
-                img: 'https://i.pinimg.com/564x/da/46/44/da4644498b04a337438a2d6f0a7a112e.jpg',
-                name: 'Vang trắng',
-                qty: 1,
-                price: '1.200.000₫'
-            }]
-        };
-
-        const statusMap = {
-            completed: {text: 'Hoàn thành', class: 'status-completed'},
-            pending: {text: 'Đang xử lý', class: 'status-pending'},
-            cancelled: {text: 'Đã hủy', class: 'status-cancelled'}
-        };
-
-        const trackingStatus = {
-            processing: {text: 'Đang xử lý', progress: '0%'},
-            shipping: {text: 'Đang giao', progress: '50%'},
-            delivered: {text: 'Đã giao', progress: '100%'}
-        };
-
-        const orderListContainer = document.querySelector('.orders-container .order-list');
-        const statusFilter = document.getElementById('statusFilter');
-        const modal = document.getElementById('detailsModal');
-        const modalBody = modal.querySelector('.modal-body');
-        const closeModalBtn = modal.querySelector('.close-btn');
-
-        function renderOrders(orderList) {
-            orderListContainer.innerHTML = '';
-            if (orderList.length === 0) {
-                orderListContainer.innerHTML = `<p>Bạn chưa có đơn hàng nào.</p>`;
-                return;
-            }
-
-            orderList.forEach(order => {
-                const statusInfo = statusMap[order.status] || {text: 'Không xác định', class: ''};
-
-                let actionButtons = `
-                <button class="btn view-details-btn">Xem chi tiết</button>
-                <button class="btn buy-again-btn">Mua lại</button>
-            `;
-
-                if (order.status === 'completed') {
-                    actionButtons += `<button class="btn review-btn">Đánh giá</button>`;
-                }
-
-                let trackingBarHTML = '';
-                if (order.tracking) {
-                    const currentTracking = trackingStatus[order.tracking];
-                    const isProcessing = ['processing', 'shipping', 'delivered'].includes(order.tracking);
-                    const isShipping = ['shipping', 'delivered'].includes(order.tracking);
-                    const isDelivered = order.tracking === 'delivered';
-
-                    trackingBarHTML = `
-                <div class="tracking-bar-container">
-                    <div class="tracking-bar">
-                        <div class="tracking-progress" style="width: ${currentTracking.progress};"></div>
-                        <div class="tracking-step ${isProcessing ? 'active' : ''}">
-                            <div class="step-dot"></div>
-                            <div class="step-label">Đang xử lý</div>
-                        </div>
-                        <div class="tracking-step ${isShipping ? 'active' : ''}">
-                            <div class="step-dot"></div>
-                            <div class="step-label">Đang giao</div>
-                        </div>
-                        <div class="tracking-step ${isDelivered ? 'active' : ''}">
-                            <div class="step-dot"></div>
-                            <div class="step-label">Đã giao</div>
-                        </div>
+    <div class="order-list">
+        <div class="order-card" data-status="completed">
+            <div class="order-header">
+                <span class="order-id">#1001</span>
+                <span class="order-status status-completed">Hoàn thành</span>
+            </div>
+            <div class="order-body">
+                <p><strong>Ngày đặt:</strong> 15/01/2025</p>
+                <p><strong>Tổng tiền:</strong> 2.350.000₫</p>
+            </div>
+            <div class="tracking-bar-container">
+                <div class="tracking-bar">
+                    <div class="tracking-progress" style="width: 100%;"></div>
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đang xử lý</div>
                     </div>
-                </div>
-                `;
-                }
-
-                const orderHTML = `
-            <div class="order-card" data-status="${order.status}">
-                <div class="order-header">
-                    <span class="order-id">#${order.id}</span>
-                    <span class="order-status ${statusInfo.class}">${statusInfo.text}</span>
-                </div>
-                <div class="order-body">
-                    <p><strong>Ngày đặt:</strong> ${order.date}</p>
-                    <p><strong>Tổng tiền:</strong> ${order.total}</p>
-                </div>
-                ${trackingBarHTML}
-                <div class="order-actions">
-                    ${actionButtons}
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đang giao</div>
+                    </div>
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đã giao</div>
+                    </div>
                 </div>
             </div>
-            `;
-                orderListContainer.insertAdjacentHTML('beforeend', orderHTML);
-            });
+            <div class="order-actions">
+                <button class="btn">Xem chi tiết</button>
+                <button class="btn">Mua lại</button>
+                <button class="btn">Đánh giá</button>
+            </div>
+        </div>
 
-            attachOrderActions();
-        }
-
-        function attachOrderActions() {
-            document.querySelectorAll('.view-details-btn').forEach(btn => {
-                btn.onclick = function () {
-                    const orderId = '#' + this.closest('.order-card').querySelector('.order-id').textContent.replace('#', '');
-                    const products = orderDetails[orderId] || [];
-                    modalBody.innerHTML = '';
-                    products.forEach(p => {
-                        modalBody.innerHTML += `
-                    <div class="product-item">
-                        <img src="${p.img}" alt="${p.name}">
-                        <div>
-                            <p><strong>${p.name}</strong></p>
-                            <p>Số lượng: ${p.qty}</p>
-                            <p>Giá: ${p.price}</p>
-                        </div>
+        <div class="order-card" data-status="pending">
+            <div class="order-header">
+                <span class="order-id">#1002</span>
+                <span class="order-status status-pending">Đang xử lý</span>
+            </div>
+            <div class="order-body">
+                <p><strong>Ngày đặt:</strong> 18/01/2025</p>
+                <p><strong>Tổng tiền:</strong> 950.000₫</p>
+            </div>
+            <div class="tracking-bar-container">
+                <div class="tracking-bar">
+                    <div class="tracking-progress" style="width: 50%;"></div>
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đang xử lý</div>
                     </div>
-                `;
-                    });
-                    modal.style.display = 'block';
-                };
-            });
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đang giao</div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đã giao</div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-actions">
+                <button class="btn">Xem chi tiết</button>
+                <button class="btn">Mua lại</button>
+            </div>
+        </div>
 
-            document.querySelectorAll('.buy-again-btn').forEach(btn => {
-                btn.onclick = () => alert('Các sản phẩm đã được thêm vào giỏ hàng!');
-            });
-
-            document.querySelectorAll('.review-btn').forEach(btn => {
-                btn.onclick = () => alert('Chuyển đến trang đánh giá sản phẩm!');
-            });
-        }
-
-        closeModalBtn.onclick = () => modal.style.display = 'none';
-        window.onclick = (event) => {
-            if (event.target == modal) modal.style.display = 'none';
-        };
-
-        statusFilter.onchange = function () {
-            const selectedStatus = this.value;
-            const filtered = selectedStatus === 'all' ? orders : orders.filter(o => o.status === selectedStatus);
-            renderOrders(filtered);
-        };
-
-        statusFilter.value = 'pending';
-        statusFilter.onchange();
-    }
-    initOrdersPage()
-</script>
+        <div class="order-card" data-status="cancelled">
+            <div class="order-header">
+                <span class="order-id">#1003</span>
+                <span class="order-status status-cancelled">Đã hủy</span>
+            </div>
+            <div class="order-body">
+                <p><strong>Ngày đặt:</strong> 20/01/2025</p>
+                <p><strong>Tổng tiền:</strong> 1.200.000₫</p>
+            </div>
+            <div class="order-actions">
+                <button class="btn">Xem chi tiết</button>
+                <button class="btn">Mua lại</button>
+            </div>
+        </div>
+    </div>
+</div>
