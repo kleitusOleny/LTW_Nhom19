@@ -17,6 +17,7 @@
 
         .dashboard-sidebar {
             background-color: #21232d;
+            position: relative;
         }
 
         .dashboard-header {
@@ -119,10 +120,14 @@
         }
         .text {
             color: #decdcd;
-            display: flex;
-            justify-content: center;
-            padding-top: 95px;
             font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
         }
         /* ------*/
         .table-container {
@@ -196,9 +201,6 @@
         .cell-action .delete, .cell-action .edit {
             width: 50px;
         }
-        /*.cell-action .info {*/
-        /*    width: 70px;*/
-        /*}*/
         .cell-action .btn:hover {
             border-color: #6341ff;
             transform: scale(1.02);
@@ -262,7 +264,7 @@
             background-color: #0c670f;
         }
         /* ===== PHẦN CSS POP-UP ===== */
-        .modal-overlay, .modal-overlay-sort, .modal-overlay-filter, .modal-overlay-refresh, .modal-overlay-excel, .modal-overlay-deleteAll, .modal-overlay-edit_information {
+        .modal-overlay, .modal-overlay-sort, .modal-overlay-filter, .modal-overlay-refresh, .modal-overlay-excel, .modal-overlay-deleteAll, .modal-overlay-edit_information, .modal-overlay-notification {
             position: fixed;
             top: 0;
             left: 0;
@@ -285,6 +287,17 @@
             opacity: 0;
             visibility: hidden;
         }
+        .modal-overlay-notification {
+            position: fixed;
+            top: 70px;
+            left: 75%;
+            width: 50vh;
+            height: 80vh;
+            display: flex;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+        }
         /* Phần fadein popup */
         .modal-overlay, .modal-overlay-sort, .modal-overlay-filter, .modal-overlay-deleteAll, .modal-overlay-edit_information {
             display: flex;
@@ -293,7 +306,7 @@
             background-color: rgba(0, 0, 0, 0.6);
         }
 
-        .modal-overlay.show, .modal-overlay-sort.show, .modal-overlay-filter.show, .modal-overlay-refresh.show, .modal-overlay-excel.show, .modal-overlay-deleteAll.show, .modal-overlay-edit_information.show {
+        .modal-overlay.show, .modal-overlay-sort.show, .modal-overlay-filter.show, .modal-overlay-refresh.show, .modal-overlay-excel.show, .modal-overlay-deleteAll.show, .modal-overlay-edit_information.show, .modal-overlay-notification.show {
             opacity: 1;
             visibility: visible;
         }
@@ -304,6 +317,65 @@
             gap: 25px;
             padding: 2.5rem 3rem;
             width: 25rem;
+        }
+        .modal-close {
+            position: absolute;
+            top: 5px;
+            right: -60px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .modal-close:hover { background: #f2f2f2; }
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+        .modal-content-notification {
+            position: relative;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            margin-left: 30px;
+        }
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
         }
         .modal-content-deleteAll {
             display: flex;
@@ -515,7 +587,7 @@
                 <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
             </ul>
-            <div class="text">Được update tới 2025</div>
+            <div class="text">━ Được update tới 2025 ━</div>
         </nav>
         <div class="dashboard-content">
             <header class="dashboard-header">
@@ -524,7 +596,8 @@
                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
                 </div>
                 <div class="group-icon">
-                    <ion-icon name="notifications-outline" class="icon-header"></ion-icon>
+                    <ion-icon name="home-outline" class="icon-header"></ion-icon>
+                    <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
                     <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
                 </div>
             </header>
@@ -702,43 +775,33 @@
             </div>
         </div>
     </div>
+    <div class="modal-overlay-notification" id="notification-account-modal">
+        <div class="modal-content-notification">
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2 class="notification-title">Thông báo</h2>
+            <div class="notification-empty-state">
+                <ion-icon name="notifications-off-outline"></ion-icon>
+                <p>Hiện tại chưa có thông báo mới</p>
+            </div>
+        </div>
+    </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+    <script src="popup.js"></script>
     <script>
         // Run Pop-up function
         document.addEventListener("DOMContentLoaded", function() {
-            /**
-             * @param {string} modalId - ID của modal
-             * @param {string} openBtnId - ID của nút mở modal
-             * @param {string} closeBtnId - ID của nút đóng modal
-             * Tất cả các thuộc tính đầu vào đều dùng ID
-             */
-            function setupModal(modalId, openBtnId, closeBtnId) {
-                const modal = document.getElementById(modalId);
-                const openBtn = document.getElementById(openBtnId);
-                const closeBtn = document.getElementById(closeBtnId);
-                function showModal() {
-                    modal.classList.add('show');
-                }
-                function hideModal() {
-                    modal.classList.remove('show');
-                }
-                openBtn.addEventListener('click', showModal);
-                closeBtn.addEventListener('click', hideModal);
-                modal.addEventListener('click', function(event) {
-                    if (event.target === modal) {
-                        hideModal();
-                    }
-                });
-            }
             setupModal('add-account-modal', 'open-modal-btn', 'close-modal-btn');
             setupModal('sort-account-modal', 'open-sort-modal-btn', 'close-modal-btn2');
             setupModal('filter-account-modal', 'open-filter-modal-btn', 'close-modal-btn3');
             setupModal('refresh-account-modal', 'refresh-modal-btn', 'close-modal-btn4');
             setupModal('excel-account-modal', 'excel-modal-btn', 'close-modal-btn5');
             setupModal('deleteAll-account-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
-            setupModal('edit_information-account-modal', 'edit-modal-btn', 'close-modal-btn7')
+            setupModal('edit_information-account-modal', 'edit-modal-btn', 'close-modal-btn7');
+            setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
         });
     </script>
 </body>
