@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts Manage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Mulish, sans-serif, serif;
+        }
+        .dashboard-container {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: 250px 1fr
+        }
+
+        .dashboard-sidebar {
+            background-color: #21232d;
+            position: relative;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eaedfd;
+            height: 70px;
+        }
+
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding-top: 150px;
+            list-style-type: none;
+        }
+
+        .a-with-icon {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            width: 200px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .a-with-icon.selected {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+
+        .a-with-icon ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .a-with-icon:hover {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+        .group-icon {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 50px;
+            padding-bottom: 10px;
+        }
+        .icon-header {
+            width: 30px;
+            height: 30px;
+            padding-top: 10px;
+            cursor: pointer;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+        }
+        .search {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding-left: 50px;
+        }
+        .search input {
+            width: 300px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .search input:focus {
+            border-color: #6341ff;
+            box-shadow: 0 0 1px #6341ff;
+            outline: none;
+        }
+        #searchIcon {
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            padding: 5px 5px 5px 5px;
+        }
+        #searchIcon:hover, .icon-header:hover {
+            color: #6341ff;
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+        .text {
+            color: #decdcd;
+            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
+        }
+        /* ------*/
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .account-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9em;
+            background-color: white;
+            color: #333;
+        }
+
+        .account-table th,
+        .account-table td {
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .account-table th {
+            padding: 10px 14px;
+        }
+        .account-table td {
+            padding: 5px 5px;
+        }
+        .cell-tick input {
+            margin-left: 20px;
+        }
+
+        .account-table thead .sample {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .account-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .account-table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .account-table .col-tick {
+            width: 1%;
+        }
+        .account-table .col-id {
+            width: 10%;
+        }
+        .account-table .col-email {
+            width: 30%;
+        }
+        .account-table .col-phone {
+            width: 20%;
+        }
+        .account-table .col-status {
+            width: 10%;
+        }
+        .account-table .col-action {
+            width: 15%;
+        }
+        .cell-action .btn {
+            margin-right: 1px;
+            border-radius: 5px;
+            height: 30px;
+            cursor: pointer;
+            border: solid 2px #ccc;
+        }
+        .cell-action .delete, .cell-action .edit {
+            width: 50px;
+        }
+        .cell-action .btn:hover {
+            border-color: #6341ff;
+            transform: scale(1.02);
+            transition: transform 0.2s ease;
+        }
+        /* ---*/
+        .button-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .button-group .icon-group{
+            display: flex;
+            gap: 15px;
+            margin-right: 50px;
+            margin-top: 25px;
+        }
+        .button-group .icon-group .icon{
+            cursor: pointer;
+            font-size: 24px;
+            color: #555;
+        }
+        .button-group .icon-group .icon:hover{
+            color: #6341ff;
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+        .button-group .button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .del {
+            margin-left: 15px;
+            color: #fff;
+            background-color: #ff4747;
+        }
+        .button-group .del:hover {
+            background-color: #e63939;
+        }
+        .add {
+            margin-left: 10px;
+            background-color: #0872fa;
+            color: #fff;
+        }
+        .button-group .add:hover {
+            background-color: #0663dc;
+        }
+        .excel {
+            margin-left: 10px;
+            background-color: #108814;
+            color: #fff;
+        }
+        .button-group .excel:hover {
+            background-color: #0c670f;
+        }
+        /* ===== PHẦN CSS POP-UP ===== */
+        .modal-overlay, .modal-overlay-sort, .modal-overlay-filter, .modal-overlay-refresh, .modal-overlay-excel, .modal-overlay-deleteAll, .modal-overlay-edit_information, .modal-overlay-notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        /* Phần trượt popup */
+        .modal-overlay-refresh, .modal-overlay-excel {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 5vh;
+
+            background-color: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal-overlay-notification {
+            position: fixed;
+            top: 70px;
+            left: 75%;
+            width: 50vh;
+            height: 80vh;
+            display: flex;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+        }
+        /* Phần fadein popup */
+        .modal-overlay, .modal-overlay-sort, .modal-overlay-filter, .modal-overlay-deleteAll, .modal-overlay-edit_information {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-overlay.show, .modal-overlay-sort.show, .modal-overlay-filter.show, .modal-overlay-refresh.show, .modal-overlay-excel.show, .modal-overlay-deleteAll.show, .modal-overlay-edit_information.show, .modal-overlay-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content, .modal-content-sort, .modal-content-filter, .modal-content-deleteAll, .modal-content-edit_information {
+            background-color: white;
+            border-radius: 12px;
+            gap: 25px;
+            padding: 2.5rem 3rem;
+            width: 25rem;
+        }
+        .modal-close {
+            position: absolute;
+            top: 5px;
+            right: -60px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .modal-close:hover { background: #f2f2f2; }
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+        .modal-content-notification {
+            position: relative;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            margin-left: 30px;
+        }
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+        .modal-content-deleteAll {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .modal-content-refresh, .modal-content-excel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 25rem;
+            max-width: 400px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid #eee;
+            transform: translateY(-50px);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .modal-overlay-refresh.show .modal-content-refresh, .modal-overlay-excel.show .modal-content-excel {
+            transform: translateY(-25px);
+        }
+        .modal-content-refresh p, .modal-overlay-excel p {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .modal-content-deleteAll p {
+            font-size: 1.2rem;
+            text-align: center;
+            color: red;
+        }
+
+        .modal-content-sort {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content-sort .group-sort-button {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .group-sort-button {
+            gap: 8px;
+        }
+
+        .sort-option {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .sort-box {
+            margin-right: 5px;
+            accent-color: #6341ff;
+        }
+
+        .sort-option label {
+            cursor: pointer;
+        }
+
+        #sortSelect {
+            height: 40px;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100px;
+        }
+
+        .select-perform {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            align-items: center;
+        }
+
+        #add-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .username-input, .password-input {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 90%;
+        }
+
+        .username-input label, .password-input label, .text-filter-group label, .edit-information-account label {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #555;
+            width: 200px;
+            margin-top: 5px;
+        }
+
+        .text-filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .username-input input, .password-input input, #text-filter, .edit-information-account input {
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .username-input input, .password-input input, #text-filter {
+            padding: 12px 15px;
+        }
+        .edit-information-account input {
+            padding: 6px 6px;
+        }
+        .username-input input, .password-input input {
+            width: 100%;
+        }
+        #text-filter {
+            width: 90%;
+        }
+        .username-input input:focus, .password-input input:focus, #text-filter:focus, .edit-information-account input:focus {
+            border-color: #6341ff;
+            outline: none;
+        }
+        .label-with-icon {
+            display: flex;
+            gap: 3px;
+        }
+        .group-button-action {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 15px;
+        }
+        .group-button-action.section {
+            margin-top: 10px;
+        }
+        .element-button, .sort-button, .filter-button, .deleteAll-button {
+            width: 100px;
+            padding: 14px 0;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .add-btn, .sort-button, .delete-all .element-button, .fix-btn {
+            background: #08c249;
+        }
+        .add-btn:hover, .sort-button:hover, .delete-all .element-button:hover, .fix-btn:hover {
+            background: #06a13d;
+        }
+        .cancel, .deleteAll-button {
+            background: #e80f0f;
+        }
+        .cancel:hover, .deleteAll-button:hover {
+            background: #c70d0d;
+        }
+        #text-filter-element {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .edit-information-account {
+            display: flex;
+            flex-direction: column;
+        }
+        .edit-information-account div:not(.active-section):not(:first-child) {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 5px;
+        }
+        .edit-information-account .email-section{
+            margin-top: 5px;
+        }
+        .edit-information-account .active-section {
+            margin-top: 10px;
+        }
+        #activeSelect {
+            border-radius: 5px;
+        }
+        .edit-information-account .create_account-section {
+            margin-bottom: 10px;
+        }
+        .modal-content-edit_information h2 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="dashboard-sidebar">
+            <ul class="sidebar-items">
+                <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+                <li><a href="#" class="a-with-icon selected"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+            </ul>
+            <div class="text">━ Được update tới 2025 ━</div>
+        </nav>
+        <div class="dashboard-content">
+            <header class="dashboard-header">
+                <div class="search">
+                    <input type="text">
+                    <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+                </div>
+                <div class="group-icon">
+                    <ion-icon name="home-outline" class="icon-header"></ion-icon>
+                    <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                    <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
+                </div>
+            </header>
+            <div class="button-group">
+                <div class="func-group">
+                    <button class="button del" id="deleteAll-modal-btn">Xoá Ô Được Chọn</button>
+                    <button class="button add" id="open-modal-btn">Thêm</button>
+                    <button class="button excel" id="excel-modal-btn">Xuất ra Excel</button>
+                </div>
+                <div class="icon-group">
+                    <ion-icon name="refresh-outline" class="icon" id="refresh-modal-btn"></ion-icon>
+                    <ion-icon name="swap-vertical-outline" class="icon" id="open-sort-modal-btn"></ion-icon>
+                    <ion-icon name="funnel-outline" class="icon" id="open-filter-modal-btn"></ion-icon>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="account-table">
+                    <thead>
+                        <tr class="sample">
+                            <th class="col-tick">Chọn</th>
+                            <th class="col-id">ID Tài Khoản</th>
+                            <th class="col-email">Email</th>
+                            <th class="col-phone">Số Liên Lạc</th>
+                            <th class="col-status">Hoạt Động</th>
+                            <th class="col-create">Ngày tạo</th>
+                            <th class="col-action">Hành Động</th>
+                        </tr>
+                        <tr class="accounts">
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                            <td class="cell-id">1001</td>
+                            <td class="cell-email">nguyenvana@email.com</td>
+                            <td class="cell-phone">0901 234 567</td>
+                            <td class="cell-status">Có</td>
+                            <td class="cell-create">06/10/2024</td>
+                            <td class="cell-action">
+                                <button class="edit btn" id="edit-modal-btn">Sửa</button>
+                                <button class="delete btn">Xoá</button>
+<!--                                <button class="info btn">Chi Tiết</button>-->
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="account-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="add-account-modal">
+        <div class="modal-content">
+            <form id="add-form">
+                <div class="username-input">
+                    <label for="username" class="label-with-icon"><ion-icon name="person-outline"></ion-icon>Tài Khoản</label>
+                    <input type="username" id="username" name="username" placeholder="Nhập Email" required>
+                </div>
+                <div class="password-input">
+                    <label for="password" class="label-with-icon"><ion-icon name="lock-closed-outline"></ion-icon>Mật Khẩu</label>
+                    <input type="text" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                </div>
+                <div class="group-button-action section">
+                    <button type="submit" class="add-btn element-button">Thêm</button>
+                    <button type="button" class="cancel element-button" id="close-modal-btn">Huỷ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-overlay-sort" id="sort-account-modal">
+        <div class="modal-content-sort">
+            <div class="group-sort-button">
+                <div class="sort-option">
+                    <input type="radio" id="sort1" class="sort-box" name="sort-group">
+                    <label for="sort1">Sắp xếp theo ID Tài Khoản</label>
+                </div>
+                <div class="sort-option">
+                    <input type="radio" id="sort2" class="sort-box" name="sort-group">
+                    <label for="sort2">Sắp xếp theo Email</label>
+                </div>
+                <div class="sort-option">
+                    <input type="radio" id="sort3" class="sort-box" name="sort-group">
+                    <label for="sort3">Sắp xếp theo SĐT</label>
+                </div>
+                <div class="sort-option">
+                    <input type="radio" id="sort4" class="sort-box" name="sort-group">
+                    <label for="sort4">Sắp xếp theo Tài khoản hoạt động</label>
+                </div>
+                <div class="sort-option">
+                    <input type="radio" id="sort5" class="sort-box" name="sort-group">
+                    <label for="sort5">Sắp xếp theo Ngày tạo</label>
+                </div>
+                <div class="select-perform">
+                    <p>Hiển thị dựa theo:</p>
+                    <select id="sortSelect">
+                        <option value="asc">Tăng dần</option>
+                        <option value="desc">Giảm dần</option>
+                    </select>
+                </div>
+            </div>
+            <div class="group-button-action">
+                <button type="submit" class="add-btn sort-button">Sắp Xếp</button>
+                <button type="button" class="cancel element-button" id="close-modal-btn2">Huỷ</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay-filter" id="filter-account-modal">
+        <div class="modal-content-filter">
+            <div class="text-filter-group">
+                <label for="text-filter" id="text-filter-element"><ion-icon name="enter-outline"></ion-icon>Nhập thông tin cần lọc:</label>
+                <input type="text" id="text-filter" name="text-filter" placeholder="Nhập thông tin">
+            </div>
+            <div class="group-button-action">
+                <button type="submit" class="add-btn filter-button">Lọc</button>
+                <button type="button" class="cancel element-button" id="close-modal-btn3">Huỷ</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay-refresh" id="refresh-account-modal">
+        <div class="modal-content-refresh">
+            <p>Đã làm mới thành công danh sách tài khoản</p>
+            <button type="button" class="cancel element-button" id="close-modal-btn4">Tắt</button>
+        </div>
+    </div>
+    <div class="modal-overlay-excel" id="excel-account-modal">
+        <div class="modal-content-excel">
+            <p>Thành công xuất ra file Excel</p>
+            <button type="button" class="cancel element-button" id="close-modal-btn5">Tắt</button>
+        </div>
+    </div>
+    <div class="modal-overlay-deleteAll" id="deleteAll-account-modal">
+        <div class="modal-content-deleteAll">
+            <p> Bạn có chắc chắn muốn xoá toàn bộ dữ liệu của các ô được chọn?</p>
+            <div class="group-button-action delete-all">
+                <button type="submit" class="deleteAll-button">Xoá Tất Cả</button>
+                <button type="button" class="element-button" id="close-modal-btn6">Huỷ</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay-edit_information" id="edit_information-account-modal">
+        <div class="modal-content-edit_information">
+            <h2>Bảng thông tin</h2>
+            <div class="edit-information-account">
+                <div class="userId-section">
+                    <label for="id">ID:</label>
+                    <input type="text" id="id" name="id" value="1001" placeholder="ID hiện không có">
+                </div>
+                <div class="email-section">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" value="nguyenvana@email.com" placeholder="Chưa có Email" required>
+                </div>
+                <div class="username-section">
+                    <label for="username_">Tên Đăng Nhập</label>
+                    <input type="text" id="username_" name="username_" placeholder="Chưa có tên đăng nhập">
+                </div>
+                <div class="password-section">
+                    <label for="password_">Mật Khẩu</label>
+                    <input type="text" id="password_" name="password_" value="12345Abc@" placeholder="Chưa có mật khẩu" required>
+                </div>
+                <div class="phone-section">
+                    <label for="phone-number">Số Điện Thoại</label>
+                    <input type="tel" id="phone-number" name="phone-number" value="0901 234 567" placeholder="Chưa có số điện thoại" required>
+                </div>
+                <div class="active-section">
+                    <label for="activeSelect">Đang hoạt động:</label>
+                    <select id="activeSelect" required>
+                        <option value="yes">Có</option>
+                        <option value="no">Không</option>
+                    </select>
+                </div>
+                <div class="create_account-section">
+                    <label for="create-account">Ngày tạo</label>
+                    <input type="date" id="create-account" name="create-account" value="2024-10-06" required>
+                </div>
+            </div>
+            <div class="group-button-action section">
+                <button type="submit" class="fix-btn element-button">Sửa</button>
+                <button type="button" class="cancel element-button" id="close-modal-btn7">Huỷ</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay-notification" id="notification-account-modal">
+        <div class="modal-content-notification">
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2 class="notification-title">Thông báo</h2>
+            <div class="notification-empty-state">
+                <ion-icon name="notifications-off-outline"></ion-icon>
+                <p>Hiện tại chưa có thông báo mới</p>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+    <script src="popup.js"></script>
+    <script>
+        // Run Pop-up function
+        document.addEventListener("DOMContentLoaded", function() {
+            setupModal('add-account-modal', 'open-modal-btn', 'close-modal-btn');
+            setupModal('sort-account-modal', 'open-sort-modal-btn', 'close-modal-btn2');
+            setupModal('filter-account-modal', 'open-filter-modal-btn', 'close-modal-btn3');
+            setupModal('refresh-account-modal', 'refresh-modal-btn', 'close-modal-btn4');
+            setupModal('excel-account-modal', 'excel-modal-btn', 'close-modal-btn5');
+            setupModal('deleteAll-account-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
+            setupModal('edit_information-account-modal', 'edit-modal-btn', 'close-modal-btn7');
+            setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        });
+    </script>
+</body>
+</html>

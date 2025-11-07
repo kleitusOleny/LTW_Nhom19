@@ -7,7 +7,7 @@
         * {
             margin: 0;
             padding: 0;
-            font-family: Bricolage Grotesque, sans-serif, serif;
+            font-family: Mulish, sans-serif, serif;
         }
         .dashboard-container {
             display: grid;
@@ -17,6 +17,7 @@
 
         .dashboard-sidebar {
             background-color: #21232d;
+            position: relative;
         }
 
         .dashboard-header {
@@ -107,25 +108,22 @@
             border-radius: 50%;
             padding: 5px 5px 5px 5px;
         }
-        #searchIcon:hover, .icon-header:hover {
+        #searchIcon:hover, .icon-header:hover:not(.main-page) {
             color: #6341ff;
             transform: scale(1.1);
             transition: transform 0.2s ease;
         }
         .text {
             color: #decdcd;
-            display: flex;
-            justify-content: center;
-            padding-top: 95px;
             font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
         }
-        /*.pic-logo {*/
-        /*    width: 140px;*/
-        /*    height: 140px;*/
-        /*    padding: 30px 30px 30px 50px;*/
-        /*    border-radius: 50%;*/
-        /*}*/
-        /* Thêm CSS này vào trong thẻ <style> của bạn */
 
         .dashboard-main-content {
             padding: 30px;
@@ -234,6 +232,97 @@
             align-items: center;
             gap: 8px;
         }
+        .main-page {
+            color: #2200ff;
+        }
+
+        /* Notification */
+        .modal-overlay-notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay-notification {
+            position: fixed;
+            top: 70px;
+            left: 75%;
+            width: 50vh;
+            height: 80vh;
+            display: flex;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+        }
+        .modal-overlay-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-close {
+            position: absolute;
+            top: 5px;
+            right: -60px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .modal-close:hover { background: #f2f2f2; }
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+        .modal-content-notification {
+            position: relative;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            margin-left: 30px;
+        }
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -249,7 +338,7 @@
                 <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
             </ul>
-            <div class="text">Được update tới 2025</div>
+            <div class="text">━ Được update tới 2025 ━</div>
         </nav>
         <div class="dashboard-content">
             <header class="dashboard-header">
@@ -258,7 +347,8 @@
                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
                 </div>
                 <div class="group-icon">
-                    <ion-icon name="notifications-outline" class="icon-header"></ion-icon>
+                    <ion-icon name="home-outline" class="icon-header main-page"></ion-icon>
+                    <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
                     <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
                 </div>
             </header>
@@ -299,8 +389,27 @@
             </div>
         </div>
     </div>
+    <div class="modal-overlay-notification" id="notification-account-modal">
+        <div class="modal-content-notification">
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2 class="notification-title">Thông báo</h2>
+            <div class="notification-empty-state">
+                <ion-icon name="notifications-off-outline"></ion-icon>
+                <p>Hiện tại chưa có thông báo mới</p>
+            </div>
+        </div>
+    </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+    <script src="popup.js"></script>
+    <script>
+        // Run Pop-up function
+        document.addEventListener("DOMContentLoaded", function() {
+            setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        });
+    </script>
 </body>
 </html>
