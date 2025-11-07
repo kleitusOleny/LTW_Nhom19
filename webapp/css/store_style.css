@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-decoration: none;
 }
 
 body {
@@ -196,6 +197,9 @@ navigation pane
 .dropdown-menu li .dropdown-link:hover {
     background-color: #f7f7f7;
     color: #8c3333;
+}
+#language{
+    cursor: pointer;
 }
 
 /*
