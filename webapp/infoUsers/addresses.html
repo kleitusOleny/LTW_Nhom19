@@ -5,12 +5,13 @@
         font-family: 'Roboto', sans-serif;
         background: #fff;
         border-radius: 8px;
-        padding: 30px;
+        padding: 30px 30px 30px 30px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         border: 1px solid #eee;
     }
 
     #address-card h2 {
+        font-family: 'Roboto', sans-serif;
         font-weight: 700;
         color: #8c3333;
         font-size: 26px;
@@ -31,6 +32,7 @@
         border-left: 3px solid transparent;
         padding: 15px;
         border-radius: 8px;
+        margin-bottom: 15px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -62,13 +64,13 @@
     }
 
     .address-card-actions .btn {
+        margin-left: 10px;
         background: none;
         border: none;
         cursor: pointer;
         font-size: 16px;
         color: #8c3333;
         transition: color 0.3s;
-        margin: 10px;
     }
 
     .address-card-actions .btn:hover {
@@ -95,7 +97,6 @@
         margin-right: 8px;
     }
 
-    /* Modal hiển thị form */
     .modal {
         display: none;
         position: fixed;
@@ -104,17 +105,18 @@
         top: 0;
         width: 100%;
         height: 100%;
+        overflow: auto;
         background-color: rgba(0, 0, 0, 0.6);
-        align-items: center;
-        justify-content: center;
     }
 
     .modal-content {
-        background-color: #fff;
-        padding: 25px;
-        border-radius: 8px;
-        width: 90%;
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 30px;
+        border: 1px solid #888;
+        width: 80%;
         max-width: 500px;
+        border-radius: 8px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     }
 
@@ -122,24 +124,28 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
         border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
     }
 
     .modal-header h3 {
         margin: 0;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 700;
+        font-size: 24px;
         color: #8c3333;
     }
 
     .close-btn {
-        font-size: 26px;
-        cursor: pointer;
         color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
     }
 
-    .close-btn:hover {
-        color: #000;
+    .close-btn:hover, .close-btn:focus {
+        color: black;
     }
 
     .form-group {
@@ -155,36 +161,25 @@
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
-        border-radius: 5px;
+        border-radius: 4px;
+        box-sizing: border-box;
     }
 
     .modal-footer {
         text-align: right;
-        margin-top: 10px;
-    }
-
-    .save-btn {
-        background-color: #8c3333;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .save-btn:hover {
-        background-color: #7a2b2b;
+        margin-top: 20px;
     }
 </style>
 
 <div id="address-card">
-    <h2>Địa chỉ của tôi</h2>
+    <h2 data-lang-key="address">Địa chỉ của tôi</h2>
+
     <div class="address-list">
         <div class="address-card">
             <div class="address-card-details">
                 <p class="name">Nguyễn Văn A <span class="default-badge">Mặc định</span></p>
                 <p class="phone">(+84) 987 654 321</p>
-                <p class="address">123 Đường ABC, Phường XYZ, Quận 1, TP. Hồ Chí Minh</p>
+                <p class="address">123 Đường ABC, Phường XYZ, Quận 1, Thành phố Hồ Chí Minh</p>
             </div>
             <div class="address-card-actions">
                 <button class="btn set-default-btn">Đặt làm mặc định</button>
@@ -194,32 +189,30 @@
         </div>
     </div>
 
-    <button class="add-address-btn" id="addAddressBtn">
-        <i class="fa-solid fa-plus"></i> Thêm địa chỉ mới
-    </button>
+    <button class="add-address-btn" id="addAddressBtn"><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</button>
 </div>
 
 <div id="addressModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Địa chỉ mới</h3>
+            <h3 data-lang-key="newAddress">Địa chỉ mới</h3>
             <span class="close-btn">&times;</span>
         </div>
         <form id="addressForm">
             <div class="form-group">
-                <label for="fullName">Họ và tên</label>
+                <label for="fullName" data-lang-key="fullName">Họ và tên</label>
                 <input type="text" id="fullName" name="fullName" required>
             </div>
             <div class="form-group">
-                <label for="phone">Số điện thoại</label>
+                <label for="phone" data-lang-key="phone">Số điện thoại</label>
                 <input type="tel" id="phone" name="phone" required>
             </div>
             <div class="form-group">
-                <label for="addressDetail">Địa chỉ chi tiết</label>
+                <label for="addressDetail" data-lang-key="addressDetail">Địa chỉ chi tiết</label>
                 <input type="text" id="addressDetail" name="addressDetail" required>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="save-btn">Lưu</button>
+                <button type="submit" class="add-address-btn" data-lang-key="save">Lưu</button>
             </div>
         </form>
     </div>
@@ -228,50 +221,78 @@
 <script>
     (function () {
         const modal = document.getElementById('addressModal');
+        if (!modal || modal.dataset.initialized) return;
+        modal.dataset.initialized = true;
+
         const addAddressBtn = document.getElementById('addAddressBtn');
-        const closeModalBtn = modal.querySelector('.close-btn');
+        const closeModalBtn = document.getElementsByClassName('close-btn')[0];
         const addressForm = document.getElementById('addressForm');
-        const modalTitle = modal.querySelector('.modal-header h3');
         const addressList = document.querySelector('.address-list');
+        const modalTitle = modal.querySelector('.modal-header h3');
         let editingCard = null;
-        const openModal = () => modal.style.display = 'flex';
+
+        const openModal = () => modal.style.display = 'block';
         const closeModal = () => {
             modal.style.display = 'none';
             addressForm.reset();
             editingCard = null;
             modalTitle.textContent = 'Địa chỉ mới';
         };
+
         addAddressBtn.onclick = openModal;
         closeModalBtn.onclick = closeModal;
-        window.onclick = (e) => {
-            if (e.target === modal) closeModal();
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                closeModal();
+            }
         };
 
-        addressForm.onsubmit = (e) => {
+        addressForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            alert('Đã lưu!');
-            closeModal();
-        };
-        addressList.addEventListener('click', (e) => {
-            const btn = e.target.closest('button');
-            if (!btn) return;
-            const card = btn.closest('.address-card');
+            const name = this.elements.fullName.value;
+            const phone = this.elements.phone.value;
+            const address = this.elements.addressDetail.value;
 
-            if (btn.classList.contains('edit-btn')) {
+
+            if (editingCard) {
+                editingCard.querySelector('.name').textContent = name;
+                editingCard.querySelector('.phone').textContent = phone;
+                editingCard.querySelector('.address').textContent = address;
+            } else {
+                alert("tạo thành công")
+            }
+
+            closeModal();
+        });
+
+        addressList.addEventListener('click', function (e) {
+            const target = e.target.closest('button');
+            if (!target) return;
+
+            const card = target.closest('.address-card');
+
+            if (target.classList.contains('delete-btn')) {
+                if (confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
+                    alert("xóa thành công");
+                }
+            }
+
+            if (target.classList.contains('edit-btn')) {
                 editingCard = card;
-                addressForm.fullName.value = card.querySelector('.name').textContent.replace(' Mặc định', '');
-                addressForm.phone.value = card.querySelector('.phone').textContent;
-                addressForm.addressDetail.value = card.querySelector('.address').textContent;
+                const name = card.querySelector('.name').textContent.replace(/ <span.*<\/span>/, '');
+                const phone = card.querySelector('.phone').textContent;
+                const address = card.querySelector('.address').textContent;
+
+                addressForm.elements.fullName.value = name;
+                addressForm.elements.phone.value = phone;
+                addressForm.elements.addressDetail.value = address;
+
                 modalTitle.textContent = 'Chỉnh sửa địa chỉ';
                 openModal();
+                alert("Chỉnh sửa thành công")
             }
 
-            if (btn.classList.contains('set-default-btn')) {
-                alert('Đã đặt làm mặc định');
-                clearDefault();
-                const nameElem = card.querySelector('.name');
-                nameElem.innerHTML = `${nameElem.textContent} <span class="default-badge">Mặc định</span>`;
-            }
         });
+
     })();
 </script>
