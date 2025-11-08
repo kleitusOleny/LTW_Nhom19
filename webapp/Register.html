@@ -110,14 +110,19 @@
             display: flex;
             align-items: center;
             flex-direction: row;
-            gap: 10px;
+            gap: 5px;
             font-size: 16px;
             color: #555;
         }
 
-        input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+        input[type="checkbox"]:not(#age-confirm):not(#license-confirm) {
+            width: 14px;
+            height: 14px;
+        }
+
+        #age-confirm, #license-confirm {
+            width: 16px;
+            height: 16px;
         }
 
         button {
@@ -147,7 +152,7 @@
         .remind-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 5px;
             padding-top: 10px;
         }
 
@@ -191,6 +196,10 @@
         </div>
 
         <div class="reminder">
+            <div class="remind-item">
+                <input type="checkbox" id="remind-words" name="remind-words" disabled>
+                <label for="remind-words">Mật khẩu phải ít nhất 8 kí tự</label>
+            </div>
             <div class="remind-item">
                 <input type="checkbox" id="remind-uppercase" name="remind-uppercase" disabled>
                 <label for="remind-uppercase">Mật khẩu phải bao gồm chữ hoa và chữ thường</label>
