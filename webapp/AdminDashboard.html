@@ -1,0 +1,415 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Mulish, sans-serif, serif;
+        }
+        .dashboard-container {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: 250px 1fr
+        }
+
+        .dashboard-sidebar {
+            background-color: #21232d;
+            position: relative;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eaedfd;
+            height: 70px;
+        }
+
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding-top: 150px;
+            list-style-type: none;
+        }
+
+        .a-with-icon {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            width: 200px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .a-with-icon ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .a-with-icon:hover {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+        .group-icon {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 50px;
+            padding-bottom: 10px;
+        }
+        .icon-header {
+            width: 30px;
+            height: 30px;
+            padding-top: 10px;
+            cursor: pointer;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+        }
+        .search {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding-left: 50px;
+        }
+        .search input {
+            width: 300px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .search input:focus {
+            border-color: #6341ff;
+            box-shadow: 0 0 1px #6341ff;
+            outline: none;
+        }
+        #searchIcon {
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            padding: 5px 5px 5px 5px;
+        }
+        #searchIcon:hover, .icon-header:hover:not(.main-page) {
+            color: #6341ff;
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+        .text {
+            color: #decdcd;
+            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
+        }
+
+        .dashboard-main-content {
+            padding: 30px;
+            background-color: #f4f7fa;
+            flex-grow: 1;
+        }
+
+        .dashboard-main-content h1 {
+            font-size: 28px;
+            color: #21232d;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .stat-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive */
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            border-color: #6341ff;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card h3 {
+            font-size: 16px;
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #21232d;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-description {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .stat-card:nth-child(1) .stat-number {
+            color: #6341ff;
+        }
+        .stat-card:nth-child(2) .stat-number {
+            color: #28a745;
+        }
+        .stat-card:nth-child(3) .stat-number {
+            color: #007bff;
+        }
+        .stat-card:nth-child(4) .stat-number {
+            color: #dc3545;
+        }
+        #todo-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 40%;
+            padding-left: 30px;
+            padding-top: 20px;
+        }
+        #contain-todo {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .todo {
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            height: 50px;
+            color: #555;
+        }
+        .todo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #6341ff;
+        }
+        .todo.finish {
+            border-left: 6px solid #28a745;
+        }
+        .todo.not-finish {
+            border-left: 6px solid #dc3545;
+        }
+        .todo.waiting {
+            border-left: 6px solid #f3c22d;
+        }
+        #todo-list-container h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .main-page {
+            color: #2200ff;
+        }
+
+        /* Notification */
+        .modal-overlay-notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay-notification {
+            position: fixed;
+            top: 70px;
+            left: 75%;
+            width: 50vh;
+            height: 80vh;
+            display: flex;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+        }
+        .modal-overlay-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-close {
+            position: absolute;
+            top: 5px;
+            right: -60px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .modal-close:hover { background: #f2f2f2; }
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+        .modal-content-notification {
+            position: relative;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            margin-left: 30px;
+        }
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="dashboard-sidebar">
+<!--            <img src="img/ruouicon.jpg" class="pic-logo">-->
+            <ul class="sidebar-items">
+                <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+            </ul>
+            <div class="text">━ Được update tới 2025 ━</div>
+        </nav>
+        <div class="dashboard-content">
+            <header class="dashboard-header">
+                <div class="search">
+                    <input type="text">
+                    <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+                </div>
+                <div class="group-icon">
+                    <ion-icon name="home-outline" class="icon-header main-page"></ion-icon>
+                    <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                    <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
+                </div>
+            </header>
+            <main class="dashboard-main-content">
+                <h1>Chào mừng quay trở lại, Admin!</h1>
+                <div class="stat-cards-container">
+                    <div class="stat-card">
+                        <h3>Đơn Hàng Mới</h3>
+                        <p class="stat-number">0</p>
+                        <span class="stat-description">Trong 24 giờ qua</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Tổng Doanh Thu (Tháng)</h3>
+                        <p class="stat-number">0đ</p>
+                        <span class="stat-description">Tháng 10, 2025</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Khách Hàng Mới</h3>
+                        <p class="stat-number">0</p>
+                        <span class="stat-description">Trong tuần này</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Sắp Hết Hàng</h3>
+                        <p class="stat-number">0</p>
+                        <span class="stat-description">Sản phẩm có SL < 5</span>
+                    </div>
+                </div>
+            </main>
+            <div id="todo-list-container">
+                <h2><ion-icon name="document-attach-outline"></ion-icon>Những Việc Cần Làm</h2>
+                <div id="contain-todo">
+                    <div class="todo finish">Kiểm Duyệt Lại Sản Phẩm 29/10</div>
+                    <div class="todo finish">Liên Hệ Đối Tác Nhập Thêm Hàng</div>
+                    <div class="todo waiting">Xét Duyệt Thông Tin Cá Nhân Khách Hàng</div>
+                    <div class="todo not-finish">Kiểm Duyệt Bảo Mật Website</div>
+                    <div class="todo not-finish">Kiểm Duyệt Bản Quyền</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay-notification" id="notification-account-modal">
+        <div class="modal-content-notification">
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2 class="notification-title">Thông báo</h2>
+            <div class="notification-empty-state">
+                <ion-icon name="notifications-off-outline"></ion-icon>
+                <p>Hiện tại chưa có thông báo mới</p>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+    <script src="popup.js"></script>
+    <script>
+        // Run Pop-up function
+        document.addEventListener("DOMContentLoaded", function() {
+            setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        });
+    </script>
+</body>
+</html>

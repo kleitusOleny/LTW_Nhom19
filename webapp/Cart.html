@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
+
+    <link rel="stylesheet" href="css/cart_style.css">
+</head>
+<body>
+
+<header>
+    <div class="header">
+        <div class="container">
+            <div class="header-center">
+                <a href="#" class="logo">LOGO</a>
+            </div>
+
+            <div class="header-right">
+                <a href="#" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </a>
+                <a href="#" aria-label="Account">
+                    <i class="fas fa-user"></i>
+                </a>
+
+                <a href="#" class="cart-link" aria-label="Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-count">0</span>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="nav">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">Trang Chủ</a>
+                    </li>
+
+                    <li class="has-dropdown"><a href="#" class="active"> Rượu Vang
+                        <i class="fa-solid fa-caret-down"></i>
+                    </a>
+
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-link">Rượu Vang Đỏ</a></li>
+                            <li><a href="#" class="dropdown-link">Rượu Vang Trắng</a></li>
+                            <li><a href="#" class="dropdown-link">Rượu Vang Hồng</a></li>
+                            <li><a href="#" class="dropdown-link">Vang Nổ (Sparkling)</a></li>
+                            <li><a href="#" class="dropdown-link">Vang Ngọt</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="">Pages</a></li>
+                    <li><a href="">Blog</a></li>
+                    <li><a href="">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="cart-container container">
+
+        <h1 class="cart-title">Giỏ hàng</h1>
+
+        <div class="cart-grid-container">
+
+            <div class="cart-items-column">
+                <table class="cart-table">
+                    <thead>
+                    <tr>
+                        <th colspan="2">Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Tạm tính</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr class="cart-item-row">
+                        <td class="cart-product-image">
+                            <a href="Detail.html">
+                                <img src="img/SKU__VD_0845-17.jpg" alt="Luce Brunello Di Montalcino">
+                            </a>
+                        </td>
+                        <td class="cart-product-name">
+                            <a href="Detail.html">Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</a>
+                        </td>
+                        <td class="cart-product-price">5.989.500₫</td>
+                        <td class="cart-product-quantity">
+                            <div class="quantity-selector">
+                                <button class="quantity-btn">-</button>
+                                <input type="number" value="1" min="1">
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </td>
+                        <td class="cart-product-subtotal">5.989.500₫</td>
+                        <td class="cart-product-remove">
+                            <a href="#" class="remove-item-btn" aria-label="Xóa sản phẩm">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr class="cart-item-row">
+                        <td class="cart-product-image">
+                            <a href="#">
+                                <img src="img/SKU__VD_1170.png" alt="Dufouleur Monopole">
+                            </a>
+                        </td>
+                        <td class="cart-product-name">
+                            <a href="#">Rượu vang hồng Dufouleur Monopole</a>
+                        </td>
+                        <td class="cart-product-price">351.000₫</td>
+                        <td class="cart-product-quantity">
+                            <div class="quantity-selector">
+                                <button class="quantity-btn">-</button>
+                                <input type="number" value="2" min="1">
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </td>
+                        <td class="cart-product-subtotal">702.000₫</td>
+                        <td class="cart-product-remove">
+                            <a href="#" class="remove-item-btn" aria-label="Xóa sản phẩm">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div class="cart-actions">
+                    <a href="store.html" class="btn btn-secondary">Tiếp tục xem sản phẩm</a>
+                    <button class="btn btn-primary">Cập nhật giỏ hàng</button>
+                </div>
+            </div>
+
+            <div class="cart-summary-column">
+                <div class="summary-box">
+                    <h3 class="summary-title">Tổng cộng</h3>
+
+                    <div class="summary-row">
+                        <span>Tạm tính</span>
+                        <strong>6.691.500₫</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Giao hàng</span>
+                        <strong>Miễn phí</strong>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Tổng</span>
+                        <strong>6.691.500₫</strong>
+                    </div>
+
+                    <a href="#" class="btn btn-checkout">Tiến hành thanh toán</a>
+                </div>
+            </div>
+
+        </div> </div> </main>
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h4 class="footer-heading">Về Chúng Tôi</h4>
+                <p class="footer-text">Mô tả ngắn gọn về dự án của bạn...</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4 class="footer-heading">Liên Kết Nhanh</h4>
+                <ul class="footer-links">
+                    <li><a href="">Trang chủ</a></li>
+                    <li><a href="">Giới thiệu</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="footer-heading">Liên Hệ</h4>
+                <ul class="footer-contact">
+                    <li><strong>Địa chỉ:</strong> Khu Phố 6, P. Linh Trung, Q. Thủ Đức, TP.HCM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Khoa Công Nghệ Thông Tin.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
