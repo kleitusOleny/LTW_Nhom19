@@ -43,13 +43,14 @@
             margin-left: 20px;
             border-radius: 8px;
         }
+
         .left-sidebar {
-            width: 250px;
+            width: 270px;
             background-color: #fff;
             padding: 20px;
             height: 100%;
             border-right: 1px solid #dee2e6;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
 
@@ -98,12 +99,13 @@
             transition: background-color 0.3s, color 0.3s;
             margin-bottom: 5px;
         }
+
         .nav-menu li.active a {
             background-color: #333;
             color: #fff;
         }
 
-        .nav-menu li a:hover{
+        .nav-menu li a:hover {
             background-color: #8c3333;
             color: #fff;
         }
@@ -117,6 +119,31 @@
         .nav-menu li a span {
             font-size: 0.95em;
         }
+
+        .logout-button {
+            width: 230px;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            margin-bottom: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font: inherit;
+            gap: 0.5rem;
+        }
+
+        .logout-button:hover {
+            text-decoration: none;
+            background-color: #8c3333;
+            color: #fff;
+
+        }
+
     </style>
 </head>
 <body>
@@ -160,22 +187,31 @@
             </div>
             <hr>
             <ul class="nav-menu">
-                <li><a href="../infoUsers/info_user.html"><i class="fa-solid fa-user"></i> <span data-lang-key="userInfo">Thông tin</span></a></li>
-                <li><a href="../infoUsers/addresses.html"><i class="fa-solid fa-location-dot"></i> <span data-lang-key="address">Địa chỉ</span></a></li>
-                <li><a href="../infoUsers/favorites.html"><i class="fa-solid fa-heart"></i> <span data-lang-key="viewHistory">Yêu thích</span></a></li>
-                <li><a href="../infoUsers/my_orders.html"><i class="fa-solid fa-box"></i> <span data-lang-key="myOrders">Đơn hàng của tôi</span></a></li>
-                <li><a href="../infoUsers/review_history.html"><i class="fa-solid fa-star"></i> <span data-lang-key="reviewHistory">Lịch sử đánh giá</span></a></li>
+                <li><a href="../infoUsers/info_user.html"><i class="fa-solid fa-user"></i> <span
+                        data-lang-key="userInfo">Thông tin</span></a></li>
+                <li><a href="../infoUsers/addresses.html"><i class="fa-solid fa-location-dot"></i> <span
+                        data-lang-key="address">Địa chỉ</span></a></li>
+                <li><a href="../infoUsers/favorites.html"><i class="fa-solid fa-heart"></i> <span
+                        data-lang-key="viewHistory">Yêu thích</span></a></li>
+                <li><a href="../infoUsers/my_orders.html"><i class="fa-solid fa-box"></i> <span
+                        data-lang-key="myOrders">Đơn hàng của tôi</span></a></li>
+                <li><a href="../infoUsers/review_history.html"><i class="fa-solid fa-star"></i> <span
+                        data-lang-key="reviewHistory">Lịch sử đánh giá</span></a></li>
                 <hr>
-                <li><a href="../infoUsers/settings.html"><i class="fa-solid fa-gear"></i> <span data-lang-key="settings">Cài đặt</span></a></li>
-                <li><a href="../infoUsers/support.html"><i class="fa-solid fa-circle-question"></i> <span data-lang-key="support">Hỗ trợ</span></a></li>
+                <li><a href="../infoUsers/settings.html"><i class="fa-solid fa-gear"></i> <span
+                        data-lang-key="settings">Cài đặt</span></a></li>
+                <li><a href="../infoUsers/support.html"><i class="fa-solid fa-circle-question"></i> <span
+                        data-lang-key="support">Hỗ trợ</span></a></li>
                 <hr>
-                <li><a href="#"><i class="fa-solid fa-right-from-bracket"></i> <span data-lang-key="logout">Đăng xuất</span></a></li>
+                <li>
+                    <button type="button" class="logout-button">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span data-lang-key="logout">Đăng xuất</span>
+                    </button>
+                </li>
             </ul>
         </div>
-        <div id="main-content">
-            <h2>Chào mừng, nguyenvan!</h2>
-            <p>Chọn một mục trong menu bên trái để xem nội dung tương ứng.</p>
-        </div>
+        <div id="main-content"></div>
     </div>
 </main>
 <footer class="site-footer">
@@ -266,13 +302,18 @@
                 this.parentElement.classList.add('active');
             });
         });
-
+        const defaultPage = '../infoUsers/info_user.html';
         const hashPage = location.hash.replace('#', '');
         if (hashPage) {
-            loadContent('infoUsers/' + hashPage, false);
+            loadContent('infoUsers/' + hashPage);
         } else {
-            loadContent('infoUsers/infoUser.html', false);
+            loadContent(defaultPage);
         }
+        const logout=document.querySelector('.logout-button');
+        logout.addEventListener('click', function(){
+            alert("Đăng xuất thành công")
+            console.log('Logout clicked');
+        })
     });
 </script>
 </body>
