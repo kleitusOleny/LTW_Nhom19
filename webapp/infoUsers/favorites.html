@@ -43,8 +43,8 @@
     }
 
     .product-image {
-        width: 100%;
-        height: 200px;
+        width: auto;
+        height: auto;
         background-color: #f5f5f5;
         display: flex;
         align-items: center;
@@ -90,6 +90,76 @@
         background-color: #7a2b2b;
     }
 
+    .main-image-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+    }
+
+    .product-specs-list li {
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+        color: #555;
+        padding: 12px 0;
+        border-top: 1px solid #eee;
+    }
+
+    .product-specs-list li span {
+        margin-right: 15px;
+    }
+
+    .product-specs-list li strong {
+        color: #222;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .product-detail-price p {
+        font-size: 32px;
+        font-weight: bold;
+        color: #8c3333;
+    }
+
+    .quantity-selector input[type="number"] {
+        width: 50px;
+        text-align: center;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        color: #222;
+        /* Ẩn mũi tên lên/xuống mặc định của input number */
+        -moz-appearance: textfield;
+    }
+    .quantity-selector input[type="number"]::-webkit-outer-spin-button,
+    .quantity-selector input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .product-rating {
+        margin-bottom: 15px;
+    }
+
+    .product-rating label{
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .product-rating .fa-star {
+        font-size: 16px;
+        margin: 0 1px;
+    }
+    .product-rating .fa-solid {
+        color: #f39c12;
+    }
+    .product-rating .fa-regular {
+        color: #ccc;
+    }
+
 </style>
 
 <div class="favorites-container">
@@ -97,69 +167,120 @@
     <div class="favorites-list">
         <div class="product-card">
             <div class="product-image">
-                <i class="fa-solid fa-wine-bottle"></i>
+                <a href="#">
+                    <img src="../img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
+                </a>
             </div>
             <div class="product-info">
-                <h3>Vang đỏ cao cấp</h3>
-                <p class="price">1.200.000₫</p>
+                <h3 class="product-name"><a href="#">Rượu vang hồng Dufouleur Monopole</a></h3>
+                <div class="product-extra-details">
+                    <ul>
+                        <li><strong>Xuất xứ:</strong> Pháp</li>
+                        <li><strong>Loại:</strong> Vang Hồng</li>
+                    </ul>
+                </div>
+                <p class="product-producer">Nhà sản xuất: Maison Dufouleur...</p>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+                <p class="product-price">351.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-image">
+                <a href="#">
+                    <img src="../img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
+                </a>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name"><a href="#">Rượu vang hồng Dufouleur Monopole</a></h3>
+                <div class="product-extra-details">
+                    <ul>
+                        <li><strong>Xuất xứ:</strong> Pháp</li>
+                        <li><strong>Loại:</strong> Vang Hồng</li>
+                    </ul>
+                </div>
+                <p class="product-producer">Nhà sản xuất: Maison Dufouleur...</p>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+                <p class="product-price">351.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-image">
+                <a href="#">
+                    <img src="../img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
+                </a>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name"><a href="#">Rượu vang hồng Dufouleur Monopole</a></h3>
+                <div class="product-extra-details">
+                    <ul>
+                        <li><strong>Xuất xứ:</strong> Pháp</li>
+                        <li><strong>Loại:</strong> Vang Hồng</li>
+                    </ul>
+                </div>
+                <p class="product-producer">Nhà sản xuất: Maison Dufouleur...</p>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+                <p class="product-price">351.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-image">
+                <a href="#">
+                    <img src="../img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
+                </a>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name"><a href="#">Rượu vang hồng Dufouleur Monopole</a></h3>
+                <div class="product-extra-details">
+                    <ul>
+                        <li><strong>Xuất xứ:</strong> Pháp</li>
+                        <li><strong>Loại:</strong> Vang Hồng</li>
+                    </ul>
+                </div>
+                <p class="product-producer">Nhà sản xuất: Maison Dufouleur...</p>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+                <p class="product-price">351.000₫</p>
+                <button class="remove-favorite-btn">Bỏ yêu thích</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-image">
+                <a href="#">
+                    <img src="../img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
+                </a>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name"><a href="#">Rượu vang hồng Dufouleur Monopole</a></h3>
+                <div class="product-extra-details">
+                    <ul>
+                        <li><strong>Xuất xứ:</strong> Pháp</li>
+                        <li><strong>Loại:</strong> Vang Hồng</li>
+                    </ul>
+                </div>
+                <p class="product-producer">Nhà sản xuất: Maison Dufouleur...</p>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+                <p class="product-price">351.000₫</p>
                 <button class="remove-favorite-btn">Bỏ yêu thích</button>
             </div>
         </div>
 
-        <div class="product-card">
-            <div class="product-image">
-                <i class="fa-solid fa-martini-glass-citrus"></i>
-            </div>
-            <div class="product-info">
-                <h3>Rượu mạnh thượng hạng</h3>
-                <p class="price">2.500.000₫</p>
-                <button class="remove-favorite-btn">Bỏ yêu thích</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">
-                <i class="fa-solid fa-wine-glass"></i>
-            </div>
-            <div class="product-info">
-                <h3>Vang trắng nhẹ</h3>
-                <p class="price">950.000₫</p>
-                <button class="remove-favorite-btn">Bỏ yêu thích</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">
-                <i class="fa-solid fa-wine-bottle"></i>
-            </div>
-            <div class="product-info">
-                <h3>Vang đỏ cao cấp</h3>
-                <p class="price">1.200.000₫</p>
-                <button class="remove-favorite-btn">Bỏ yêu thích</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">
-                <i class="fa-solid fa-martini-glass-citrus"></i>
-            </div>
-            <div class="product-info">
-                <h3>Rượu mạnh thượng hạng</h3>
-                <p class="price">2.500.000₫</p>
-                <button class="remove-favorite-btn">Bỏ yêu thích</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">
-                <i class="fa-solid fa-wine-glass"></i>
-            </div>
-            <div class="product-info">
-                <h3>Vang trắng nhẹ</h3>
-                <p class="price">950.000₫</p>
-                <button class="remove-favorite-btn">Bỏ yêu thích</button>
-            </div>
-        </div>
     </div>
 </div>
 <script>
