@@ -82,10 +82,6 @@ header
 .nav ul li a.active {
     color: #c78c8c;
 }
-#language{
-    cursor: pointer;
-}
-
 /*
 footer
  */
