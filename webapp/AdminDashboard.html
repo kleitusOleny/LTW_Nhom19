@@ -33,7 +33,7 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            padding-top: 150px;
+            padding-top: 120px;
             list-style-type: none;
         }
 
@@ -50,6 +50,11 @@
             width: 200px;
             transition: background-color 0.3s ease, color 0.3s ease;
             border: 1px solid transparent;
+        }
+        .a-with-icon.selected {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
         }
 
         .a-with-icon ion-icon {
@@ -243,36 +248,58 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-
             z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+
+            padding-top: 70px;
+            padding-right: 30px;
+
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .modal-overlay-notification {
-            position: fixed;
-            top: 70px;
-            left: 75%;
-            width: 50vh;
-            height: 80vh;
-            display: flex;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.15);
-        }
+
         .modal-overlay-notification.show {
             opacity: 1;
             visibility: visible;
         }
+
+        .modal-content-notification {
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .modal-overlay-notification.show .modal-content-notification {
+            transform: scale(1);
+            opacity: 1;
+        }
+
         .modal-close {
             position: absolute;
-            top: 5px;
-            right: -60px;
+            top: 15px;
+            right: 15px;
             width: 36px;
             height: 36px;
             border: 0;
             background: transparent;
             border-radius: 8px;
+
             cursor: pointer;
         }
         .modal-close:hover { background: #f2f2f2; }
@@ -285,16 +312,7 @@
             color: #333;
             pointer-events: none;
         }
-        .modal-content-notification {
-            position: relative;
-            padding: 20px;
-            background: #fff;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            box-sizing: border-box;
-        }
+
         .notification-title {
             font-size: 1.25rem;
             font-weight: 600;
@@ -312,7 +330,7 @@
             align-items: center;
             width: 100%;
             color: #888;
-            margin-left: 30px;
+            padding: 30px 0;
         }
         .notification-empty-state ion-icon {
             font-size: 48px;
@@ -330,6 +348,7 @@
         <nav class="dashboard-sidebar">
 <!--            <img src="img/ruouicon.jpg" class="pic-logo">-->
             <ul class="sidebar-items">
+                <li><a href="#" class="a-with-icon selected"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
@@ -347,7 +366,6 @@
                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
                 </div>
                 <div class="group-icon">
-                    <ion-icon name="home-outline" class="icon-header main-page"></ion-icon>
                     <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
                     <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
                 </div>
