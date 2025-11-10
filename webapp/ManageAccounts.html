@@ -33,7 +33,7 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            padding-top: 150px;
+            padding-top: 120px;
             list-style-type: none;
         }
 
@@ -289,29 +289,55 @@
         }
         .modal-overlay-notification {
             position: fixed;
-            top: 70px;
-            left: 75%;
-            width: 50vh;
-            height: 80vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
             display: flex;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+            justify-content: flex-end;
+            align-items: flex-start;
+
+            padding-top: 70px;
+            padding-right: 30px;
+
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         /* Phần fadein popup */
-        .modal-overlay, .modal-overlay-sort, .modal-overlay-filter, .modal-overlay-deleteAll, .modal-overlay-edit_information {
+        .modal-overlay,
+        .modal-overlay-sort,
+        .modal-overlay-filter,
+        .modal-overlay-deleteAll,
+        .modal-overlay-edit_information {
             display: flex;
             justify-content: center;
             align-items: center;
             background-color: rgba(0, 0, 0, 0.6);
         }
 
-        .modal-overlay.show, .modal-overlay-sort.show, .modal-overlay-filter.show, .modal-overlay-refresh.show, .modal-overlay-excel.show, .modal-overlay-deleteAll.show, .modal-overlay-edit_information.show, .modal-overlay-notification.show {
+        .modal-overlay.show,
+        .modal-overlay-sort.show,
+        .modal-overlay-filter.show,
+        .modal-overlay-refresh.show,
+        .modal-overlay-excel.show,
+        .modal-overlay-deleteAll.show,
+        .modal-overlay-edit_information.show,
+        .modal-overlay-notification.show {
             opacity: 1;
             visibility: visible;
         }
+        .modal-overlay-notification.show .modal-content-notification {
+            transform: scale(1);
+            opacity: 1;
+        }
 
-        .modal-content, .modal-content-sort, .modal-content-filter, .modal-content-deleteAll, .modal-content-edit_information {
+        .modal-content,
+        .modal-content-sort,
+        .modal-content-filter,
+        .modal-content-deleteAll,
+        .modal-content-edit_information {
             background-color: white;
             border-radius: 12px;
             gap: 25px;
@@ -320,13 +346,14 @@
         }
         .modal-close {
             position: absolute;
-            top: 5px;
-            right: -60px;
+            top: 15px;
+            right: 15px;
             width: 36px;
             height: 36px;
             border: 0;
             background: transparent;
             border-radius: 8px;
+
             cursor: pointer;
         }
         .modal-close:hover { background: #f2f2f2; }
@@ -340,14 +367,22 @@
             pointer-events: none;
         }
         .modal-content-notification {
-            position: relative;
-            padding: 20px;
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+
             background: #fff;
             border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+
             display: flex;
             flex-direction: column;
-            height: 100%;
             box-sizing: border-box;
+            padding: 20px;
+
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
         .notification-title {
             font-size: 1.25rem;
@@ -366,7 +401,7 @@
             align-items: center;
             width: 100%;
             color: #888;
-            margin-left: 30px;
+            padding: 30px 0;
         }
         .notification-empty-state ion-icon {
             font-size: 48px;
@@ -383,7 +418,8 @@
             gap: 25px;
         }
 
-        .modal-content-refresh, .modal-content-excel {
+        .modal-content-refresh,
+        .modal-content-excel {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -398,7 +434,8 @@
             transform: translateY(-50px);
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .modal-overlay-refresh.show .modal-content-refresh, .modal-overlay-excel.show .modal-content-excel {
+        .modal-overlay-refresh.show .modal-content-refresh,
+        .modal-overlay-excel.show .modal-content-excel {
             transform: translateY(-25px);
         }
         .modal-content-refresh p, .modal-overlay-excel p {
@@ -579,6 +616,7 @@
     <div class="dashboard-container">
         <nav class="dashboard-sidebar">
             <ul class="sidebar-items">
+                <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
                 <li><a href="#" class="a-with-icon selected"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
@@ -596,7 +634,6 @@
                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
                 </div>
                 <div class="group-icon">
-                    <ion-icon name="home-outline" class="icon-header"></ion-icon>
                     <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
                     <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
                 </div>
