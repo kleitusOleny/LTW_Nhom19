@@ -1,0 +1,708 @@
+main {
+    background-color: #ffffff;
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 6px 10px rgba(0, 0, 0, 0.10);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.container {
+    padding: 20px;
+}
+
+.coupon-code {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.coupon-code input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+
+.coupon-code button {
+    width: auto;
+    height: auto;
+    border-radius: 0 4px 4px 0;
+}
+
+.cart-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.cart-details th,
+.cart-details td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.cart-details thead {
+    background-color: #f7f7f7;
+}
+
+.remove-item {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #999;
+    cursor: pointer;
+    padding: 2px 5px;
+    margin-right: 10px;
+}
+
+.quantity {
+    display: flex;
+}
+
+.quantity input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.quantity button {
+    border: 1px solid #ddd;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 50%;
+    text-align: center;
+}
+
+.payment-form {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.billing-details,
+.order-summary {
+    width: 48%;
+}
+
+.billing-details h2,
+.order-summary h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.billing-details p {
+    margin-bottom: 15px;
+}
+
+.billing-details label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.billing-details input,
+.billing-details textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 100px;
+}
+
+.order-summary table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-summary th,
+.order-summary td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.age-verification {
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.age-verification.error label {
+    color: red;
+}
+
+.group-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.button-cancel {
+    background-color: #d8d8d8;
+    color: #333;
+    width: 20%;
+    height: 50px;
+    cursor: pointer;
+
+}
+
+.button-cancel:hover {
+    background-color: #c2c2c2;
+}
+
+.button {
+    font-size: 16px;
+    transition: background-color 0.3s;
+    display: inline-block;
+    background-color: #8c3333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    width: 30%;
+    height: 50px;
+
+}
+
+.button:hover {
+    background-color: #7a2b2b;
+}
+
+.continue-shopping {
+    background-color: #fff;
+    color: #c8a165;
+    border: 1px solid #c8a165;
+}
+
+.update-cart {
+    background-color: #f7f7f7;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.delete-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 18px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover {
+    color: #e63946;
+}
+
+.delete-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 18px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover {
+    color: #e63946;
+}
+
+.last {
+    text-align: center;
+    width: 50px;
+}
+
+.billing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    min-height: 48px;
+}
+
+.billing-header h2 {
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-edit-info {
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    background-color: #8c3333;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    height: 38px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+}
+
+
+.btn-edit-info:hover {
+    background-color: #7a2b2b;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+#user-info p {
+    margin-bottom: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.close-button, .close-button-success, .close-add-address-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus,
+.close-button-success:hover,
+.close-button-success:focus, .close-add-address-modal:hover, .close-add-address-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#change-info-form label {
+    display: block;
+    margin-top: 10px;
+}
+
+#change-info-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.billing-details, .order-summary {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary {
+    background-color: #fff;
+}
+
+#user-info {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #c8a165;
+}
+
+.modal-content p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#back-to-home {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.address-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.address-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.address-item:hover {
+    background-color: #f9f9f9;
+}
+
+.address-item.default {
+    border-left: 3px solid #c8a165;
+}
+
+.address-info .name {
+    font-weight: bold;
+}
+
+.default-tag {
+    color: #c8a165;
+    font-size: 0.9em;
+}
+
+.address-details {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.address-actions .fa-location-dot {
+    color: #c8a165;
+}
+
+.add-new-address {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#add-new-address-btn {
+    width: 100%;
+    background: none;
+    border: 1px dashed #ccc;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.plus-icon {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#add-address-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+#add-address-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#add-address-form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#add-address-form .button {
+    grid-column: 1 / -1;
+    width: auto;
+}
+
+.success-modal-content {
+    text-align: center;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.success-icon .fa-check-circle {
+    font-size: 60px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.success-modal-content h2 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.success-modal-content p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.order-details-summary {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.order-details-summary h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+}
+
+.order-details-summary p {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.order-details-summary p span {
+    text-align: right;
+}
+
+.order-details-summary p strong {
+    margin-right: 10px;
+}
+
+#back-to-home {
+    width: 100%;
+    max-width: 200px;
+    background-color: #8c3333;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#back-to-home:hover {
+    background-color: #7a2b2b;
+}
+
+#address-card {
+    font-family: 'Roboto', sans-serif;
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px 30px 30px 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+}
+
+#address-card h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    color: #8c3333;
+    font-size: 26px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.address-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.address-card {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-left: 3px solid transparent;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.address-card:hover {
+    background-color: #f5f5f5;
+    border-left-color: #c7a17a;
+}
+
+.address-card-details p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.address-card-details .name {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.address-card-details .default-badge {
+    background-color: #c7a17a;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.address-card-actions .btn {
+    margin-left: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #8c3333;
+    transition: color 0.3s;
+}
+
+.address-card-actions .btn:hover {
+    color: #c7a17a;
+}
+
+.add-address-btn {
+    background-color: #8c3333;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 30px;
+    transition: background-color 0.3s;
+}
+
+.add-address-btn:hover {
+    background-color: #7a2b2b;
+}
+
+.add-address-btn i {
+    margin-right: 8px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #8c3333;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover, .close-btn:focus {
+    color: black;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.modal-footer {
+    text-align: right;
+    margin-top: 20px;
+}
+
+dialog {
+    width: 50%;
+    height: 50%;
+    border: none;
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+dialog iframe {
+    width: 100%;
+    height: calc(100% - 40px);
+    border: none;
+}
+
+#closeDialog {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    color: #444;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s ease;
+}
+
+#closeDialog:hover {
+    color: #e74c3c;
+}
