@@ -1,0 +1,656 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản Lí Đơn Hàng</title>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="popup.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Mulish, sans-serif, serif;
+        }
+
+        .dashboard-container {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: 250px 1fr;
+        }
+
+        .dashboard-sidebar {
+            background-color: #21232d;
+            position: relative;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eaedfd;
+            height: 70px;
+        }
+
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding-top: 120px;
+            list-style-type: none;
+        }
+
+        .a-with-icon {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            width: 200px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .a-with-icon.selected {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+
+        .a-with-icon ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .a-with-icon:hover {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+
+        .group-icon {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 50px;
+            padding-bottom: 10px;
+        }
+
+        .icon-header {
+            width: 30px;
+            height: 30px;
+            padding-top: 10px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+        }
+
+        .search {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding-left: 50px;
+        }
+
+        .search input {
+            width: 300px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search input:focus {
+            border-color: #6341ff;
+            box-shadow: 0 0 1px #6341ff;
+            outline: none;
+        }
+
+        #searchIcon {
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        #searchIcon:hover, .icon-header:hover {
+            color: #6341ff;
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+
+        .text {
+            color: #decdcd;
+            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
+        }
+
+        .dashboard-main-content {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .dashboard-main-content h1 {
+            font-size: 28px;
+            color: #21232d;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* ---------- Notification ---------- */
+        .modal-overlay-notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            padding-top: 70px;
+            padding-right: 30px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content-notification {
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .modal-overlay-notification.show .modal-content-notification {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: #f2f2f2;
+        }
+
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+        }
+
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            padding: 30px 0;
+        }
+
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* ---------- DataTables ---------- */
+        .dataTables_wrapper {
+            margin-top: 20px;
+            font-family: 'Mulish', sans-serif;
+        }
+
+        /* Bảng chính */
+        #ordersTable {
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #ordersTable thead tr {
+            background-color: #21232d;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        td img{
+            width: 85px;
+            height: 85px;
+        }
+
+        #ordersTable th, #ordersTable td {
+            padding: 12px 15px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #ordersTable tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        #ordersTable tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        #ordersTable tbody tr:last-of-type {
+            border-bottom: 2px solid #6341ff;
+        }
+
+        #ordersTable tbody tr:hover {
+            background-color: #ecebff;
+            cursor: pointer;
+        }
+
+        /* Nút Xem */
+        #ordersTable td button {
+            padding: 6px 12px;
+            border: none;
+            background-color: #c7a17a;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #ordersTable td button:hover {
+            background-color: #a87c58;
+        }
+
+        /* Trạng thái đơn */
+        .status-processing { color: #ffa500; font-weight: bold; }
+        .status-delivered { color: #28a745; font-weight: bold; }
+        .status-cancelled { color: #dc3545; font-weight: bold; }
+
+        /* Ẩn mũi tên sắp xếp */
+        table.dataTable thead th {
+            background-image: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center right !important;
+        }
+        table.dataTable thead th.sorting,
+        table.dataTable thead th.sorting_asc,
+        table.dataTable thead th.sorting_desc {
+            background-image: none !important;
+        }
+
+        /* ---------- Bộ lọc, tìm kiếm, phân trang ---------- */
+        .dataTables_length label,
+        .dataTables_filter label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .dataTables_length select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin: 0 8px;
+            background-color: #fff;
+            transition: border-color 0.2s ease;
+        }
+        .dataTables_length select:focus {
+            border-color: #6341ff;
+            outline: none;
+            box-shadow: 0 0 3px rgba(99, 65, 255, 0.4);
+        }
+
+        .dataTables_filter input {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .dataTables_filter input:focus {
+            border-color: #6341ff;
+            outline: none;
+            box-shadow: 0 0 3px rgba(99, 65, 255, 0.4);
+        }
+
+        /* Căn layout */
+        .dataTables_wrapper .dataTables_length { float: left; }
+        .dataTables_wrapper .dataTables_filter { float: right; }
+        .dataTables_wrapper .dataTables_info { float: left; color: #555; margin-top: 10px; }
+        .dataTables_wrapper .dataTables_paginate { float: right; margin-top: 10px; }
+        .dataTables_wrapper::after { content: ""; display: block; clear: both; }
+
+        /* Phân trang */
+        .dataTables_paginate .paginate_button {
+            color: #6341ff !important;
+            background-color: #fff !important;
+            border: 1px solid #ccc !important;
+            padding: 6px 12px;
+            margin: 0 3px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .dataTables_paginate .paginate_button:hover {
+            background-color: #6341ff !important;
+            color: white !important;
+            border-color: #6341ff !important;
+        }
+        .dataTables_paginate .paginate_button.current {
+            background-color: #6341ff !important;
+            color: #fff !important;
+            border-color: #6341ff !important;
+        }
+        .dataTables_paginate .paginate_button.disabled {
+            opacity: 0.5;
+            cursor: default;
+            background-color: #f3f3f3 !important;
+            color: #999 !important;
+            border-color: #ddd !important;
+        }
+        /*Chi tiết sản phẩm*/
+        /* ---------- Modal Chi tiết đơn hàng ---------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(33, 35, 45, 0.6);
+            display: none; /* Ẩn mặc định */
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px 30px;
+            width: 650px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+
+        .close-modal-btn8 {
+            float: right;
+            background-color: #c7a17a;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .close-modal-btn8:hover {
+            background-color: #a87c58;
+        }
+
+        .order-detail-box {
+            margin-top: 20px;
+        }
+
+        .order-detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .order-detail-table th,
+        .order-detail-table td {
+            border: 1px solid #ccc;
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        .order-detail-table thead {
+            background-color: #f3f3f3;
+            font-weight: bold;
+        }
+
+        .order-summary p {
+            margin: 5px 0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <nav class="dashboard-sidebar">
+        <ul class="sidebar-items">
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="home-outline"></ion-icon>
+                Trang Chủ</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="bag-remove-outline"></ion-icon>
+                Quản Lí Sản Phẩm</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="people-outline"></ion-icon>
+                Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="#" class="a-with-icon selected">
+                <ion-icon name="cart-outline"></ion-icon>
+                Quản Lí Đơn Hàng</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="clipboard-outline"></ion-icon>
+                Quản Lí Kho Hàng</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="reader-outline"></ion-icon>
+                Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="ticket-outline"></ion-icon>
+                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="stats-chart-outline"></ion-icon>
+                Thống Kê</a></li>
+        </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
+    </nav>
+    <div class="dashboard-content">
+        <header class="dashboard-header">
+            <div class="search">
+                <input type="text">
+                <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+            </div>
+            <div class="group-icon">
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
+            </div>
+        </header>
+        <main class="dashboard-main-content">
+            <h1>Quản Lý Đơn Hàng</h1>
+            <table id="ordersTable" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Mã Đơn Hàng</th>
+                    <th>Tên Khách Hàng</th>
+                    <th>Ngày Đặt</th>
+                    <th>Tổng Tiền</th>
+                    <th>Trạng Thái</th>
+                    <th>Hành Động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>DH001</td>
+                    <td>Nguyễn Văn A</td>
+                    <td>2025-11-10</td>
+                    <td>1.500.000đ</td>
+                    <td class="status-processing">Đang xử lý</td>
+                    <td>
+                        <button class="view-btn">Xem</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>DH002</td>
+                    <td>Trần Thị B</td>
+                    <td>2025-11-11</td>
+                    <td>2.300.000đ</td>
+                    <td class="status-delivered">Đã giao</td>
+                    <td>
+                        <button class="view-btn">Xem</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>DH003</td>
+                    <td>Lê Văn C</td>
+                    <td>2025-11-12</td>
+                    <td>850.000đ</td>
+                    <td class="status-cancelled">Đã hủy</td>
+                    <td>
+                        <button class="view-btn">Xem</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</div>
+<div class="modal-overlay" id="orderDetailModal">
+    <div class="modal-content">
+        <button class="close-modal-btn8" id="closeModal">Đóng</button>
+        <h2>Chi Tiết Đơn Hàng</h2>
+
+        <div class="order-detail-box">
+            <p><strong>Mã đơn hàng:</strong> RW001</p>
+            <p><strong>Tên khách hàng:</strong> Nguyễn Văn A</p>
+            <p><strong>Ngày đặt:</strong> 2025-11-10</p>
+            <p><strong>Tổng tiền:</strong> 8.900.000đ</p>
+            <p><strong>Trạng thái:</strong> Đang xử lý</p>
+
+            <h3>Sản phẩm trong đơn hàng</h3>
+            <table class="order-detail-table">
+                <thead>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><img src="img/SKU__VD_0834-14-1.5L.jpg" alt="Ảnh đơn hàng" class="order-img"></td>
+                    <td>Rượu vang Château Margaux 2015 (750ml)</td>
+                    <td>1</td>
+                    <td>8.500.000đ</td>
+                    <td>8.500.000đ</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="order-summary">
+                <p><strong>Tổng cộng:</strong> 8.500.000đ</p>
+                <p><strong>Phương thức thanh toán:</strong> Chuyển khoản ngân hàng</p>
+                <p><strong>Địa chỉ giao hàng:</strong> 35 Nguyễn Huệ, Quận 1, TP. HCM</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Popup dành cho Notification-->
+<div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-content-notification">
+        <button class="modal-close" id="close-modal-btn8">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <h2 class="notification-title">Thông báo</h2>
+        <div class="notification-empty-state">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+            <p>Hiện tại chưa có thông báo mới</p>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById("orderDetailModal");
+        const closeModal = document.getElementById("closeModal");
+
+        document.querySelectorAll(".view-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                modal.style.display = "flex";
+            });
+        });
+
+        closeModal.addEventListener("click", () => modal.style.display = "none");
+        modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+
+        $('#ordersTable').DataTable();
+        setTimeout(() => {
+            $('#ordersTable thead th').removeAttr('style');
+        }, 200);
+    });
+</script>
+</body>
+</html>
