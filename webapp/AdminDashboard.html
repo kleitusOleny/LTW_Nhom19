@@ -7,7 +7,7 @@
         * {
             margin: 0;
             padding: 0;
-            font-family: Bricolage Grotesque, sans-serif, serif;
+            font-family: Mulish, sans-serif, serif;
         }
         .dashboard-container {
             display: grid;
@@ -17,6 +17,7 @@
 
         .dashboard-sidebar {
             background-color: #21232d;
+            position: relative;
         }
 
         .dashboard-header {
@@ -32,7 +33,7 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            padding-top: 150px;
+            padding-top: 120px;
             list-style-type: none;
         }
 
@@ -49,6 +50,11 @@
             width: 200px;
             transition: background-color 0.3s ease, color 0.3s ease;
             border: 1px solid transparent;
+        }
+        .a-with-icon.selected {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
         }
 
         .a-with-icon ion-icon {
@@ -107,25 +113,22 @@
             border-radius: 50%;
             padding: 5px 5px 5px 5px;
         }
-        #searchIcon:hover, .icon-header:hover {
+        #searchIcon:hover, .icon-header:hover:not(.main-page) {
             color: #6341ff;
             transform: scale(1.1);
             transition: transform 0.2s ease;
         }
         .text {
             color: #decdcd;
-            display: flex;
-            justify-content: center;
-            padding-top: 95px;
             font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
         }
-        /*.pic-logo {*/
-        /*    width: 140px;*/
-        /*    height: 140px;*/
-        /*    padding: 30px 30px 30px 50px;*/
-        /*    border-radius: 50%;*/
-        /*}*/
-        /* Thêm CSS này vào trong thẻ <style> của bạn */
 
         .dashboard-main-content {
             padding: 30px;
@@ -234,6 +237,110 @@
             align-items: center;
             gap: 8px;
         }
+        .main-page {
+            color: #2200ff;
+        }
+
+        /* Notification */
+        .modal-overlay-notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+
+            padding-top: 70px;
+            padding-right: 30px;
+
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content-notification {
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .modal-overlay-notification.show .modal-content-notification {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+        .modal-close:hover { background: #f2f2f2; }
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            padding: 30px 0;
+        }
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -241,6 +348,7 @@
         <nav class="dashboard-sidebar">
 <!--            <img src="img/ruouicon.jpg" class="pic-logo">-->
             <ul class="sidebar-items">
+                <li><a href="#" class="a-with-icon selected"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
@@ -249,7 +357,7 @@
                 <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
             </ul>
-            <div class="text">Được update tới 2025</div>
+            <div class="text">━ Được update tới 2025 ━</div>
         </nav>
         <div class="dashboard-content">
             <header class="dashboard-header">
@@ -258,7 +366,7 @@
                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
                 </div>
                 <div class="group-icon">
-                    <ion-icon name="notifications-outline" class="icon-header"></ion-icon>
+                    <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
                     <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
                 </div>
             </header>
@@ -299,8 +407,27 @@
             </div>
         </div>
     </div>
+    <div class="modal-overlay-notification" id="notification-account-modal">
+        <div class="modal-content-notification">
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2 class="notification-title">Thông báo</h2>
+            <div class="notification-empty-state">
+                <ion-icon name="notifications-off-outline"></ion-icon>
+                <p>Hiện tại chưa có thông báo mới</p>
+            </div>
+        </div>
+    </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+    <script src="popup.js"></script>
+    <script>
+        // Run Pop-up function
+        document.addEventListener("DOMContentLoaded", function() {
+            setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        });
+    </script>
 </body>
 </html>

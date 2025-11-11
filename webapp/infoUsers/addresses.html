@@ -247,40 +247,6 @@
             }
         };
 
-        const removeDefaultBadge = () => {
-            const currentDefault = addressList.querySelector('.default-badge');
-            if (currentDefault) {
-                currentDefault.remove();
-            }
-        };
-
-        const setDefaultAddress = (card) => {
-            removeDefaultBadge();
-            const nameP = card.querySelector('.name');
-            nameP.innerHTML += ' <span class="default-badge">Mặc định</span>';
-        };
-
-        const createAddressCard = (name, phone, address, isDefault) => {
-            const card = document.createElement('div');
-            card.className = 'address-card';
-            card.innerHTML = `
-                <div class="address-card-details">
-                    <p class="name">${name}</p>
-                    <p class="phone">${phone}</p>
-                    <p class="address">${address}</p>
-                </div>
-                <div class="address-card-actions">
-                    <button class="btn set-default-btn">Đặt làm mặc định</button>
-                    <button class="btn edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn delete-btn"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            `;
-            addressList.appendChild(card);
-            if (isDefault) {
-                setDefaultAddress(card);
-            }
-        };
-
         addressForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const name = this.elements.fullName.value;
@@ -293,7 +259,7 @@
                 editingCard.querySelector('.phone').textContent = phone;
                 editingCard.querySelector('.address').textContent = address;
             } else {
-                createAddressCard(name, phone, address, null);
+                alert("tạo thành công")
             }
 
             closeModal();
@@ -307,7 +273,7 @@
 
             if (target.classList.contains('delete-btn')) {
                 if (confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
-                    card.remove();
+                    alert("xóa thành công");
                 }
             }
 
@@ -316,20 +282,16 @@
                 const name = card.querySelector('.name').textContent.replace(/ <span.*<\/span>/, '');
                 const phone = card.querySelector('.phone').textContent;
                 const address = card.querySelector('.address').textContent;
-                const isDefault = card.querySelector('.default-badge') !== null;
 
                 addressForm.elements.fullName.value = name;
                 addressForm.elements.phone.value = phone;
                 addressForm.elements.addressDetail.value = address;
-                addressForm.elements.isDefault.checked = isDefault;
 
                 modalTitle.textContent = 'Chỉnh sửa địa chỉ';
                 openModal();
+                alert("Chỉnh sửa thành công")
             }
 
-            if (target.classList.contains('set-default-btn')) {
-                setDefaultAddress(card);
-            }
         });
 
     })();

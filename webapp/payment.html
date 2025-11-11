@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Thanh Toán</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" async/>
+    <link rel="stylesheet" href="css/store_style.css">
+    <link rel="stylesheet" href="css/payment_style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="header">
+        <div class="container">
+            <div class="header-center">
+                <a href="index.html" class="logo">LOGO</a>
+            </div>
+
+            <div class="header-right">
+                <a href="#" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </a>
+                <a href="#" aria-label="Account">
+                    <i class="fas fa-user"></i>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="nav">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#" class="active">Trang Chủ</a>
+                    </li>
+                    <li><a href="">Rượu Vang</a></li>
+                    <li><a href="">Pages</a></li>
+                    <li><a href="">Blog</a></li>
+                    <li><a href="">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="cart-details">
+        <table>
+            <thead>
+            <tr>
+                <th>SẢN PHẨM</th>
+                <th>GIÁ</th>
+                <th>SỐ LƯỢNG</th>
+                <th>TỔNG</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <button class="remove-item">×</button>
+                    <img src="https://via.placeholder.com/50" alt="Wine Bottle"> Rượu Vang Đỏ
+                </td>
+                <td>1.500.000 VND</td>
+                <td>
+                    <div class="quantity">
+                        1
+                    </div>
+                </td>
+                <td>1.500.000 VND</td>
+                <td class="last">
+                    <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <div class="cart-actions">
+            <a href="store.html" class="button continue-shopping"> <i class="fa-solid fa-arrow-left"></i> TIẾP TỤC
+                XEM SẢN PHẨM</a>
+        </div>
+    </div>
+    <dialog id="pageDialog">
+        <button id="closeDialog" aria-label="Đóng">&times;</button>
+        <iframe src="infoUsers/addresses.html"></iframe>
+    </dialog>
+    <div class="payment-form">
+        <div class="billing-details">
+            <div class="billing-header">
+                <h2>THÔNG TIN THANH TOÁN</h2>
+                <button class="btn-edit-info">Thay đổi thông tin</button>
+            </div>
+            <div id="user-info">
+                <p><strong>Họ và tên:</strong> <span id="display-fullname">Nguyễn Văn A</span></p>
+                <p><strong>Địa chỉ giao hàng:</strong> <span id="display-address">123 Đường ABC, Phường XYZ, Quận 1,
+                            TP. Hồ Chí Minh</span></p>
+                <p><strong>Số điện thoại:</strong> <span id="display-phone">0987654321</span></p>
+                <p><strong>Địa chỉ email:</strong> <span id="display-email">nguyenvan@example.com</span></p>
+            </div>
+            <h2>THÔNG TIN BỔ SUNG</h2>
+            <p>
+                <label for="notes">Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết
+                    hơn.</label>
+                <textarea id="notes" name="notes"></textarea>
+            </p>
+        </div>
+        <div class="order-summary">
+            <h2>ĐƠN HÀNG CỦA BẠN</h2>
+            <div class="coupon-code">
+                <input type="text" id="coupon" name="coupon" placeholder="Mã khuyến mãi">
+                <button type="button" class="button">Áp dụng</button>
+            </div>
+            <table>
+                <tbody>
+                <tr>
+                    <th>SẢN PHẨM</th>
+                    <td>Rượu Vang Đỏ × 1</td>
+                </tr>
+                <tr>
+                    <th>Số lượng</th>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Tổng phụ</th>
+                    <td>1.500.000 VND</td>
+                </tr>
+                <tr>
+                    <th>Khuyến mãi</th>
+                    <td>- 0 VND</td>
+                </tr>
+                <tr>
+                    <th>Tổng</th>
+                    <td><strong>1.500.000 VND</strong></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="age-verification">
+                <input type="checkbox" id="age-verify" name="age-verify" required>
+                <label for="age-verify">Tôi xác nhận tôi đã đủ tuổi hợp pháp để mua rượu.</label>
+            </div>
+            <div class="group-button">
+                <button type="submit" class="button" id="place-order-btn">ĐẶT HÀNG</button>
+                <button type="reset" class="button-cancel">HỦY</button>
+            </div>
+        </div>
+    </div>
+    <div id="success-modal" class="modal">
+            <div class="modal-content success-modal-content">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Đặt hàng thành công!</h2>
+                <p>Cảm ơn bạn đã mua hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất có thể.</p>
+                <div class="order-details-summary">
+                    <h3>Chi tiết đơn hàng</h3>
+                    <p><strong>Mã đơn hàng:</strong> <span id="order-id">#123456</span></p>
+                    <p><strong>Ngày đặt:</strong> <span id="order-date">11/08/2025</span></p>
+                    <p><strong>Tổng cộng:</strong> <span id="order-total">1.500.000 VND</span></p>
+                    <p><strong>Phương thức thanh toán:</strong> <span>Thanh toán khi nhận hàng</span></p>
+                </div>
+                <button id="back-to-home" class="button">Quay về trang chủ</button>
+            </div>
+        </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h4 class="footer-heading">Về Chúng Tôi</h4>
+                <p class="footer-text">
+                    Mô tả ngắn gọn về dự án của bạn.
+                    Nội dung này giúp người dùng hiểu rõ hơn về mục đích của bạn.
+                </p>
+                <div class="footer-socials">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Liên Kết Nhanh</h4>
+                <ul class="footer-links">
+                    <li><a href="">Trang chủ</a></li>
+                    <li><a href="">Giới thiệu</a></li>
+                    <li><a href="">Dịch vụ</a></li>
+                    <li><a href="">Liên hệ</a></li>
+                    <li><a href="">Chính sách</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Liên Hệ</h4>
+                <ul class="footer-contact">
+                    <li><strong>Địa chỉ:</strong> Khu Phố 6, P. Linh Trung, Q. Thủ Đức, TP.HCM</li>
+                    <li><strong>Email:</strong> Olenydev@gmail.com</li>
+                    <li><strong>Điện thoại:</strong> (+84) 1234 5678</li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Khoa Công Nghệ Thông Tin.</p>
+        </div>
+
+    </div>
+</footer>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ageVerifyCheckbox = document.getElementById('age-verify');
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            const successModal=document.getElementById('success-modal');
+
+            ageVerifyCheckbox.addEventListener('change', function () {
+                placeOrderBtn.disabled = !this.checked;
+            });
+
+
+            placeOrderBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (!ageVerifyCheckbox.checked) {
+                    document.querySelector('.age-verification').classList.add('error');
+                    alert("Bạn phải xác nhận đủ tuổi để đặt hàng.");
+
+                    return;
+                }
+                document.querySelector('.age-verification').classList.remove('error');
+                successModal.style.display = "block";
+            });
+
+        });
+    </script>
+<script>
+
+    const dialog = document.getElementById("pageDialog");
+    const openBtn = document.querySelector(".btn-edit-info");
+    const closeBtn = document.getElementById("closeDialog");
+
+    openBtn.addEventListener("click", () => dialog.showModal());
+    closeBtn.addEventListener("click", () => dialog.close());
+</script>
+</body>
+

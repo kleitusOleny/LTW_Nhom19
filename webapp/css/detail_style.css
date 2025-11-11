@@ -992,6 +992,15 @@ textarea.form-control {
 .product-rating {
     margin-bottom: 15px;
 }
+
+.product-rating label{
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
 .product-rating .fa-star {
     font-size: 16px;
     margin: 0 1px;

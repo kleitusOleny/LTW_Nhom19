@@ -1,0 +1,247 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản Lí Sản Phẩm</title>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="popup.js"></script>
+    <link rel="stylesheet" href="css/manage_product_style.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <nav class="dashboard-sidebar">
+        <ul class="sidebar-items">
+            <li><a href="#" class="a-with-icon selected"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+        </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
+    </nav>
+    <div class="dashboard-content">
+        <header class="dashboard-header">
+            <div class="search">
+                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+            </div>
+            <div class="group-icon">
+                <ion-icon name="home-outline" class="icon-header main-page"></ion-icon>
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
+            </div>
+        </header>
+        <main class="dashboard-main-content">
+
+            <div class="main-header">
+                <h1>Quản Lí Sản Phẩm</h1>
+                <button class="btn btn-primary" id="add-product-btn">
+                    <ion-icon name="add-outline"></ion-icon>
+                    Thêm Sản Phẩm Mới
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table class="product-table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>Sản Phẩm</th>
+                        <th>SKU</th>
+                        <th>Giá</th>
+                        <th>Tồn Kho (Trạng thái)</th> <th>Hành Động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td class="product-cell">
+                            <img src="img/SKU__VD_0845-17.jpg" alt="Product Image">
+                            <span>Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</span>
+                        </td>
+                        <td>VD/0845-17</td>
+                        <td>5.989.500₫</td>
+                        <td><span class="stock-status in-stock">150</span></td>
+                        <td class="action-buttons">
+                            <button class="btn-action edit" id="edit-product-btn"><ion-icon name="pencil-outline"></ion-icon></button>
+                            <button class="btn-action delete" id="delete-product-btn"><ion-icon name="trash-outline"></ion-icon></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td class="product-cell">
+                            <img src="img/SKU__VD_1170.png" alt="Product Image">
+                            <span>Rượu vang hồng Dufouleur Monopole</span>
+                        </td>
+                        <td>VD/1170</td>
+                        <td>351.000₫</td>
+                        <td><span class="stock-status low-stock">5</span></td>
+                        <td class="action-buttons">
+                            <button class="btn-action edit"><ion-icon name="pencil-outline"></ion-icon></button>
+                            <button class="btn-action delete"><ion-icon name="trash-outline"></ion-icon></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td class="product-cell">
+                            <img src="img/SKU__VD_0939.png" alt="Product Image">
+                            <span>Rượu vang sủi Freixenet Italian Rosé</span>
+                        </td>
+                        <td>VD/0939</td>
+                        <td>787.000₫</td>
+                        <td><span class="stock-status out-of-stock">0</span></td>
+                        <td class="action-buttons">
+                            <button class="btn-action edit"><ion-icon name="pencil-outline"></ion-icon></button>
+                            <button class="btn-action delete"><ion-icon name="trash-outline"></ion-icon></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-container">
+                <span class="pagination-info">Hiển thị 1-3 trên 13 sản phẩm</span>
+                <div class="pagination-buttons">
+                    <button class="btn-page" disabled><ion-icon name="chevron-back-outline"></ion-icon></button>
+                    <button class="btn-page active">1</button>
+                    <button class="btn-page">2</button>
+                    <button class="btn-page">3</button>
+                    <button class="btn-page"><ion-icon name="chevron-forward-outline"></ion-icon></button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-content-notification">
+        <button class="modal-close" id="close-modal-btn8">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <h2 class="notification-title">Thông báo</h2>
+        <div class="notification-empty-state">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+            <p>Hiện tại chưa có thông báo mới</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay-form" id="product-form-modal">
+    <div class="modal-content-form">
+        <button class="modal-close-form" id="close-form-btn">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <h2>Thêm Sản Phẩm Mới</h2>
+
+        <form action="#">
+            <div class="form-group">
+                <label for="prod-id">ID (Khóa chính / SKU)</label>
+                <input type="text" id="prod-id" value="SKU: VD/0998-18">
+            </div>
+            <div class="form-group">
+                <label for="prod-name">Tên sản phẩm</label>
+                <input type="text" id="prod-name" value="Rượu vang đỏ Château La Vieille Cure...">
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="prod-type">Loại rượu (typealcohol)</label>
+                    <input type="text" id="prod-type" value="Rượu Vang Đỏ">
+                </div>
+                <div class="form-group">
+                    <label for="prod-origin">Xuất xứ (origin)</label>
+                    <input type="text" id="prod-origin" value="Pháp">
+                </div>
+                <div class="form-group">
+                    <label for="prod-manufacturer">Nhà sản xuất (manufacturer)</label>
+                    <input type="text" id="prod-manufacturer" value="Château La Vieille Cure">
+                </div>
+                <div class="form-group">
+                    <label for="prod-price">Giá (price)</label>
+                    <input type="number" id="prod-price" value="1573000">
+                </div>
+                <div class="form-group">
+                    <label for="prod-capacity">Dung tích (capacity)</label>
+                    <input type="text" id="prod-capacity" value="750ML">
+                </div>
+                <div class="form-group">
+                    <label for="prod-alcohol">Nồng độ (alcohol)</label>
+                    <input type="text" id="prod-alcohol" value="15.0">
+                </div>
+                <div class="form-group">
+                    <label for="prod-stock">Số lượng tồn kho</label>
+                    <input type="number" id="prod-stock" value="150">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="prod-category">Danh mục (category)</label>
+                <input type="text" id="prod-category" value="Bordeaux, Fronsac, Rượu Vang Nhập Khẩu...">
+            </div>
+
+            <div class="form-group">
+                <label for="prod-tag">Thẻ (tag)</label>
+                <input type="text" id="prod-tag" value="">
+            </div>
+
+            <div class="form-group">
+                <label for="prod-image">Hình ảnh sản phẩm</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="prod-image" class="file-upload-input" accept="image/png, image/jpeg">
+                    <label for="prod-image" class="file-upload-label">
+                        <ion-icon name="cloud-upload-outline"></ion-icon>
+                        <span>Nhấn để tải ảnh lên</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="prod-detail">Mô tả chi tiết (detail)</label>
+                <textarea id="prod-detail" rows="6"></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="cancel-form-btn">Hủy Bỏ</button>
+                <button type="submit" class="btn btn-primary">Lưu Sản Phẩm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay-form" id="delete-confirm-modal" style="--modal-width: 450px;">
+    <div class="modal-content-form">
+        <button class="modal-close-form" id="close-delete-btn">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <h2 class="modal-confirm-title">
+            <ion-icon name="warning-outline"></ion-icon>
+            Xác nhận xóa
+        </h2>
+        <p class="modal-confirm-text">Bạn có chắc chắn muốn xóa sản phẩm này không? Hành động này không thể hoàn tác.</p>
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-delete-btn">Hủy Bỏ</button>
+            <button type="button" class="btn btn-danger" id="ac-delete-btn">Xác Nhận Xóa</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Pop-up Notification
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+
+        // Pop-up Form Sản Phẩm
+        setupModal('product-form-modal', 'add-product-btn', 'close-form-btn');
+        setupModal('product-form-modal', 'cancel-form-btn', 'cancel-form-btn');
+
+        //Pop-up edit
+        setupModal('product-form-modal','edit-product-btn','close-form-btn');
+        setupModal('delete-confirm-modal','delete-product-btn','cancel-delete-btn')
+        setupModal('delete-confirm-modal','delete-product-btn','ac-delete-btn')
+
+    });
+</script>
+</body>
+</html>
