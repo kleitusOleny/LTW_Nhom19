@@ -2,8 +2,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard</title>
+    <title>Charts</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="popup.js"></script>
     <style>
         * {
             margin: 0;
@@ -28,20 +31,18 @@
             background-color: #eaedfd;
             height: 70px;
         }
-
         .sidebar-items {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
             list-style-type: none;
+            width: 250px;
             position: fixed;
             top: 120px;
             height: 100vh;
             overflow-y: auto;
-            width: 250px;
         }
-
         .a-with-icon {
             text-decoration: none;
             color: rgba(255, 255, 255, 0.8);
@@ -56,6 +57,7 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             border: 1px solid transparent;
         }
+        /* Giả lập Hover cho trang chỉ định */
         .a-with-icon.selected {
             border-color: #6341ff;
             background-color: #343746;
@@ -118,7 +120,7 @@
             border-radius: 50%;
             padding: 5px 5px 5px 5px;
         }
-        #searchIcon:hover, .icon-header:hover:not(.main-page) {
+        #searchIcon:hover, .icon-header:hover {
             color: #6341ff;
             transform: scale(1.1);
             transition: transform 0.2s ease;
@@ -136,114 +138,14 @@
         }
 
         .dashboard-main-content {
-            padding: 30px;
-            background-color: #f4f7fa;
+            padding: 10px 30px 0px 30px;
             flex-grow: 1;
         }
 
         .dashboard-main-content h1 {
             font-size: 28px;
             color: #21232d;
-            margin-bottom: 25px;
             text-align: center;
-        }
-
-        .stat-cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive */
-            gap: 20px;
-        }
-
-        .stat-card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 2px solid transparent;
-        }
-
-        .stat-card:hover {
-            border-color: #6341ff;
-            transform: translateY(-5px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-        }
-
-        .stat-card h3 {
-            font-size: 16px;
-            color: #555;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-
-        .stat-card .stat-number {
-            font-size: 32px;
-            font-weight: bold;
-            color: #21232d;
-            margin-bottom: 10px;
-        }
-
-        .stat-card .stat-description {
-            font-size: 13px;
-            color: #888;
-        }
-
-        .stat-card:nth-child(1) .stat-number {
-            color: #6341ff;
-        }
-        .stat-card:nth-child(2) .stat-number {
-            color: #28a745;
-        }
-        .stat-card:nth-child(3) .stat-number {
-            color: #007bff;
-        }
-        .stat-card:nth-child(4) .stat-number {
-            color: #dc3545;
-        }
-        #todo-list-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 40%;
-            padding-left: 30px;
-            padding-top: 20px;
-        }
-        #contain-todo {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .todo {
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            height: 50px;
-            color: #555;
-        }
-        .todo:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-color: #6341ff;
-        }
-        .todo.finish {
-            border-left: 6px solid #28a745;
-        }
-        .todo.not-finish {
-            border-left: 6px solid #dc3545;
-        }
-        .todo.waiting {
-            border-left: 6px solid #f3c22d;
-        }
-        #todo-list-container h2, #todo-list-chart h2 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        #todo-list-chart h2 {
-            justify-content: center;
         }
 
         /* Notification */
@@ -346,52 +248,83 @@
             text-align: center;
             margin: 0;
         }
-        .group-todo {
-            display: flex;
-            flex-direction: row;
-            gap: 40px;
-            align-items: flex-start;
-            background: #f4f7fa;
-        }
-
-        .group-todo #todo-list-container {
-            flex: 1;
-            padding: 20px 30px;
-            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-            border-radius: 5px;
-            background: white;
-            border-top: 2px solid transparent;
-            border-right: 2px solid transparent;
-            border-bottom: 2px solid transparent;
-        }
-
-        .group-todo #todo-list-container:hover {
-            border-color: #6341ff;
-        }
-
-        .group-todo #todo-list-chart {
-            flex-shrink: 0;
-            width: 300px;
-            padding: 20px 30px 30px 30px;
-            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-            border-radius: 5px;
+        /* ---------------------------- */
+        .dashboard-main-content {
+            background-color: #f4f7fa;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            height: 340px;
-            background: white;
-            border: 2px solid transparent;
+            gap: 20px;
         }
-        .group-todo #todo-list-chart:hover {
+        .stat {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+        }
+        .stat:hover {
             border-color: #6341ff;
         }
-
-        .group-todo #todo-list-chart h2 {
-            margin-top: 0;
+        .dashboard-main-content .group {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
         }
-
-        .group-todo #todo-list-chart #chart {
-            margin-top: 20px;
+        .sub-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .group .chart-accounts {
+            height: 235px;
+        }
+        .group .chart-accounts h2 {
+            margin-bottom: 20px;
+        }
+        .group .chart-customers-live {
+            width: 650px;
+            height: 400px;
+        }
+        .group-switch {
+            position: fixed;
+            bottom: 20px;
+            left: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            background-color: #fff;
+            padding: 10px 15px;
+            border-radius: 12px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        .group-switch button {
+            background: #efefef;
+            padding: 15px 20px 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+        }
+        .group-switch button:hover {
+            background: #6341ff;
+            color: #fff;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+        .group-switch .group-p {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+        }
+        .group-switch #p1{
+            color: #6c757d;
+        }
+        .group-switch #p2{
+            color: #8d93ff;
+        }
+        .selected-btn {
+            color: #0925c7;
+            outline: 2px solid #a4abf6;
         }
     </style>
 </head>
@@ -399,14 +332,14 @@
     <div class="dashboard-container">
         <nav class="dashboard-sidebar">
             <ul class="sidebar-items">
-                <li><a href="#" class="a-with-icon selected"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+                <li><a href="#" class="a-with-icon selected"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
             </ul>
             <div class="text">━ Được update tới 2025 ━</div>
         </nav>
@@ -422,46 +355,32 @@
                 </div>
             </header>
             <main class="dashboard-main-content">
-                <h1>Chào mừng quay trở lại, Admin!</h1>
-                <div class="stat-cards-container">
-                    <div class="stat-card">
-                        <h3>Đơn Hàng Mới</h3>
-                        <p class="stat-number">0</p>
-                        <span class="stat-description">Trong 24 giờ qua</span>
+                <h1>Tổng quan thống kê về người dùng</h1>
+                <div class="group">
+                    <div class="stat chart-customers-live">
+                        <h2>Phân bố người dùng</h2>
+                        <div id="chart"></div>
                     </div>
-                    <div class="stat-card">
-                        <h3>Tổng Doanh Thu (Tháng)</h3>
-                        <p class="stat-number">0đ</p>
-                        <span class="stat-description">Tháng 10, 2025</span>
+                    <div class="sub-group">
+                        <div class="stat chart-accounts">
+                            <h2>Số lượng tài khoản đăng nhập trang web</h2>
+                            <div id="chart-line1"></div>
+                        </div>
+                        <div class="stat chart-delivery">
+                            <h2>Trạng thái đơn hàng</h2>
+                            <div id="chart-pie"></div>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <h3>Khách Hàng Mới</h3>
-                        <p class="stat-number">0</p>
-                        <span class="stat-description">Trong tuần này</span>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Sắp Hết Hàng</h3>
-                        <p class="stat-number">0</p>
-                        <span class="stat-description">Sản phẩm có SL < 5</span>
+                </div>
+                <div class="group-switch">
+                    <button class="selected-btn">1</button>
+                    <button class="unselected-btn">2</button>
+                    <button class="unselected-btn">3</button>
+                    <div class="group-p">
+                        <p id="p1">Bạn hiện đang ở</p><p id="p2">Trang 1</p>
                     </div>
                 </div>
             </main>
-            <div class="group-todo">
-                <div id="todo-list-container">
-                    <h2><ion-icon name="document-attach-outline"></ion-icon>Những Việc Cần Làm</h2>
-                    <div id="contain-todo">
-                        <div class="todo finish">Kiểm Duyệt Lại Sản Phẩm 29/10</div>
-                        <div class="todo finish">Liên Hệ Đối Tác Nhập Thêm Hàng</div>
-                        <div class="todo waiting">Xét Duyệt Thông Tin Cá Nhân Khách Hàng</div>
-                        <div class="todo not-finish">Kiểm Duyệt Bảo Mật Website</div>
-                        <div class="todo not-finish">Kiểm Duyệt Bản Quyền</div>
-                    </div>
-                </div>
-                <div id="todo-list-chart">
-                    <h2><ion-icon name="bar-chart-outline"></ion-icon>Tiến độ công việc</h2>
-                    <div id="chart"></div>
-                </div>
-            </div>
         </div>
     </div>
     <div class="modal-overlay-notification" id="notification-account-modal">
@@ -476,35 +395,162 @@
             </div>
         </div>
     </div>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
-    <script src="popup.js"></script>
-    <script>
-        // Run Pop-up function
-        document.addEventListener("DOMContentLoaded", function() {
-            setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
-        });
 
-        var options = {
-            series: [70],
-            chart: {
-                height: 350,
-                type: 'radialBar',
-            },
-            colors: ['#2ec72e'],
-            plotOptions: {
-                radialBar: {
-                    hollow: {
-                        size: '70%',
-                    }
+<script>
+    var options2 = {
+        series: [120, 65, 47],
+        chart: {
+            width: 380,
+            type: 'pie',
+        },
+        labels: ['Đã xác nhận', 'Đang giao hàng', 'Đã hoàn thành'],
+        colors: ['#992ce1', '#2c80e1', '#2ec72e'],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
                 },
-            },
-            labels: ['Hoàn thành'],
-        };
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }],
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return "Số lượng " + val
+                }
+            }
+        }
+    };
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
-    </script>
+    var chart = new ApexCharts(document.querySelector("#chart-pie"), options2);
+    chart.render();
+    // --------
+    var options = {
+        series: [{
+            name: 'Đã bán',
+            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200]
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                borderRadiusApplication: 'end',
+                horizontal: true,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: [
+                'Thanh Hoá', 'Kiên Giang', 'Tiền Giang', 'Tây Ninh', 'Đắk Lắk', 'Thừa Thiên Huế', 'Đà Nẵng', 'Hà Nội', 'TPHCM'
+            ],
+        },
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return val + " khách mua"
+                }
+            }
+        }
+    };
+
+    var chart2 = new ApexCharts(document.querySelector("#chart"), options);
+    chart2.render();
+    // ---------
+    var optionsLine2 = {
+        series: [{
+            name: "Tài Khoản",
+            data: [10, 24, 15, 28, 22, 31, 35, 39, 48, 50, 66, 100]
+        }],
+        xaxis: {
+            categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
+        },
+        chart: {
+            id: 'tw',
+            type: 'line',
+            height: 160
+        },
+        colors: ['#367379']
+    };
+
+    var chartLine2 = new ApexCharts(document.querySelector("#chart-line1"), optionsLine2);
+    chartLine2.render();
+
+    // ---
+    var options3 = {
+        series: [
+            {
+                name: "Đã bán",
+                data: [28, 29, 33, 36, 32, 32, 33, 50, 43, 56, 41, 58]
+            },
+            {
+                name: "Tồn đọng",
+                data: [12, 11, 14, 18, 17, 13, 13, 200, 157, 101, 60, 21]
+            }
+        ],
+        chart: {
+            height: 350,
+            type: 'line',
+            dropShadow: {
+                enabled: true,
+                color: '#000',
+                top: 18,
+                left: 7,
+                blur: 10,
+                opacity: 0.5
+            },
+            zoom: {
+                enabled: false
+            },
+            toolbar: {
+                show: false
+            }
+        },
+        colors: ['#18c70a', '#2c80e1'],
+        dataLabels: {
+            enabled: true,
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        grid: {
+            borderColor: '#e7e7e7',
+            row: {
+                colors: ['#f3f3f3', 'transparent'],
+                opacity: 0.5
+            },
+        },
+        markers: {
+            size: 1
+        },
+        xaxis: {
+            categories:
+                ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            floating: true,
+            offsetY: -25,
+            offsetX: -5
+        },
+    };
+
+    var chart3 = new ApexCharts(document.querySelector("#chart-line2"), options3);
+    chart3.render();
+</script>
+<script>
+    // Run Pop-up function
+    document.addEventListener("DOMContentLoaded", function() {
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+    });
+</script>
 </body>
 </html>

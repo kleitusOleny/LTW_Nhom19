@@ -26,8 +26,12 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    padding-top: 150px;
     list-style-type: none;
+    position: fixed;
+    top: 120px;
+    height: 100vh;
+    width: 250px;
+    overflow-y: auto;
 }
 .a-with-icon {
     text-decoration: none;
