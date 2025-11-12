@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Charts</title>
+    <title>Charts3</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -37,10 +37,10 @@
             align-items: center;
             gap: 15px;
             list-style-type: none;
-            width: 250px;
             position: fixed;
             top: 120px;
             height: 100vh;
+            width: 250px;
             overflow-y: auto;
         }
         .a-with-icon {
@@ -138,13 +138,14 @@
         }
 
         .dashboard-main-content {
-            padding: 10px 30px 0px 30px;
+            padding: 30px;
             flex-grow: 1;
         }
 
         .dashboard-main-content h1 {
             font-size: 28px;
             color: #21232d;
+            margin-bottom: 25px;
             text-align: center;
         }
 
@@ -250,39 +251,20 @@
         }
         /* ---------------------------- */
         .dashboard-main-content {
-            background-color: #f4f7fa;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            background-color: #f4f7fa;
+            margin-bottom: 80px;
         }
-        .stat {
+        .group-chart, .group-chart2 {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             border: 1px solid transparent;
         }
-        .stat:hover {
+        .group-chart:hover, .group-chart2:hover {
             border-color: #6341ff;
-        }
-        .dashboard-main-content .group {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-        }
-        .sub-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .group .chart-accounts {
-            height: 235px;
-        }
-        .group .chart-accounts h2 {
-            margin-bottom: 20px;
-        }
-        .group .chart-customers-live {
-            width: 650px;
-            height: 400px;
         }
         .group-switch {
             position: fixed;
@@ -290,8 +272,8 @@
             left: 300px;
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 15px;
+            align-items: center;
             background-color: #fff;
             padding: 10px 15px;
             border-radius: 12px;
@@ -329,109 +311,72 @@
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <nav class="dashboard-sidebar">
-            <ul class="sidebar-items">
-                <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-                <li><a href="#" class="a-with-icon selected"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
-            </ul>
-            <div class="text">━ Được update tới 2025 ━</div>
-        </nav>
-        <div class="dashboard-content">
-            <header class="dashboard-header">
-                <div class="search">
-                    <input type="text">
-                    <ion-icon name="search-outline" id="searchIcon"></ion-icon>
-                </div>
-                <div class="group-icon">
-                    <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
-                    <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
-                </div>
-            </header>
-            <main class="dashboard-main-content">
-                <h1>Tổng quan thống kê về người dùng</h1>
-                <div class="group">
-                    <div class="stat chart-customers-live">
-                        <h2>Phân bố người dùng</h2>
-                        <div id="chart"></div>
-                    </div>
-                    <div class="sub-group">
-                        <div class="stat chart-accounts">
-                            <h2>Số lượng tài khoản đăng nhập trang web</h2>
-                            <div id="chart-line1"></div>
-                        </div>
-                        <div class="stat chart-delivery">
-                            <h2>Trạng thái đơn hàng</h2>
-                            <div id="chart-pie"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="group-switch">
-                    <button class="selected-btn">1</button>
-                    <button class="unselected-btn">2</button>
-                    <button class="unselected-btn">3</button>
-                    <div class="group-p">
-                        <p id="p1">Bạn hiện đang ở</p><p id="p2">Trang 1</p>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
-    <div class="modal-overlay-notification" id="notification-account-modal">
-        <div class="modal-content-notification">
-            <button class="modal-close" id="close-modal-btn8">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
-            <h2 class="notification-title">Thông báo</h2>
-            <div class="notification-empty-state">
-                <ion-icon name="notifications-off-outline"></ion-icon>
-                <p>Hiện tại chưa có thông báo mới</p>
+<div class="dashboard-container">
+    <nav class="dashboard-sidebar">
+        <ul class="sidebar-items">
+            <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="#" class="a-with-icon selected"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+        </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
+    </nav>
+    <div class="dashboard-content">
+        <header class="dashboard-header">
+            <div class="search">
+                <input type="text">
+                <ion-icon name="search-outline" id="searchIcon"></ion-icon>
             </div>
+            <div class="group-icon">
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
+            </div>
+        </header>
+        <main class="dashboard-main-content">
+            <h1>Tổng quan thống kê về tin tức được cập nhật</h1>
+            <div class="group-chart">
+                <h2>Blog được yêu thích nhất theo tháng</h2>
+                <div id="chart"></div>
+            </div>
+            <div class="group-switch">
+                <button class="unselected-btn">1</button>
+                <button class="unselected-btn">2</button>
+                <button class="selected-btn">3</button>
+                <div class="group-p">
+                    <p id="p1">Bạn hiện đang ở</p><p id="p2">Trang 3</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-content-notification">
+        <button class="modal-close" id="close-modal-btn8">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <h2 class="notification-title">Thông báo</h2>
+        <div class="notification-empty-state">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+            <p>Hiện tại chưa có thông báo mới</p>
         </div>
     </div>
+</div>
 
 <script>
-    var options2 = {
-        series: [120, 65, 47],
-        chart: {
-            width: 380,
-            type: 'pie',
-        },
-        labels: ['Đã xác nhận', 'Đang giao hàng', 'Đã hoàn thành'],
-        colors: ['#992ce1', '#2c80e1', '#2ec72e'],
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }],
-        tooltip: {
-            y: {
-                formatter: function (val) {
-                    return "Số lượng " + val
-                }
-            }
-        }
-    };
-
-    var chart = new ApexCharts(document.querySelector("#chart-pie"), options2);
-    chart.render();
-    // --------
     var options = {
         series: [{
-            name: 'Đã bán',
-            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200]
+            name: 'Lượt thích',
+            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+        }, {
+            name: 'Bình luận',
+            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+        }, {
+            name: 'Lượt không yêu thích',
+            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
         }],
         chart: {
             type: 'bar',
@@ -439,112 +384,54 @@
         },
         plotOptions: {
             bar: {
-                borderRadius: 4,
-                borderRadiusApplication: 'end',
-                horizontal: true,
-            }
+                horizontal: false,
+                columnWidth: '55%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
         },
         dataLabels: {
             enabled: false
         },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
         xaxis: {
             categories: [
-                'Thanh Hoá', 'Kiên Giang', 'Tiền Giang', 'Tây Ninh', 'Đắk Lắk', 'Thừa Thiên Huế', 'Đà Nẵng', 'Hà Nội', 'TPHCM'
-            ],
-        },
-        tooltip: {
-            y: {
-                formatter: function (val) {
-                    return val + " khách mua"
-                }
-            }
-        }
-    };
-
-    var chart2 = new ApexCharts(document.querySelector("#chart"), options);
-    chart2.render();
-    // ---------
-    var optionsLine2 = {
-        series: [{
-            name: "Tài Khoản",
-            data: [10, 24, 15, 28, 22, 31, 35, 39, 48, 50, 66, 100]
-        }],
-        xaxis: {
-            categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
-        },
-        chart: {
-            id: 'tw',
-            type: 'line',
-            height: 160
-        },
-        colors: ['#367379']
-    };
-
-    var chartLine2 = new ApexCharts(document.querySelector("#chart-line1"), optionsLine2);
-    chartLine2.render();
-
-    // ---
-    var options3 = {
-        series: [
-            {
-                name: "Đã bán",
-                data: [28, 29, 33, 36, 32, 32, 33, 50, 43, 56, 41, 58]
-            },
-            {
-                name: "Tồn đọng",
-                data: [12, 11, 14, 18, 17, 13, 13, 200, 157, 101, 60, 21]
-            }
-        ],
-        chart: {
-            height: 350,
-            type: 'line',
-            dropShadow: {
-                enabled: true,
-                color: '#000',
-                top: 18,
-                left: 7,
-                blur: 10,
-                opacity: 0.5
-            },
-            zoom: {
-                enabled: false
-            },
-            toolbar: {
-                show: false
-            }
-        },
-        colors: ['#18c70a', '#2c80e1'],
-        dataLabels: {
-            enabled: true,
-        },
-        stroke: {
-            curve: 'smooth'
-        },
-        grid: {
-            borderColor: '#e7e7e7',
-            row: {
-                colors: ['#f3f3f3', 'transparent'],
-                opacity: 0.5
-            },
-        },
-        markers: {
-            size: 1
-        },
-        xaxis: {
-            categories:
-                ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                ['Blog 1', 'Tháng 1'],
+                ['Blog 1', 'Tháng 2'],
+                ['Blog 3', 'Tháng 3'],
+                ['Blog 2', 'Tháng 4'],
+                ['Blog 5', 'Tháng 5'],
+                ['Blog 6', 'Tháng 6'],
+                ['Blog 9', 'Tháng 7'],
+                ['Blog 9', 'Tháng 8'],
+                ['Blog 7', 'Tháng 9']
+            ]
         },
         legend: {
-            position: 'top',
-            horizontalAlign: 'right',
-            floating: true,
-            offsetY: -25,
-            offsetX: -5
+            offsetY: 10
+        },
+        yaxis: {
+            title: {
+                text: 'Số lượng',
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    fontFamily: 'Mulish, sans-serif, serif',
+                    color: '#333'
+                }
+            }
+        },
+        fill: {
+            opacity: 1
         },
     };
 
-    var chart3 = new ApexCharts(document.querySelector("#chart-line2"), options3);
-    chart3.render();
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
 </script>
 <script>
     // Run Pop-up function
