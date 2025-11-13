@@ -18,22 +18,13 @@ ul {
     list-style: none;
 }
 
-/* Header*/
-.header {
+.header-top {
     background-color: #fff;
-    padding: 0 100px;
+    padding: 20px 100px;
     border-bottom: 1px solid #eee;
-    height: 80px;
-    display: flex;
-    align-items: center;
-
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-.header > .container {
+.header-top > .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,10 +34,6 @@ ul {
     padding: 0;
 }
 
-/* 1. Logo (Trái) */
-.header-logo{
-    flex: 1 0 auto; /* Co lại vừa đủ */
-}
 .header-logo .logo {
     font-family: 'Times New Roman', 'Georgia', serif;
     font-size: 32px;
@@ -56,10 +43,38 @@ ul {
     text-decoration: none;
 }
 
-.header-nav {
-    height: 100%;
+.header-right {
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 25px;
+    font-size: 22px;
+    color: #333;
 }
+.header-right a {
+    color: #333;
+    transition: color 0.3s ease;
+}
+.header-right a:hover {
+    color: #8c3333;
+}
+
+.header-nav-bar {
+    background-color: #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-nav-bar > .container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+}
+
 .header-nav ul {
     display: flex;
     justify-content: center;
@@ -69,8 +84,8 @@ ul {
 }
 .header-nav ul li a {
     display: block;
-    padding: 25px 20px;
-    color: #222;
+    padding: 22px 25px;
+    color: #eee;
     font-size: 20px;
     font-weight: 600;
     text-transform: capitalize;
@@ -88,59 +103,25 @@ ul {
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background-color: #8c3333;
+    background-color: #c78c8c;
     transition: width 0.3s ease;
 }
 .header-nav ul li a:hover,
 .header-nav ul li a.active {
-    color: #8c3333;
+    color: #c78c8c;
 }
 .header-nav ul li a:hover::after,
 .header-nav ul li a.active::after {
     width: calc(100% - 40px);
 }
 
-/* 3. Icons (Phải) */
-.header-right {
-    flex: 1 0 auto;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 25px;
-    font-size: 22px;
-    color: #333;
-}
-.header-right a {
-    color: #333;
-    transition: color 0.3s ease;
-}
-.header-right a:hover {
-    color: #8c3333;
-}
-
-/*CSS Dropdown */
 .header-nav ul li.has-dropdown {
-    position: relative;
-}
-.header-nav ul li a .fa-caret-down {
-    font-size: 14px;
-    margin-left: 5px;
-    transition: transform 0.3s ease;
-}
-.header-nav ul li.has-dropdown:hover .fa-caret-down {
-    transform: rotate(180deg);
-}
-/*
-CSS MỚI CHO MEGA MENU
-*/
-
-.header-nav ul li.has-dropdown {
-    position: static; /* Rất quan trọng! */
+    position: static;
 }
 
 .mega-menu {
     position: absolute;
-    top: 80px;
+    top: 100%;
     left: 0;
     width: 100%;
     background-color: #fff;
@@ -154,7 +135,7 @@ CSS MỚI CHO MEGA MENU
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s ease;
-    z-index: 100;
+    z-index: 999;
 }
 
 .header-nav ul li.has-dropdown:hover > .mega-menu {
@@ -163,21 +144,19 @@ CSS MỚI CHO MEGA MENU
     transform: translateY(0);
 }
 
+.mega-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
 .mega-menu-column{
     display: flex;
     flex-direction: column;
 }
 
-.mega-menu-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-
-    max-width: 1300px;
-    margin: 0 auto;
-}
-
-/*Tiêu đề mỗi cột */
 .mega-menu-title {
     font-size: 16px;
     font-weight: 700;
@@ -185,12 +164,10 @@ CSS MỚI CHO MEGA MENU
     text-transform: uppercase;
     margin-bottom: 20px;
     padding-bottom: 10px;
-
     border-bottom: 2px solid #8c3333;
     display: inline-block;
 }
 
-/* Danh sách link */
 .mega-menu-list {
     display: flex;
     flex-direction: column;
@@ -204,7 +181,6 @@ CSS MỚI CHO MEGA MENU
     margin-bottom: 10px;
 }
 
-/*Các link con*/
 .mega-menu-list li a.mega-menu-link {
     display: block;
     padding: 5px 0;
@@ -213,17 +189,17 @@ CSS MỚI CHO MEGA MENU
     color: #333;
     text-decoration: none !important;
     transition: color 0.3s;
-    background-color: white !important;
 }
+
+.mega-menu-list li a.mega-menu-link:hover {
+    color: #8c3333;
+    text-decoration: none !important;
+}
+
 .mega-menu-list li a.mega-menu-link::after {
     display: none !important;
 }
 
-.mega-menu-link:hover {
-    color: #8c3333;
-}
-
-/*CSS Giỏ hàng*/
 .cart-link {
     position: relative;
     display: inline-block;
@@ -365,8 +341,6 @@ footer
     background-color: rgba(0, 0, 0, 0.5); /* Màu đen, mờ 50% */
     z-index: 1;
 }
-
-/* Nội dung (nằm đè lên overlay) */
 .hero-content {
     position: relative;
     z-index: 2;
@@ -653,34 +627,27 @@ CSS RESPONSIVE (Cho thương hiệu)
     }
 }
 
-/*
-========================================
-CSS CHO THANH CAM KẾT DỊCH VỤ
-========================================
-*/
 
 .service-commitment-section {
     padding-top: 50px;
-    padding-bottom: 30px; /* Ít padding hơn ở dưới */
-    background-color: #fff; /* Nền trắng */
+    padding-bottom: 30px;
+    background-color: #fff;
 }
 
-/* Lưới 4 cột */
 .service-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
 }
 
-/* Từng mục cam kết */
 .service-item {
     text-align: center;
     padding: 20px;
 }
 
 .service-item i {
-    font-size: 40px; /* Icon lớn */
-    color: #8c3333; /* Màu đỏ rượu */
+    font-size: 40px;
+    color: #8c3333;
     margin-bottom: 20px;
 }
 
