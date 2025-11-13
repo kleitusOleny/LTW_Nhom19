@@ -26,7 +26,7 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    padding-top: 150px;
+    padding-top: 120px;
     list-style-type: none;
 }
 .a-with-icon {
@@ -43,6 +43,7 @@
     transition: background-color 0.3s ease, color 0.3s ease;
     border: 1px solid transparent;
 }
+/* Giả lập Hover cho trang chỉ định */
 .a-with-icon.selected {
     border-color: #6341ff;
     background-color: #343746;
@@ -125,18 +126,16 @@
 .dashboard-main-content {
     padding: 30px;
     flex-grow: 1;
-    background-color: #f9faff;
 }
 
 .dashboard-main-content h1 {
     font-size: 28px;
     color: #21232d;
-    margin-bottom: 0;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
-/*
-Notification (ĐÃ SỬA LẠI)
-*/
+/* Notification */
 .modal-overlay-notification {
     position: fixed;
     top: 0;
@@ -175,13 +174,11 @@ Notification (ĐÃ SỬA LẠI)
     box-sizing: border-box;
     padding: 20px;
 
-    /* --- HIỆU ỨNG SCALE MỚI --- */
     transform: scale(0.95);
-    opacity: 0; /* Thêm opacity để fade-in */
+    opacity: 0;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Khi overlay hiện, content sẽ scale lên */
 .modal-overlay-notification.show .modal-content-notification {
     transform: scale(1);
     opacity: 1;
@@ -189,13 +186,14 @@ Notification (ĐÃ SỬA LẠI)
 
 .modal-close {
     position: absolute;
-    top: 15px; /* Sửa lại vị trí nút đóng */
-    right: 15px; /* Sửa lại vị trí nút đóng */
+    top: 15px;
+    right: 15px;
     width: 36px;
     height: 36px;
     border: 0;
     background: transparent;
     border-radius: 8px;
+
     cursor: pointer;
 }
 .modal-close:hover { background: #f2f2f2; }
@@ -239,14 +237,17 @@ Notification (ĐÃ SỬA LẠI)
 }
 /* ---------------------------- */
 
-/* --- Tiêu đề chính và Nút --- */
+
 .main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
-
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
 .btn {
     display: inline-flex;
     align-items: center;
@@ -278,7 +279,6 @@ Notification (ĐÃ SỬA LẠI)
 .btn-secondary:hover {
     background-color: #e5e5e5;
 }
-
 .btn-danger {
     background-color: #dc3545;
     color: #fff;
@@ -288,18 +288,18 @@ Notification (ĐÃ SỬA LẠI)
     background-color: #c82333;
 }
 
-
 /* --- Container Bảng --- */
 .table-container {
     background-color: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    border: 1px solid #eaedfd;
 }
 
 .product-table {
-    width: 100%;
+    width: 100% !important;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .product-table th,
@@ -318,6 +318,14 @@ Notification (ĐÃ SỬA LẠI)
     text-transform: uppercase;
 }
 
+.product-table th:nth-child(1) { width: 5%; }  /* Checkbox */
+.product-table th:nth-child(2) { width: 45%; } /* Sản Phẩm */
+.product-table th:nth-child(3) { width: 15%; } /* SKU */
+.product-table th:nth-child(4) { width: 15%; } /* Giá */
+.product-table th:nth-child(5) { width: 10%; } /* Tồn Kho */
+.product-table th:nth-child(6) { width: 10%; } /* Hành Động */
+
+
 .product-table tbody tr:last-child td {
     border-bottom: none;
 }
@@ -326,7 +334,6 @@ Notification (ĐÃ SỬA LẠI)
     background-color: #fdfdff;
 }
 
-/* Cột Sản Phẩm (Ảnh + Tên) */
 .product-cell {
     display: flex;
     align-items: center;
@@ -348,7 +355,6 @@ Notification (ĐÃ SỬA LẠI)
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 250px;
 }
 
 .product-table td:nth-child(3),
@@ -357,7 +363,6 @@ Notification (ĐÃ SỬA LẠI)
     color: #444;
 }
 
-/* Cột Tồn Kho (Trạng thái còn hàng) */
 .stock-status {
     font-weight: 700;
     padding: 4px 8px;
@@ -378,8 +383,8 @@ Notification (ĐÃ SỬA LẠI)
     background-color: #fdeaea;
 }
 
-/* Cột Hành Động (Sửa, Xóa) */
 .action-buttons {
+    display: flex;
     gap: 10px;
 }
 .btn-action {
@@ -393,35 +398,85 @@ Notification (ĐÃ SỬA LẠI)
 .btn-action ion-icon {
     font-size: 20px;
 }
-.btn-action.edit {
-    color: #007bff;
-}
-.btn-action.edit:hover {
-    background-color: #e6f2ff;
-}
-.btn-action.delete {
-    color: #dc3545;
-}
-.btn-action.delete:hover {
-    background-color: #fdeaea;
-}
+.btn-action.edit { color: #007bff; }
+.btn-action.edit:hover { background-color: #e6f2ff; }
+.btn-action.delete { color: #dc3545; }
+.btn-action.delete:hover { background-color: #fdeaea; }
 
-/* --- Phân trang (Pagination) --- */
-.pagination-container {
+.dt-layout-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 25px;
+    padding: 15px 20px;
+    background-color: #fff;
 }
-.pagination-info {
+.dt-layout-row:first-child {
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid #eaedfd;
+}
+.dt-layout-row:last-child {
+    border-radius: 0 0 12px 12px;
+    border-top: 1px solid #eaedfd;
+}
+
+.dt-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.dt-search label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a6e8c;
+    margin-right: 10px;
+}
+.dt-search input {
+    width: 250px;
+    padding: 10px 15px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.dt-search input:focus {
+    border-color: #6341ff;
+    box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.2);
+    outline: none;
+}
+
+.dt-length {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a6e8c;
+}
+.dt-length select {
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.dt-length select:focus {
+    border-color: #6341ff;
+    outline: none;
+}
+
+.dt-info {
     font-size: 15px;
     color: #5a6e8c;
 }
-.pagination-buttons {
+
+.dt-paging {
     display: flex;
     gap: 8px;
 }
-.btn-page {
+.dt-paging .page-item {
+    display: flex;
+}
+.dt-paging .page-link {
     width: 36px;
     height: 36px;
     display: flex;
@@ -434,205 +489,25 @@ Notification (ĐÃ SỬA LẠI)
     color: #555;
     cursor: pointer;
     transition: all 0.2s;
+    text-decoration: none;
+    font-size: 14px;
 }
-.btn-page:hover {
+.dt-paging .page-link:hover {
     background-color: #f7f7f7;
     border-color: #ccc;
 }
-.btn-page.active {
+.dt-paging .page-item.active .page-link {
     background-color: #6341ff;
     color: #fff;
     border-color: #6341ff;
 }
-.btn-page:disabled {
+.dt-paging .page-item.disabled .page-link {
     opacity: 0.6;
     cursor: not-allowed;
+    background-color: #f9f9f9;
 }
-.btn-page ion-icon {
+
+.dt-paging .page-link ion-icon {
     font-size: 18px;
-}
-
-/*
-CSS FORM POP-UP
-*/
-.modal-overlay-form {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-.modal-overlay-form.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-overlay-form[style*="--modal-width"] .modal-content-form {
-    max-width: var(--modal-width, 800px);
-}
-
-.modal-content-form {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.15);
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-
-    transform: scale(0.95);
-    opacity: 0;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.modal-overlay-form.show .modal-content-form {
-    transform: scale(1);
-    opacity: 1;
-}
-
-/* Nút đóng form */
-.modal-close-form {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-}
-.modal-close-form ion-icon {
-    font-size: 28px;
-    color: #888;
-}
-.modal-close-form:hover ion-icon {
-    color: #333;
-}
-
-.modal-content-form h2 {
-    font-size: 24px;
-    color: #21232d;
-    margin-bottom: 25px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-.form-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-}
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 12px 15px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    box-sizing: border-box;
-}
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    border-color: #6341ff;
-    box-shadow: 0 0 1px #6341ff;
-    outline: none;
-}
-.form-group input:read-only {
-    background-color: #f0f0f0;
-    cursor: not-allowed;
-}
-.form-group textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-/* Trường tải ảnh lên */
-.file-upload-wrapper {
-    position: relative;
-    width: 100%;
-    height: 120px;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: border-color 0.3s;
-}
-.file-upload-wrapper:hover {
-    border-color: #6341ff;
-}
-.file-upload-input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-.file-upload-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    color: #888;
-    cursor: pointer;
-}
-.file-upload-label ion-icon {
-    font-size: 32px;
-    color: #6341ff;
-}
-.file-upload-label span {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-top: 30px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
-
-/* CSS CHO POP-UP XÓA */
-.modal-confirm-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #dc3545;
-    font-size: 22px;
-    margin-bottom: 15px;
-}
-.modal-confirm-title ion-icon {
-    font-size: 28px;
-}
-.modal-confirm-text {
-    font-size: 16px;
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 25px;
+    pointer-events: none;
 }
