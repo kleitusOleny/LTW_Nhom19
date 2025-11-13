@@ -59,10 +59,12 @@
                         <ion-icon name="trash-outline"></ion-icon>
                         Xóa (Đã chọn)
                     </button>
-                    <button class="btn btn-secondary" id="import-excel-btn">
+                    <label for="excel-file-input" class="btn btn-secondary">
                         <ion-icon name="cloud-upload-outline"></ion-icon>
                         Nhập từ Excel
-                    </button>
+                        <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden-file-input">
+                    </label>
+
                     <button class="btn btn-primary" id="add-product-btn">
                         <ion-icon name="add-outline"></ion-icon>
                         Thêm Sản Phẩm
@@ -408,9 +410,6 @@
                             </div>
                         </td>
                     </tr>
-
-
-
                     </tbody>
                 </table>
             </div>
@@ -418,6 +417,7 @@
         </main>
     </div>
 </div>
+
 <div class="modal-overlay-notification" id="notification-account-modal">
     <div class="modal-content-notification">
         <button class="modal-close" id="close-modal-btn8">
@@ -510,7 +510,6 @@
         </form>
     </div>
 </div>
-
 <div class="modal-overlay-form" id="delete-confirm-modal" style="--modal-width: 450px;">
     <div class="modal-content-form">
         <button class="modal-close-form" id="close-delete-btn">
@@ -537,7 +536,8 @@
         setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
 
         setupModal('product-form-modal','add-product-btn','close-form-btn')
-
+        setupModal('delete-confirm-modal','delete-selected-btn','cancel-delete-btn')
+        setupModal('delete-confirm-modal','delete-selected-btn','ac-delete-btn')
         $(document).ready(function () {
             $('#product-datatable').DataTable({
                 "columnDefs": [
