@@ -1,0 +1,443 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Charts3</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="popup.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Mulish, sans-serif, serif;
+        }
+        .dashboard-container {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: 250px 1fr
+        }
+
+        .dashboard-sidebar {
+            background-color: #21232d;
+            position: relative;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eaedfd;
+            height: 70px;
+        }
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            list-style-type: none;
+            position: fixed;
+            top: 120px;
+            height: 100vh;
+            width: 250px;
+            overflow-y: auto;
+        }
+        .a-with-icon {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            width: 200px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+        /* Giả lập Hover cho trang chỉ định */
+        .a-with-icon.selected {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+
+        .a-with-icon ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .a-with-icon:hover {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+        .group-icon {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 50px;
+            padding-bottom: 10px;
+        }
+        .icon-header {
+            width: 30px;
+            height: 30px;
+            padding-top: 10px;
+            cursor: pointer;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+        }
+        .search {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding-left: 50px;
+        }
+        .search input {
+            width: 300px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .search input:focus {
+            border-color: #6341ff;
+            box-shadow: 0 0 1px #6341ff;
+            outline: none;
+        }
+        #searchIcon {
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            padding: 5px 5px 5px 5px;
+        }
+        #searchIcon:hover, .icon-header:hover {
+            color: #6341ff;
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+        .text {
+            color: #decdcd;
+            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
+        }
+
+        .dashboard-main-content {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .dashboard-main-content h1 {
+            font-size: 28px;
+            color: #21232d;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* Notification */
+        .modal-overlay-notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+
+            padding-top: 70px;
+            padding-right: 30px;
+
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content-notification {
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .modal-overlay-notification.show .modal-content-notification {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+        .modal-close:hover { background: #f2f2f2; }
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            padding: 30px 0;
+        }
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+        /* ---------------------------- */
+        .dashboard-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: #f4f7fa;
+            margin-bottom: 80px;
+        }
+        .group-chart, .group-chart2 {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+        }
+        .group-chart:hover, .group-chart2:hover {
+            border-color: #6341ff;
+        }
+        .group-switch {
+            position: fixed;
+            bottom: 20px;
+            left: 300px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 15px;
+            border-radius: 12px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        .group-switch button {
+            background: #efefef;
+            padding: 15px 20px 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+        }
+        .group-switch button:hover {
+            background: #6341ff;
+            color: #fff;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+        .group-switch .group-p {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+        }
+        .group-switch #p1{
+            color: #6c757d;
+        }
+        .group-switch #p2{
+            color: #8d93ff;
+        }
+        .selected-btn {
+            color: #0925c7;
+            outline: 2px solid #a4abf6;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <nav class="dashboard-sidebar">
+        <ul class="sidebar-items">
+            <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="#" class="a-with-icon selected"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+        </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
+    </nav>
+    <div class="dashboard-content">
+        <header class="dashboard-header">
+            <div class="search">
+                <input type="text">
+                <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+            </div>
+            <div class="group-icon">
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
+            </div>
+        </header>
+        <main class="dashboard-main-content">
+            <h1>Tổng quan thống kê về tin tức được cập nhật</h1>
+            <div class="group-chart">
+                <h2>Blog được yêu thích nhất theo tháng</h2>
+                <div id="chart"></div>
+            </div>
+            <div class="group-switch">
+                <button class="unselected-btn">1</button>
+                <button class="unselected-btn">2</button>
+                <button class="selected-btn">3</button>
+                <div class="group-p">
+                    <p id="p1">Bạn hiện đang ở</p><p id="p2">Trang 3</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-content-notification">
+        <button class="modal-close" id="close-modal-btn8">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <h2 class="notification-title">Thông báo</h2>
+        <div class="notification-empty-state">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+            <p>Hiện tại chưa có thông báo mới</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    var options = {
+        series: [{
+            name: 'Lượt thích',
+            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+        }, {
+            name: 'Bình luận',
+            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+        }, {
+            name: 'Lượt không yêu thích',
+            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: [
+                ['Blog 1', 'Tháng 1'],
+                ['Blog 1', 'Tháng 2'],
+                ['Blog 3', 'Tháng 3'],
+                ['Blog 2', 'Tháng 4'],
+                ['Blog 5', 'Tháng 5'],
+                ['Blog 6', 'Tháng 6'],
+                ['Blog 9', 'Tháng 7'],
+                ['Blog 9', 'Tháng 8'],
+                ['Blog 7', 'Tháng 9']
+            ]
+        },
+        legend: {
+            offsetY: 10
+        },
+        yaxis: {
+            title: {
+                text: 'Số lượng',
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    fontFamily: 'Mulish, sans-serif, serif',
+                    color: '#333'
+                }
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+</script>
+<script>
+    // Run Pop-up function
+    document.addEventListener("DOMContentLoaded", function() {
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+    });
+</script>
+</body>
+</html>
