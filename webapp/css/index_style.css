@@ -1,0 +1,684 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+body {
+    font-family:  "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.header-top {
+    background-color: #fff;
+    padding: 20px 100px;
+    border-bottom: 1px solid #eee;
+}
+
+.header-top > .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+.header-logo .logo {
+    font-family: 'Times New Roman', 'Georgia', serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: #8c3333;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 25px;
+    font-size: 22px;
+    color: #333;
+}
+.header-right a {
+    color: #333;
+    transition: color 0.3s ease;
+}
+.header-right a:hover {
+    color: #8c3333;
+}
+
+.header-nav-bar {
+    background-color: #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-nav-bar > .container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.header-nav ul li a {
+    display: block;
+    padding: 22px 25px;
+    color: #eee;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.header-nav ul li a::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #c78c8c;
+    transition: width 0.3s ease;
+}
+.header-nav ul li a:hover,
+.header-nav ul li a.active {
+    color: #c78c8c;
+}
+.header-nav ul li a:hover::after,
+.header-nav ul li a.active::after {
+    width: calc(100% - 40px);
+}
+
+.header-nav ul li.has-dropdown {
+    position: static;
+}
+
+.mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    padding: 30px 100px;
+    box-sizing: border-box;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.header-nav ul li.has-dropdown:hover > .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.mega-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.mega-menu-column{
+    display: flex;
+    flex-direction: column;
+}
+
+.mega-menu-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #8c3333;
+    display: inline-block;
+}
+
+.mega-menu-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mega-menu-list li {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.mega-menu-list li a.mega-menu-link {
+    display: block;
+    padding: 5px 0;
+    font-size: 15px;
+    font-weight: 400;
+    color: #333;
+    text-decoration: none !important;
+    transition: color 0.3s;
+}
+
+.mega-menu-list li a.mega-menu-link:hover {
+    color: #8c3333;
+    text-decoration: none !important;
+}
+
+.mega-menu-list li a.mega-menu-link::after {
+    display: none !important;
+}
+
+.cart-link {
+    position: relative;
+    display: inline-block;
+}
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #8c3333;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #fff;
+}
+
+/*
+footer
+ */
+
+.site-footer {
+    background-color: #222;
+    color: #aaa;
+    padding: 60px 0 20px 0;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.container {
+    height: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.footer-text {
+    margin-bottom: 20px;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 10px;
+}
+
+.social-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.social-link:hover {
+    background-color: #c78c8c;
+    color: #fff;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #aaa;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #c78c8c;
+}
+
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-contact li {
+    margin-bottom: 10px;
+}
+
+.footer-contact strong {
+    color: #fff;
+    margin-right: 5px;
+}
+
+
+.footer-bottom {
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu đen, mờ 50% */
+    z-index: 1;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 2px solid;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-primary {
+    background-color: #8c3333;
+    border-color: #8c3333;
+    color: #fff;
+    font-size: 16px;
+    padding: 15px 35px;
+}
+.btn-primary:hover {
+    background-color: #fff;
+    color: #8c3333;
+    border-color: #fff;
+}
+.hero-banner-section {
+    position: relative;
+    height: 60vh;
+    min-height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+
+    background-image: url('../assets/main_banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+/*
+CSS CHO PHẦN SẢN PHẨM NỔI BẬT
+*/
+
+/* Định dạng chung cho 1 khu vực (section) */
+.featured-products {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+/*"Sản Phẩm Nổi Bật*/
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #222;
+    text-align: center;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/* Gạch chân dưới tiêu  */
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #8c3333;
+    margin: 10px auto 0 auto;
+}
+
+/* Mô tả ngắn dưới tiêu đề */
+.section-subtitle {
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+
+/*
+PRODUCT CARD
+*/
+
+.product-grid {
+    display: grid;
+    /* Hiển thị 4 cột */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.product-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f7f7f7;
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    padding: 8px;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.product-image {
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+    padding: 30px;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 20px;
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #8c3333;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 54px;
+}
+
+.product-name a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+.product-name a:hover {
+    color: #8c3333;
+}
+
+.product-price {
+    font-size: 17px;
+    font-weight: bold;
+    color: #8c3333;
+    margin-bottom: 20px;
+}
+
+.add-to-cart-btn {
+    display: inline-block;
+    background-color: #222;
+    color: #fff;
+    padding: 10px 25px;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 2px solid #222;
+    transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #fff;
+    color: #222;
+}
+
+/* CSS cho Đánh giá sao (Stars) */
+.product-rating {
+    margin-bottom: 15px;
+}
+.product-rating .fa-star {
+    font-size: 16px;
+    margin: 0 1px;
+}
+.product-rating .fa-solid {
+    color: #f39c12;
+}
+.product-rating .fa-regular {
+    color: #ccc;
+}
+/*
+CSS CHO PHẦN THƯƠNG HIỆU NỔI BẬT
+*/
+
+.featured-brands {
+    background-color: #f9f9f9;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+/* Lưới logo (6 cột) */
+.brands-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+}
+
+/* Khung chứa logo */
+.brand-logo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 110px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.brand-logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+
+    opacity: 0.7;
+    filter: grayscale(100%);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Hiệu ứng khi hover */
+.brand-logo-box:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+}
+
+.brand-logo-box:hover img {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+/*
+CSS RESPONSIVE (Cho thương hiệu)
+*/
+
+@media (max-width: 992px) {
+    .brands-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .brands-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+.service-commitment-section {
+    padding-top: 50px;
+    padding-bottom: 30px;
+    background-color: #fff;
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.service-item {
+    text-align: center;
+    padding: 20px;
+}
+
+.service-item i {
+    font-size: 40px;
+    color: #8c3333;
+    margin-bottom: 20px;
+}
+
+.service-item h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.service-item p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/*
+CSS RESPONSIVE (Cho thanh Dịch vụ)
+*/
+
+/* Cho máy tính bảng */
+@media (max-width: 992px) {
+    .service-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cột */
+    }
+}
+
+/* Cho điện thoại */
+@media (max-width: 768px) {
+    .service-grid {
+        grid-template-columns: 1fr; /* 1 cột */
+    }
+}

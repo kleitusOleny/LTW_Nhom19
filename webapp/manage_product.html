@@ -12,21 +12,37 @@
 <div class="dashboard-container">
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
-            <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
-            <li><a href="#" class="a-with-icon selected"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="home-outline"></ion-icon>
+                Trang Chủ</a></li>
+            <li><a href="#" class="a-with-icon selected">
+                <ion-icon name="bag-remove-outline"></ion-icon>
+                Quản Lí Sản Phẩm</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="people-outline"></ion-icon>
+                Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="cart-outline"></ion-icon>
+                Quản Lí Đơn Hàng</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="clipboard-outline"></ion-icon>
+                Quản Lí Kho Hàng</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="reader-outline"></ion-icon>
+                Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="ticket-outline"></ion-icon>
+                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="stats-chart-outline"></ion-icon>
+                Thống Kê</a></li>
         </ul>
         <div class="text">━ Được update tới 2025 ━</div>
     </nav>
     <div class="dashboard-content">
         <header class="dashboard-header">
             <div class="search">
-                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                <input type="text">
                 <ion-icon name="search-outline" id="searchIcon"></ion-icon>
             </div>
             <div class="group-icon">
@@ -38,80 +54,366 @@
 
             <div class="main-header">
                 <h1>Quản Lí Sản Phẩm</h1>
-                <button class="btn btn-primary" id="add-product-btn">
-                    <ion-icon name="add-outline"></ion-icon>
-                    Thêm Sản Phẩm Mới
-                </button>
+                <div class="header-actions">
+                    <button class="btn btn-danger" id="delete-selected-btn">
+                        <ion-icon name="trash-outline"></ion-icon>
+                        Xóa (Đã chọn)
+                    </button>
+                    <label for="excel-file-input" class="btn btn-secondary">
+                        <ion-icon name="cloud-upload-outline"></ion-icon>
+                        Nhập từ Excel
+                        <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden-file-input">
+                    </label>
+
+                    <button class="btn btn-primary" id="add-product-btn">
+                        <ion-icon name="add-outline"></ion-icon>
+                        Thêm Sản Phẩm
+                    </button>
+                </div>
             </div>
 
             <div class="table-container">
-                <table class="product-table">
+                <table id="product-datatable" class="product-table">
                     <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
-                        <th>Sản Phẩm</th>
+                        <th><input type="checkbox" id="select-all-checkbox"></th>
+                        <th>Sản phẩm</th>
                         <th>SKU</th>
                         <th>Giá</th>
-                        <th>Tồn Kho (Trạng thái)</th> <th>Hành Động</th>
+                        <th>Tồn Kho</th>
+                        <th>Hành động</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td><input type="checkbox"></td>
-                        <td class="product-cell">
-                            <img src="img/SKU__VD_0845-17.jpg" alt="Product Image">
-                            <span>Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</span>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_0845-17.jpg" alt="Product Image">
+                                <span>Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</span>
+                            </div>
                         </td>
                         <td>VD/0845-17</td>
                         <td>5.989.500₫</td>
                         <td><span class="stock-status in-stock">150</span></td>
-                        <td class="action-buttons">
-                            <button class="btn-action edit" id="edit-product-btn"><ion-icon name="pencil-outline"></ion-icon></button>
-                            <button class="btn-action delete" id="delete-product-btn"><ion-icon name="trash-outline"></ion-icon></button>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox"></td>
-                        <td class="product-cell">
-                            <img src="img/SKU__VD_1170.png" alt="Product Image">
-                            <span>Rượu vang hồng Dufouleur Monopole</span>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_0834-14-1.5L.jpg"
+                                     alt="Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L 2014">
+                                <span>Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L 2014</span>
+                            </div>
                         </td>
-                        <td>VD/1170</td>
-                        <td>351.000₫</td>
-                        <td><span class="stock-status low-stock">5</span></td>
-                        <td class="action-buttons">
-                            <button class="btn-action edit"><ion-icon name="pencil-outline"></ion-icon></button>
-                            <button class="btn-action delete"><ion-icon name="trash-outline"></ion-icon></button>
+                        <td>SKU: VD/0834-14-1.5L</td>
+                        <td>13.486.000₫</td>
+                        <td><span class="stock-status in-stock">20</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
                         </td>
                     </tr>
+
                     <tr>
-                        <td><input type="checkbox"></td>
-                        <td class="product-cell">
-                            <img src="img/SKU__VD_0939.png" alt="Product Image">
-                            <span>Rượu vang sủi Freixenet Italian Rosé</span>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_0845-17.jpg" alt="Rượu Vang Đỏ Luce Brunello Di Montalcino 2017">
+                                <span>Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</span>
+                            </div>
                         </td>
-                        <td>VD/0939</td>
+                        <td>SKU: VD/0845-17</td>
+                        <td>5.989.500₫</td>
+                        <td><span class="stock-status in-stock">150</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_0883-09-3L.jpg"
+                                     alt="Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3 Lít">
+                                <span>Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3 Lít</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/0883-09-3L</td>
+                        <td>9.460.000₫</td>
+                        <td><span class="stock-status low-stock">9</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_0883-14.jpg" alt="Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014">
+                                <span>Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/0883-14</td>
+                        <td>2.783.000₫</td>
+                        <td><span class="stock-status in-stock">45</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_0926-22.png" alt="Rượu Vang Trắng Greywacke Pinot Noir 2022">
+                                <span>Rượu Vang Trắng Greywacke Pinot Noir 2022</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/0926-22</td>
+                        <td>1.089.000₫</td>
+                        <td><span class="stock-status low-stock">7</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_0939.png"
+                                     alt="Rượu vang sủi Freixenet Italian Rosé Sparkling Wine Extra Dry">
+                                <span>Rượu vang sủi Freixenet Italian Rosé Sparkling Wine Extra Dry</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/0939</td>
                         <td>787.000₫</td>
-                        <td><span class="stock-status out-of-stock">0</span></td>
-                        <td class="action-buttons">
-                            <button class="btn-action edit"><ion-icon name="pencil-outline"></ion-icon></button>
-                            <button class="btn-action delete"><ion-icon name="trash-outline"></ion-icon></button>
+                        <td><span class="stock-status in-stock">88</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
+                                <span>Rượu vang hồng Dufouleur Monopole</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/1170</td>
+                        <td>351.000₫</td>
+                        <td><span class="stock-status in-stock">110</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_1185.png"
+                                     alt="Rượu vang hồng Famille Perrin Côtes-du-Rhône Réserve, rose">
+                                <span>Rượu vang hồng Famille Perrin Côtes-du-Rhône Réserve, rose</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/1185</td>
+                        <td>726.000₫</td>
+                        <td><span class="stock-status in-stock">60</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_1193-22.png"
+                                     alt="Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022">
+                                <span>Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/1193-22</td>
+                        <td>1.936.000₫</td>
+                        <td><span class="stock-status in-stock">30</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_1197.png" alt="Rượu vang hồng Studio By Miraval">
+                                <span>Rượu vang hồng Studio By Miraval</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/1197</td>
+                        <td>750.000₫</td>
+                        <td><span class="stock-status in-stock">90</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_1233.jpg" alt="Rượu Sâm Panh Champagne Ruinart Rosé">
+                                <span>Rượu Sâm Panh Champagne Ruinart Rosé</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/1233</td>
+                        <td>6.160.000₫</td>
+                        <td><span class="stock-status low-stock">4</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_1274.png" alt="Rượu vang hồng Flor de Muga Rosé">
+                                <span>Rượu vang hồng Flor de Muga Rosé</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/1274</td>
+                        <td>1.041.000₫</td>
+                        <td><span class="stock-status in-stock">18</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <img src="img/SKU__VD_1306.png" alt="Rượu Vang Hồng Tenuta Ammiraglia Alìe">
+                                <span>Rượu Vang Hồng Tenuta Ammiraglia Alìe</span>
+                            </div>
+                        </td>
+                        <td>SKU: VD/1306</td>
+                        <td>726.000₫</td>
+                        <td><span class="stock-status in-stock">65</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="pagination-container">
-                <span class="pagination-info">Hiển thị 1-3 trên 13 sản phẩm</span>
-                <div class="pagination-buttons">
-                    <button class="btn-page" disabled><ion-icon name="chevron-back-outline"></ion-icon></button>
-                    <button class="btn-page active">1</button>
-                    <button class="btn-page">2</button>
-                    <button class="btn-page">3</button>
-                    <button class="btn-page"><ion-icon name="chevron-forward-outline"></ion-icon></button>
-                </div>
-            </div>
         </main>
     </div>
 </div>
@@ -128,7 +430,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal-overlay-form" id="product-form-modal">
     <div class="modal-content-form">
         <button class="modal-close-form" id="close-form-btn">
@@ -209,7 +510,6 @@
         </form>
     </div>
 </div>
-
 <div class="modal-overlay-form" id="delete-confirm-modal" style="--modal-width: 450px;">
     <div class="modal-content-form">
         <button class="modal-close-form" id="close-delete-btn">
@@ -227,20 +527,46 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Pop-up Notification
+    document.addEventListener("DOMContentLoaded", function () {
         setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
 
-        // Pop-up Form Sản Phẩm
-        setupModal('product-form-modal', 'add-product-btn', 'close-form-btn');
-        setupModal('product-form-modal', 'cancel-form-btn', 'cancel-form-btn');
+        setupModal('product-form-modal','add-product-btn','close-form-btn')
+        setupModal('delete-confirm-modal','delete-selected-btn','cancel-delete-btn')
+        setupModal('delete-confirm-modal','delete-selected-btn','ac-delete-btn')
+        $(document).ready(function () {
+            $('#product-datatable').DataTable({
+                "columnDefs": [
+                    {
+                        "orderable": false,
+                        "targets": [0, 5]
+                    },
+                    {
+                        "searchable": false,
+                        "targets": [0, 4, 5]
+                    }
+                ],
 
-        //Pop-up edit
-        setupModal('product-form-modal','edit-product-btn','close-form-btn');
-        setupModal('delete-confirm-modal','delete-product-btn','cancel-delete-btn')
-        setupModal('delete-confirm-modal','delete-product-btn','ac-delete-btn')
-
+                "language": {
+                    "search": "Tìm kiếm:",
+                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "info": "Hiển thị từ _START_ đến _END_ của _TOTAL_ mục",
+                    "infoEmpty": "Không tìm thấy mục nào",
+                    "infoFiltered": "(được lọc từ _MAX_ mục)",
+                    "zeroRecords": "Không tìm thấy dữ liệu",
+                    "paginate": {
+                        "first":    "<ion-icon name='play-skip-back-outline'></ion-icon>",
+                        "last":     "<ion-icon name='play-skip-forward-outline'></ion-icon>",
+                        "next":     "<ion-icon name='chevron-forward-outline'></ion-icon>",
+                        "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
+                    }
+                }
+            });
+        });
     });
 </script>
 </body>
