@@ -81,16 +81,17 @@
         background-color: #8c3333;
         color: #fff;
         padding: 12px 25px;
-        border: none;
         border-radius: 5px;
         cursor: pointer;
         font-size: 16px;
         margin-top: 30px;
         transition: background-color 0.3s;
+        border-color: #8c3333;
     }
 
     .add-address-btn:hover {
-        background-color: #7a2b2b;
+        background-color: #fff;
+        color: #8c3333;
     }
 
     .add-address-btn i {
@@ -157,7 +158,7 @@
         margin-bottom: 5px;
     }
 
-    .form-group input {
+    .form-group input, .form-group select, .form-group textarea {
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
@@ -208,6 +209,18 @@
                 <input type="tel" id="phone" name="phone" required>
             </div>
             <div class="form-group">
+                <label for="city" data-lang-key="city">Tỉnh/Thành phố</label>
+                <select id="city" name="city" required>
+                    <option value="">Chọn Tỉnh/TP</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ward" data-lang-key="ward">Phường/Xã</label>
+                <select id="ward" name="ward" required>
+                    <option value="">Chọn Phường/Xã</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="addressDetail" data-lang-key="addressDetail">Địa chỉ chi tiết</label>
                 <input type="text" id="addressDetail" name="addressDetail" required>
             </div>
@@ -217,6 +230,7 @@
         </form>
     </div>
 </div>
+
 
 <script>
     (function () {
@@ -258,6 +272,7 @@
                 editingCard.querySelector('.name').textContent = name;
                 editingCard.querySelector('.phone').textContent = phone;
                 editingCard.querySelector('.address').textContent = address;
+                alert("Chỉnh sửa thành công")
             } else {
                 alert("tạo thành công")
             }
@@ -289,7 +304,6 @@
 
                 modalTitle.textContent = 'Chỉnh sửa địa chỉ';
                 openModal();
-                alert("Chỉnh sửa thành công")
             }
 
         });

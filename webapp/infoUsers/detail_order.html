@@ -41,7 +41,7 @@
         }
 
         .info p {
-            margin: 5px 0;
+            margin: 20px 0;
         }
 
         table {
@@ -61,8 +61,8 @@
         }
 
         .product-img {
-            width: 50px;
-            height: 50px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
             border-radius: 5px;
         }
@@ -150,15 +150,35 @@
             background: #8c3333;
             color: #fff;
             padding: 10px 18px;
-            border: none;
+            border-color: #8c3333;
             border-radius: 5px;
             cursor: pointer;
             margin-left: 10px;
         }
 
         .btn:hover {
-            background: #b35b3b;
+            background-color: #fff;
+            color: #8c3333;
         }
+        /* Khi xuất PDF sẽ chỉ in phần order-detail */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .order-detail, .order-detail * {
+                visibility: visible;
+            }
+            .section {
+                display: none !important;
+            }
+            .order-detail {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 <header>
@@ -203,6 +223,7 @@
         <p><strong>Email:</strong> nguyenvan@example.com</p>
         <p><strong>Điện thoại:</strong> 0987654321</p>
         <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận 1, TP.HCM</p>
+        <p><strong>Hình thức thanh toán:</strong> Thanh toán khi nhận hàng</p>
     </div>
 
     <div class="section">
@@ -219,14 +240,14 @@
             </thead>
             <tbody>
             <tr>
-                <td><img class="product-img" src="webapp/img/SKU__VD_0926-22.png" alt="Rượu vang đỏ"></td>
+                <td><img class="product-img" src="../img/SKU__VD_0926-22.png" alt="Rượu vang đỏ"></td>
                 <td>Rượu vang đỏ cao cấp</td>
                 <td>2</td>
                 <td>1.200.000₫</td>
                 <td>2.400.000₫</td>
             </tr>
             <tr>
-                <td><img class="product-img" src="webapp/img/SKU__VD_0926-23.png" alt="Whisky cao cấp"></td>
+                <td><img class="product-img" src="../img/SKU__VD_0926-22.png" alt="Whisky cao cấp"></td>
                 <td>Whisky cao cấp</td>
                 <td>1</td>
                 <td>1.500.000₫</td>
@@ -265,7 +286,7 @@
 
     <div class="actions">
         <button class="btn">Mua lại</button>
-        <button class="btn">In hóa đơn</button>
+        <button class="btn" id="exportPDF">In hóa đơn</button>
     </div>
 </div>
 <footer class="site-footer">
@@ -316,6 +337,45 @@
         </div>
     </div>
 </footer>
+<script>
+    document.getElementById("exportPDF").addEventListener("click", function () {
 
+        const element = document.querySelector(".order-detail");
+
+        const sections = document.querySelectorAll(".order-detail .section");
+        const actions = document.querySelector(".order-detail .actions");
+
+        let removedSection = null;
+        if (sections[2]) {
+            removedSection = sections[2];
+            removedSection.style.display = "none";
+        }
+
+        let removedActions = null;
+        if (actions) {
+            removedActions = actions;
+            removedActions.style.display = "none";
+        }
+
+        const opt = {
+            margin: 10,
+            filename: 'don-hang.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, scrollY: 0 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().from(element).set(opt).save()
+            .then(() => {
+                if (removedSection) removedSection.style.display = "";
+                if (removedActions) removedActions.style.display = "";
+            });
+
+    });
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </body>
 </html>
