@@ -20,25 +20,61 @@
             position: relative;
         }
 
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #eaedfd;
-            height: 70px;
+        .dashboard-content {
+            background-color: #f4f7fa;
         }
 
         .sidebar-items {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             list-style-type: none;
             position: fixed;
-            top: 120px;
+            top: 20px;
             height: 100vh;
             overflow-y: auto;
             width: 250px;
+        }
+
+        .group-avatar .user-avatar {
+            border-radius: 100%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.2s;
+        }
+        .group-avatar {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 15px;
+        }
+        .user-avatar:hover {
+            border-color: #6341ff;
+        }
+        .icon-header {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            bottom: -5px;
+            right: 5px;
+            margin-left: 0;
+            background-color: #3a3a3a;
+            border-radius: 50%;
+            padding: 6px;
+            border: 2px solid #1f1f1f;
+            line-height: 1;
+            transition: 0.3s ease;
+        }
+        .icon-header:hover {
+            color: #020202;
+            transform: scale(1.1);
+            background-color: #f8f8f8;
         }
 
         .a-with-icon {
@@ -55,7 +91,7 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             border: 1px solid transparent;
         }
-        .a-with-icon.selected {
+        .a-with-icon.selected, .a-with-icon:hover {
             border-color: #6341ff;
             background-color: #343746;
             color: #ffffff;
@@ -66,62 +102,6 @@
             flex-shrink: 0;
         }
 
-        .a-with-icon:hover {
-            border-color: #6341ff;
-            background-color: #343746;
-            color: #ffffff;
-        }
-        .group-icon {
-            display: flex;
-            flex-direction: row;
-            gap: 30px;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 50px;
-            padding-bottom: 10px;
-        }
-        .icon-header {
-            width: 30px;
-            height: 30px;
-            padding-top: 10px;
-            cursor: pointer;
-        }
-        .avatar {
-            width: 50px;
-            height: 50px;
-        }
-        .search {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 20px;
-            padding-left: 50px;
-        }
-        .search input {
-            width: 300px;
-            padding: 12px 15px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        .search input:focus {
-            border-color: #6341ff;
-            box-shadow: 0 0 1px #6341ff;
-            outline: none;
-        }
-        #searchIcon {
-            cursor: pointer;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            padding: 5px 5px 5px 5px;
-        }
-        #searchIcon:hover, .icon-header:hover {
-            color: #6341ff;
-            transform: scale(1.1);
-            transition: transform 0.2s ease;
-        }
         .text {
             color: #decdcd;
             font-size: 12px;
@@ -133,8 +113,169 @@
             padding-bottom: 5px;
             box-sizing: border-box;
         }
+        .dashboard-main-content {
+            padding: 10px;
+            background-color: #f4f7fa;
+            flex-grow: 1;
+        }
+
+        .modal-content-avatar {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            padding: 20px 20px 20px 10px;
+            gap: 8px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+            width: 90%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+        }
+        .btn-menu-item:hover {
+            border-color: #6341ff;
+            transform: scale(1.02);
+        }
+
+        .modal-close2 {
+            position: absolute;
+            top: 1px;
+            right: 0px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 20px;
+            padding: 4px;
+            line-height: 1;
+            border-radius: 50%;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .modal-close2:hover {
+            color: #111;
+            background-color: #f0f0f0;
+        }
+
+        .btn-menu-item ion-icon {
+            font-size: 18px;
+            color: #555;
+            flex-shrink: 0;
+        }
+
+        .modal-overlay-notification, .modal-overlay-avatar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding-left: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-content-notification{
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .modal-overlay-notification.show, .modal-overlay-avatar.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .group-notification {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transform: translateY(-10px)
+        }
+
+        .modal-close:hover { background: #f2f2f2; }
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            padding: 30px 0;
+        }
+
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+
         /* ------*/
         .table-container {
+            margin-top: 10px;
             width: 100%;
             overflow-x: auto;
         }
@@ -174,9 +315,11 @@
         .account-table tbody tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
         .account-table tbody tr:hover {
             background-color: #f1f1f1;
         }
+
         .account-table .col-tick {
             width: 1%;
         }
@@ -193,58 +336,45 @@
             width: 10%;
         }
         .account-table .col-action {
-            width: 15%;
+            width: 10%;
         }
+
         .cell-action .btn {
-            margin-right: 1px;
             border-radius: 5px;
             height: 30px;
             cursor: pointer;
             border: solid 2px #ccc;
         }
+
         .cell-action .delete, .cell-action .edit {
             width: 50px;
         }
+
         .cell-action .btn:hover {
             border-color: #6341ff;
             transform: scale(1.02);
             transition: transform 0.2s ease;
         }
+
         /* ---*/
         .button-group {
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
+            gap: 8px;
             box-sizing: border-box;
             width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 15px;
+            border-radius: 10px;
         }
-        .button-group .icon-group{
-            display: flex;
-            gap: 15px;
-            margin-right: 50px;
-            margin-top: 25px;
-        }
-        .button-group .icon-group .icon{
-            cursor: pointer;
-            font-size: 24px;
-            color: #555;
-        }
-        .button-group .icon-group .icon:hover{
-            color: #6341ff;
-            transform: scale(1.1);
-            transition: transform 0.2s ease;
-        }
+
         .button-group .button {
             padding: 10px 20px;
             border-radius: 10px;
             border: none;
             cursor: pointer;
             font-size: 14px;
-            margin-top: 10px;
         }
         .del {
-            margin-left: 15px;
             color: #fff;
             background-color: #ff4747;
         }
@@ -267,8 +397,11 @@
         .button-group .excel:hover {
             background-color: #0c670f;
         }
-        /* ===== PHẦN CSS POP-UP ===== */
-        .modal-overlay, .modal-overlay-sort, .modal-overlay-filter, .modal-overlay-refresh, .modal-overlay-excel, .modal-overlay-deleteAll, .modal-overlay-edit_information, .modal-overlay-notification {
+
+        .modal-overlay,
+        .modal-overlay-excel,
+        .modal-overlay-deleteAll,
+        .modal-overlay-edit_information {
             position: fixed;
             top: 0;
             left: 0;
@@ -280,8 +413,9 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
+
         /* Phần trượt popup */
-        .modal-overlay-refresh, .modal-overlay-excel {
+        .modal-overlay-excel {
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -291,28 +425,9 @@
             opacity: 0;
             visibility: hidden;
         }
-        .modal-overlay-notification {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1000;
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-start;
 
-            padding-top: 70px;
-            padding-right: 30px;
-
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
         /* Phần fadein popup */
         .modal-overlay,
-        .modal-overlay-sort,
-        .modal-overlay-filter,
         .modal-overlay-deleteAll,
         .modal-overlay-edit_information {
             display: flex;
@@ -322,24 +437,14 @@
         }
 
         .modal-overlay.show,
-        .modal-overlay-sort.show,
-        .modal-overlay-filter.show,
-        .modal-overlay-refresh.show,
         .modal-overlay-excel.show,
         .modal-overlay-deleteAll.show,
-        .modal-overlay-edit_information.show,
-        .modal-overlay-notification.show {
+        .modal-overlay-edit_information.show {
             opacity: 1;
             visibility: visible;
         }
-        .modal-overlay-notification.show .modal-content-notification {
-            transform: scale(1);
-            opacity: 1;
-        }
 
         .modal-content,
-        .modal-content-sort,
-        .modal-content-filter,
         .modal-content-deleteAll,
         .modal-content-edit_information {
             background-color: white;
@@ -348,89 +453,21 @@
             padding: 2.5rem 3rem;
             width: 25rem;
         }
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 36px;
-            height: 36px;
-            border: 0;
-            background: transparent;
-            border-radius: 8px;
 
-            cursor: pointer;
-        }
-        .modal-close:hover { background: #f2f2f2; }
-        .modal-close:focus-visible {
-            outline: 2px solid #3b82f6;
-            outline-offset: 2px;
-        }
-        .modal-close ion-icon {
-            font-size: 22px;
-            color: #333;
-            pointer-events: none;
-        }
-        .modal-content-notification {
-            width: 400px;
-            max-height: 80vh;
-            overflow-y: auto;
-
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.15);
-
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-            padding: 20px;
-
-            transform: scale(0.95);
-            opacity: 0;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-        .notification-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-            margin: 0 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            width: 100%;
-        }
-        .notification-empty-state {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            color: #888;
-            padding: 30px 0;
-        }
-        .notification-empty-state ion-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-        .notification-empty-state p {
-            font-size: 1rem;
-            text-align: center;
-            margin: 0;
-        }
         .modal-content-deleteAll {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            padding: 30px 40px;
+            gap: 20px;
         }
 
-        .modal-content-refresh,
         .modal-content-excel {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            width: 25rem;
-            max-width: 400px;
-            padding: 2rem;
+            width: 250px;
+            padding: 20px;
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
@@ -438,7 +475,7 @@
             transform: translateY(-50px);
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .modal-overlay-refresh.show .modal-content-refresh,
+
         .modal-overlay-excel.show .modal-content-excel {
             transform: translateY(-25px);
         }
@@ -446,55 +483,15 @@
             font-size: 1.1rem;
             color: #333;
         }
+
         .modal-content-deleteAll p {
             font-size: 1.2rem;
             text-align: center;
             color: red;
         }
 
-        .modal-content-sort {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-content-sort .group-sort-button {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-        }
-
-        .group-sort-button {
-            gap: 8px;
-        }
-
-        .sort-option {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .sort-box {
-            margin-right: 5px;
-            accent-color: #6341ff;
-        }
-
         .sort-option label {
             cursor: pointer;
-        }
-
-        #sortSelect {
-            height: 40px;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 100px;
-        }
-
-        .select-perform {
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-            align-items: center;
         }
 
         #add-form {
@@ -519,20 +516,13 @@
             margin-top: 5px;
         }
 
-        .text-filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
         .username-input input, .password-input input, #text-filter, .edit-information-account input {
             font-size: 1rem;
             border-radius: 8px;
             border: 2px solid #ccc;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .username-input input, .password-input input, #text-filter {
+        .username-input input, .password-input input{
             padding: 12px 15px;
         }
         .edit-information-account input {
@@ -541,27 +531,29 @@
         .username-input input, .password-input input {
             width: 100%;
         }
-        #text-filter {
-            width: 90%;
-        }
+
         .username-input input:focus, .password-input input:focus, #text-filter:focus, .edit-information-account input:focus {
             border-color: #6341ff;
             outline: none;
         }
+
         .label-with-icon {
             display: flex;
             gap: 3px;
         }
+
         .group-button-action {
             display: flex;
             flex-direction: row;
             justify-content: center;
             gap: 15px;
         }
+
         .group-button-action.section {
             margin-top: 10px;
         }
-        .element-button, .sort-button, .filter-button, .deleteAll-button {
+
+        .element-button, .deleteAll-button {
             width: 100px;
             padding: 14px 0;
             font-size: 1rem;
@@ -572,47 +564,81 @@
             cursor: pointer;
             transition: background-color 0.2s ease;
         }
-        .add-btn, .sort-button, .delete-all .element-button, .fix-btn {
+        .cancel {
+            width: 70px;
+        }
+        .deleteAll-button {
+            width: 150px;
+        }
+        .add-btn, .fix-btn {
             background: #08c249;
         }
-        .add-btn:hover, .sort-button:hover, .delete-all .element-button:hover, .fix-btn:hover {
+        .add-btn:hover, .fix-btn:hover {
             background: #06a13d;
         }
-        .cancel, .deleteAll-button {
+        .deleteAll-button {
             background: #e80f0f;
         }
-        .cancel:hover, .deleteAll-button:hover {
+        .cancel, .delete-all .element-button {
+            background: #9daab4;
+        }
+        .cancel:hover, .delete-all .element-button:hover {
+            background: #8e96a4;
+        }
+        .deleteAll-button:hover {
             background: #c70d0d;
         }
-        #text-filter-element {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+
         .edit-information-account {
             display: flex;
             flex-direction: column;
         }
+
         .edit-information-account div:not(.active-section):not(:first-child) {
             display: flex;
             flex-direction: column;
             margin-bottom: 5px;
         }
+
         .edit-information-account .email-section{
             margin-top: 5px;
         }
+
         .edit-information-account .active-section {
             margin-top: 10px;
         }
+
         #activeSelect {
             border-radius: 5px;
         }
+
         .edit-information-account .create_account-section {
             margin-bottom: 10px;
         }
+
         .modal-content-edit_information h2 {
             color: #555;
             margin-bottom: 10px;
+        }
+        .group-text-deleteAll {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .group-text-deleteAll .p-deleteAll1{
+            font-size: 1.1rem;
+            width: 100%;
+        }
+        .group-text-deleteAll .icon-warning{
+            font-size: 16px;
+        }
+        .group-text-deleteAll .p-deleteAll2{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 1rem;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -620,6 +646,10 @@
     <div class="dashboard-container">
         <nav class="dashboard-sidebar">
             <ul class="sidebar-items">
+                <div class="group-avatar">
+                    <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                    <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                </div>
                 <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
                 <li><a href="#" class="a-with-icon selected"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
@@ -632,31 +662,17 @@
             <div class="text">━ Được update tới 2025 ━</div>
         </nav>
         <div class="dashboard-content">
-            <header class="dashboard-header">
-                <div class="search">
-                    <input type="text">
-                    <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+            <main class="dashboard-main-content">
+                <div class="button-group">
+                    <div class="func-group">
+                        <button class="button del" id="deleteAll-modal-btn">Xoá Ô Được Chọn</button>
+                        <button class="button add" id="open-modal-btn">Thêm</button>
+                        <button class="button excel" id="excel-modal-btn">Xuất ra Excel</button>
+                    </div>
                 </div>
-                <div class="group-icon">
-                    <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
-                    <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
-                </div>
-            </header>
-            <div class="button-group">
-                <div class="func-group">
-                    <button class="button del" id="deleteAll-modal-btn">Xoá Ô Được Chọn</button>
-                    <button class="button add" id="open-modal-btn">Thêm</button>
-                    <button class="button excel" id="excel-modal-btn">Xuất ra Excel</button>
-                </div>
-                <div class="icon-group">
-                    <ion-icon name="refresh-outline" class="icon" id="refresh-modal-btn"></ion-icon>
-                    <ion-icon name="swap-vertical-outline" class="icon" id="open-sort-modal-btn"></ion-icon>
-                    <ion-icon name="funnel-outline" class="icon" id="open-filter-modal-btn"></ion-icon>
-                </div>
-            </div>
-            <div class="table-container">
-                <table class="account-table">
-                    <thead>
+                <div class="table-container">
+                    <table id="account-table-main" class="account-table">
+                        <thead>
                         <tr class="sample">
                             <th class="col-tick">Chọn</th>
                             <th class="col-id">ID Tài Khoản</th>
@@ -666,6 +682,8 @@
                             <th class="col-create">Ngày tạo</th>
                             <th class="col-action">Hành Động</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <tr class="accounts">
                             <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
                             <td class="cell-id">1001</td>
@@ -676,16 +694,27 @@
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn">Sửa</button>
                                 <button class="delete btn">Xoá</button>
-<!--                                <button class="info btn">Chi Tiết</button>-->
                             </td>
                         </tr>
-                    </thead>
-                    <tbody id="account-table-body">
-                    </tbody>
-                </table>
-            </div>
+                        <tr class="accounts">
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                            <td class="cell-id">1002</td>
+                            <td class="cell-email">yurichangirl752@gmail.com</td>
+                            <td class="cell-phone">0901 772 7861</td>
+                            <td class="cell-status">Có</td>
+                            <td class="cell-create">03/08/2019</td>
+                            <td class="cell-action">
+                                <button class="edit btn" id="edit-modal-btn2">Sửa</button>
+                                <button class="delete btn">Xoá</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
         </div>
     </div>
+
     <div class="modal-overlay" id="add-account-modal">
         <div class="modal-content">
             <form id="add-form">
@@ -698,79 +727,29 @@
                     <input type="text" id="password" name="password" placeholder="Nhập mật khẩu" required>
                 </div>
                 <div class="group-button-action section">
-                    <button type="submit" class="add-btn element-button">Thêm</button>
                     <button type="button" class="cancel element-button" id="close-modal-btn">Huỷ</button>
+                    <button type="submit" class="add-btn element-button">Thêm</button>
                 </div>
             </form>
-        </div>
-    </div>
-    <div class="modal-overlay-sort" id="sort-account-modal">
-        <div class="modal-content-sort">
-            <div class="group-sort-button">
-                <div class="sort-option">
-                    <input type="radio" id="sort1" class="sort-box" name="sort-group">
-                    <label for="sort1">Sắp xếp theo ID Tài Khoản</label>
-                </div>
-                <div class="sort-option">
-                    <input type="radio" id="sort2" class="sort-box" name="sort-group">
-                    <label for="sort2">Sắp xếp theo Email</label>
-                </div>
-                <div class="sort-option">
-                    <input type="radio" id="sort3" class="sort-box" name="sort-group">
-                    <label for="sort3">Sắp xếp theo SĐT</label>
-                </div>
-                <div class="sort-option">
-                    <input type="radio" id="sort4" class="sort-box" name="sort-group">
-                    <label for="sort4">Sắp xếp theo Tài khoản hoạt động</label>
-                </div>
-                <div class="sort-option">
-                    <input type="radio" id="sort5" class="sort-box" name="sort-group">
-                    <label for="sort5">Sắp xếp theo Ngày tạo</label>
-                </div>
-                <div class="select-perform">
-                    <p>Hiển thị dựa theo:</p>
-                    <select id="sortSelect">
-                        <option value="asc">Tăng dần</option>
-                        <option value="desc">Giảm dần</option>
-                    </select>
-                </div>
-            </div>
-            <div class="group-button-action">
-                <button type="submit" class="add-btn sort-button">Sắp Xếp</button>
-                <button type="button" class="cancel element-button" id="close-modal-btn2">Huỷ</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal-overlay-filter" id="filter-account-modal">
-        <div class="modal-content-filter">
-            <div class="text-filter-group">
-                <label for="text-filter" id="text-filter-element"><ion-icon name="enter-outline"></ion-icon>Nhập thông tin cần lọc:</label>
-                <input type="text" id="text-filter" name="text-filter" placeholder="Nhập thông tin">
-            </div>
-            <div class="group-button-action">
-                <button type="submit" class="add-btn filter-button">Lọc</button>
-                <button type="button" class="cancel element-button" id="close-modal-btn3">Huỷ</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal-overlay-refresh" id="refresh-account-modal">
-        <div class="modal-content-refresh">
-            <p>Đã làm mới thành công danh sách tài khoản</p>
-            <button type="button" class="cancel element-button" id="close-modal-btn4">Tắt</button>
         </div>
     </div>
     <div class="modal-overlay-excel" id="excel-account-modal">
         <div class="modal-content-excel">
             <p>Thành công xuất ra file Excel</p>
-            <button type="button" class="cancel element-button" id="close-modal-btn5">Tắt</button>
+            <button class="modal-close2" id="close-modal-btn5">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
         </div>
     </div>
     <div class="modal-overlay-deleteAll" id="deleteAll-account-modal">
         <div class="modal-content-deleteAll">
-            <p> Bạn có chắc chắn muốn xoá toàn bộ dữ liệu của các ô được chọn?</p>
+            <div class="group-text-deleteAll">
+                <p class="p-deleteAll1">Bạn có chắc chắn muốn xoá toàn bộ dữ liệu của các ô được chọn?</p>
+                <p class="p-deleteAll2"><ion-icon name="warning-outline" class="icon-warning"></ion-icon>Hành động này sẽ không thể hoàn tác</p>
+            </div>
             <div class="group-button-action delete-all">
-                <button type="submit" class="deleteAll-button">Xoá Tất Cả</button>
                 <button type="button" class="element-button" id="close-modal-btn6">Huỷ</button>
+                <button type="submit" class="deleteAll-button">Xoá Tất Cả</button>
             </div>
         </div>
     </div>
@@ -811,38 +790,63 @@
                 </div>
             </div>
             <div class="group-button-action section">
-                <button type="submit" class="fix-btn element-button">Sửa</button>
                 <button type="button" class="cancel element-button" id="close-modal-btn7">Huỷ</button>
+                <button type="submit" class="fix-btn element-button">Sửa</button>
             </div>
         </div>
     </div>
+
     <div class="modal-overlay-notification" id="notification-account-modal">
         <div class="modal-content-notification">
-            <button class="modal-close" id="close-modal-btn8">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
-            <h2 class="notification-title">Thông báo</h2>
+            <div class="group-notification">
+                <h2 class="notification-title">Thông báo</h2>
+                <button class="modal-close" id="close-modal-btn8">
+                    <ion-icon name="close-outline"></ion-icon>
+                </button>
+            </div>
             <div class="notification-empty-state">
                 <ion-icon name="notifications-off-outline"></ion-icon>
                 <p>Hiện tại chưa có thông báo mới</p>
             </div>
         </div>
     </div>
+
+    <div class="modal-overlay-avatar" id="avatar-account-modal">
+        <div class="modal-content-avatar">
+            <button class="modal-close2" id="close-modal-btn9">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <button class="btn-menu-item">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <span>Trở về trang người dùng</span>
+            </button>
+            <button class="btn-menu-item">
+                <ion-icon name="log-out-outline"></ion-icon>
+                <span>Đăng xuất tài khoản</span>
+            </button>
+        </div>
+    </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
     <script src="popup.js"></script>
     <script>
         // Run Pop-up function
         document.addEventListener("DOMContentLoaded", function() {
             setupModal('add-account-modal', 'open-modal-btn', 'close-modal-btn');
-            setupModal('sort-account-modal', 'open-sort-modal-btn', 'close-modal-btn2');
-            setupModal('filter-account-modal', 'open-filter-modal-btn', 'close-modal-btn3');
-            setupModal('refresh-account-modal', 'refresh-modal-btn', 'close-modal-btn4');
             setupModal('excel-account-modal', 'excel-modal-btn', 'close-modal-btn5');
             setupModal('deleteAll-account-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
             setupModal('edit_information-account-modal', 'edit-modal-btn', 'close-modal-btn7');
+            setupModal('edit_information-account-modal', 'edit-modal-btn2', 'close-modal-btn7');
             setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+            setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
+
+            $(document).ready(function() {
+                $('#account-table-main').DataTable();
+            });
         });
     </script>
 </body>
