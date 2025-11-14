@@ -23,26 +23,65 @@
             background-color: #21232d;
             position: relative;
         }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #eaedfd;
-            height: 70px;
+        .dashboard-content {
+            background-color: #f4f7fa;
         }
+
         .sidebar-items {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             list-style-type: none;
             position: fixed;
-            top: 120px;
+            top: 20px;
             height: 100vh;
-            width: 250px;
             overflow-y: auto;
+            width: 250px;
         }
+        .group-avatar .user-avatar {
+            border-radius: 100%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        .group-avatar {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 15px;
+        }
+        .user-avatar:hover {
+            border-color: #6341ff;
+        }
+
+        .icon-header {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            bottom: -5px;
+            right: 5px;
+            margin-left: 0;
+            background-color: #3a3a3a;
+            border-radius: 50%;
+            padding: 6px;
+            border: 2px solid #1f1f1f;
+            line-height: 1;
+            transition: 0.3s ease;
+        }
+
+        .icon-header:hover {
+            color: #020202;
+            transform: scale(1.1);
+            background-color: #f8f8f8;
+        }
+
         .a-with-icon {
             text-decoration: none;
             color: rgba(255, 255, 255, 0.8);
@@ -57,7 +96,6 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             border: 1px solid transparent;
         }
-        /* Giả lập Hover cho trang chỉ định */
         .a-with-icon.selected {
             border-color: #6341ff;
             background-color: #343746;
@@ -74,57 +112,6 @@
             background-color: #343746;
             color: #ffffff;
         }
-        .group-icon {
-            display: flex;
-            flex-direction: row;
-            gap: 30px;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 50px;
-            padding-bottom: 10px;
-        }
-        .icon-header {
-            width: 30px;
-            height: 30px;
-            padding-top: 10px;
-            cursor: pointer;
-        }
-        .avatar {
-            width: 50px;
-            height: 50px;
-        }
-        .search {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 20px;
-            padding-left: 50px;
-        }
-        .search input {
-            width: 300px;
-            padding: 12px 15px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        .search input:focus {
-            border-color: #6341ff;
-            box-shadow: 0 0 1px #6341ff;
-            outline: none;
-        }
-        #searchIcon {
-            cursor: pointer;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            padding: 5px 5px 5px 5px;
-        }
-        #searchIcon:hover, .icon-header:hover {
-            color: #6341ff;
-            transform: scale(1.1);
-            transition: transform 0.2s ease;
-        }
         .text {
             color: #decdcd;
             font-size: 12px;
@@ -139,18 +126,76 @@
 
         .dashboard-main-content {
             padding: 30px;
+            background-color: #f4f7fa;
             flex-grow: 1;
         }
 
         .dashboard-main-content h1 {
             font-size: 28px;
             color: #21232d;
-            margin-bottom: 25px;
             text-align: center;
+            margin-bottom: 10px;
         }
 
+        /* Avatar */
+        .modal-content-avatar {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            padding: 20px 20px 20px 10px;
+            gap: 8px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+            width: 90%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+        }
+        .btn-menu-item:hover {
+            border-color: #6341ff;
+            transform: scale(1.02);
+        }
+        .modal-close2 {
+            position: absolute;
+            top: 1px;
+            right: 0px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 20px;
+            padding: 4px;
+            line-height: 1;
+            border-radius: 50%;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .modal-close2:hover {
+            color: #111;
+            background-color: #f0f0f0;
+        }
+        .btn-menu-item ion-icon {
+            font-size: 18px;
+            color: #555;
+            flex-shrink: 0;
+        }
         /* Notification */
-        .modal-overlay-notification {
+        .modal-overlay-notification, .modal-overlay-avatar {
             position: fixed;
             top: 0;
             left: 0;
@@ -158,27 +203,18 @@
             height: 100vh;
             z-index: 1000;
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start;
+
             align-items: flex-start;
-
-            padding-top: 70px;
-            padding-right: 30px;
-
+            padding-left: 250px;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-
-        .modal-overlay-notification.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content-notification {
+        .modal-content-notification{
             width: 400px;
             max-height: 80vh;
             overflow-y: auto;
-
             background: #fff;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,.15);
@@ -187,28 +223,26 @@
             flex-direction: column;
             box-sizing: border-box;
             padding: 20px;
-
-            transform: scale(0.95);
-            opacity: 0;
             transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
-        .modal-overlay-notification.show .modal-content-notification {
-            transform: scale(1);
+        .modal-overlay-notification.show, .modal-overlay-avatar.show {
             opacity: 1;
+            visibility: visible;
         }
-
+        .group-notification {
+            display: flex;
+            flex-direction: row;
+        }
         .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
             width: 36px;
             height: 36px;
             border: 0;
             background: transparent;
             border-radius: 8px;
-
             cursor: pointer;
+            /*di chuyển không ảnh hưởng components khác*/
+            transform: translateY(-10px)
         }
         .modal-close:hover { background: #f2f2f2; }
         .modal-close:focus-visible {
@@ -314,28 +348,22 @@
 <div class="dashboard-container">
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
-            <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
+            <div class="group-avatar">
+                <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+            </div>
+            <li><a href="#" class="a-with-icon selected"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
             <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
             <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
             <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
             <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
             <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
             <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="#" class="a-with-icon selected"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
         </ul>
         <div class="text">━ Được update tới 2025 ━</div>
     </nav>
     <div class="dashboard-content">
-        <header class="dashboard-header">
-            <div class="search">
-                <input type="text">
-                <ion-icon name="search-outline" id="searchIcon"></ion-icon>
-            </div>
-            <div class="group-icon">
-                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
-                <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
-            </div>
-        </header>
         <main class="dashboard-main-content">
             <h1>Tổng quan thống kê về sản phẩm</h1>
             <div class="group-chart">
@@ -359,14 +387,31 @@
 </div>
 <div class="modal-overlay-notification" id="notification-account-modal">
     <div class="modal-content-notification">
-        <button class="modal-close" id="close-modal-btn8">
-            <ion-icon name="close-outline"></ion-icon>
-        </button>
-        <h2 class="notification-title">Thông báo</h2>
+        <div class="group-notification">
+            <h2 class="notification-title">Thông báo</h2>
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
         <div class="notification-empty-state">
             <ion-icon name="notifications-off-outline"></ion-icon>
             <p>Hiện tại chưa có thông báo mới</p>
         </div>
+    </div>
+</div>
+<div class="modal-overlay-avatar" id="avatar-account-modal">
+    <div class="modal-content-avatar">
+        <button class="modal-close2" id="close-modal-btn9">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <span>Trở về trang người dùng</span>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="log-out-outline"></ion-icon>
+            <span>Đăng xuất tài khoản</span>
+        </button>
     </div>
 </div>
 
@@ -501,6 +546,7 @@
     // Run Pop-up function
     document.addEventListener("DOMContentLoaded", function() {
         setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
     });
 </script>
 </body>
