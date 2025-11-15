@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lí Blog/Tin tức</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="popup.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Mulish, sans-serif, serif;
+        }
+
+        .dashboard-container {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: 250px 1fr
+        }
+
+        .dashboard-sidebar {
+            background-color: #21232d;
+            position: relative;
+        }
+
+        .dashboard-content {
+            background-color: #f4f7fa;
+        }
+
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            list-style-type: none;
+            position: fixed;
+            top: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            width: 250px;
+        }
+
+        .group-avatar .user-avatar {
+            border-radius: 100%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        .group-avatar {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 15px;
+        }
+
+        .user-avatar:hover {
+            border-color: #6341ff;
+        }
+
+        .icon-header {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            bottom: -5px;
+            right: 5px;
+            margin-left: 0;
+            background-color: #3a3a3a;
+            border-radius: 50%;
+            padding: 6px;
+            border: 2px solid #1f1f1f;
+            line-height: 1;
+            transition: 0.3s ease;
+        }
+
+        .icon-header:hover {
+            color: #020202;
+            transform: scale(1.1);
+            background-color: #f8f8f8;
+        }
+
+        .a-with-icon {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            width: 200px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .a-with-icon.selected, .a-with-icon:hover {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+
+        .a-with-icon ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .text {
+            color: #decdcd;
+            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
+        }
+
+        .dashboard-main-content {
+            padding: 30px;
+            background-color: #f4f7fa;
+            flex-grow: 1;
+        }
+
+        .dashboard-main-content h1 {
+            font-size: 28px;
+            color: #21232d;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* DataTables styling */
+        .dataTables_wrapper {
+            margin-top: 20px;
+            font-family: 'Mulish', sans-serif;
+        }
+
+        #blogTable {
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #blogTable thead tr {
+            background-color: #21232d;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #blogTable th, #blogTable td {
+            padding: 12px 15px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #blogTable tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        #blogTable tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        #blogTable tbody tr:last-of-type {
+            border-bottom: 2px solid #6341ff;
+        }
+
+        #blogTable tbody tr:hover {
+            background-color: #ecebff;
+            cursor: pointer;
+        }
+
+        #blogTable td button {
+            padding: 6px 12px;
+            border: none;
+            background-color: #c7a17a; /* Default button color from promotions */
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #blogTable td button:hover {
+            background-color: #a87c58; /* Darker hover color */
+        }
+
+        table.dataTable thead th {
+            background-image: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center right !important;
+        }
+
+        table.dataTable thead th.sorting,
+        table.dataTable thead th.sorting_asc,
+        table.dataTable thead th.sorting_desc {
+            background-image: none !important;
+        }
+
+        .dataTables_length label,
+        .dataTables_filter label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .dataTables_length select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin: 0 8px;
+            background-color: #fff;
+            transition: border-color 0.2s ease;
+        }
+
+        .dataTables_length select:focus {
+            border-color: #6341ff;
+            outline: none;
+            box-shadow: 0 0 3px rgba(99, 65, 255, 0.4);
+        }
+
+        .dataTables_filter input {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .dataTables_filter input:focus {
+            border-color: #6341ff;
+            outline: none;
+            box-shadow: 0 0 3px rgba(99, 65, 255, 0.4);
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            float: left;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            float: right;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            float: left;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .dataTables_wrapper::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .dataTables_paginate .paginate_button {
+            color: #6341ff !important;
+            background-color: #fff !important;
+            border: 1px solid #ccc !important;
+            padding: 6px 12px;
+            margin: 0 3px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .dataTables_paginate .paginate_button:hover {
+            background-color: #6341ff !important;
+            color: white !important;
+            border-color: #6341ff !important;
+        }
+
+        .dataTables_paginate .paginate_button.current {
+            background-color: #6341ff !important;
+            color: #fff !important;
+            border-color: #6341ff !important;
+        }
+
+        .dataTables_paginate .paginate_button.disabled {
+            opacity: 0.5;
+            cursor: default;
+            background-color: #f3f3f3 !important;
+            color: #999 !important;
+            border-color: #ddd !important;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            display: none; /* Ẩn mặc định */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 15px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0px 5px 18px rgba(0, 0, 0, 0.25);
+            animation: modalFadeIn 0.2s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal-btn8,
+        .close-modal-btn9,
+        .close-modal-btn,
+        .close-blog-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            width: 28px;
+            height: 28px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .close-modal-btn8::before,
+        .close-modal-btn9::before,
+        .close-modal-btn::before,
+        .close-blog-btn::before {
+            content: "✕";
+            font-size: 18px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .modal-content .form-group {
+            margin-bottom: 15px;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .modal-content input,
+        .modal-content select,
+        .modal-content textarea {
+            width: 100%;
+            padding: 9px 11px;
+            border: 1px solid #cfcfcf;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease;
+            box-sizing: border-box;
+        }
+
+        .modal-content input:focus,
+        .modal-content select:focus,
+        .modal-content textarea:focus {
+            border-color: #007bff;
+        }
+
+        .modal-content button[type="submit"] {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: opacity .2s;
+        }
+
+        .modal-content button[type="submit"]:hover {
+            opacity: 0.9;
+        }
+
+        #addBlogBtn {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #6341ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #addBlogBtn:hover {
+            background-color: #5034cc;
+        }
+
+        .modal-overlay-notification, .modal-overlay-avatar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding-left: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-content-notification {
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .modal-overlay-notification.show, .modal-overlay-avatar.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .group-notification {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transform: translateY(-10px)
+        }
+
+        .modal-close:hover {
+            background: #f2f2f2;
+        }
+
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            padding: 30px 0;
+        }
+
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        .modal-content-avatar {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            padding: 20px 20px 20px 10px;
+            gap: 8px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+            width: 90%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .btn-menu-item:hover {
+            border-color: #6341ff;
+            transform: scale(1.02);
+        }
+
+        .modal-close2 {
+            position: absolute;
+            top: 1px;
+            right: 0px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 20px;
+            padding: 4px;
+            line-height: 1;
+            border-radius: 50%;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .modal-close2:hover {
+            color: #111;
+            background-color: #f0f0f0;
+        }
+
+        .btn-menu-item ion-icon {
+            font-size: 18px;
+            color: #555;
+            flex-shrink: 0;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .status-published { color: #28a745; }
+        .status-archived { color: #c82333; }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <nav class="dashboard-sidebar">
+        <ul class="sidebar-items">
+            <div class="group-avatar">
+                <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+            </div>
+            <li><a href="AdminDashboard.html" class="a-with-icon">
+                <ion-icon name="home-outline"></ion-icon>
+                Trang Chủ</a></li>
+            <li><a href="manage_product.html" class="a-with-icon">
+                <ion-icon name="bag-remove-outline"></ion-icon>
+                Quản Lí Sản Phẩm</a></li>
+            <li><a href="ManageAccounts.html" class="a-with-icon">
+                <ion-icon name="people-outline"></ion-icon>
+                Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="manage_orders.html" class="a-with-icon">
+                <ion-icon name="cart-outline"></ion-icon>
+                Quản Lí Đơn Hàng</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="clipboard-outline"></ion-icon>
+                Quản Lí Kho Hàng</a></li>
+            <li><a href="manage_blog.html" class="a-with-icon selected">
+                <ion-icon name="reader-outline"></ion-icon>
+                Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="manage_promotions.html" class="a-with-icon">
+                <ion-icon name="ticket-outline"></ion-icon>
+                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="Charts.html" class="a-with-icon">
+                <ion-icon name="stats-chart-outline"></ion-icon>
+                Thống Kê</a></li>
+        </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
+    </nav>
+    <div class="dashboard-content">
+        <main class="dashboard-main-content">
+            <h1>Quản Lý Blog/Tin tức</h1>
+            <button id="addBlogBtn">Thêm bài viết mới</button>
+            <div class="data-table-container">
+                <table id="blogTable" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tiêu đề</th>
+                        <th>Tác giả</th>
+                        <th>Ngày đăng</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Bài viết mẫu 1</td>
+                        <td>Admin</td>
+                        <td>2025-01-01</td>
+                        <td><span class="status-badge status-published">Hiện</span></td>
+                        <td>
+                            <button class="edit-btn">Sửa</button>
+                            <button class="delete-btn">Xóa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Bài viết mẫu 2</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>2025-02-10</td>
+                        <td><span class="status-badge status-archived">Ẩn</span></td>
+                        <td>
+                            <button class="edit-btn">Sửa</button>
+                            <button class="delete-btn">Xóa</button>
+                        </td>
+                    </tr>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="modal-overlay" id="blogModal">
+    <div class="modal-content">
+        <button class="close-blog-btn" id="closeBlogModal"></button>
+        <h2 id="blogModalLabel">Thêm/Sửa bài viết</h2>
+
+        <form id="blogForm">
+            <input type="hidden" id="blogId">
+
+            <div class="form-group">
+                <label for="blogTitle">Tiêu đề:</label>
+                <input type="text" id="blogTitle" required>
+            </div>
+
+            <div class="form-group">
+                <label for="blogAuthor">Tác giả:</label>
+                <input type="text" id="blogAuthor" required>
+            </div>
+
+            <div class="form-group">
+                <label for="blogDate">Ngày đăng:</label>
+                <input type="date" id="blogDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="blogContent">Nội dung:</label>
+                <textarea id="blogContent" rows="10" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="blogStatus">Trạng thái:</label>
+                <select id="blogStatus" required>
+                    <option value="Draft">Bản nháp</option>
+                    <option value="Published">Đã xuất bản</option>
+                    <option value="Archived">Lưu trữ</option>
+                </select>
+            </div>
+
+            <button type="submit">Lưu</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-content-notification">
+        <div class="group-notification">
+            <h2 class="notification-title">Thông báo</h2>
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
+        <div class="notification-empty-state">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+            <p>Hiện tại chưa có thông báo mới</p>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-avatar" id="avatar-account-modal">
+    <div class="modal-content-avatar">
+        <button class="modal-close2" id="close-modal-btn9">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <span>Trở về trang người dùng</span>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="log-out-outline"></ion-icon>
+            <span>Đăng xuất tài khoản</span>
+        </button>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const blogTable = $('#blogTable').DataTable();
+
+        const blogModal = document.getElementById('blogModal');
+        const addBlogBtn = document.getElementById('addBlogBtn');
+        const closeBlogModalBtn = document.getElementById('closeBlogModal');
+        const blogForm = document.getElementById('blogForm');
+        const blogModalLabel = document.getElementById('blogModalLabel');
+
+        let editingRow = null;
+
+        addBlogBtn.addEventListener('click', function () {
+            blogForm.reset();
+            editingRow = null;
+            blogModalLabel.textContent = "Thêm bài viết mới";
+            blogModal.classList.add('show');
+        });
+
+        closeBlogModalBtn.addEventListener('click', function () {
+            blogModal.classList.remove('show');
+        });
+
+        blogModal.addEventListener('click', function (e) {
+            if (e.target === blogModal) {
+                blogModal.classList.remove('show');
+            }
+        });
+
+        $('#blogTable tbody').on('click', '.edit-btn', function () {
+            editingRow = $(this).closest('tr');
+            blogModalLabel.textContent = "Sửa bài viết";
+            const title = editingRow.find("td:eq(1)").text();
+            const author = editingRow.find("td:eq(2)").text();
+            const date = editingRow.find("td:eq(3)").text();
+            const status = editingRow.find("td:eq(4)").text();
+            document.getElementById("blogTitle").value = title;
+            document.getElementById("blogAuthor").value = author;
+            document.getElementById("blogDate").value = date;
+            document.getElementById("blogStatus").value = status;
+            document.getElementById("blogContent").value = "(Chưa có nội dung)";
+            blogModal.classList.add('show');
+        });
+
+        $('#blogTable tbody').on('click', '.delete-btn', function () {
+            if (confirm("Bạn có chắc muốn xóa bài viết này?")) {
+               alert("Xóa thành công")
+            }
+        });
+
+        blogForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (editingRow) {
+                alert("Sửa thành công")
+            } else {
+                alert("Thêm thành công")
+            }
+
+            blogModal.classList.remove('show');
+        });
+
+        setTimeout(() => {
+            $('#blogTable thead th').removeAttr('style');
+        }, 200);
+
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
+    });
+</script>
+
+</body>
+</html>
