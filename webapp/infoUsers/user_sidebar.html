@@ -311,8 +311,9 @@
         }
         const logout=document.querySelector('.logout-button');
         logout.addEventListener('click', function(){
-            alert("Đăng xuất thành công")
-            console.log('Logout clicked');
+            if (confirm('Bạn có chắc chắn muốn đăng xuất')) {
+                alert("Đăng xuất thành công")
+            }
         })
     });
 </script>

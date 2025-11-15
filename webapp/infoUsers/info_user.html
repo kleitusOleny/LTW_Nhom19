@@ -18,23 +18,19 @@
         border-bottom: 1px solid #eee;
         padding-bottom: 15px;
     }
-
     .user-info-fields {
         width: 100%;
         margin-bottom: 20px;
     }
-
     .field {
+        position: relative;
         display: flex;
         align-items: center;
         padding: 15px;
         border-radius: 8px;
         margin-bottom: 15px;
         background-color: #f9f9f9;
-        border-left: 3px solid transparent;
-        transition: all 0.3s ease;
     }
-
     .field i {
         margin-right: 20px;
         color: #c7a17a;
@@ -42,7 +38,13 @@
         text-align: center;
         font-size: 1.1em;
     }
-
+    .field i.left-icon {
+        margin-right: 20px;
+        color: #c7a17a;
+        width: 25px;
+        text-align: center;
+        font-size: 1.1em;
+    }
     .field:hover {
         background-color: #f5f5f5;
         border-left-color: #c7a17a;
@@ -52,7 +54,7 @@
         background-color: #8c3333;
         color: #fff;
         padding: 12px 25px;
-        border: none;
+        border-color: #8c3333;
         border-radius: 5px;
         cursor: pointer;
         font-size: 16px;
@@ -61,15 +63,19 @@
     }
 
     .btn:hover {
-        background-color: #7a2b2b;
+        background-color: #fff;
+        color: #8c3333;
     }
 
     .btn.cancel {
-        background: #6c757d;
+        background: #9e9e9e;
+        border-color: #9e9e9e;
     }
 
     .btn.cancel:hover {
-        background: #5a6268;
+        background-color: #c2c2c2;
+        border-color: #666;
+        color: #333;
     }
 
     .buttons {
@@ -99,122 +105,192 @@
         background-position: right 12px center;
         background-size: 12px;
     }
+
+    .editable-input, #old-password {
+        width: 100%;
+        padding: 8px 30px 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        box-sizing: border-box;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 25px;
+        font-size: 1.1em;
+        cursor: pointer;
+        display: none;
+        color: #555;
+    }
+
+    .password-toggle:hover {
+        color: #222;
+    }
 </style>
 
+
 <div class="user-profile-card">
-    <h2 data-lang-key="userInfo">Thông tin người dùng</h2>
+    <h2>Thông tin người dùng</h2>
+
     <div class="user-info-fields">
+
         <div class="field">
-            <i class="fa-solid fa-user"></i>
+            <i class="fa-solid fa-user left-icon"></i>
             <span class="editable" data-key="name">Nguyễn Văn A</span>
         </div>
+
         <div class="field">
-            <i class="fa-solid fa-envelope"></i>
+            <i class="fa-solid fa-envelope left-icon"></i>
             <span class="editable" data-key="email">nguyenvan@example.com</span>
         </div>
+
         <div class="field">
-            <i class="fa-solid fa-phone"></i>
+            <i class="fa-solid fa-phone left-icon"></i>
             <span class="editable" data-key="phone">0987654321</span>
         </div>
+
         <div class="field">
-            <i class="fa-solid fa-venus-mars"></i>
+            <i class="fa-solid fa-venus-mars left-icon"></i>
             <span class="editable" data-key="gender" data-value="1">Nam</span>
         </div>
+
         <div class="field">
-            <i class="fa-solid fa-calendar-days"></i>
+            <i class="fa-solid fa-calendar-days left-icon"></i>
             <span class="editable" data-key="dob">01/01/1990</span>
         </div>
-        <div class="field">
-            <i class="fa-solid fa-lock"></i>
-            <span class="editable" data-key="password">********</span>
+
+        <div class="field old-password-field" style="display:none;">
+            <i class="fa-solid fa-lock left-icon"></i>
+            <input id="old-password" type="password" placeholder="Nhập mật khẩu cũ">
+            <i class="fa-solid fa-eye password-toggle old-pass-eye"></i>
         </div>
+
+        <div class="field">
+            <i class="fa-solid fa-lock left-icon"></i>
+            <span class="editable" data-key="password">********</span>
+            <i class="fa-solid fa-eye password-toggle new-pass-eye"></i>
+        </div>
+
     </div>
+
     <div class="buttons">
-        <button id="edit-btn" class="btn">Sửa</button>
+        <button id="edit-btn" class="btn gray">Sửa</button>
         <button id="save-btn" class="btn" style="display:none;">Lưu</button>
         <button id="cancel-btn" class="btn cancel" style="display:none;">Hủy</button>
     </div>
 </div>
-
 <script>
     (function () {
-        const editBtn = document.getElementById('edit-btn');
+        const editBtn = document.getElementById("edit-btn");
         if (!editBtn || editBtn.dataset.initialized) return;
         editBtn.dataset.initialized = true;
+        const saveBtn = document.getElementById("save-btn");
+        const cancelBtn = document.getElementById("cancel-btn");
+        const oldPassField = document.querySelector(".old-password-field");
+        const oldPassInput = document.getElementById("old-password");
+        const oldPassEye = document.querySelector(".old-pass-eye");
+        const newPassEye = document.querySelector(".new-pass-eye");
 
-        const saveBtn = document.getElementById('save-btn');
-        const cancelBtn = document.getElementById('cancel-btn');
         let backup = {};
 
-        function toggleEditMode(isEditing) {
-            const editableFields = document.querySelectorAll('.editable');
-            if (isEditing) {
-                editableFields.forEach(span => {
+        function attachEyeToggle(icon, input) {
+            icon.style.display = "block";
+
+            icon.onclick = () => {
+                if (input.type === "password") {
+                    input.type = "text";
+                    icon.classList.remove("fa-eye");
+                    icon.classList.add("fa-eye-slash");
+                } else {
+                    input.type = "password";
+                    icon.classList.remove("fa-eye-slash");
+                    icon.classList.add("fa-eye");
+                }
+            };
+        }
+
+        function toggleEditMode(on) {
+            const editable = document.querySelectorAll(".editable");
+
+            if (on) {
+                oldPassField.style.display = "flex";
+                oldPassInput.value = "";
+                attachEyeToggle(oldPassEye, oldPassInput);
+
+                editable.forEach(span => {
                     const key = span.dataset.key;
-                    backup[key] = span.textContent;
-                    if (key === 'gender') backup[key] = span.dataset.value;
+                    backup[key] = key === "gender" ? span.dataset.value : span.textContent;
 
                     let input;
-                    switch (key) {
-                        case 'gender':
-                            input = document.createElement('select');
-                            input.add(new Option('Nam', '1'));
-                            input.add(new Option('Nữ', '0'));
-                            input.value = span.dataset.value;
-                            break;
-                        case 'password':
-                            input = document.createElement('input');
-                            input.type = 'password';
-                            input.placeholder = 'Nhập mật khẩu mới';
-                            break;
-                        case 'dob':
-                            input = document.createElement('input');
-                            input.type = 'date';
-                            const dateParts = span.textContent.split('/');
-                            if (dateParts.length === 3) input.value = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-                            break;
-                        default:
-                            input = document.createElement('input');
-                            input.type = 'text';
-                            input.value = span.textContent;
+
+                    if (key === "gender") {
+                        input = document.createElement("select");
+                        input.add(new Option("Nam", "1"));
+                        input.add(new Option("Nữ", "0"));
+                        input.value = span.dataset.value;
                     }
-                    input.classList.add('editable-input');
+                    else if (key === "password") {
+                        input = document.createElement("input");
+                        input.type = "password";
+                        input.placeholder = "Nhập mật khẩu mới";
+                        attachEyeToggle(newPassEye, input);
+                    }
+                    else if (key === "dob") {
+                        input = document.createElement("input");
+                        input.type = "date";
+                        let p = span.textContent.split("/");
+                        input.value = `${p[2]}-${p[1]}-${p[0]}`;
+                    }
+                    else {
+                        input = document.createElement("input");
+                        input.type = "text";
+                        input.value = span.textContent;
+                    }
+
+                    input.classList.add("editable-input");
                     input.dataset.key = key;
+
                     span.replaceWith(input);
                 });
-                editBtn.style.display = 'none';
-                saveBtn.style.display = 'inline-block';
-                cancelBtn.style.display = 'inline-block';
-            } else {
-                document.querySelectorAll('.editable-input').forEach(input => {
-                    const key = input.dataset.key;
-                    let span = document.createElement('span');
-                    span.classList.add('editable');
+
+                editBtn.style.display = "none";
+                saveBtn.style.display = "inline-block";
+                cancelBtn.style.display = "inline-block";
+            }
+            else {
+                oldPassField.style.display = "none";
+                oldPassEye.style.display = "none";
+                newPassEye.style.display = "none";
+
+                document.querySelectorAll(".editable-input").forEach(input => {
+                    let key = input.dataset.key;
+                    let span = document.createElement("span");
+                    span.classList.add("editable");
                     span.dataset.key = key;
-                    if (key === 'gender') {
+
+                    if (key === "gender") {
                         span.dataset.value = backup[key];
-                        span.textContent = backup[key] === '1' ? 'Nam' : 'Nữ';
+                        span.textContent = backup[key] === "1" ? "Nam" : "Nữ";
                     } else {
                         span.textContent = backup[key];
                     }
+
                     input.replaceWith(span);
                 });
-                editBtn.style.display = 'inline-block';
-                saveBtn.style.display = 'none';
-                cancelBtn.style.display = 'none';
+
+                editBtn.style.display = "inline-block";
+                saveBtn.style.display = "none";
+                cancelBtn.style.display = "none";
             }
         }
 
-        editBtn.addEventListener('click', () => toggleEditMode(true));
-        cancelBtn.addEventListener('click', () => toggleEditMode(false));
-        saveBtn.addEventListener('click', function () {
-            let updatedData = {};
-            document.querySelectorAll('.editable-input').forEach(input => {
-                const key = input.dataset.key;
-                updatedData[key] = input.value;
-            });
-            alert('Thông tin đã được cập nhật!');
+        editBtn.onclick = () => toggleEditMode(true);
+        cancelBtn.onclick = () => toggleEditMode(false);
+
+        saveBtn.onclick = () => {
+            alert("Thông tin đã cập nhật!");
             toggleEditMode(false);
-        });
+        };
     })();
 </script>

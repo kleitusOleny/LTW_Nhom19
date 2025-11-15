@@ -66,7 +66,6 @@
             <tbody>
             <tr>
                 <td>
-                    <button class="remove-item">×</button>
                     <img src="https://via.placeholder.com/50" alt="Wine Bottle"> Rượu Vang Đỏ
                 </td>
                 <td>1.500.000 VND</td>
@@ -83,10 +82,6 @@
 
             </tbody>
         </table>
-        <div class="cart-actions">
-            <a href="store.html" class="button continue-shopping"> <i class="fa-solid fa-arrow-left"></i> TIẾP TỤC
-                XEM SẢN PHẨM</a>
-        </div>
     </div>
     <dialog id="pageDialog">
         <button id="closeDialog" aria-label="Đóng">&times;</button>
@@ -111,6 +106,10 @@
                     hơn.</label>
                 <textarea id="notes" name="notes"></textarea>
             </p>
+            <div class="cart-actions">
+                <a href="store.html" class="continue-shopping"> TIẾP TỤC
+                    XEM SẢN PHẨM</a>
+            </div>
         </div>
         <div class="order-summary">
             <h2>ĐƠN HÀNG CỦA BẠN</h2>
@@ -147,8 +146,8 @@
                 <label for="age-verify">Tôi xác nhận tôi đã đủ tuổi hợp pháp để mua rượu.</label>
             </div>
             <div class="group-button">
-                <button type="submit" class="button" id="place-order-btn">ĐẶT HÀNG</button>
                 <button type="reset" class="button-cancel">HỦY</button>
+                <button type="submit" class="button" id="place-order-btn">ĐẶT HÀNG</button>
             </div>
         </div>
     </div>
@@ -225,11 +224,9 @@
             const ageVerifyCheckbox = document.getElementById('age-verify');
             const placeOrderBtn = document.getElementById('place-order-btn');
             const successModal=document.getElementById('success-modal');
-
             ageVerifyCheckbox.addEventListener('change', function () {
                 placeOrderBtn.disabled = !this.checked;
             });
-
 
             placeOrderBtn.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -246,7 +243,6 @@
         });
     </script>
 <script>
-
     const dialog = document.getElementById("pageDialog");
     const openBtn = document.querySelector(".btn-edit-info");
     const closeBtn = document.getElementById("closeDialog");
@@ -255,4 +251,3 @@
     closeBtn.addEventListener("click", () => dialog.close());
 </script>
 </body>
-
