@@ -359,6 +359,8 @@
         /* ---*/
         .button-group {
             display: flex;
+            flex-direction: row;
+            justify-content: space-between;
             gap: 8px;
             box-sizing: border-box;
             width: 100%;
@@ -374,25 +376,38 @@
             cursor: pointer;
             font-size: 14px;
         }
-        .del {
-            color: #fff;
-            background-color: #ff4747;
+        .func-group {
+            display: flex;
+            flex-direction: row;
         }
         .button-group .del:hover {
-            background-color: #e63939;
+            background-color: #bb2c3b;
         }
-        .add {
+        .add, .excel, .del {
             margin-left: 10px;
-            background-color: #0872fa;
             color: #fff;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            height: 42px;
+            gap: 5px;
+            font-weight: bold;
         }
         .button-group .add:hover {
             background-color: #0663dc;
         }
+        .del {
+            margin-left: 0;
+            background-color: #dc3545;
+        }
+        .add {
+            background-color: #0872fa;
+        }
         .excel {
-            margin-left: 10px;
             background-color: #108814;
-            color: #fff;
+        }
+        .type-needCss {
+            font-size: 20px;
         }
         .button-group .excel:hover {
             background-color: #0c670f;
@@ -640,6 +655,15 @@
             font-size: 1rem;
             font-weight: bold;
         }
+        /* datatable css only */
+        .dt-search .dt-input {
+            border: 2px solid transparent;
+            border-radius: 10px;
+            outline: none;
+        }
+        .dt-search .dt-input:focus {
+            border-color: #6341ff;
+        }
     </style>
 </head>
 <body>
@@ -664,10 +688,11 @@
         <div class="dashboard-content">
             <main class="dashboard-main-content">
                 <div class="button-group">
+                    <h2>Quản lí tài khoản khách</h2>
                     <div class="func-group">
-                        <button class="button del" id="deleteAll-modal-btn">Xoá Ô Được Chọn</button>
-                        <button class="button add" id="open-modal-btn">Thêm</button>
-                        <button class="button excel" id="excel-modal-btn">Xuất ra Excel</button>
+                        <button class="button del" id="deleteAll-modal-btn"><ion-icon name="trash-outline"></ion-icon>Xoá Ô Được Chọn</button>
+                        <button class="button add" id="open-modal-btn"><ion-icon name="add-outline" class="type-needCss"></ion-icon>Thêm</button>
+                        <button class="button excel" id="excel-modal-btn"><ion-icon name="cloud-download-outline"></ion-icon>Xuất ra Excel</button>
                     </div>
                 </div>
                 <div class="table-container">
@@ -845,7 +870,11 @@
             setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
 
             $(document).ready(function() {
-                $('#account-table-main').DataTable();
+                $('#account-table-main').DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/2.3.5/i18n/vi.json',
+                    },
+                });
             });
         });
     </script>
