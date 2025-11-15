@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lí Banner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="popup.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
+    <link rel="stylesheet" href="css/manage_banner_style.css">
+</head>
+
+<body>
+<div class="dashboard-container">
+    <nav class="dashboard-sidebar">
+        <ul class="sidebar-items">
+            <div class="group-avatar">
+                <img src="" class="user-avatar" id="avatar-modal-btn"/>
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+            </div>
+
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="home-outline"></ion-icon>
+                Trang Chủ</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="bag-remove-outline"></ion-icon>
+                Quản Lí Sản Phẩm</a></li>
+            <li><a href="#" class="a-with-icon selected">
+                <ion-icon name="home-outline"></ion-icon>
+                Quản Lí Banner</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="people-outline"></ion-icon>
+                Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="cart-outline"></ion-icon>
+                Quản Lí Đơn Hàng</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="clipboard-outline"></ion-icon>
+                Quản Lí Kho Hàng</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="reader-outline"></ion-icon>
+                Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="ticket-outline"></ion-icon>
+                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="#" class="a-with-icon">
+                <ion-icon name="stats-chart-outline"></ion-icon>
+                Thống Kê</a></li>
+        </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
+    </nav>
+    <div class="dashboard-content">
+        <main class="dashboard-main-content">
+
+            <div class="main-header">
+                <h1>Quản Lí Banner Trang Chủ</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="add-banner-btn">
+                        <ion-icon name="add-outline"></ion-icon>
+                        Thêm Banner Mới
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="banner-datatable" class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>ID Banner</th>
+                        <th>Ảnh Banner</th>
+                        <th>Link Đích</th>
+                        <th>Ngày Sự Kiện</th>
+                        <th>T/g Sống (ngày)</th>
+                        <th>Trạng Thái</th>
+                        <th>Hành Động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="banner-id">
+                                MAIN_BANNER
+                            </div>
+                        </td>
+                        <td><img class="banner-preview" src="assets/main_banner.jpg" alt="Banner Preview"></td>
+                        <td>
+                            <div class="target-url-cell">
+                                <a href="#" title="/store?promo=sale11">/index.html</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="banner-date">2025-11-10</div>
+                        </td>
+                        <td>5</td>
+                        <td><span class="status-badge active">Active</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action edit">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action delete">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BANNER_VANG_BORDEAUX</td>
+                        <td><img class="banner-preview" src="assets/banner-vang-bordeaux.jpg" alt="Banner Preview"></td>
+                        <td class="target-url-cell"><a href="#" title="/store?category=new">/store?category=bordeaux</a>
+                        </td>
+                        <td>2025-11-01</td>
+                        <td>30</td>
+                        <td><span class="status-badge active">Active</span></td>
+                        <td class="action-buttons">
+                            <button class="btn-action edit">
+                                <ion-icon name="pencil-outline"></ion-icon>
+                            </button>
+                            <button class="btn-action delete">
+                                <ion-icon name="trash-outline"></ion-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BANNER_VANG_BOURGOGNE</td>
+                        <td><img class="banner-preview" src="assets/banner-vang-bourgogne.jpg" alt="Banner Preview">
+                        </td>
+                        <td class="target-url-cell"><a href="#" title="/blog/post-1">/store?category=bourgogne</a></td>
+                        <td>2025-10-01</td>
+                        <td>10</td>
+                        <td><span class="status-badge inactive">Inactive</span></td>
+                        <td class="action-buttons">
+                            <button class="btn-action edit">
+                                <ion-icon name="pencil-outline"></ion-icon>
+                            </button>
+                            <button class="btn-action delete">
+                                <ion-icon name="trash-outline"></ion-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-content-notification">
+        <div class="group-notification">
+            <h2 class="notification-title">Thông báo</h2>
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
+        <div class="notification-empty-state">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+            <p>Hiện tại chưa có thông báo mới</p>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-avatar" id="avatar-account-modal">
+    <div class="modal-content-avatar">
+        <button class="modal-close2" id="close-modal-btn9">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <span>Trở về trang người dùng</span>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="log-out-outline"></ion-icon>
+            <span>Đăng xuất tài khoản</span>
+        </button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+
+</body>
+<script>
+    // Run Pop-up function (hiện có)
+    document.addEventListener("DOMContentLoaded", function () {
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
+
+        // (THÊM MỚI) Khởi tạo DataTable
+        $(document).ready(function () {
+            $('#banner-datatable').DataTable({
+                // Tắt sắp xếp cho cột Ảnh và Hành động
+                "columnDefs": [
+                    {
+                        "orderable": false,
+                        "targets": [1, 6]
+                    }
+                ],
+                // Dịch sang tiếng Việt
+                "language": {
+                    "search": "Tìm kiếm:",
+                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "info": "Hiển thị từ _START_ đến _END_ của _TOTAL_ mục",
+                    "infoEmpty": "Không tìm thấy mục nào",
+                    "infoFiltered": "(được lọc từ _MAX_ mục)",
+                    "zeroRecords": "Không tìm thấy dữ liệu",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                }
+            });
+        });
+    });
+</script>
+</html>
