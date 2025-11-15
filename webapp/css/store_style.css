@@ -18,32 +18,29 @@ ul {
     list-style: none;
 }
 
-/*
-header
- */
-.container {
-    margin-left: 100px;
-    margin-right: 100px;
-}
-
-.header {
-    background-color: #f7f7f7;
-    padding: 20px 0;
+.header-top {
+    background-color: #fff;
+    padding: 20px 100px;
     border-bottom: 1px solid #eee;
 }
 
-.header .container {
+.header-top > .container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
 }
 
-.header-center .logo {
+.header-logo .logo {
     font-family: 'Times New Roman', 'Georgia', serif;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
-    letter-spacing: 2px;
     color: #8c3333;
     text-transform: uppercase;
+    text-decoration: none;
 }
 
 .header-right {
@@ -51,152 +48,179 @@ header
     justify-content: flex-end;
     align-items: center;
     gap: 25px;
-    font-size: 25px;
+    font-size: 22px;
     color: #333;
 }
-
-.cart-link {
-    position: relative;
-    display: inline-block;
+.header-right a {
+    color: #333;
+    transition: color 0.3s ease;
+}
+.header-right a:hover {
+    color: #8c3333;
 }
 
-.cart-count {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-
-    background-color: #8c3333;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 1;
-
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    border: 2px solid #f7f7f7;
-}
-
-/*
-navigation pane
- */
-
-.nav {
+.header-nav-bar {
     background-color: #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.nav ul {
+.header-nav-bar > .container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
     display: flex;
     justify-content: center;
 }
 
-.nav ul li a {
+.header-nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.header-nav ul li a {
     display: block;
     padding: 22px 25px;
     color: #eee;
     font-size: 20px;
     font-weight: 600;
     text-transform: capitalize;
-
-    position: relative;
     text-decoration: none;
+    position: relative;
     transition: color 0.3s ease;
 }
 
-.nav ul li a::after {
+.header-nav ul li a::after {
     content: '';
     display: block;
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
-    height: 3px;
+    height: 2px;
     background-color: #c78c8c;
     transition: width 0.3s ease;
 }
-
-.nav ul li a:hover,
-.nav ul li a.active {
+.header-nav ul li a:hover,
+.header-nav ul li a.active {
     color: #c78c8c;
 }
-
-.nav ul li a:hover::after,
-.nav ul li a.active::after {
-    width: 100%;
+.header-nav ul li a:hover::after,
+.header-nav ul li a.active::after {
+    width: calc(100% - 40px);
 }
 
-.nav ul li.has-dropdown {
-    position: relative;
+.header-nav ul li.has-dropdown {
+    position: static;
 }
 
-.nav ul li a .fa-caret-down {
-    font-size: 14px;
-    margin-left: 5px;
-    transition: transform 0.3s ease;
-}
-
-.nav ul li.has-dropdown:hover .fa-caret-down {
-    transform: rotate(180deg);
-}
-
-.dropdown-menu {
+.mega-menu {
     position: absolute;
     top: 100%;
     left: 0;
+    width: 100%;
     background-color: #fff;
-    border: 1px solid #eee;
+    border-top: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-    border-top: 3px solid #8c3333;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    min-width: 230px;
-    border-radius: 0 0 5px 5px;
+    padding: 30px 100px;
+    box-sizing: border-box;
 
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 999;
 }
 
-.nav ul li.has-dropdown:hover > .dropdown-menu {
+.header-nav ul li.has-dropdown:hover > .mega-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-.dropdown-menu li {
-    width: 100%;
+.mega-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
 }
 
-.dropdown-menu li .dropdown-link {
-    display: block;
-    padding: 14px 20px;
-    color: #000;
+.mega-menu-column{
+    display: flex;
+    flex-direction: column;
+}
+
+.mega-menu-title {
     font-size: 16px;
-    font-weight: 500;
-    text-transform: none;
-    border-bottom: 1px solid #f4f4f4;
-    white-space: nowrap;
-    transition: background-color 0.3s, color 0.3s;
+    font-weight: 700;
+    color: #222;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #8c3333;
+    display: inline-block;
 }
 
-.dropdown-menu li .dropdown-link::after {
-    display: none;
+.mega-menu-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.dropdown-menu li:last-child .dropdown-link {
-    border-bottom: none;
+.mega-menu-list li {
+    display: block;
+    margin-bottom: 10px;
 }
 
-.dropdown-menu li .dropdown-link:hover {
-    background-color: #f7f7f7;
+.mega-menu-list li a.mega-menu-link {
+    display: block;
+    padding: 5px 0;
+    font-size: 15px;
+    font-weight: 400;
+    color: #333;
+    text-decoration: none !important;
+    transition: color 0.3s;
+}
+
+.mega-menu-list li a.mega-menu-link:hover {
     color: #8c3333;
+    text-decoration: none !important;
+}
+
+
+.mega-menu-list li a.mega-menu-link::after {
+    display: none !important;
+}
+
+.cart-link {
+    position: relative;
+    display: inline-block;
+}
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #8c3333;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #fff;
 }
 /*
 footer
@@ -488,7 +512,7 @@ Product Grid
     font-size: 17px;
     font-weight: bold;
     color: #8c3333;
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 .add-to-cart-btn {
