@@ -26,8 +26,13 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    padding-top: 150px;
+    padding-top: 120px;
     list-style-type: none;
+    position: fixed;
+    top: 120px;
+    height: 100vh;
+    width: 250px;
+    overflow-y: auto;
 }
 .a-with-icon {
     text-decoration: none;
@@ -43,6 +48,7 @@
     transition: background-color 0.3s ease, color 0.3s ease;
     border: 1px solid transparent;
 }
+/* Giả lập Hover cho trang chỉ định */
 .a-with-icon.selected {
     border-color: #6341ff;
     background-color: #343746;
@@ -125,18 +131,16 @@
 .dashboard-main-content {
     padding: 30px;
     flex-grow: 1;
-    background-color: #f9faff;
 }
 
 .dashboard-main-content h1 {
     font-size: 28px;
     color: #21232d;
-    margin-bottom: 0;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
-/*
-Notification (ĐÃ SỬA LẠI)
-*/
+/* Notification */
 .modal-overlay-notification {
     position: fixed;
     top: 0;
@@ -175,13 +179,11 @@ Notification (ĐÃ SỬA LẠI)
     box-sizing: border-box;
     padding: 20px;
 
-    /* --- HIỆU ỨNG SCALE MỚI --- */
     transform: scale(0.95);
-    opacity: 0; /* Thêm opacity để fade-in */
+    opacity: 0;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Khi overlay hiện, content sẽ scale lên */
 .modal-overlay-notification.show .modal-content-notification {
     transform: scale(1);
     opacity: 1;
@@ -189,13 +191,14 @@ Notification (ĐÃ SỬA LẠI)
 
 .modal-close {
     position: absolute;
-    top: 15px; /* Sửa lại vị trí nút đóng */
-    right: 15px; /* Sửa lại vị trí nút đóng */
+    top: 15px;
+    right: 15px;
     width: 36px;
     height: 36px;
     border: 0;
     background: transparent;
     border-radius: 8px;
+
     cursor: pointer;
 }
 .modal-close:hover { background: #f2f2f2; }
@@ -239,14 +242,17 @@ Notification (ĐÃ SỬA LẠI)
 }
 /* ---------------------------- */
 
-/* --- Tiêu đề chính và Nút --- */
+
 .main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
-
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
 .btn {
     display: inline-flex;
     align-items: center;
@@ -278,7 +284,6 @@ Notification (ĐÃ SỬA LẠI)
 .btn-secondary:hover {
     background-color: #e5e5e5;
 }
-
 .btn-danger {
     background-color: #dc3545;
     color: #fff;
@@ -288,18 +293,18 @@ Notification (ĐÃ SỬA LẠI)
     background-color: #c82333;
 }
 
-
 /* --- Container Bảng --- */
 .table-container {
     background-color: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    border: 1px solid #eaedfd;
 }
 
 .product-table {
-    width: 100%;
+    width: 100% !important;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .product-table th,
@@ -318,6 +323,14 @@ Notification (ĐÃ SỬA LẠI)
     text-transform: uppercase;
 }
 
+.product-table th:nth-child(1) { width: 5%; }  /* Checkbox */
+.product-table th:nth-child(2) { width: 45%; } /* Sản Phẩm */
+.product-table th:nth-child(3) { width: 15%; } /* SKU */
+.product-table th:nth-child(4) { width: 15%; } /* Giá */
+.product-table th:nth-child(5) { width: 10%; } /* Tồn Kho */
+.product-table th:nth-child(6) { width: 10%; } /* Hành Động */
+
+
 .product-table tbody tr:last-child td {
     border-bottom: none;
 }
@@ -326,7 +339,6 @@ Notification (ĐÃ SỬA LẠI)
     background-color: #fdfdff;
 }
 
-/* Cột Sản Phẩm (Ảnh + Tên) */
 .product-cell {
     display: flex;
     align-items: center;
@@ -348,7 +360,6 @@ Notification (ĐÃ SỬA LẠI)
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 250px;
 }
 
 .product-table td:nth-child(3),
@@ -357,7 +368,6 @@ Notification (ĐÃ SỬA LẠI)
     color: #444;
 }
 
-/* Cột Tồn Kho (Trạng thái còn hàng) */
 .stock-status {
     font-weight: 700;
     padding: 4px 8px;
@@ -378,8 +388,8 @@ Notification (ĐÃ SỬA LẠI)
     background-color: #fdeaea;
 }
 
-/* Cột Hành Động (Sửa, Xóa) */
 .action-buttons {
+    display: flex;
     gap: 10px;
 }
 .btn-action {
@@ -393,35 +403,85 @@ Notification (ĐÃ SỬA LẠI)
 .btn-action ion-icon {
     font-size: 20px;
 }
-.btn-action.edit {
-    color: #007bff;
-}
-.btn-action.edit:hover {
-    background-color: #e6f2ff;
-}
-.btn-action.delete {
-    color: #dc3545;
-}
-.btn-action.delete:hover {
-    background-color: #fdeaea;
-}
+.btn-action.edit { color: #007bff; }
+.btn-action.edit:hover { background-color: #e6f2ff; }
+.btn-action.delete { color: #dc3545; }
+.btn-action.delete:hover { background-color: #fdeaea; }
 
-/* --- Phân trang (Pagination) --- */
-.pagination-container {
+.dt-layout-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 25px;
+    padding: 15px 20px;
+    background-color: #fff;
 }
-.pagination-info {
+.dt-layout-row:first-child {
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid #eaedfd;
+}
+.dt-layout-row:last-child {
+    border-radius: 0 0 12px 12px;
+    border-top: 1px solid #eaedfd;
+}
+
+.dt-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.dt-search label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a6e8c;
+    margin-right: 10px;
+}
+.dt-search input {
+    width: 250px;
+    padding: 10px 15px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.dt-search input:focus {
+    border-color: #6341ff;
+    box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.2);
+    outline: none;
+}
+
+.dt-length {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a6e8c;
+}
+.dt-length select {
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.dt-length select:focus {
+    border-color: #6341ff;
+    outline: none;
+}
+
+.dt-info {
     font-size: 15px;
     color: #5a6e8c;
 }
-.pagination-buttons {
+
+.dt-paging {
     display: flex;
     gap: 8px;
 }
-.btn-page {
+.dt-paging .page-item {
+    display: flex;
+}
+.dt-paging .page-link {
     width: 36px;
     height: 36px;
     display: flex;
@@ -434,27 +494,29 @@ Notification (ĐÃ SỬA LẠI)
     color: #555;
     cursor: pointer;
     transition: all 0.2s;
+    text-decoration: none;
+    font-size: 14px;
 }
-.btn-page:hover {
+.dt-paging .page-link:hover {
     background-color: #f7f7f7;
     border-color: #ccc;
 }
-.btn-page.active {
+.dt-paging .page-item.active .page-link {
     background-color: #6341ff;
     color: #fff;
     border-color: #6341ff;
 }
-.btn-page:disabled {
+.dt-paging .page-item.disabled .page-link {
     opacity: 0.6;
     cursor: not-allowed;
-}
-.btn-page ion-icon {
-    font-size: 18px;
+    background-color: #f9f9f9;
 }
 
-/*
-CSS FORM POP-UP
-*/
+.dt-paging .page-link ion-icon {
+    font-size: 18px;
+    pointer-events: none;
+}
+
 .modal-overlay-form {
     position: fixed;
     top: 0;
@@ -635,4 +697,18 @@ CSS FORM POP-UP
     color: #333;
     line-height: 1.6;
     margin-bottom: 25px;
+}
+
+.hidden-file-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+/* Đảm bảo label có con trỏ chuột đúng kiểu */
+.btn-secondary[for="excel-file-input"] {
+    cursor: pointer;
 }
