@@ -12,46 +12,24 @@
 <div class="dashboard-container">
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
-            <li><a href="#" class="a-with-icon">
-                <ion-icon name="home-outline"></ion-icon>
-                Trang Chủ</a></li>
-            <li><a href="#" class="a-with-icon selected">
-                <ion-icon name="bag-remove-outline"></ion-icon>
-                Quản Lí Sản Phẩm</a></li>
-            <li><a href="#" class="a-with-icon">
-                <ion-icon name="people-outline"></ion-icon>
-                Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="#" class="a-with-icon">
-                <ion-icon name="cart-outline"></ion-icon>
-                Quản Lí Đơn Hàng</a></li>
-            <li><a href="#" class="a-with-icon">
-                <ion-icon name="clipboard-outline"></ion-icon>
-                Quản Lí Kho Hàng</a></li>
-            <li><a href="#" class="a-with-icon">
-                <ion-icon name="reader-outline"></ion-icon>
-                Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="#" class="a-with-icon">
-                <ion-icon name="ticket-outline"></ion-icon>
-                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="#" class="a-with-icon">
-                <ion-icon name="stats-chart-outline"></ion-icon>
-                Thống Kê</a></li>
+            <div class="group-avatar">
+                <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+            </div>
+            <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
+            <li><a href="#" class="a-with-icon  selected"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Quản Lí Banner</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
         </ul>
         <div class="text">━ Được update tới 2025 ━</div>
     </nav>
     <div class="dashboard-content">
-        <header class="dashboard-header">
-            <div class="search">
-                <input type="text">
-                <ion-icon name="search-outline" id="searchIcon"></ion-icon>
-            </div>
-            <div class="group-icon">
-                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
-                <ion-icon name="person-circle-outline" class="icon-header avatar"></ion-icon>
-            </div>
-        </header>
         <main class="dashboard-main-content">
-
             <div class="main-header">
                 <h1>Quản Lí Sản Phẩm</h1>
                 <div class="header-actions">
@@ -420,10 +398,12 @@
 
 <div class="modal-overlay-notification" id="notification-account-modal">
     <div class="modal-content-notification">
-        <button class="modal-close" id="close-modal-btn8">
-            <ion-icon name="close-outline"></ion-icon>
-        </button>
-        <h2 class="notification-title">Thông báo</h2>
+        <div class="group-notification">
+            <h2 class="notification-title">Thông báo</h2>
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
         <div class="notification-empty-state">
             <ion-icon name="notifications-off-outline"></ion-icon>
             <p>Hiện tại chưa có thông báo mới</p>
