@@ -270,154 +270,78 @@
 }
 /* ---------------------------- */
 
-
 .main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
-.header-actions {
-    display: flex;
-    gap: 10px;
-}
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-}
-.btn-primary {
-    background-color: #6341ff;
-    color: #fff;
-}
-.btn-primary:hover {
-    background-color: #5234d8;
-}
-.btn-primary ion-icon {
-    font-size: 20px;
-}
-.btn-secondary {
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ddd;
-}
-.btn-secondary:hover {
-    background-color: #e5e5e5;
-}
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-    border: 1px solid #dc3545;
-}
-.btn-danger:hover {
-    background-color: #c82333;
-}
+.header-actions { display: flex; gap: 10px; }
 
-/* --- Container Bảng --- */
+.btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px; font-size: 15px; font-weight: 600;
+    border-radius: 8px; border: none; cursor: pointer;
+    transition: all 0.3s ease; text-decoration: none;
+}
+.btn-primary { background-color: #6341ff; color: #fff; }
+.btn-primary:hover { background-color: #5234d8; color: #fff;}
+.btn-secondary { background-color: #f0f0f0; color: #333; border: 1px solid #ddd; }
+.btn-secondary:hover { background-color: #e5e5e5; }
+.btn-danger { background-color: #dc3545; color: #fff; }
+.btn-danger:hover { background-color: #c82333; color: #fff; }
+
 .table-container {
     background-color: #fff;
     border-radius: 12px;
-    overflow: hidden;
+    padding: 20px;
     border: 1px solid #eaedfd;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
 }
-
-.product-table {
-    width: 100% !important;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-
-.product-table th,
-.product-table td {
-    padding: 15px 20px;
-    text-align: left;
-    vertical-align: middle;
-    border-bottom: 1px solid #eaedfd;
-}
-
-.product-table th {
-    background-color: #f9faff;
+table.dataTable thead th {
+    background-color: #f9faff !important;
     color: #5a6e8c;
-    font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
+    font-size: 0.85rem;
+    border-bottom: 2px solid #eaedfd !important;
+    vertical-align: middle;
+    text-align: center !important;
 }
 
-.product-table th:nth-child(1) { width: 5%; }  /* Checkbox */
-.product-table th:nth-child(2) { width: 45%; } /* Sản Phẩm */
-.product-table th:nth-child(3) { width: 15%; } /* SKU */
-.product-table th:nth-child(4) { width: 15%; } /* Giá */
-.product-table th:nth-child(5) { width: 10%; } /* Tồn Kho */
-.product-table th:nth-child(6) { width: 10%; } /* Hành Động */
-
-
-.product-table tbody tr:last-child td {
-    border-bottom: none;
+table.dataTable tbody td {
+    vertical-align: middle !important;
+    font-size: 0.95rem;
+    color: #333;
+    border-color: #eaedfd;
 }
 
-.product-table tbody tr:hover {
-    background-color: #fdfdff;
-}
-
-.product-cell {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-.product-cell img {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
-    object-fit: contain;
-    background-color: #f7f7f7;
+.banner-preview {
+    width: 120px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 6px;
     border: 1px solid #eee;
 }
-.product-cell span {
-    font-weight: 600;
-    color: #333;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
-.product-table td:nth-child(3),
-.product-table td:nth-child(4) {
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
     font-weight: 600;
-    color: #444;
 }
-
-.stock-status {
-    font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 13px;
-    display: inline-block;
-}
-.stock-status.in-stock {
+.status-badge.active {
+    background-color: #e6f9ee;
     color: #28a745;
-    background-color: #eaf7ec;
 }
-.stock-status.low-stock {
-    color: #ffc107;
-    background-color: #fff9e6;
-}
-.stock-status.out-of-stock {
+.status-badge.inactive {
+    background-color: #fff5f5;
     color: #dc3545;
-    background-color: #fdeaea;
 }
 
 .action-buttons {
     display: flex;
+    justify-content: center;
     gap: 10px;
 }
 .btn-action {
@@ -436,113 +360,63 @@
 .btn-action.delete { color: #dc3545; }
 .btn-action.delete:hover { background-color: #fdeaea; }
 
-.dt-layout-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #fff;
-}
-.dt-layout-row:first-child {
-    border-radius: 12px 12px 0 0;
-    border-bottom: 1px solid #eaedfd;
-}
-.dt-layout-row:last-child {
-    border-radius: 0 0 12px 12px;
-    border-top: 1px solid #eaedfd;
-}
-
-.dt-search {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-.dt-search label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #5a6e8c;
-    margin-right: 10px;
-}
-.dt-search input {
-    width: 250px;
-    padding: 10px 15px;
-    font-size: 15px;
+.dataTables_wrapper .form-control,
+.dataTables_wrapper .form-select {
     border-radius: 8px;
-    border: 1px solid #ccc;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.dt-search input:focus {
-    border-color: #6341ff;
-    box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.2);
-    outline: none;
-}
-
-.dt-length {
-    font-size: 14px;
-    font-weight: 600;
-    color: #5a6e8c;
-}
-.dt-length select {
-    margin-left: 8px;
-    margin-right: 8px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.dt-length select:focus {
-    border-color: #6341ff;
-    outline: none;
-}
-
-.dt-info {
-    font-size: 15px;
-    color: #5a6e8c;
-}
-
-.dt-paging {
-    display: flex;
-    gap: 8px;
-}
-.dt-paging .page-item {
-    display: flex;
-}
-.dt-paging .page-link {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 8px 12px;
+}
+.dataTables_wrapper .form-control:focus,
+.dataTables_wrapper .form-select:focus {
+    border-color: #6341ff;
+    box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.15);
+}
+
+.page-item.active .page-link {
+    background-color: #6341ff !important;
+    border-color: #6341ff !important;
+    color: #fff !important;
+    box-shadow: 0 4px 10px rgba(99, 65, 255, 0.3);
+}
+
+.page-link {
+    color: #555;
+    border-radius: 6px !important;
+    margin: 0 3px;
+    border: 1px solid #eee;
+    font-weight: 500;
+}
+
+.page-link:hover {
+    color: #6341ff;
+    background-color: #f4f2ff;
+    border-color: #6341ff;
+}
+
+.page-item.disabled .page-link {
+    background-color: #f9f9f9;
+    opacity: 0.6;
+}
+
+.dataTables_info {
+    color: #6c757d !important;
+    font-size: 0.9rem;
+    padding-top: 15px !important;
+}
+
+div.dataTables_wrapper div.dataTables_length label,
+div.dataTables_wrapper div.dataTables_filter label {
     font-weight: 600;
     color: #555;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    font-size: 14px;
-}
-.dt-paging .page-link:hover {
-    background-color: #f7f7f7;
-    border-color: #ccc;
-}
-.dt-paging .page-item.active .page-link {
-    background-color: #6341ff;
-    color: #fff;
-    border-color: #6341ff;
-}
-.dt-paging .page-item.disabled .page-link {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: #f9f9f9;
+    margin-bottom: 10px;
 }
 
-.dt-paging .page-link ion-icon {
-    font-size: 18px;
-    pointer-events: none;
+.left-align{
+    text-align: left;
+}
+.center-align{
+    text-align: center !important;
+    justify-content: center;
 }
 
 .modal-overlay-form {
@@ -736,7 +610,6 @@
     z-index: -1;
 }
 
-/* Đảm bảo label có con trỏ chuột đúng kiểu */
 .btn-secondary[for="excel-file-input"] {
     cursor: pointer;
 }
