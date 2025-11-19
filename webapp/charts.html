@@ -387,7 +387,7 @@
                 <h1>Tổng quan thống kê về người dùng</h1>
                 <div class="group">
                     <div class="stat chart-customers-live">
-                        <h2>Phân bố người dùng</h2>
+                        <h2>Phân bố người mua</h2>
                         <div id="chart"></div>
                     </div>
                     <div class="sub-group">
@@ -404,7 +404,6 @@
                 <div class="group-switch">
                     <button class="selected-btn">1</button>
                     <button class="unselected-btn">2</button>
-                    <button class="unselected-btn">3</button>
                     <div class="group-p">
                         <p id="p1">Bạn hiện đang ở</p><p id="p2">Trang 1</p>
                     </div>
@@ -449,7 +448,7 @@
             width: 380,
             type: 'pie',
         },
-        labels: ['Đã xác nhận', 'Đang giao hàng', 'Đã hoàn thành'],
+        labels: ['Xác Nhận', 'Đang Giao Hàng', 'Hoàn Thành'],
         colors: ['#992ce1', '#2c80e1', '#2ec72e'],
         responsive: [{
             breakpoint: 480,
@@ -477,7 +476,7 @@
     var options = {
         series: [{
             name: 'Đã bán',
-            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200]
+            data: [20, 30, 48, 68, 42, 32, 26, 54, 67]
         }],
         chart: {
             type: 'bar',
@@ -513,10 +512,10 @@
     var optionsLine2 = {
         series: [{
             name: "Tài Khoản",
-            data: [10, 24, 15, 28, 22, 31, 35, 39, 48, 50, 66, 100]
+            data: [45, 69, 42, 82, 91, 57, 71, 77, 101]
         }],
         xaxis: {
-            categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
+            categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9']
         },
         chart: {
             id: 'tw',
