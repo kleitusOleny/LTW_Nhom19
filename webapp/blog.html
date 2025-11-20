@@ -1,91 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Wine & Spirits</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/store_style.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #faf7f3;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .about-text h2 {
-            color: #8c3333;
-            font-size: 32px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .about-text h2::after {
-            content: '';
-            width: 60px;
-            height: 3px;
-            background-color: #c7a17a;
-            display: block;
-            margin-top: 8px;
-            border-radius: 2px;
-        }
-
-        .about-text p {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #4a4a4a;
-        }
-
-        .about-image video {
-            width: 300px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease;
-        }
-
-        .about-image video:hover {
-            transform: scale(1.03);
-        }
-
-        .mission h3 {
-            font-size: 28px;
-            color: #8c3333;
-            margin-bottom: 20px;
-        }
-
-        .mission p {
-            font-size: 20px;
-            color: #5a4a42;
-        }
-
-        .card-custom {
-            background-color: #fff8f0;
-            border-left: 5px solid #c7a17a;
-            border-radius: 12px;
-            padding: 25px 20px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-        }
-
-        .card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-custom h4 {
-            color: #8c3333;
-            margin-bottom: 12px;
-            font-size: 22px;
-        }
-
-        .card-custom p {
-            color: #4a4a4a;
-            font-size: 15px;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog Rượu Vang & Đồ Uống Cao Cấp</title>
+    <link rel="stylesheet" href="css/blog_style.css">
 </head>
 <body>
 <header>
@@ -177,50 +96,81 @@
         </div>
     </div>
 </header>
-
-<div class="container my-5">
-    <section class="about-section row align-items-center mb-5">
-        <div class="about-text col-md-6">
-            <h2>Về chúng tôi</h2>
-            <p>Wine & Spirits mang đến trải nghiệm thưởng thức rượu vang và đồ uống cao cấp đẳng cấp thế giới ngay tại Việt Nam. Mỗi sản phẩm đều được tuyển chọn kỹ lưỡng từ các vùng rượu danh tiếng.</p>
-            <p>Chúng tôi tự hào mang đến cho khách hàng những bữa tiệc trọn vẹn, tinh tế với dịch vụ tư vấn chuyên nghiệp từ đội ngũ chuyên gia am hiểu rượu vang.</p>
+<div class="container">
+    <div class="toolbar">
+        <div class="search">
+            <input id="q" type="search" placeholder="Tìm bài viết... (tiêu đề, thẻ, mô tả)">
         </div>
-        <div class="about-image col-md-6 text-center">
-            <video class="img-fluid rounded" autoplay muted loop playsinline>
-                <source src="img/about_us.mp4" type="video/mp4">
-                Trình duyệt của bạn không hỗ trợ video.
-            </video>
+        <div class="filters" id="filters">
+            <button class="chip active" data-filter="all">Tất cả</button>
+            <button class="chip" data-filter="news">Tin tức</button>
+            <button class="chip" data-filter="guide">Hướng dẫn</button>
+            <button class="chip" data-filter="review">Đánh giá</button>
+            <button class="chip" data-filter="pairing">Pairing</button>
         </div>
+    </div>
 
+    <section class="featured">
+        <article class="card" data-category="news" data-tags="xu-huong,vang" data-title="Xu hướng rượu vang 2025">
+            <div class="media" style="background-image:url('img/ruou.jpg')" aria-hidden="true"></div>
+            <div class="body">
+                <div class="meta">Dec 12, 2025 · Tin tức</div>
+                <h2 class="title">Xu hướng rượu vang 2025: nhẹ, tươi và terroir</h2>
+                <p class="excerpt">Năm 2025 đánh dấu sự lên ngôi của rượu vang nhẹ và chú trọng terroir — những chai dễ uống, thích hợp pairing với ẩm thực hàng ngày.</p>
+                <div class="tags"><span class="tag">xu-huong</span><span class="tag">vang</span></div>
+            </div>
+        </article>
     </section>
 
-    <section class="mission text-center mb-5">
-        <h3>Sứ mệnh của chúng tôi</h3>
-        <p class="mx-auto">Mang văn hóa thưởng thức rượu vang và đồ uống có cồn cao cấp đến gần hơn với khách hàng Việt Nam, tạo ra trải nghiệm tinh tế và đáng nhớ trong mỗi ly rượu.</p>
-    </section>
+    <section style="margin-top:18px">
+        <div class="grid" id="posts">
+            <article class="card" data-category="review" data-tags="cabernet,review" data-title="Đánh giá Cabernet Sauvignon Chile 2018">
+                <div class="media" style="background-image:url('img/ruou2.jpg')"></div>
+                <div class="body">
+                    <div class="meta">Nov 10, 2025 · Đánh giá</div>
+                    <h3 class="title">Đánh giá Cabernet Sauvignon Chile 2018</h3>
+                    <p class="excerpt">Mạnh mẽ, tannin mịn, phù hợp với thịt đỏ nướng. Điểm: 88/100.</p>
+                    <div class="tags"><span class="tag">cabernet</span><span class="tag">review</span></div>
+                    <a class="readmore" href="blog_detail.html">Đọc tiếp</a>
+                </div>
+            </article>
 
-    <section class="highlight-cards row g-4">
-        <div class="col-md-4">
-            <div class="card-custom h-100">
-                <h4>Rượu vang nhập khẩu</h4>
-                <p>Tuyển chọn từ các vùng rượu danh tiếng, đảm bảo hương vị tinh tế và chất lượng cao nhất.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card-custom h-100">
-                <h4>Dịch vụ tư vấn</h4>
-                <p>Đội ngũ chuyên gia giàu kinh nghiệm tư vấn chọn rượu phù hợp với sở thích và bữa tiệc của bạn.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card-custom h-100">
-                <h4>Trải nghiệm sang trọng</h4>
-                <p>Tạo nên những khoảnh khắc thưởng thức rượu vang đáng nhớ, từ phong cách đóng gói đến dịch vụ tận tâm.</p>
-            </div>
+            <article class="card" data-category="guide" data-tags="mua-hang,huong-dan" data-title="Cách chọn vang cho người mới">
+                <div class="media" style="background-image:url('img/ruou.jpg')"></div>
+                <div class="body">
+                    <div class="meta">Oct 05, 2025 · Hướng dẫn</div>
+                    <h3 class="title">Cách chọn vang cho người mới</h3>
+                    <p class="excerpt">Bạn mới tập uống vang? Hướng dẫn chọn vang theo phong cách: ngọt, khô, nhẹ, đậm.</p>
+                    <div class="tags"><span class="tag">mua-hang</span><span class="tag">huong-dan</span></div>
+                    <a class="readmore" href="blog_detail.html">Đọc tiếp</a>
+                </div>
+            </article>
+
+            <article class="card" data-category="pairing" data-tags="cheese,pairing" data-title="Pairing vang với phô mai Pháp">
+                <div class="media" style="background-image:url('img/ruou2.jpg')"></div>
+                <div class="body">
+                    <div class="meta">Sep 12, 2025 · Pairing</div>
+                    <h3 class="title">Pairing vang với phô mai Pháp</h3>
+                    <p class="excerpt">Các loại phô mai mềm phù hợp với Pinot Noir, phô mai cứng hợp với Cabernet.</p>
+                    <div class="tags"><span class="tag">cheese</span><span class="tag">pairing</span></div>
+                    <a class="readmore" href="blog_detail.html">Đọc tiếp</a>
+                </div>
+            </article>
+
+            <article class="card" data-category="news" data-tags="su-kien,shop" data-title="Mở cửa hàng rượu mới tại Hà Nội">
+                <div class="media" style="background-image:url('img/ruou.jpg')"></div>
+                <div class="body">
+                    <div class="meta">Aug 20, 2025 · Tin tức</div>
+                    <h3 class="title">Mở cửa hàng rượu mới tại Hà Nội</h3>
+                    <p class="excerpt">Cửa hàng flagship của chúng tôi khai trương với bộ sưu tập vang nhập khẩu đặc sắc.</p>
+                    <div class="tags"><span class="tag">su-kien</span><span class="tag">shop</span></div>
+                    <a class="readmore" href="blog_detail.html">Đọc tiếp</a>
+                </div>
+            </article>
+
         </div>
     </section>
 </div>
-
 <footer class="site-footer">
     <div class="container">
         <div class="footer-grid">
@@ -270,6 +220,49 @@
 
     </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    (function(){
+        const q = document.getElementById('q');
+        const chips = Array.from(document.querySelectorAll('.chip'));
+        const posts = Array.from(document.querySelectorAll('#posts > article'));
+        const yearEl = document.getElementById('year');
+        yearEl.textContent = new Date().getFullYear();
+
+        function normalize(s){return (s||'').toString().toLowerCase();}
+
+        function applyFilter(){
+            const term = normalize(q.value);
+            const active = chips.find(c=>c.classList.contains('active'))?.dataset.filter || 'all';
+
+            posts.forEach(post=>{
+                const title = normalize(post.dataset.title);
+                const category = normalize(post.dataset.category);
+                const tags = normalize(post.dataset.tags);
+
+                const matchCategory = (active==='all') || (category===active);
+                const matchTerm = !term || title.includes(term) || tags.includes(term) || post.querySelector('.excerpt').textContent.toLowerCase().includes(term);
+
+                post.style.display = (matchCategory && matchTerm) ? '' : 'none';
+            });
+        }
+
+        q.addEventListener('input', applyFilter);
+
+        chips.forEach(c=>c.addEventListener('click', ()=>{
+            chips.forEach(x=>x.classList.remove('active'));
+            c.classList.add('active');
+            applyFilter();
+        }));
+
+        q.addEventListener('keydown', e=>{
+            if(e.key==='Enter'){
+                const first = posts.find(p=>p.style.display!=='none');
+                if(first) first.querySelector('.readmore').focus();
+            }
+        });
+
+        applyFilter();
+    })();
+</script>
 </body>
 </html>
