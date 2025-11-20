@@ -482,7 +482,7 @@
             align-items: center;
             gap: 15px;
             width: 250px;
-            padding: 20px;
+            padding: 20px 30px 20px 30px;
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
@@ -620,7 +620,7 @@
         }
 
         .edit-information-account .active-section {
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         #activeSelect {
@@ -690,7 +690,7 @@
                 <div class="button-group">
                     <h2>Quản lí tài khoản khách</h2>
                     <div class="func-group">
-                        <button class="button del" id="deleteAll-modal-btn"><ion-icon name="trash-outline"></ion-icon>Xoá Ô Được Chọn</button>
+                        <button class="button del" id="deleteAll-modal-btn"><ion-icon name="trash-outline"></ion-icon>Xoá (Đã Chọn)</button>
                         <button class="button add" id="open-modal-btn"><ion-icon name="add-outline" class="type-needCss"></ion-icon>Thêm</button>
                         <button class="button excel" id="excel-modal-btn"><ion-icon name="cloud-download-outline"></ion-icon>Xuất ra Excel</button>
                     </div>
@@ -913,19 +913,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label for="id">ID:</label>
-                    <input type="text" id="id" name="id" value="1001" placeholder="ID hiện không có">
+                    <input type="text" id="id" name="id" value="1001" placeholder="ID hiện không có" disabled>
                 </div>
                 <div class="email-section">
                     <label for="email">Email</label>
                     <input type="text" id="email" name="email" value="nguyenvana@email.com" placeholder="Chưa có Email" required>
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" id="fullname" name="fullname" value="Nguyễn Văn A" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" id="birth" name="birth" value="2002-12-02" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label for="username_">Tên Đăng Nhập</label>
                     <input type="text" id="username_" name="username_" placeholder="Chưa có tên đăng nhập">
-                </div>
-                <div class="password-section">
-                    <label for="password_">Mật Khẩu</label>
-                    <input type="text" id="password_" name="password_" value="12345Abc@" placeholder="Chưa có mật khẩu" required>
                 </div>
                 <div class="phone-section">
                     <label for="phone-number">Số Điện Thoại</label>
@@ -940,7 +944,7 @@
                 </div>
                 <div class="create_account-section">
                     <label for="create-account">Ngày tạo</label>
-                    <input type="date" id="create-account" name="create-account" value="2024-10-06" required>
+                    <input type="date" id="create-account" name="create-account" value="2024-10-06" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -955,19 +959,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1002" readonly>
+                    <input type="text" name="id" value="1002" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="yurichangirl752@gmail.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Đỗ Hoàng Ngọc Ánh" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2005-10-03" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="jukisyuri">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="YuriPass@2019">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -982,7 +990,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2019-08-03">
+                    <input type="date" name="create-account" value="2019-08-03" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -997,19 +1005,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1003" readonly>
+                    <input type="text" name="id" value="1003" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="minh.quan.dev@gmail.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Đỗ Minh Quan" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2000-12-04" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="minh_quan_dev">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="QuanDev@2019">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1024,7 +1036,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2019-08-15">
+                    <input type="date" name="create-account" value="2019-08-15" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1040,19 +1052,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1004" readonly>
+                    <input type="text" name="id" value="1004" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="thanh.huong99@yahoo.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Nguyễn Thanh Hương" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2005-01-03" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="huong_thanh_99">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="HuongXinh99!">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1067,7 +1083,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2019-09-20">
+                    <input type="date" name="create-account" value="2019-09-20" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1083,19 +1099,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1005" readonly>
+                    <input type="text" name="id" value="1005" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="bao.gia.it@outlook.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Đỗ Gia Bảo" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2001-09-05" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="baogia_coder">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="BaoGia#2020">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1110,7 +1130,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2020-01-05">
+                    <input type="date" name="create-account" value="2020-01-05" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1126,19 +1146,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1006" readonly>
+                    <input type="text" name="id" value="1006" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="hoang.yen.design@gmail.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Hoàng Như Yến" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2005-01-03" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="hoangyen_ds">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="DesignPro@123">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1153,7 +1177,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2020-02-14">
+                    <input type="date" name="create-account" value="2020-02-14" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1169,19 +1193,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1007" readonly>
+                    <input type="text" name="id" value="1007" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="kaito.kid1412@gmail.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Lê Công Chiến" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2003-09-03" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="kaitokid_thief">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="ConanEdogawa1!">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1196,7 +1224,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2020-04-30">
+                    <input type="date" name="create-account" value="2020-04-30" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1212,19 +1240,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1008" readonly>
+                    <input type="text" name="id" value="1008" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="mai.anh.dao@hotmail.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Đào Thị Mai Anh" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2006-05-27" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="cherry_blossom">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="Sakura@2021">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1239,7 +1271,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2021-10-10">
+                    <input type="date" name="create-account" value="2021-10-10" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1255,19 +1287,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1009" readonly>
+                    <input type="text" name="id" value="1009" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="tuan.hung.biz@gmail.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Trần Tuấn Hùng" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2004-10-03" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="tuanhung_boss">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="MoneyMaker$$$">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1282,7 +1318,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2022-01-01">
+                    <input type="date" name="create-account" value="2022-01-01" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1298,19 +1334,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1010" readonly>
+                    <input type="text" name="id" value="1010" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="ngoc.han.hr@company.vn">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Nguyễn Ngọc Hân" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2005-2-09" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="ngochan_hr">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="Recruitment2022">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1325,7 +1365,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2022-05-15">
+                    <input type="date" name="create-account" value="2022-05-15" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1341,19 +1381,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1011" readonly>
+                    <input type="text" name="id" value="1011" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="duy.manh.coder@gmail.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Hoàng Duy Mạnh" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2005-12-03" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="duymanh_fullstack">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="CleanCodeIsLife">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1368,7 +1412,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2023-08-20">
+                    <input type="date" name="create-account" value="2023-08-20" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
@@ -1384,19 +1428,23 @@
             <div class="edit-information-account">
                 <div class="userId-section">
                     <label>ID:</label>
-                    <input type="text" name="id" value="1012" readonly>
+                    <input type="text" name="id" value="1012" disabled>
                 </div>
                 <div class="email-section">
                     <label>Email</label>
                     <input type="text" name="email" value="linh.dan.mkt@gmail.com">
                 </div>
+                <div class="fullname-section">
+                    <label for="fullname">Tên Đầy Đủ</label>
+                    <input type="text" name="fullname" value="Nguyễn Linh Đan" placeholder="Chưa có tên" required>
+                </div>
+                <div class="birth-section">
+                    <label for="birth">Thời Gian Sinh</label>
+                    <input type="date" name="birth" value="2005-10-09" placeholder="Chưa có ngày sinh" required>
+                </div>
                 <div class="username-section">
                     <label>Tên Đăng Nhập</label>
                     <input type="text" name="username_" value="linhdan_marketing">
-                </div>
-                <div class="password-section">
-                    <label>Mật Khẩu</label>
-                    <input type="text" name="password_" value="Marketing@King">
                 </div>
                 <div class="phone-section">
                     <label>Số Điện Thoại</label>
@@ -1411,7 +1459,7 @@
                 </div>
                 <div class="create_account-section">
                     <label>Ngày tạo</label>
-                    <input type="date" name="create-account" value="2023-09-02">
+                    <input type="date" name="create-account" value="2023-09-02" disabled>
                 </div>
             </div>
             <div class="group-button-action section">
