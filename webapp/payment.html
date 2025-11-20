@@ -13,11 +13,10 @@
 </head>
 
 <body>
-
 <header>
-    <div class="header">
+    <div class="header-top">
         <div class="container">
-            <div class="header-center">
+            <div class="header-logo">
                 <a href="index.html" class="logo">LOGO</a>
             </div>
 
@@ -25,26 +24,79 @@
                 <a href="#" aria-label="Search">
                     <i class="fas fa-search"></i>
                 </a>
-                <a href="#" aria-label="Account">
+                <a href="infoUsers/user_sidebar.html" aria-label="Account">
                     <i class="fas fa-user"></i>
                 </a>
-
+                <a href="Cart.html" class="cart-link" aria-label="Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-count">0</span>
+                </a>
             </div>
-
         </div>
     </div>
 
-    <div class="nav">
+    <div class="header-nav-bar">
         <div class="container">
-            <nav>
+            <nav class="header-nav">
                 <ul>
-                    <li>
-                        <a href="#" class="active">Trang Chủ</a>
+                    <li><a href="index.html" class="active">Trang Chủ</a></li>
+                    <li class="has-dropdown">
+                        <a href="store.html">
+                            Rượu Vang
+                            <i class="fa-solid fa-caret-down"></i>
+                        </a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-grid">
+                                <div class="mega-menu-column">
+                                    <h4 class="mega-menu-title">Theo Loại Vang</h4>
+                                    <ul class="mega-menu-list">
+                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Đỏ</a></li>
+                                        <li><a href="#" class="mega-menu-link">Rượu Vang Trắng</a></li>
+                                        <li><a href="#" class="mega-menu-link">Rượu Vang Hồng</a></li>
+                                        <li><a href="#" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>
+                                        <li><a href="#" class="mega-menu-link">Rượu Vang Ngọt</a></li>
+                                        <li><a href="#" class="mega-menu-link">Cognac & Rượu Mạnh</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-column">
+                                    <h4 class="mega-menu-title">Nhãn Hàng Nổi Bật</h4>
+                                    <ul class="mega-menu-list">
+                                        <li><a href="#" class="mega-menu-link">CHÂTEAU CORBIN</a></li>
+                                        <li><a href="#" class="mega-menu-link">TENUTA LUCE</a></li>
+                                        <li><a href="#" class="mega-menu-link">MAISON LOUIS LATOUR</a></li>
+                                        <li><a href="#" class="mega-menu-link">Domaine Faiveley</a></li>
+                                        <li><a href="#" class="mega-menu-link">BODEGAS MUGA</a></li>
+                                        <li><a href="#" class="mega-menu-link">CHAMPAGNE RUINART</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-column">
+                                    <h4 class="mega-menu-title">Theo Tag</h4>
+                                    <ul class="mega-menu-list">
+                                        <li><a href="#" class="mega-menu-link">Giá Đặc Biệt (gcc)</a></li>
+                                        <li><a href="#" class="mega-menu-link">Bộ Sưu Tập Giá Tốt</a></li>
+                                        <li><a href="#" class="mega-menu-link">Vang Hồng Giá Tốt</a></li>
+                                        <li><a href="#" class="mega-menu-link">Bộ Sưu Tập</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-column">
+                                    <h4 class="mega-menu-title">Theo Vùng Nổi Bật</h4>
+                                    <ul class="mega-menu-list">
+                                        <li><a href="#" class="mega-menu-link">Bordeaux (Pháp)</a></li>
+                                        <li><a href="#" class="mega-menu-link">Tuscany (Ý)</a></li>
+                                        <li><a href="#" class="mega-menu-link">Napa Valley (Mỹ)</a></li>
+                                        <li><a href="#" class="mega-menu-link">Champagne (Pháp)</a></li>
+                                        <li><a href="#" class="mega-menu-link">Rioja (Tây Ban Nha)</a></li>
+                                        <li><a href="#" class="mega-menu-link">Marlborough (New Zealand)</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </li>
-                    <li><a href="">Rượu Vang</a></li>
-                    <li><a href="">Pages</a></li>
-                    <li><a href="">Blog</a></li>
-                    <li><a href="">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -146,7 +198,7 @@
                 <label for="age-verify">Tôi xác nhận tôi đã đủ tuổi hợp pháp để mua rượu.</label>
             </div>
             <div class="group-button">
-                <button type="reset" class="button-cancel">HỦY</button>
+                <button type="button" class="button-cancel" onclick="window.history.back()">HỦY</button>
                 <button type="submit" class="button" id="place-order-btn">ĐẶT HÀNG</button>
             </div>
         </div>
@@ -165,7 +217,7 @@
                     <p><strong>Tổng cộng:</strong> <span id="order-total">1.500.000 VND</span></p>
                     <p><strong>Phương thức thanh toán:</strong> <span>Thanh toán khi nhận hàng</span></p>
                 </div>
-                <button id="back-to-home" class="button">Quay về trang chủ</button>
+                <button id="back-to-home" class="button"> <a href="index.html">Quay về trang chủ </a></button>
             </div>
         </div>
 </main>
@@ -233,7 +285,6 @@
                 if (!ageVerifyCheckbox.checked) {
                     document.querySelector('.age-verification').classList.add('error');
                     alert("Bạn phải xác nhận đủ tuổi để đặt hàng.");
-
                     return;
                 }
                 document.querySelector('.age-verification').classList.remove('error');
@@ -246,7 +297,6 @@
     const dialog = document.getElementById("pageDialog");
     const openBtn = document.querySelector(".btn-edit-info");
     const closeBtn = document.getElementById("closeDialog");
-
     openBtn.addEventListener("click", () => dialog.showModal());
     closeBtn.addEventListener("click", () => dialog.close());
 </script>
