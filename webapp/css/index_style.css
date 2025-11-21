@@ -441,14 +441,14 @@ CSS CHO PHẦN SẢN PHẨM NỔI BẬT
 
 
 /*
-PRODUCT CARD
+Product Grid
 */
 
 .product-grid {
     display: grid;
-    /* Hiển thị 4 cột */
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 30px;
+    padding-top: 5px;
 }
 
 .product-card {
@@ -458,6 +458,7 @@ PRODUCT CARD
     background-color: #f7f7f7;
     text-align: center;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+
     padding: 8px;
 }
 
@@ -479,7 +480,7 @@ PRODUCT CARD
 
 .product-image img {
     width: 100%;
-    height: 300px;
+    height: 100%;
     object-fit: contain;
     display: block;
     transition: transform 0.3s ease;
@@ -490,6 +491,7 @@ PRODUCT CARD
     transform: scale(1.05);
 }
 
+
 .product-info {
     padding: 20px;
 }
@@ -499,10 +501,11 @@ PRODUCT CARD
     font-weight: bold;
     color: #8c3333;
     margin-bottom: 10px;
+
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    /*-webkit-box-orient: vertical;*/
+    /*overflow: hidden;*/
     text-overflow: ellipsis;
     height: 54px;
 }
@@ -521,7 +524,7 @@ PRODUCT CARD
     font-size: 17px;
     font-weight: bold;
     color: #8c3333;
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 .add-to-cart-btn {
@@ -543,19 +546,130 @@ PRODUCT CARD
     color: #222;
 }
 
-/* CSS cho Đánh giá sao (Stars) */
-.product-rating {
+.product-extra-details {
+    text-align: center;
+    font-size: 14px;
+    margin: 15px 0;
+}
+
+.product-extra-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: grid;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.product-extra-details li {
+    color: #555;
+    line-height: 1.5;
+
+    padding-right: 12px;
+    /*border-right: 1px solid #ddd;*/
+}
+
+.product-extra-details li:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+.product-extra-details li strong {
+    color: #222;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.product-producer {
+    font-size: 14px;
+    font-style: italic;
+    color: #777;
+    margin-bottom: 12px;
+
+    margin-top: 0;
+}
+
+.product-image {
+    position: relative;
+
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 15px;
 }
-.product-rating .fa-star {
-    font-size: 16px;
-    margin: 0 1px;
+
+.wishlist-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    width: 42px;
+    height: 42px;
+
+    background-color: #fff;
+    border: none;
+    border-radius: 50%;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+
+    opacity: 0;
+    transform: translateX(15px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.product-rating .fa-solid {
-    color: #f39c12;
+
+/* Màu icon mặc định */
+.wishlist-btn i {
+    color: #8c3333;
+    font-size: 20px;
+    transition: color 0.3s ease;
 }
-.product-rating .fa-regular {
-    color: #ccc;
+
+/* Khi hover vào CARD: Hiện nút */
+.product-card:hover .wishlist-btn {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.wishlist-btn:hover {
+    background-color: #8c3333;
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 15px rgba(140, 51, 51, 0.4);
+}
+
+.wishlist-btn:hover i {
+    color: #ffffff;
+}
+
+/* Trạng thái Đã thích */
+.wishlist-btn.active {
+    opacity: 1;
+    transform: translateX(0);
+    background-color: #8c3333;
+}
+
+.wishlist-btn.active i {
+    color: #ffffff;
+    font-weight: 900;
+    animation: heartBeat 0.3s ease-in-out;
+}
+
+/* Hiệu ứng nhịp tim nhỏ khi bấm like */
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
 }
 /*
 CSS CHO PHẦN THƯƠNG HIỆU NỔI BẬT
@@ -569,7 +683,7 @@ CSS CHO PHẦN THƯƠNG HIỆU NỔI BẬT
     border-bottom: 1px solid #eee;
 }
 
-/* Lưới logo (6 cột) */
+/* Lưới logo */
 .brands-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -669,16 +783,228 @@ CSS RESPONSIVE (Cho thương hiệu)
 CSS RESPONSIVE (Cho thanh Dịch vụ)
 */
 
-/* Cho máy tính bảng */
 @media (max-width: 992px) {
     .service-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 cột */
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Cho điện thoại */
 @media (max-width: 768px) {
     .service-grid {
-        grid-template-columns: 1fr; /* 1 cột */
+        grid-template-columns: 1fr;
     }
+}
+
+/*
+CSS CHO PHẦN BLOG / CẨM NANG
+*/
+
+.blog-section {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #fff;
+}
+
+/* Lưới Blog 3 cột */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+/* Thẻ bài viết */
+.blog-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.blog-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+/* Phần ảnh bài viết */
+.blog-image {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+}
+
+.blog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.blog-card:hover .blog-image img {
+    transform: scale(1.1);
+}
+
+/* Ngày tháng */
+.blog-date {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #8c3333;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+/* Phần nội dung bài viết */
+.blog-content {
+    padding: 20px;
+}
+
+.blog-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.4;
+
+    /* Giới hạn 2 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.blog-title a {
+    color: #222;
+    transition: color 0.3s ease;
+}
+
+.blog-title a:hover {
+    color: #8c3333;
+}
+
+.blog-excerpt {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Nút Xem thêm */
+.read-more-btn {
+    font-size: 14px;
+    font-weight: 600;
+    color: #8c3333;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: gap 0.3s ease;
+}
+
+.read-more-btn:hover {
+    gap: 10px;
+}
+
+/*
+CSS RESPONSIVE (Cho Blog)
+*/
+@media (max-width: 992px) {
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Thiết lập chiều cao cố định cho slide */
+.carousel-item {
+    height: 60vh;
+    min-height: 500px;
+    background-color: #222;
+    position: relative;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+/* Lớp phủ tối (Overlay) */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.carousel-caption.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: initial;
+    z-index: 2;
+    width: 80%;
+    text-align: center;
+    padding-bottom: 0;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 35px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    color: #fff;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    z-index: 3;
+    width: 5%;
+}
+
+.btn-primary {
+    background-color: #8c3333;
+    border-color: #8c3333;
+    color: #fff;
+
+    display: inline-block;
+    padding: 12px 35px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.btn-primary:hover {
+    background-color: #fff;
+    color: #8c3333;
+    border-color: #fff;
+}
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 28px; }
+    .hero-subtitle { font-size: 15px; }
+    .carousel-item { min-height: 400px; }
 }
