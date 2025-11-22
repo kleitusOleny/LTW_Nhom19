@@ -431,7 +431,6 @@ main context
 /*
 Product Grid
 */
-
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -492,8 +491,8 @@ Product Grid
 
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    /*-webkit-box-orient: vertical;*/
+    /*overflow: hidden;*/
     text-overflow: ellipsis;
     height: 54px;
 }
@@ -579,6 +578,84 @@ Product Grid
     margin-top: 0;
 }
 
+.product-image {
+    position: relative;
+
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    width: 42px;
+    height: 42px;
+
+    background-color: #fff;
+    border: none;
+    border-radius: 50%;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+
+    opacity: 0;
+    transform: translateX(15px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Màu icon mặc định */
+.wishlist-btn i {
+    color: #8c3333;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+/* Khi hover vào CARD: Hiện nút */
+.product-card:hover .wishlist-btn {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.wishlist-btn:hover {
+    background-color: #8c3333;
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 15px rgba(140, 51, 51, 0.4);
+}
+
+.wishlist-btn:hover i {
+    color: #ffffff;
+}
+
+/* Trạng thái Đã thích */
+.wishlist-btn.active {
+    opacity: 1;
+    transform: translateX(0);
+    background-color: #8c3333;
+}
+
+.wishlist-btn.active i {
+    color: #ffffff;
+    font-weight: 900;
+    animation: heartBeat 0.3s ease-in-out;
+}
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
 /*
 phân trang
 */

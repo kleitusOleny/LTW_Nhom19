@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard</title>
+    <title>Trang Chủ</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <style>
         * {
@@ -147,6 +147,10 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             border: 2px solid transparent;
+        }
+
+        .stat-card.special {
+            cursor: pointer;
         }
 
         .stat-card:hover {
@@ -440,7 +444,7 @@
             margin-right: 10px;
             font-size: 20px;
         }
-        .modal-overlay-todo {
+        .modal-overlay-todo, .modal-overlay-out_of_stocks {
             position: fixed;
             top: 0;
             left: 0;
@@ -456,11 +460,11 @@
             align-items: center;
             background-color: rgba(0, 0, 0, 0.6);
         }
-        .modal-overlay-todo.show {
+        .modal-overlay-todo.show, .modal-overlay-out_of_stocks.show {
             opacity: 1;
             visibility: visible;
         }
-        .modal-content-todo {
+        .modal-content-todo, .modal-content-out_of_stocks {
             background-color: white;
             border-radius: 12px;
             gap: 25px;
@@ -543,6 +547,55 @@
             outline: none;
             border-color: #6341ff;
         }
+        /* ------ */
+        .modal-content-out_of_stocks {
+            width: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .out-of-stocks-container {
+            width: 100%;
+        }
+        .text-group-out_of_stocks {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .text-group-out_of_stocks h2 {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .text-group-out_of_stocks #close-modal-out_of_stock {
+            font-size: 24px;
+            color: #555;
+            flex-shrink: 0;
+            cursor: pointer;
+            transform: translateY(-20px) translateX(20px);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        .text-group-out_of_stocks #close-modal-out_of_stock:hover {
+            background-color: rgba(136, 136, 136, 0.1);
+            color: #000;
+            box-shadow: none;
+        }
+        .group-stat-card {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .out-of-stocks-container .text-name {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+        }
+        .text-name .text-b {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -553,14 +606,14 @@
                     <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                     <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
                 </div>
-                <li><a href="#" class="a-with-icon selected"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+                <li><a href="admin_dashboard.html" class="a-with-icon selected"><ion-icon name="home"></ion-icon>Trang Chủ</a></li>
+                <li><a href="manage_product.html" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+                <li><a href="manage_accounts.html" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+                <li><a href="manage_orders.html" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+                <li><a href="manage_banner.html" class="a-with-icon"><ion-icon name="albums-outline"></ion-icon>Quản Lí Banner</a></li>
+                <li><a href="manage_blog.html" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+                <li><a href="manage_promotions.html" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+                <li><a href="charts.html" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
             </ul>
             <div class="text">━ Được update tới 2025 ━</div>
         </nav>
@@ -583,9 +636,12 @@
                         <p class="stat-number">0</p>
                         <span class="stat-description">Trong tuần này</span>
                     </div>
-                    <div class="stat-card">
-                        <h3>Sắp Hết Hàng</h3>
-                        <p class="stat-number">...</p>
+                    <div class="stat-card special" id="out_of_stocks-modal-btn">
+                        <div class="group-stat-card">
+                            <h3>Sắp Hết Hàng</h3>
+                            <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                        </div>
+                        <p class="stat-number">2</p>
                         <span class="stat-description">Sản phẩm có SL < 5</span>
                     </div>
                 </div>
@@ -728,6 +784,24 @@
             </div>
         </div>
     </div>
+    <div class="modal-overlay-out_of_stocks" id="out_of_stocks-modal">
+        <div class="modal-content-out_of_stocks">
+            <div class="text-group-out_of_stocks">
+                <h2><ion-icon name="cube-outline"></ion-icon>Sản phẩm sắp hết hàng</h2>
+                <ion-icon name="close-outline" id="close-modal-out_of_stock"></ion-icon>
+            </div>
+            <div class="out-of-stocks-container">
+                <div class="text-name">
+                    <p>- Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022</p>
+                    <p class="text-b">(VD/1193-22)</p>
+                </div>
+                <div class="text-name">
+                    <p>- Rượu Sâm Panh Champagne Ruinart Rosé</p>
+                    <p class="text-b">(VD/1233)</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
@@ -742,10 +816,11 @@
             setupModal('todo-list-modal-3', 'todo-modal-btn-3', 'close-modal-btn-13');
             setupModal('todo-list-modal-4', 'todo-modal-btn-4', 'close-modal-btn-14');
             setupModal('todo-list-modal-5', 'todo-modal-btn-5', 'close-modal-btn-15');
+            setupModal('out_of_stocks-modal', 'out_of_stocks-modal-btn', 'close-modal-out_of_stock');
         });
 
         var options = {
-            series: [70],
+            series: [60],
             chart: {
                 height: 350,
                 type: 'radialBar',
@@ -754,7 +829,7 @@
             plotOptions: {
                 radialBar: {
                     hollow: {
-                        size: '70%',
+                        size: '60%',
                     }
                 },
             },

@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Charts2</title>
+    <title>Thống Kê 2</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -291,13 +291,13 @@
             background-color: #f4f7fa;
             margin-bottom: 80px;
         }
-        .group-chart, .group-chart2 {
+        .group-chart, .group-chart2, .group-chart3 {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             border: 1px solid transparent;
         }
-        .group-chart:hover, .group-chart2:hover {
+        .group-chart:hover, .group-chart2:hover, .group-chart3:hover {
             border-color: #6341ff;
         }
         .group-switch {
@@ -352,14 +352,14 @@
                 <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="#" class="a-with-icon selected"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+            <li><a href="admin_dashboard.html" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
+            <li><a href="manage_product.html" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+            <li><a href="manage_accounts.html" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="manage_orders.html" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+            <li><a href="manage_banner.html" class="a-with-icon"><ion-icon name="albums-outline"></ion-icon>Quản Lí Banner</a></li>
+            <li><a href="manage_blog.html" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="manage_promotions.html" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="charts.html" class="a-with-icon selected"><ion-icon name="stats-chart"></ion-icon>Thống Kê</a></li>
         </ul>
         <div class="text">━ Được update tới 2025 ━</div>
     </nav>
@@ -374,10 +374,17 @@
                 <h2>Top 5 sản phẩm bán chạy nhất trong tháng</h2>
                 <div id="chart2"></div>
             </div>
+            <div class="group-chart3">
+                <h2>Sản phẩm được yêu thích nhất theo tháng</h2>
+                <div id="chart-column"></div>
+            </div>
             <div class="group-switch">
-                <button class="unselected-btn">1</button>
-                <button class="selected-btn">2</button>
-                <button class="unselected-btn">3</button>
+                <a href="charts.html">
+                    <button class="unselected-btn">1</button>
+                </a>
+                <a href="charts2.html">
+                    <button class="selected-btn">2</button>
+                </a>
                 <div class="group-p">
                     <p id="p1">Bạn hiện đang ở</p><p id="p2">Trang 2</p>
                 </div>
@@ -419,10 +426,10 @@
     var options = {
         series: [{
             name: 'Đã bán',
-            data: [108, 79, 94, 54, 66, 128, 101, 77, 246, 144, 87, 188]
+            data: [108, 79, 94, 54, 66, 128, 101, 77, 86]
         }, {
             name: 'Tồn đọng',
-            data: [11, 32, 45, 73, 34, 52, 67, 98, 70, 30, 40, 57]
+            data: [11, 32, 45, 73, 34, 52, 67, 98, 70]
         }],
         chart: {
             height: 350,
@@ -436,7 +443,7 @@
             curve: 'smooth'
         },
         xaxis: {
-            categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
+            categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9']
         },
         yaxis: {
             title: {
@@ -541,6 +548,92 @@
 
     var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
     chart2.render();
+
+    /* ---- */
+    var wineNames = ["Rượu Vang Đỏ Luce Brunello Di Montalcino 2017", "Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L 2014", "Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014", "Rượu Vang Trắng Greywacke Pinot Noir 2022", "Rượu vang sủi Freixenet Italian Rosé Sparkling Wine Extra Dry", "Rượu vang hồng Dufouleur Monopole", "Rượu vang hồng Famille Perrin Côtes-du-Rhône Réserve, rose", "Rượu Sâm Panh Champagne Ruinart Rosé", "Rượu vang hồng Flor de Muga Rosé"];
+    var options3 = {
+        series: [{
+            name: 'Loại',
+            data: [23, 31, 40, 101, 40, 36, 32, 41, 65]
+        }],
+        chart: {
+            height: 350,
+            type: 'bar'
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 2,
+                dataLabels: {
+                    position: 'top', // top, center, bottom
+                },
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opts) {
+                return val + ' lượt thích';
+            },
+            offsetY: -22,
+            style: {
+                fontSize: '13px',
+                colors: ["#3b2d7c"]
+            }
+        },
+
+        xaxis: {
+            categories: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9"],
+            position: 'top',
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            },
+            crosshairs: {
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        colorFrom: '#D8E3F0',
+                        colorTo: '#BED1E6',
+                        stops: [0, 100],
+                        opacityFrom: 0.4,
+                        opacityTo: 0.5,
+                    }
+                }
+            },
+        },
+        tooltip: {
+            enabled: true,
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+            },
+            y: {
+                formatter: function (val, { dataPointIndex }) {
+                    var wineName = wineNames[dataPointIndex];
+                    return wineName + ' ' + "(" + val + " lượt)";
+                },
+                title: {
+                    formatter: (seriesName) => seriesName + ":",
+                }
+            },
+            fixed: {
+                enabled: false,
+                position: 'topRight'
+            }
+        },
+        yaxis: {
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false,
+            },
+        },
+    };
+
+    var chart3 = new ApexCharts(document.querySelector("#chart-column"), options3);
+    chart3.render();
 </script>
 <script>
     // Run Pop-up function

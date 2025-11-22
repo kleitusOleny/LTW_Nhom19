@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Charts</title>
+    <title>Thống Kê</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -371,14 +371,14 @@
                     <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                     <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
                 </div>
-                <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
-                <li><a href="#" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-                <li><a href="#" class="a-with-icon selected"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+                <li><a href="admin_dashboard.html" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
+                <li><a href="manage_product.html" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+                <li><a href="manage_accounts.html" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+                <li><a href="manage_orders.html" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+                <li><a href="manage_banner.html" class="a-with-icon"><ion-icon name="albums-outline"></ion-icon>Quản Lí Banner</a></li>
+                <li><a href="manage_blog.html" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+                <li><a href="manage_promotions.html" class="a-with-icon"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+                <li><a href="charts.html" class="a-with-icon selected"><ion-icon name="stats-chart"></ion-icon>Thống Kê</a></li>
             </ul>
             <div class="text">━ Được update tới 2025 ━</div>
         </nav>
@@ -387,7 +387,7 @@
                 <h1>Tổng quan thống kê về người dùng</h1>
                 <div class="group">
                     <div class="stat chart-customers-live">
-                        <h2>Phân bố người dùng</h2>
+                        <h2>Phân bố người mua</h2>
                         <div id="chart"></div>
                     </div>
                     <div class="sub-group">
@@ -402,9 +402,12 @@
                     </div>
                 </div>
                 <div class="group-switch">
-                    <button class="selected-btn">1</button>
-                    <button class="unselected-btn">2</button>
-                    <button class="unselected-btn">3</button>
+                    <a href="charts.html">
+                        <button class="selected-btn">1</button>
+                    </a>
+                    <a href="charts2.html">
+                        <button class="unselected-btn">2</button>
+                    </a>
                     <div class="group-p">
                         <p id="p1">Bạn hiện đang ở</p><p id="p2">Trang 1</p>
                     </div>
@@ -449,7 +452,7 @@
             width: 380,
             type: 'pie',
         },
-        labels: ['Đã xác nhận', 'Đang giao hàng', 'Đã hoàn thành'],
+        labels: ['Xác Nhận', 'Đang Giao Hàng', 'Hoàn Thành'],
         colors: ['#992ce1', '#2c80e1', '#2ec72e'],
         responsive: [{
             breakpoint: 480,
@@ -477,7 +480,7 @@
     var options = {
         series: [{
             name: 'Đã bán',
-            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200]
+            data: [20, 30, 48, 68, 42, 32, 26, 54, 67]
         }],
         chart: {
             type: 'bar',
@@ -513,10 +516,10 @@
     var optionsLine2 = {
         series: [{
             name: "Tài Khoản",
-            data: [10, 24, 15, 28, 22, 31, 35, 39, 48, 50, 66, 100]
+            data: [45, 69, 42, 82, 91, 57, 71, 77, 101]
         }],
         xaxis: {
-            categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
+            categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9']
         },
         chart: {
             id: 'tw',
