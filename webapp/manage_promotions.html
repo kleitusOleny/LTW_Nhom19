@@ -2,683 +2,683 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Quản Lí Mã Giảm Giá và Khuyến Mãi</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="popup.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-</head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        font-family: Mulish, sans-serif, serif;
-    }
-    .dashboard-container {
-        display: grid;
-        min-height: 100vh;
-        grid-template-columns: 250px 1fr
-    }
+    <title>Promotions Manage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Mulish, sans-serif, serif;
+        }
+        .dashboard-container {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: 250px 1fr
+        }
 
-    .dashboard-sidebar {
-        background-color: #21232d;
-        position: relative;
-    }
-    .dashboard-content {
-        background-color: #f4f7fa;
-    }
+        .dashboard-sidebar {
+            background-color: #21232d;
+            position: relative;
+        }
 
-    .sidebar-items {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        list-style-type: none;
-        position: fixed;
-        top: 20px;
-        height: 100vh;
-        overflow-y: auto;
-        width: 250px;
-    }
-    .group-avatar .user-avatar {
-        border-radius: 100%;
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-        display: block;
-        cursor: pointer;
-        border: 3px solid transparent;
-        transition: 0.2s;
-    }
+        .dashboard-content {
+            background-color: #f4f7fa;
+        }
 
-    .group-avatar {
-        position: relative;
-        width: 120px;
-        height: 120px;
-        margin-bottom: 15px;
-    }
-    .user-avatar:hover {
-        border-color: #6341ff;
-    }
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            list-style-type: none;
+            position: fixed;
+            top: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            width: 250px;
+        }
 
-    .icon-header {
-        color: white;
-        font-size: 24px;
-        cursor: pointer;
-        position: absolute;
-        bottom: -5px;
-        right: 5px;
-        margin-left: 0;
-        background-color: #3a3a3a;
-        border-radius: 50%;
-        padding: 6px;
-        border: 2px solid #1f1f1f;
-        line-height: 1;
-        transition: 0.3s ease;
-    }
+        .group-avatar .user-avatar {
+            border-radius: 100%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.2s;
+        }
+        .group-avatar {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 15px;
+        }
+        .user-avatar:hover {
+            border-color: #6341ff;
+        }
+        .icon-header {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            bottom: -5px;
+            right: 5px;
+            margin-left: 0;
+            background-color: #3a3a3a;
+            border-radius: 50%;
+            padding: 6px;
+            border: 2px solid #1f1f1f;
+            line-height: 1;
+            transition: 0.3s ease;
+        }
+        .icon-header:hover {
+            color: #020202;
+            transform: scale(1.1);
+            background-color: #f8f8f8;
+        }
 
-    .icon-header:hover {
-        color: #020202;
-        transform: scale(1.1);
-        background-color: #f8f8f8;
-    }
+        .a-with-icon {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            width: 200px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .a-with-icon.selected, .a-with-icon:hover {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
 
-    .a-with-icon {
-        text-decoration: none;
-        color: rgba(255, 255, 255, 0.8);
-        display: flex;
-        gap: 12px;
-        font-size: 16px;
-        font-weight: bold;
-        padding: 12px 20px;
-        border-radius: 8px;
-        align-items: center;
-        width: 200px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        border: 1px solid transparent;
-    }
-    .a-with-icon.selected, .a-with-icon:hover {
-        border-color: #6341ff;
-        background-color: #343746;
-        color: #ffffff;
-    }
+        .a-with-icon ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
 
-    .a-with-icon ion-icon {
-        font-size: 20px;
-        flex-shrink: 0;
-    }
+        .text {
+            color: #decdcd;
+            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
+        }
+        .dashboard-main-content {
+            padding: 10px;
+            background-color: #f4f7fa;
+            flex-grow: 1;
+        }
 
-    .text {
-        color: #decdcd;
-        font-size: 12px;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        padding-bottom: 5px;
-        box-sizing: border-box;
-    }
+        .modal-content-avatar {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            padding: 20px 20px 20px 10px;
+            gap: 8px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
 
-    .dashboard-main-content {
-        padding: 30px;
-        background-color: #f4f7fa;
-        flex-grow: 1;
-    }
+        .btn-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+            width: 90%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+        }
+        .btn-menu-item:hover {
+            border-color: #6341ff;
+            transform: scale(1.02);
+        }
 
-    .dashboard-main-content h1 {
-        font-size: 28px;
-        color: #21232d;
-        text-align: center;
-        margin-bottom: 10px;
-    }
+        .modal-close2 {
+            position: absolute;
+            top: 1px;
+            right: 0px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 20px;
+            padding: 4px;
+            line-height: 1;
+            border-radius: 50%;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
 
-    /* Avatar */
-    .modal-content-avatar {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 250px;
-        padding: 20px 20px 20px 10px;
-        gap: 8px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        transition: transform 0.2s ease, opacity 0.2s ease;
-    }
+        .modal-close2:hover {
+            color: #111;
+            background-color: #f0f0f0;
+        }
 
-    .btn-menu-item {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        justify-content: center;
-        width: 90%;
-        padding: 10px;
-        background: transparent;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        text-align: left;
-        font-size: 15px;
-        color: #333;
-        cursor: pointer;
-    }
-    .btn-menu-item:hover {
-        border-color: #6341ff;
-        transform: scale(1.02);
-    }
-    .modal-close2 {
-        position: absolute;
-        top: 1px;
-        right: 0px;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        color: #666;
-        font-size: 20px;
-        padding: 4px;
-        line-height: 1;
-        border-radius: 50%;
-        transition: background-color 0.2s ease, color 0.2s ease;
-    }
-    .modal-close2:hover {
-        color: #111;
-        background-color: #f0f0f0;
-    }
-    .btn-menu-item ion-icon {
-        font-size: 18px;
-        color: #555;
-        flex-shrink: 0;
-    }
-    /* Notification */
-    .modal-overlay-notification, .modal-overlay-avatar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 1000;
-        display: flex;
-        justify-content: flex-start;
+        .btn-menu-item ion-icon {
+            font-size: 18px;
+            color: #555;
+            flex-shrink: 0;
+        }
 
-        align-items: flex-start;
-        padding-left: 250px;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .modal-content-notification{
-        width: 400px;
-        max-height: 80vh;
-        overflow-y: auto;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0,0,0,.15);
-
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        padding: 20px;
-        transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    .modal-overlay-notification.show, .modal-overlay-avatar.show {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: none; /* Hidden by default */
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-
-    .modal-content {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        width: 90%;
-        position: relative;
-    }
-
-    .close-modal-btn8 {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        font-size: 1.5em;
-        cursor: pointer;
-        color: #666;
-        transition: color 0.2s ease;
-    }
-    .close-modal-btn8:hover {
-        color: #333;
-    }
-
-    /* Styling for the promotion form modal */
-    #promotionModal .modal-content {
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        background-color: #ffffff;
-        position: relative;
-    }
-
-    #promotionModal #modalTitle {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 25px;
-        text-align: center;
-        font-weight: 700;
-    }
-
-    #promotionModal label {
-        font-size: 15px;
-        color: #555;
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
-
-    #promotionModal input[type="text"],
-    #promotionModal input[type="date"],
-    #promotionModal select {
-        width: calc(100% - 20px); /* Adjust for padding */
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 15px;
-        color: #333;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    }
-
-    #promotionModal input[type="text"]:focus,
-    #promotionModal input[type="date"]:focus,
-    #promotionModal select:focus {
-        border-color: #6341ff;
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.2);
-    }
-
-    #promotionModal button[type="submit"] {
-        width: 100%;
-        padding: 12px;
-        background-color: #6341ff;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.2s ease, transform 0.2s ease;
-        margin-top: 15px;
-    }
-
-    #promotionModal button[type="submit"]:hover {
-        background-color: #5034cc;
-        transform: translateY(-2px);
-    }
-
-    .group-notification {
-        display: flex;
-        flex-direction: row;
-    }
-    .modal-close {
-        width: 36px;
-        height: 36px;
-        border: 0;
-        background: transparent;
-        border-radius: 8px;
-        cursor: pointer;
-        /*di chuyển không ảnh hưởng components khác*/
-        transform: translateY(-10px)
-    }
-    .modal-close:hover { background: #f2f2f2; }
-    .modal-close:focus-visible {
-        outline: 2px solid #3b82f6;
-        outline-offset: 2px;
-    }
-    .modal-close ion-icon {
-        font-size: 22px;
-        color: #333;
-        pointer-events: none;
-    }
-
-    .notification-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #333;
-        margin: 0 0 15px 0;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #eee;
-        width: 100%;
-    }
-    .notification-empty-state {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        color: #888;
-        padding: 30px 0;
-    }
-    .notification-empty-state ion-icon {
-        font-size: 48px;
-        margin-bottom: 15px;
-    }
-    .notification-empty-state p {
-        font-size: 1rem;
-        text-align: center;
-        margin: 0;
-    }
-    /* DataTables styling */
-    .dataTables_wrapper {
-        margin-top: 20px;
-        font-family: 'Mulish', sans-serif;
-    }
-
-    #promotionsTable {
-        border-collapse: collapse;
-        width: 100%;
-        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    #promotionsTable thead tr {
-        background-color: #21232d;
-        color: #ffffff;
-        text-align: center;
-        font-weight: bold;
-    }
-
-    #promotionsTable th, #promotionsTable td {
-        padding: 12px 15px;
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    #promotionsTable tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
-
-    #promotionsTable tbody tr:nth-of-type(even) {
-        background-color: #f3f3f3;
-    }
-
-    #promotionsTable tbody tr:last-of-type {
-        border-bottom: 2px solid #6341ff;
-    }
-
-    #promotionsTable tbody tr:hover {
-        background-color: #ecebff;
-        cursor: pointer;
-    }
-
-    #promotionsTable td button {
-        padding: 6px 12px;
-        border: none;
-        background-color: #c7a17a;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    #promotionsTable td button:hover {
-        background-color: #a87c58;
-    }
-
-    .status-active {
-        color: #28a745;
-        font-weight: bold;
-    }
-
-    .status-inactive {
-        color: #dc3545;
-        font-weight: bold;
-    }
-
-    table.dataTable thead th {
-        background-image: none !important;
-        background-repeat: no-repeat !important;
-        background-position: center right !important;
-    }
-
-    table.dataTable thead th.sorting,
-    table.dataTable thead th.sorting_asc,
-    table.dataTable thead th.sorting_desc {
-        background-image: none !important;
-    }
-
-    .dataTables_length label,
-    .dataTables_filter label {
-        font-weight: 600;
-        color: #333;
-    }
-
-    .dataTables_length select {
-        padding: 6px 10px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        margin: 0 8px;
-        background-color: #fff;
-        transition: border-color 0.2s ease;
-    }
-
-    .dataTables_length select:focus {
-        border-color: #6341ff;
-        outline: none;
-        box-shadow: 0 0 3px rgba(99, 65, 255, 0.4);
-    }
-
-    .dataTables_filter input {
-        padding: 8px 12px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        margin-left: 10px;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .dataTables_filter input:focus {
-        border-color: #6341ff;
-        outline: none;
-        box-shadow: 0 0 3px rgba(99, 65, 255, 0.4);
-    }
-
-    .dataTables_wrapper .dataTables_length {
-        float: left;
-    }
-
-    .dataTables_wrapper .dataTables_filter {
-        float: right;
-    }
-
-    .dataTables_wrapper .dataTables_info {
-        float: left;
-        color: #555;
-        margin-top: 10px;
-    }
-
-    .dataTables_wrapper .dataTables_paginate {
-        float: right;
-        margin-top: 10px;
-    }
-
-    .dataTables_wrapper::after {
-        content: "";
-        display: block;
-        clear: both;
-    }
-
-    .dataTables_paginate .paginate_button {
-        color: #6341ff !important;
-        background-color: #fff !important;
-        border: 1px solid #ccc !important;
-        padding: 6px 12px;
-        margin: 0 3px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.2s ease;
-    }
-
-    .dataTables_paginate .paginate_button:hover {
-        background-color: #6341ff !important;
-        color: white !important;
-        border-color: #6341ff !important;
-    }
-
-    .dataTables_paginate .paginate_button.current {
-        background-color: #6341ff !important;
-        color: #fff !important;
-        border-color: #6341ff !important;
-    }
-
-    .dataTables_paginate .paginate_button.disabled {
-        opacity: 0.5;
-        cursor: default;
-        background-color: #f3f3f3 !important;
-        color: #999 !important;
-        border-color: #ddd !important;
-    }
-    /* ============================
-   MODAL OVERLAY
-===============================*/
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.4);
-        display: none;            /* Ẩn mặc định */
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        padding: 15px;
-    }
-
-    /* Khi mở modal */
-    .modal-overlay.show {
-        display: flex;
-    }
-
-    /* ============================
-       MODAL CONTENT
-    ===============================*/
-    .modal-content {
-        width: 100%;
-        max-width: 420px;
-        background: #fff;
-        border-radius: 12px;
-        padding: 25px;
-        position: relative;
-        box-shadow: 0px 5px 18px rgba(0, 0, 0, 0.25);
-        animation: modalFadeIn 0.2s ease-out;
-    }
-
-    /* Animation opening */
-    @keyframes modalFadeIn {
-        from {
+        .modal-overlay-notification, .modal-overlay-avatar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding-left: 250px;
             opacity: 0;
-            transform: translateY(-20px);
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        to {
+
+        .modal-content-notification{
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .modal-overlay-notification.show, .modal-overlay-avatar.show {
             opacity: 1;
-            transform: translateY(0);
+            visibility: visible;
         }
-    }
 
-    /* ============================
-       CLOSE BUTTON
-    ===============================*/
-    .close-modal-btn8,
-    .close-modal-btn9,
-    .close-modal-btn,
-    .close-promotion-btn {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        background: transparent;
-        width: 28px;
-        height: 28px;
-        border: none;
-        cursor: pointer;
-    }
+        .group-notification {
+            display: flex;
+            flex-direction: row;
+        }
 
-    .close-modal-btn8::before,
-    .close-modal-btn9::before,
-    .close-modal-btn::before,
-    .close-promotion-btn::before {
-        content: "✕";
-        font-size: 18px;
-        font-weight: bold;
-        color: #444;
-    }
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transform: translateY(-10px)
+        }
 
-    /* Wrap mỗi input-group */
-    .modal-content .form-group {
-        margin-bottom: 15px;
-    }
+        .modal-close:hover { background: #f2f2f2; }
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
 
-    /* Label */
-    .modal-content label {
-        display: block;
-        margin-bottom: 6px;
-        font-weight: 600;
-    }
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
 
-    /* Input + Select */
-    .modal-content input,
-    .modal-content select {
-        width: 100%;
-        padding: 9px 11px;
-        border: 1px solid #cfcfcf;
-        border-radius: 6px;
-        font-size: 14px;
-        outline: none;
-        transition: border-color 0.15s ease;
-    }
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
 
-    .modal-content input:focus,
-    .modal-content select:focus {
-        border-color: #007bff;
-    }
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            padding: 30px 0;
+        }
 
-    /* Submit Button */
-    .modal-content button[type="submit"] {
-        padding: 10px 20px;
-        background: #28a745;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        width: 100%;
-        margin-top: 10px;
-        font-size: 15px;
-        font-weight: bold;
-        transition: opacity .2s;
-    }
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
 
-    .modal-content button[type="submit"]:hover {
-        opacity: 0.9;
-    }
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
 
+        /* ------*/
+        .table-container {
+            margin-top: 10px;
+            width: 100%;
+            overflow-x: auto;
+        }
 
-</style>
+        .promotion-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9em;
+            background-color: white;
+            color: #333;
+        }
+
+        .promotion-table th,
+        .promotion-table td {
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .promotion-table th {
+            padding: 10px 14px;
+        }
+        .promotion-table td {
+            padding: 5px 5px;
+        }
+        .cell-tick input {
+            margin-left: 20px;
+        }
+
+        .promotion-table thead .sample {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .promotion-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .promotion-table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .promotion-table .col-tick {
+            width: 1%;
+        }
+        .promotion-table .col-id {
+            width: 10%;
+        }
+        .promotion-table .col-code {
+            width: 15%;
+        }
+        .promotion-table .col-type {
+            width: 15%;
+        }
+        .promotion-table .col-value {
+            width: 10%;
+        }
+        .promotion-table .col-start {
+            width: 15%;
+        }
+        .promotion-table .col-end {
+            width: 15%;
+        }
+        .promotion-table .col-status {
+            width: 10%;
+        }
+        .promotion-table .col-action {
+            width: 10%;
+        }
+
+        .cell-action .btn {
+            border-radius: 5px;
+            height: 30px;
+            cursor: pointer;
+            border: solid 2px #ccc;
+        }
+
+        .cell-action .delete, .cell-action .edit {
+            width: 50px;
+        }
+
+        .cell-action .btn:hover {
+            border-color: #6341ff;
+            transform: scale(1.02);
+            transition: transform 0.2s ease;
+        }
+
+        /* ---*/
+        .button-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 8px;
+            box-sizing: border-box;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .button-group .button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .func-group {
+            display: flex;
+            flex-direction: row;
+        }
+        .button-group .del:hover {
+            background-color: #bb2c3b;
+        }
+        .add, .excel, .del {
+            margin-left: 10px;
+            color: #fff;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            height: 42px;
+            gap: 5px;
+            font-weight: bold;
+        }
+        .button-group .add:hover {
+            background-color: #0663dc;
+        }
+        .del {
+            margin-left: 0;
+            background-color: #dc3545;
+        }
+        .add {
+            background-color: #0872fa;
+        }
+        .excel {
+            background-color: #108814;
+        }
+        .type-needCss {
+            font-size: 20px;
+        }
+        .button-group .excel:hover {
+            background-color: #0c670f;
+        }
+
+        .modal-overlay,
+        .modal-overlay-excel,
+        .modal-overlay-deleteAll,
+        .modal-overlay-edit_information {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        /* Phần trượt popup */
+        .modal-overlay-excel {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 5vh;
+
+            background-color: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Phần fadein popup */
+        .modal-overlay,
+        .modal-overlay-deleteAll,
+        .modal-overlay-edit_information {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-overlay.show,
+        .modal-overlay-excel.show,
+        .modal-overlay-deleteAll.show,
+        .modal-overlay-edit_information.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content,
+        .modal-content-deleteAll,
+        .modal-content-edit_information {
+            background-color: white;
+            border-radius: 12px;
+            gap: 25px;
+            padding: 2.5rem 3rem;
+            width: 25rem;
+        }
+
+        .modal-content-deleteAll {
+            display: flex;
+            flex-direction: column;
+            padding: 30px 40px;
+            gap: 20px;
+        }
+
+        .modal-content-excel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 250px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid #eee;
+            transform: translateY(-50px);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .modal-overlay-excel.show .modal-content-excel {
+            transform: translateY(-25px);
+        }
+        .modal-content-refresh p, .modal-overlay-excel p {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .modal-content-deleteAll p {
+            font-size: 1.2rem;
+            text-align: center;
+            color: red;
+        }
+
+        .sort-option label {
+            cursor: pointer;
+        }
+
+        #add-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .code-input, .type-input, .value-input, .start-input, .end-input, .status-input {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 90%;
+        }
+
+        .code-input label, .type-input label, .value-input label, .start-input label, .end-input label, .status-input label, .text-filter-group label, .edit-information-promotion label {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #555;
+            width: 200px;
+            margin-top: 5px;
+        }
+
+        .code-input input, .type-input select, .value-input input, .start-input input, .end-input input, .status-input select, #text-filter, .edit-information-promotion input, .edit-information-promotion select {
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .code-input input, .value-input input{
+            padding: 12px 15px;
+        }
+        .edit-information-promotion input, .edit-information-promotion select {
+            padding: 6px 6px;
+        }
+        .code-input input, .value-input input {
+            width: 100%;
+        }
+        .type-input select, .status-input select {
+            width: 100%;
+            padding: 12px 15px;
+        }
+
+        .code-input input:focus, .type-input select:focus, .value-input input:focus, .start-input input:focus, .end-input input:focus, .status-input select:focus, #text-filter:focus, .edit-information-promotion input:focus, .edit-information-promotion select:focus {
+            border-color: #6341ff;
+            outline: none;
+        }
+
+        .label-with-icon {
+            display: flex;
+            gap: 3px;
+        }
+
+        .group-button-action {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .group-button-action.section {
+            margin-top: 10px;
+        }
+
+        .element-button, .deleteAll-button {
+            width: 100px;
+            padding: 14px 0;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .cancel {
+            width: 70px;
+        }
+        .deleteAll-button {
+            width: 150px;
+        }
+        .add-btn, .fix-btn {
+            background: #08c249;
+        }
+        .add-btn:hover, .fix-btn:hover {
+            background: #06a13d;
+        }
+        .deleteAll-button {
+            background: #e80f0f;
+        }
+        .cancel, .delete-all .element-button {
+            background: #9daab4;
+        }
+        .cancel:hover, .delete-all .element-button:hover {
+            background: #8e96a4;
+        }
+        .deleteAll-button:hover {
+            background: #c70d0d;
+        }
+
+        .edit-information-promotion {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .edit-information-promotion div:not(.active-section):not(:first-child) {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 5px;
+        }
+
+        .edit-information-promotion .code-section{
+            margin-top: 5px;
+        }
+
+        .edit-information-promotion .active-section {
+            margin-top: 10px;
+        }
+
+        #activeSelect {
+            border-radius: 5px;
+        }
+
+        .edit-information-promotion .create_promotion-section {
+            margin-bottom: 10px;
+        }
+
+        .modal-content-edit_information h2 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .group-text-deleteAll {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .group-text-deleteAll .p-deleteAll1{
+            font-size: 1.1rem;
+            width: 100%;
+        }
+        .group-text-deleteAll .icon-warning{
+            font-size: 16px;
+        }
+        .group-text-deleteAll .p-deleteAll2{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        /* datatable css only */
+        .dt-search .dt-input {
+            border: 2px solid transparent;
+            border-radius: 10px;
+            outline: none;
+        }
+        .dt-search .dt-input:focus {
+            border-color: #6341ff;
+        }
+    </style>
+</head>
 <body>
     <div class="dashboard-container">
         <nav class="dashboard-sidebar">
@@ -687,131 +687,293 @@
                     <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                     <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
                 </div>
-                <li><a href="AdminDashboard.html" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
-                <li><a href="manage_product.html" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
-                <li><a href="ManageAccounts.html" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
-                <li><a href="manage_orders.html" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="home-outline"></ion-icon>Trang Chủ</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="bag-remove-outline"></ion-icon>Quản Lí Sản Phẩm</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="people-outline"></ion-icon>Quản Lí Tài Khoản Khách</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="cart-outline"></ion-icon>Quản Lí Đơn Hàng</a></li>
                 <li><a href="#" class="a-with-icon"><ion-icon name="clipboard-outline"></ion-icon>Quản Lí Kho Hàng</a></li>
-                <li><a href="blog.html" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
-                <li><a href="manage_promotions.html" class="a-with-icon selected"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-                <li><a href="Charts.html" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="reader-outline"></ion-icon>Quản Lí Blog và Tin Tức</a></li>
+                <li><a href="#" class="a-with-icon selected"><ion-icon name="ticket-outline"></ion-icon>Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+                <li><a href="#" class="a-with-icon"><ion-icon name="stats-chart-outline"></ion-icon>Thống Kê</a></li>
             </ul>
             <div class="text">━ Được update tới 2025 ━</div>
         </nav>
         <div class="dashboard-content">
             <main class="dashboard-main-content">
-                <h1>Quản Lí Mã Giảm Giá và Khuyến Mãi</h1>
-                <button id="addPromotionBtn" style="margin-bottom: 20px; padding: 10px 20px; background-color: #6341ff; color: white; border: none; border-radius: 5px; cursor: pointer;">Thêm Mã Giảm Giá Mới</button>
-                <table id="promotionsTable" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Stt</th>
-                            <th>Mã Giảm Giá</th>
-                            <th>Loại</th>
-                            <th>Giá Trị</th>
-                            <th>Ngày Bắt Đầu</th>
-                            <th>Ngày Kết Thúc</th>
-                            <th>Trạng Thái</th>
-                            <th>Hành Động</th>
+                <div class="button-group">
+                    <h2>Quản lí mã giảm giá và khuyến mãi</h2>
+                    <div class="func-group">
+                        <button class="button del" id="deleteAll-modal-btn"><ion-icon name="trash-outline"></ion-icon>Xoá Ô Được Chọn</button>
+                        <button class="button add" id="open-modal-btn"><ion-icon name="add-outline" class="type-needCss"></ion-icon>Thêm</button>
+                        <button class="button excel" id="excel-modal-btn"><ion-icon name="cloud-download-outline"></ion-icon>Xuất ra Excel</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="promotion-table-main" class="promotion-table">
+                        <thead>
+                        <tr class="sample">
+                            <th class="col-tick">Chọn</th>
+                            <th class="col-id">ID</th>
+                            <th class="col-code">Mã Giảm Giá</th>
+                            <th class="col-type">Loại</th>
+                            <th class="col-value">Giá Trị</th>
+                            <th class="col-start">Ngày Bắt Đầu</th>
+                            <th class="col-end">Ngày Kết Thúc</th>
+                            <th class="col-status">Trạng Thái</th>
+                            <th class="col-action">Hành Động</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>SALE2025</td>
-                            <td>Phần trăm</td>
-                            <td>10%</td>
-                            <td>2025-01-01</td>
-                            <td>2025-12-31</td>
-                            <td class="status-active">Hoạt động</td>
-                            <td>
-                                <button class="edit-btn" data-id="1">Sửa</button>
-                                <button class="delete-btn" data-id="1">Xóa</button>
+                        </thead>
+                        <tbody>
+                        <tr class="promotions">
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                            <td class="cell-id">1</td>
+                            <td class="cell-code">SALE2025</td>
+                            <td class="cell-type">Phần trăm</td>
+                            <td class="cell-value">10%</td>
+                            <td class="cell-start">2025-01-01</td>
+                            <td class="cell-end">2025-12-31</td>
+                            <td class="cell-status">Hoạt động</td>
+                            <td class="cell-action">
+                                <button class="edit btn" id="edit-modal-btn">Sửa</button>
+                                <button class="delete btn">Xoá</button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>FREESHIP</td>
-                            <td>Miễn phí vận chuyển</td>
-                            <td>0đ</td>
-                            <td>2025-03-15</td>
-                            <td>2025-04-15</td>
-                            <td class="status-inactive">Không hoạt động</td>
-                            <td>
-                                <button class="edit-btn" data-id="2">Sửa</button>
-                                <button class="delete-btn" data-id="2">Xóa</button>
+                        <tr class="promotions">
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                            <td class="cell-id">2</td>
+                            <td class="cell-code">FREESHIP</td>
+                            <td class="cell-type">Miễn phí vận chuyển</td>
+                            <td class="cell-value">0đ</td>
+                            <td class="cell-start">2025-03-15</td>
+                            <td class="cell-end">2025-04-15</td>
+                            <td class="cell-status">Không hoạt động</td>
+                            <td class="cell-action">
+                                <button class="edit btn" id="edit-modal-btn2">Sửa</button>
+                                <button class="delete btn">Xoá</button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>SUMMER50</td>
-                            <td>Số tiền cố định</td>
-                            <td>50.000đ</td>
-                            <td>2025-06-01</td>
-                            <td>2025-08-31</td>
-                            <td class="status-inactive">Không hoạt động</td>
-                            <td>
-                                <button class="edit-btn" data-id="3">Sửa</button>
-                                <button class="delete-btn" data-id="3">Xóa</button>
+                        <tr class="promotions">
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                            <td class="cell-id">3</td>
+                            <td class="cell-code">SUMMER50</td>
+                            <td class="cell-type">Số tiền cố định</td>
+                            <td class="cell-value">50.000đ</td>
+                            <td class="cell-start">2025-06-01</td>
+                            <td class="cell-end">2025-08-31</td>
+                            <td class="cell-status">Không hoạt động</td>
+                            <td class="cell-action">
+                                <button class="edit btn" id="edit-modal-btn3">Sửa</button>
+                                <button class="delete btn">Xoá</button>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </main>
         </div>
     </div>
 
-    <div class="modal-overlay" id="promotionModal">
+    <div class="modal-overlay" id="add-promotion-modal">
         <div class="modal-content">
-            <button class="close-modal-btn8" id="closePromotionModal"></button>
-            <h2 id="modalTitle">Thêm Mã Giảm Giá Mới</h2>
-
-            <form id="promotionForm">
-                <input type="hidden" id="promotionId">
-
-                <div class="form-group">
-                    <label for="promotionCode">Mã Giảm Giá:</label>
-                    <input type="text" id="promotionCode" required>
+            <form id="add-form">
+                <div class="code-input">
+                    <label for="code" class="label-with-icon"><ion-icon name="pricetag-outline"></ion-icon>Mã Giảm Giá</label>
+                    <input type="text" id="code" name="code" placeholder="Nhập mã giảm giá" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="promotionType">Loại:</label>
-                    <select id="promotionType" required>
+                <div class="type-input">
+                    <label for="type" class="label-with-icon"><ion-icon name="options-outline"></ion-icon>Loại</label>
+                    <select id="type" name="type" required>
                         <option value="Phần trăm">Phần trăm</option>
                         <option value="Số tiền cố định">Số tiền cố định</option>
                         <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
                     </select>
                 </div>
-
-                <div class="form-group">
-                    <label for="promotionValue">Giá Trị:</label>
-                    <input type="text" id="promotionValue" required>
+                <div class="value-input">
+                    <label for="value" class="label-with-icon"><ion-icon name="cash-outline"></ion-icon>Giá Trị</label>
+                    <input type="text" id="value" name="value" placeholder="Nhập giá trị" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="startDate">Ngày Bắt Đầu:</label>
-                    <input type="date" id="startDate" required>
+                <div class="start-input">
+                    <label for="start" class="label-with-icon"><ion-icon name="calendar-outline"></ion-icon>Ngày Bắt Đầu</label>
+                    <input type="date" id="start" name="start" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="endDate">Ngày Kết Thúc:</label>
-                    <input type="date" id="endDate" required>
+                <div class="end-input">
+                    <label for="end" class="label-with-icon"><ion-icon name="calendar-outline"></ion-icon>Ngày Kết Thúc</label>
+                    <input type="date" id="end" name="end" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="status">Trạng Thái:</label>
-                    <select id="status" required>
+                <div class="status-input">
+                    <label for="status" class="label-with-icon"><ion-icon name="checkmark-circle-outline"></ion-icon>Trạng Thái</label>
+                    <select id="status" name="status" required>
                         <option value="Hoạt động">Hoạt động</option>
-                        <option value="Hết hạn">Không hoạt động</option>
+                        <option value="Không hoạt động">Không hoạt động</option>
                     </select>
                 </div>
-
-                <button type="submit">Lưu</button>
+                <div class="group-button-action section">
+                    <button type="button" class="cancel element-button" id="close-modal-btn">Huỷ</button>
+                    <button type="submit" class="add-btn element-button">Thêm</button>
+                </div>
             </form>
         </div>
     </div>
+    <div class="modal-overlay-excel" id="excel-promotion-modal">
+        <div class="modal-content-excel">
+            <p>Thành công xuất ra file Excel</p>
+            <button class="modal-close2" id="close-modal-btn5">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
+    </div>
+    <div class="modal-overlay-deleteAll" id="deleteAll-promotion-modal">
+        <div class="modal-content-deleteAll">
+            <div class="group-text-deleteAll">
+                <p class="p-deleteAll1">Bạn có chắc chắn muốn xoá toàn bộ dữ liệu của các ô được chọn?</p>
+                <p class="p-deleteAll2"><ion-icon name="warning-outline" class="icon-warning"></ion-icon>Hành động này sẽ không thể hoàn tác</p>
+            </div>
+            <div class="group-button-action delete-all">
+                <button type="button" class="element-button" id="close-modal-btn6">Huỷ</button>
+                <button type="submit" class="deleteAll-button">Xoá Tất Cả</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay-edit_information" id="edit_information-promotion-modal">
+        <div class="modal-content-edit_information">
+            <h2>Bảng thông tin khuyến mãi</h2>
+            <div class="edit-information-promotion">
+                <div class="id-section">
+                    <label for="id">ID:</label>
+                    <input type="text" id="id" name="id" value="1" placeholder="ID hiện không có">
+                </div>
+                <div class="code-section">
+                    <label for="code_edit">Mã Giảm Giá</label>
+                    <input type="text" id="code_edit" name="code_edit" value="SALE2025" placeholder="Chưa có mã" required>
+                </div>
+                <div class="type-section">
+                    <label for="type_edit">Loại</label>
+                    <select id="type_edit" name="type_edit" required>
+                        <option value="Phần trăm" selected>Phần trăm</option>
+                        <option value="Số tiền cố định">Số tiền cố định</option>
+                        <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
+                    </select>
+                </div>
+                <div class="value-section">
+                    <label for="value_edit">Giá Trị</label>
+                    <input type="text" id="value_edit" name="value_edit" value="10%" placeholder="Chưa có giá trị" required>
+                </div>
+                <div class="start-section">
+                    <label for="start_edit">Ngày Bắt Đầu</label>
+                    <input type="date" id="start_edit" name="start_edit" value="2025-01-01" required>
+                </div>
+                <div class="end-section">
+                    <label for="end_edit">Ngày Kết Thúc</label>
+                    <input type="date" id="end_edit" name="end_edit" value="2025-12-31" required>
+                </div>
+                <div class="status-section">
+                    <label for="status_edit">Trạng Thái</label>
+                    <select id="status_edit" name="status_edit" required>
+                        <option value="Hoạt động" selected>Hoạt động</option>
+                        <option value="Không hoạt động">Không hoạt động</option>
+                    </select>
+                </div>
+            </div>
+            <div class="group-button-action section">
+                <button type="button" class="cancel element-button" id="close-modal-btn7">Huỷ</button>
+                <button type="submit" class="fix-btn element-button">Sửa</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay-edit_information" id="edit_information-promotion-modal-2">
+        <div class="modal-content-edit_information">
+            <h2>Bảng thông tin khuyến mãi</h2>
+            <div class="edit-information-promotion">
+                <div class="id-section">
+                    <label>ID:</label>
+                    <input type="text" name="id" value="2" readonly>
+                </div>
+                <div class="code-section">
+                    <label>Mã Giảm Giá</label>
+                    <input type="text" name="code_edit" value="FREESHIP">
+                </div>
+                <div class="type-section">
+                    <label>Loại</label>
+                    <select name="type_edit">
+                        <option value="Miễn phí vận chuyển" selected>Miễn phí vận chuyển</option>
+                        <option value="Phần trăm">Phần trăm</option>
+                        <option value="Số tiền cố định">Số tiền cố định</option>
+                    </select>
+                </div>
+                <div class="value-section">
+                    <label>Giá Trị</label>
+                    <input type="text" name="value_edit" value="0đ">
+                </div>
+                <div class="start-section">
+                    <label>Ngày Bắt Đầu</label>
+                    <input type="date" name="start_edit" value="2025-03-15">
+                </div>
+                <div class="end-section">
+                    <label>Ngày Kết Thúc</label>
+                    <input type="date" name="end_edit" value="2025-04-15">
+                </div>
+                <div class="status-section">
+                    <label>Trạng Thái</label>
+                    <select name="status_edit">
+                        <option value="Hoạt động">Hoạt động</option>
+                        <option value="Không hoạt động" selected>Không hoạt động</option>
+                    </select>
+                </div>
+            </div>
+            <div class="group-button-action section">
+                <button type="button" class="cancel element-button" id="close-modal-btn-2">Huỷ</button>
+                <button type="submit" class="fix-btn element-button">Sửa</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay-edit_information" id="edit_information-promotion-modal-3">
+        <div class="modal-content-edit_information">
+            <h2>Bảng thông tin khuyến mãi</h2>
+            <div class="edit-information-promotion">
+                <div class="id-section">
+                    <label>ID:</label>
+                    <input type="text" name="id" value="3" readonly>
+                </div>
+                <div class="code-section">
+                    <label>Mã Giảm Giá</label>
+                    <input type="text" name="code_edit" value="SUMMER50">
+                </div>
+                <div class="type-section">
+                    <label>Loại</label>
+                    <select name="type_edit">
+                        <option value="Số tiền cố định" selected>Số tiền cố định</option>
+                        <option value="Phần trăm">Phần trăm</option>
+                        <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
+                    </select>
+                </div>
+                <div class="value-section">
+                    <label>Giá Trị</label>
+                    <input type="text" name="value_edit" value="50.000đ">
+                </div>
+                <div class="start-section">
+                    <label>Ngày Bắt Đầu</label>
+                    <input type="date" name="start_edit" value="2025-06-01">
+                </div>
+                <div class="end-section">
+                    <label>Ngày Kết Thúc</label>
+                    <input type="date" name="end_edit" value="2025-08-31">
+                </div>
+                <div class="status-section">
+                    <label>Trạng Thái</label>
+                    <select name="status_edit">
+                        <option value="Hoạt động">Hoạt động</option>
+                        <option value="Không hoạt động" selected>Không hoạt động</option>
+                    </select>
+                </div>
+            </div>
+            <div class="group-button-action section">
+                <button type="button" class="cancel element-button" id="close-modal-btn-3">Huỷ</button>
+                <button type="submit" class="fix-btn element-button">Sửa</button>
+            </div>
+        </div>
+    </div>
 
-    <div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-overlay-notification" id="notification-promotion-modal">
         <div class="modal-content-notification">
             <div class="group-notification">
                 <h2 class="notification-title">Thông báo</h2>
@@ -825,7 +987,8 @@
             </div>
         </div>
     </div>
-    <div class="modal-overlay-avatar" id="avatar-account-modal">
+
+    <div class="modal-overlay-avatar" id="avatar-promotion-modal">
         <div class="modal-content-avatar">
             <button class="modal-close2" id="close-modal-btn9">
                 <ion-icon name="close-outline"></ion-icon>
@@ -840,85 +1003,33 @@
             </button>
         </div>
     </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+    <script src="popup.js"></script>
+    <script>
+        // Run Pop-up function
+        document.addEventListener("DOMContentLoaded", function() {
+            setupModal('add-promotion-modal', 'open-modal-btn', 'close-modal-btn');
+            setupModal('excel-promotion-modal', 'excel-modal-btn', 'close-modal-btn5');
+            setupModal('deleteAll-promotion-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
+            setupModal('edit_information-promotion-modal', 'edit-modal-btn', 'close-modal-btn7');
+            setupModal('edit_information-promotion-modal-2', 'edit-modal-btn2', 'close-modal-btn-2');
+            setupModal('edit_information-promotion-modal-3', 'edit-modal-btn3', 'close-modal-btn-3');
+            setupModal('notification-promotion-modal', 'notification-modal-btn', 'close-modal-btn8');
+            setupModal('avatar-promotion-modal', 'avatar-modal-btn', 'close-modal-btn9');
+
+            $(document).ready(function() {
+                $('#promotion-table-main').DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/2.3.5/i18n/vi.json',
+                    },
+                });
+            });
+        });
+    </script>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" charset="utf8"
-        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script>
-    function setupModal(modalId, openBtnId, closeBtnId) {
-        const modal = document.getElementById(modalId);
-        const openBtn = document.getElementById(openBtnId);
-        const closeBtn = document.getElementById(closeBtnId);
-
-        if (openBtn) {
-            openBtn.addEventListener('click', () => {
-                modal.classList.add('show');
-            });
-        }
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove('show');
-            });
-        }
-
-        if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('show');
-                }
-            });
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        let table = $('#promotionsTable').DataTable();
-        setTimeout(() => {
-            $('#promotionsTable thead th').removeAttr('style');
-        }, 200);
-
-        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
-        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
-
-        const promotionModal = document.getElementById('promotionModal');
-        const addPromotionBtn = document.getElementById('addPromotionBtn');
-        const closePromotionModalBtn = document.getElementById('closePromotionModal');
-        const promotionForm = document.getElementById('promotionForm');
-        const modalTitle = document.getElementById('modalTitle');
-
-        addPromotionBtn.addEventListener('click', () => {
-            modalTitle.textContent = 'Thêm Mã Giảm Giá Mới';
-            promotionForm.reset();
-            document.getElementById('promotionId').value = '';
-            promotionModal.style.display = 'flex';
-        });
-
-        closePromotionModalBtn.addEventListener('click', () => {
-            promotionModal.style.display = 'none';
-        });
-
-        promotionModal.addEventListener('click', (e) => {
-            if (e.target === promotionModal) {
-                promotionModal.style.display = 'none';
-            }
-        });
-
-        promotionForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            promotionModal.style.display = 'none';
-            alert("Thành công")
-        });
-
-        $('#promotionsTable tbody').on('click', '.edit-btn', function() {
-            modalTitle.textContent = 'Sửa Mã Giảm Giá';
-            promotionModal.style.display = 'flex';
-        });
-
-        $('#promotionsTable tbody').on('click', '.delete-btn', function() {
-            if (confirm('Bạn có chắc chắn muốn xóa mã giảm giá này không?')) {
-                table.row($(this).parents('tr')).remove().draw(false);
-            }
-        });
-    });
-</script>
 </html>
