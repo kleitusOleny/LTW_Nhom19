@@ -13,6 +13,11 @@
             padding: 0;
             font-family: Mulish, sans-serif, serif;
         }
+        body, html {
+            overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+            width: 100%;
+            scroll-behavior: smooth;
+        }
         .dashboard-container {
             display: grid;
             min-height: 100vh;
@@ -291,13 +296,13 @@
             background-color: #f4f7fa;
             margin-bottom: 80px;
         }
-        .group-chart, .group-chart2, .group-chart3 {
+        .group-chart, .group-chart2, .group-chart3, .group-chart4 {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             border: 1px solid transparent;
         }
-        .group-chart:hover, .group-chart2:hover, .group-chart3:hover {
+        .group-chart:hover, .group-chart2:hover, .group-chart3:hover, .group-chart4:hover {
             border-color: #6341ff;
         }
         .group-switch {
@@ -342,6 +347,14 @@
             color: #0925c7;
             outline: 2px solid #a4abf6;
         }
+        .total-revenue {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .total-revenue .number {
+            color: #3314ff;
+        }
     </style>
 </head>
 <body>
@@ -366,6 +379,14 @@
     <div class="dashboard-content">
         <main class="dashboard-main-content">
             <h1>Tổng quan thống kê về sản phẩm</h1>
+            <div class="group-chart4">
+                <h2>Doanh thu theo tháng</h2>
+                <div class="total-revenue">
+                    <h5>Tổng doanh thu:</h5>
+                    <h5 class="number">2679 triệu vnđ</h5>
+                </div>
+                <div id="chart-revenue"></div>
+            </div>
             <div class="group-chart">
                 <h2>Số lượng sản phẩm đã bán và tồn đọng</h2>
                 <div id="chart"></div>
@@ -423,6 +444,72 @@
 </div>
 
 <script>
+    var options4 = {
+        series: [{
+            name: 'Doanh Thu',
+            type: 'column',
+            data: [550, 947, 930, 564, 957, 807, 700, 760, 577]
+        }, {
+            name: 'Tỉ lệ so với tháng trước',
+            type: 'line',
+            data: [0, 72.18, -1.8, -39.35, 69.68, -15.67, -13.26, 8.57, -24.08]
+        }],
+        chart: {
+            height: 350,
+            type: 'line',
+        },
+        stroke: {
+            width: [0, 4]
+        },
+        dataLabels: {
+            enabled: true,
+            enabledOnSeries: [1],
+            formatter: function (val) {
+                return val + "%"
+            }
+        },
+        labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9'],
+        yaxis: [{
+            title: {
+                text: 'Doanh Thu',
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    fontFamily: 'Mulish, sans-serif, serif',
+                    color: '#333'
+                }
+            },
+        }, {
+            opposite: true,
+            title: {
+                text: 'Tỉ lệ',
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    fontFamily: 'Mulish, sans-serif, serif',
+                    color: '#333'
+                }
+            },
+        }],
+        tooltip: {
+            y: {
+                formatter: function (val, { seriesIndex }) {
+                    // seriesIndex là biến xác định dòng dữ liệu
+                    if (seriesIndex === 0) {
+                        return val + " triệu vnđ";
+                    }
+                    if (seriesIndex === 1) {
+                        return val + "%";
+                    }
+                    return val;
+                }
+            }
+        }
+    };
+
+    var chart4 = new ApexCharts(document.querySelector("#chart-revenue"), options4);
+    chart4.render();
+    /* ---- */
     var options = {
         series: [{
             name: 'Đã bán',
@@ -623,6 +710,15 @@
             }
         },
         yaxis: {
+                title: {
+                    text: 'Lượt thích',
+                    style: {
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                        fontFamily: 'Mulish, sans-serif, serif',
+                        color: '#333'
+                    }
+                },
             axisBorder: {
                 show: false
             },
