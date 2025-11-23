@@ -757,6 +757,105 @@
             background-color: #c82333;
             transform: translateY(-1px);
         }
+
+/* Styles for edit information modal */
+.modal-content-edit_information {
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.modal-content-edit_information h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.edit-information-account {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-information-account > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.edit-information-account label {
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+}
+
+.edit-information-account input,
+.edit-information-account select,
+.edit-information-account textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.edit-information-account input:focus,
+.edit-information-account select:focus,
+.edit-information-account textarea:focus {
+    outline: none;
+    border-color: #6341ff;
+    box-shadow: 0 0 5px rgba(99, 65, 255, 0.3);
+}
+
+.edit-information-account textarea {
+    resize: vertical;
+    min-height: 100px;
+    max-height: 200px;
+}
+
+.edit-information-account .userId-section input {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.group-button-action.section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.element-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel {
+    background-color: #6c757d;
+    color: white;
+}
+
+.cancel:hover {
+    background-color: #5a6268;
+}
+
+.fix-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.fix-btn:hover {
+    background-color: #218838;
+}
     </style>
 </head>
 <body>
@@ -783,7 +882,7 @@
             <div class="button-group">
                 <h2>Quản lí Blog và Tin tức</h2>
                 <div class="func-group">
-                    <button class="button del" id="deleteAll-modal-btn"><ion-icon name="trash-outline"></ion-icon>Xoá Ô Được Chọn</button>
+                    <button class="button del" id="deleteAll-modal-btn"><ion-icon name="trash-outline"></ion-icon>Xoá (Đã chon)</button>
                     <button class="button add" id="open-modal-btn"><ion-icon name="add-outline" class="type-needCss"></ion-icon>Duyệt Bài</button>
                     <button class="button excel" id="excel-modal-btn"><ion-icon name="cloud-download-outline"></ion-icon>Xuất ra Excel</button>
                 </div>
@@ -903,10 +1002,6 @@
     <div class="modal-content-edit_information">
         <h2>Bảng thông tin</h2>
         <div class="edit-information-account">
-            <div class="userId-section">
-                <label for="id">ID:</label>
-                <input type="text" id="id" name="id" value="1" placeholder="ID hiện không có">
-            </div>
             <div class="title-section">
                 <label for="title">Tiêu đề</label>
                 <input type="text" id="title" name="title" value="Bài viết mẫu 1" placeholder="Chưa có tiêu đề" required>
@@ -941,10 +1036,6 @@
     <div class="modal-content-edit_information">
         <h2>Bảng thông tin</h2>
         <div class="edit-information-account">
-            <div class="userId-section">
-                <label>ID:</label>
-                <input type="text" name="id" value="2" readonly>
-            </div>
             <div class="title-section">
                 <label>Tiêu đề</label>
                 <input type="text" name="title" value="Bài viết mẫu 2">
