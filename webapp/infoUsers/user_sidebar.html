@@ -147,18 +147,24 @@
     </style>
 </head>
 <body>
-<header>
+<header class="site-header">
     <div class="header-top">
         <div class="container">
             <div class="header-logo">
                 <a href="../index.html" class="logo">LOGO</a>
             </div>
 
+            <div class="header-center">
+                <form class="search-form" action="#" method="get">
+                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
+                    <button type="submit" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+
             <div class="header-right">
-                <a href="#" aria-label="Search">
-                    <i class="fas fa-search"></i>
-                </a>
-                <a href="user_sidebar.html" aria-label="Account">
+                <a href="#" aria-label="Account">
                     <i class="fas fa-user"></i>
                 </a>
                 <a href="../Cart.html" class="cart-link" aria-label="Cart">
@@ -173,7 +179,7 @@
         <div class="container">
             <nav class="header-nav">
                 <ul>
-                    <li><a href="../index.html" class="active">Trang Chủ</a></li>
+                    <li><a href="../index.html">Trang Chủ</a></li>
                     <li class="has-dropdown">
                         <a href="../store.html">
                             Rượu Vang

@@ -211,6 +211,7 @@ input[type=search] {
 }
 
 .container > header {
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: space-between;
