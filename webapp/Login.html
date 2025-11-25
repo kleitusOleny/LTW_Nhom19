@@ -29,7 +29,7 @@
             background-color: white;
             border-radius: 12px;
             gap: 25px;
-            padding: 2.5rem 3rem;
+            padding: 2.5rem 3rem 1rem 3rem;
             width: 30rem;
             max-width: 90%;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
@@ -184,9 +184,114 @@
             align-items: center;
             gap: 5px;
         }
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            transform: translateX(-35px)
+        }
+        .backward-button-container {
+            margin-right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .backward-button-container .question {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* Glassmorphism Magic */
+            background: rgb(255, 255, 255);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            color: black;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .backward-button-container .backward:hover, .backward-button-container .question:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+        /* Modal */
+        .modal-overlay-question {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .modal-overlay-question.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content-question {
+            background-color: white;
+            border-radius: 12px;
+            gap: 25px;
+            padding: 2.5rem 3rem;
+            width: 30rem;
+        }
+        .group-p {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .group-p ion-icon {
+            font-size: 1.2rem;
+            margin-right: 5px;
+        }
+        /* backward */
+        #backward {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            gap: 3px;
+        }
+        #backward::before {
+            content: "←";
+            font-size: 1.2rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        #backward:hover {
+            color: #e5074a;
+        }
+        #backward:hover::before {
+            transform: translateX(-5px);
+        }
     </style>
+    <script src="popup.js"></script>
 </head>
 <body>
+<div class="main-container">
+<div class="backward-button-container">
+    <button class="question" id="btn-question"><ion-icon name="help-outline"></ion-icon></button>
+</div>
 <div class="login-page">
     <h2>Đăng Nhập</h2>
     <form id="login-form">
@@ -219,9 +324,22 @@
             <div id="social-remind">Chọn phương thức khác để đăng nhập:</div>
             <img src="assets/google-icon.png">
         </div>
+        <a href="index.html" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
+</div>
+<div class="modal-overlay-question" id="question-account-modal">
+    <div class="modal-content-question">
+        <h2>Vì sao cần đăng nhập?</h2>
+        <div class="group-p">
+            <p><ion-icon name="shield-checkmark-outline"></ion-icon>Theo quy định về kinh doanh đồ uống có cồn, chúng tôi cần xác minh người mua đã đủ độ tuổi hợp pháp.</p>
+            <p><ion-icon name="shield-checkmark-outline"></ion-icon>Việc đăng nhập cũng giúp bảo mật thông tin đơn hàng, thêm khuyến mãi cho cá nhân và đảm bảo quyền lợi tốt nhất cho bạn trong quá trình vận chuyển.</p>
+        </div>
+        <button id="close-btn">Đã rõ</button>
+    </div>
+</div>
 <script>
+    setupModal('question-account-modal', 'btn-question', 'close-btn')
     let eyeClosed = document.getElementById('eyeIcon').querySelector('ion-icon');
     let passwordReveal = document.getElementById('password');
 

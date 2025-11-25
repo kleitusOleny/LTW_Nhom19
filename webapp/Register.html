@@ -29,7 +29,7 @@
             width: 50rem;
             max-width: 90%;
             margin: 40px auto;
-            padding: 40px;
+            padding: 40px 40px 20px 40px;
             border-radius: 12px;
         }
 
@@ -167,6 +167,31 @@
             color: rgba(85, 85, 85, 0.68);
             margin-bottom: -10px;
         }
+        /* backward */
+        #backward {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            gap: 3px;
+        }
+        #backward::before {
+            content: "←";
+            font-size: 1.2rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        #backward:hover {
+            color: #e5074a;
+        }
+        #backward:hover::before {
+            transform: translateX(-5px);
+        }
     </style>
 </head>
 <body>
@@ -258,7 +283,9 @@
             <input type="checkbox" id="license-confirm" class="checkbox license">
             <label for="license-confirm">Xác nhận bạn sẽ tuân thủ chính sách</label>
         </div>
-        <button type="submit">Đăng Kí</button> </form>
+        <button type="submit">Đăng Kí</button>
+        <a href="Login.html" id="backward">Quay Lại Trang Trước</a>
+    </form>
 </div>
 </body>
 </html>
