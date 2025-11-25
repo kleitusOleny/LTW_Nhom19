@@ -486,24 +486,14 @@
     transition: all 0.3s ease;
     text-decoration: none;
 }
-.btn-primary {
-    background-color: #6341ff;
-    color: #fff;
-}
-.btn-primary:hover {
-    background-color: #5234d8;
-}
+
 .btn-primary ion-icon {
     font-size: 20px;
 }
-.btn-secondary {
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ddd;
-}
-.btn-secondary:hover {
-    background-color: #e5e5e5;
-}
+.btn-primary { background-color: #0872fa; color: #fff; }
+.btn-primary:hover { background-color: #0663dc; color: #fff;}
+.btn-secondary { background-color: #108814; color: #fff; border: 1px solid #ddd; }
+.btn-secondary:hover { background-color: #0c670f; }
 .btn-danger {
     background-color: #dc3545;
     color: #fff;
