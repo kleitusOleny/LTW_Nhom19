@@ -174,18 +174,19 @@ main {
     background-color: #8c3333;
     color: #fff;
     padding: 10px 20px;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     width: 150px;
     height: 50px;
+    border: 1px solid #8c3333;
 
 }
 
 .button:hover {
-    background-color: #7a2b2b;
+    background-color: #fff;
+    color: #8c3333;
 }
 
 .continue-shopping {
@@ -198,7 +199,7 @@ main {
     font-weight: 600;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 4px;
     transition: all 0.3s ease;
     cursor: pointer;
     text-align: center;
@@ -261,24 +262,25 @@ main {
 }
 
 .btn-edit-info {
+    font-size: 13px;
+    transition: background-color 0.3s;
+    display: inline-block;
+    background-color: #8c3333;
     color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
     text-align: center;
     text-decoration: none;
-    background-color: #8c3333;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    height: 38px;
-    line-height: 18px;
-    display: flex;
-    align-items: center;
+    width: 150px;
+    height: 50px;
+    border: 1px solid #8c3333;
 }
 
 
 .btn-edit-info:hover {
-    background-color: #7a2b2b;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    color: #8c3333;
 }
 
 #user-info p {
@@ -347,6 +349,280 @@ main {
 
 .order-summary {
     background-color: #fff;
+}
+
+.payment-methods {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.payment-methods h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.selected-payment-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.selected-payment-display:hover {
+    background-color: #f8f8f8;
+}
+
+.selected-payment-display span {
+    font-size: 16px;
+    /*font-weight: 600;*/
+    color: #000;
+}
+
+.selected-payment-display i {
+    color: #000;
+    transition: transform 0.3s ease;
+}
+
+.payment-options-list {
+    display: none;
+    margin-top: 10px;
+}
+
+.payment-options-list.show {
+    display: block;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.payment-option:hover {
+    border-color: #fff;
+    box-shadow: 0 2px 8px rgba(140, 51, 51, 0.1);
+    transform: translateY(-1px);
+}
+
+.payment-option.selected {
+    border-color: #8c3333;
+    background-color: #fdf2f2;
+}
+
+.payment-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.payment-option label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.payment-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: #8c3333;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.payment-option.selected .payment-icon {
+    background-color: #8c3333;
+    color: #fff;
+}
+
+.payment-info {
+    flex-grow: 1;
+}
+
+.payment-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.payment-desc {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.payment-popup-trigger {
+    color: #8c3333;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+}
+
+.payment-popup-trigger:hover {
+    color: #7a2b2b;
+}
+
+/* Payment Modal Styles */
+.payment-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.3s ease;
+}
+
+.payment-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-modal-content {
+    background-color: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.payment-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    background-color: #8c3333;
+    color: #fff;
+    border-radius: 12px 12px 0 0;
+}
+
+.payment-modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.payment-modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.payment-modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.payment-modal-body {
+    padding: 25px;
+}
+
+.bank-info {
+    margin-bottom: 25px;
+}
+
+.bank-info-item {
+    display: flex;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 6px;
+}
+
+.bank-label {
+    font-weight: 600;
+    color: #333;
+    min-width: 120px;
+    margin-right: 15px;
+}
+
+.bank-value {
+    color: #555;
+    flex-grow: 1;
+}
+
+.bank-value.account-number,
+.bank-value.amount {
+    font-weight: 600;
+    color: #8c3333;
+    font-family: 'Courier New', monospace;
+}
+
+.transfer-instructions {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.transfer-instructions h3 {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.transfer-instructions ol {
+    padding-left: 20px;
+}
+
+.transfer-instructions li {
+    margin-bottom: 8px;
+    color: #555;
+    line-height: 1.5;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: scale(0.9) translateY(-20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 #user-info {
@@ -555,7 +831,7 @@ main {
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
     color: #8c3333;
-    font-size: 26px;
+    to { transform: scale(1) translateY(0); opacity: 1; }
     border-bottom: 1px solid #eee;
     padding-bottom: 15px;
     margin-bottom: 25px;

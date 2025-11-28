@@ -193,6 +193,39 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="payment-methods">
+                <h3>Phương thức thanh toán</h3>
+                <div class="selected-payment-display">
+                    <span id="selected-payment-text">Thanh toán khi nhận hàng</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="payment-options-list">
+                    <div class="payment-option" data-value="cod">
+                        <input type="radio" id="cod" name="payment_method" value="cod" checked>
+                        <label for="cod">
+                            <div class="payment-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">Thanh toán khi nhận hàng</div>
+                                <div class="payment-desc">Thanh toán trực tiếp khi nhận hàng</div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="payment-option" data-value="ewallet">
+                        <input type="radio" id="ewallet" name="payment_method" value="ewallet">
+                        <label for="ewallet">
+                            <div class="payment-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">Ví điện tử</div>
+                                <div class="payment-desc">VNPay</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>    
             <div class="age-verification">
                 <input type="checkbox" id="age-verify" name="age-verify" required>
                 <label for="age-verify">Tôi xác nhận tôi đã đủ tuổi hợp pháp để mua rượu.</label>
@@ -275,9 +308,44 @@
         document.addEventListener('DOMContentLoaded', function () {
             const ageVerifyCheckbox = document.getElementById('age-verify');
             const placeOrderBtn = document.getElementById('place-order-btn');
-            const successModal=document.getElementById('success-modal');
+            const successModal = document.getElementById('success-modal');
+            const selectedPaymentDisplay = document.querySelector('.selected-payment-display');
+            const paymentOptionsList = document.querySelector('.payment-options-list');
+            const paymentOptions = document.querySelectorAll('.payment-option');
+
+            const paymentNames = {
+                'cod': 'Thanh toán khi nhận hàng',
+                'bank_transfer': 'Chuyển khoản ngân hàng',
+                'ewallet': 'Ví điện tử',
+                'card': 'Thẻ tín dụng/ghi nợ'
+            };
+
             ageVerifyCheckbox.addEventListener('change', function () {
                 placeOrderBtn.disabled = !this.checked;
+            });
+
+            selectedPaymentDisplay.addEventListener('click', function () {
+                const chevron = this.querySelector('i');
+                paymentOptionsList.classList.toggle('show');
+
+                if (paymentOptionsList.classList.contains('show')) {
+                    chevron.style.transform = 'rotate(180deg)';
+                } else {
+                    chevron.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    const value = this.getAttribute('data-value');
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    document.getElementById('selected-payment-text').textContent = paymentNames[value];
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    paymentOptionsList.classList.remove('show');
+                    selectedPaymentDisplay.querySelector('i').style.transform = 'rotate(0deg)';
+                });
             });
 
             placeOrderBtn.addEventListener('click', function (e) {
@@ -288,6 +356,14 @@
                     return;
                 }
                 document.querySelector('.age-verification').classList.remove('error');
+
+                const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+                let paymentText = 'Thanh toán khi nhận hàng';
+                if (selectedPayment) {
+                    paymentText = paymentNames[selectedPayment.value];
+                }
+                document.querySelector('.order-details-summary p:nth-child(4) span').textContent = paymentText;
+
                 successModal.style.display = "block";
             });
 
