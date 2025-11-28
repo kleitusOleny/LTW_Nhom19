@@ -330,10 +330,10 @@
             width: 30%;
         }
         .account-table .col-phone {
-            width: 20%;
+            width: 13%;
         }
-        .account-table .col-status {
-            width: 10%;
+        .account-table .col-fullname {
+            width: 20%;
         }
         .account-table .col-action {
             width: 10%;
@@ -654,6 +654,7 @@
             gap: 5px;
             font-size: 1rem;
             font-weight: bold;
+            color: #1e3cd2;
         }
         /* datatable css only */
         .dt-search .dt-input {
@@ -663,6 +664,15 @@
         }
         .dt-search .dt-input:focus {
             border-color: #6341ff;
+        }
+        .accounts.locked {
+            outline: 1px solid red;
+        }
+        .group-text-welcome p {
+            font-size: 12px;
+            color: #888;
+            padding-left: 2px;
+            margin-top: 1px;
         }
     </style>
 </head>
@@ -688,9 +698,12 @@
         <div class="dashboard-content">
             <main class="dashboard-main-content">
                 <div class="button-group">
-                    <h2>Quản lí tài khoản khách</h2>
+                    <div class="group-text-welcome">
+                        <h2>Quản lí tài khoản khách</h2>
+                        <p>Với các records được đánh dấu đỏ, nghĩa là đã khoá tài khoản</p>
+                    </div>
                     <div class="func-group">
-                        <button class="button del" id="deleteAll-modal-btn"><ion-icon name="trash-outline"></ion-icon>Xoá (Đã Chọn)</button>
+                        <button class="button del" id="deleteAll-modal-btn"><ion-icon name="trash-outline"></ion-icon>Khoá (Đã Chọn)</button>
                         <button class="button add" id="open-modal-btn"><ion-icon name="add-outline" class="type-needCss"></ion-icon>Thêm</button>
                         <button class="button excel" id="excel-modal-btn"><ion-icon name="cloud-download-outline"></ion-icon>Xuất ra Excel</button>
                     </div>
@@ -703,7 +716,7 @@
                             <th class="col-id">ID Tài Khoản</th>
                             <th class="col-email">Email</th>
                             <th class="col-phone">Số Liên Lạc</th>
-                            <th class="col-status">Hoạt Động</th>
+                            <th class="col-fullname">Họ và Tên</th>
                             <th class="col-create">Ngày tạo</th>
                             <th class="col-action">Hành Động</th>
                         </tr>
@@ -714,11 +727,11 @@
                             <td class="cell-id">1001</td>
                             <td class="cell-email">nguyenvana@email.com</td>
                             <td class="cell-phone">0901 234 567</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Nguyễn Văn A</td>
                             <td class="cell-create">06/10/2024</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
                         <tr class="accounts">
@@ -726,11 +739,11 @@
                             <td class="cell-id">1002</td>
                             <td class="cell-email">yurichangirl752@gmail.com</td>
                             <td class="cell-phone">0901 772 7861</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Đỗ Hoàng Ngọc Ánh</td>
                             <td class="cell-create">03/08/2019</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn2">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
                         <tr class="accounts">
@@ -738,11 +751,11 @@
                             <td class="cell-id">1003</td>
                             <td class="cell-email">minh.quan.dev@gmail.com</td>
                             <td class="cell-phone">0912 345 678</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Đỗ Minh Quan</td>
                             <td class="cell-create">15/08/2019</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn3">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
 
@@ -751,24 +764,24 @@
                             <td class="cell-id">1004</td>
                             <td class="cell-email">thanh.huong99@yahoo.com</td>
                             <td class="cell-phone">0988 123 999</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Nguyễn Thanh Hương</td>
                             <td class="cell-create">20/09/2019</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn4">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
 
-                        <tr class="accounts">
+                        <tr class="accounts locked">
                             <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
                             <td class="cell-id">1005</td>
                             <td class="cell-email">bao.gia.it@outlook.com</td>
                             <td class="cell-phone">0355 789 123</td>
-                            <td class="cell-status">Không</td>
+                            <td class="cell-fullname">Đỗ Gia Bảo</td>
                             <td class="cell-create">05/01/2020</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn5">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Mở</button>
                             </td>
                         </tr>
 
@@ -777,11 +790,11 @@
                             <td class="cell-id">1006</td>
                             <td class="cell-email">hoang.yen.design@gmail.com</td>
                             <td class="cell-phone">0909 555 321</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Hoàng Như Yến</td>
                             <td class="cell-create">14/02/2020</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn6">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
 
@@ -790,24 +803,24 @@
                             <td class="cell-id">1007</td>
                             <td class="cell-email">kaito.kid1412@gmail.com</td>
                             <td class="cell-phone">0933 444 555</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Lê Công Chiến</td>
                             <td class="cell-create">30/04/2020</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn7">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
 
-                        <tr class="accounts">
+                        <tr class="accounts locked">
                             <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
                             <td class="cell-id">1008</td>
                             <td class="cell-email">mai.anh.dao@hotmail.com</td>
                             <td class="cell-phone">0866 777 888</td>
-                            <td class="cell-status">Không</td>
+                            <td class="cell-fullname">Đào Thị Mai Anh</td>
                             <td class="cell-create">10/10/2021</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn8">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Mở</button>
                             </td>
                         </tr>
 
@@ -816,11 +829,11 @@
                             <td class="cell-id">1009</td>
                             <td class="cell-email">tuan.hung.biz@gmail.com</td>
                             <td class="cell-phone">0914 567 890</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Trần Tuấn Hùng</td>
                             <td class="cell-create">01/01/2022</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn9">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
 
@@ -829,11 +842,11 @@
                             <td class="cell-id">1010</td>
                             <td class="cell-email">ngoc.han.hr@company.vn</td>
                             <td class="cell-phone">0977 111 222</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Nguyễn Ngọc Hân</td>
                             <td class="cell-create">15/05/2022</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn10">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
 
@@ -842,24 +855,24 @@
                             <td class="cell-id">1011</td>
                             <td class="cell-email">duy.manh.coder@gmail.com</td>
                             <td class="cell-phone">0344 999 000</td>
-                            <td class="cell-status">Có</td>
+                            <td class="cell-fullname">Hoàng Duy Mạnh</td>
                             <td class="cell-create">20/08/2023</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn11">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Khoá</button>
                             </td>
                         </tr>
 
-                        <tr class="accounts">
+                        <tr class="accounts locked">
                             <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
                             <td class="cell-id">1012</td>
                             <td class="cell-email">linh.dan.mkt@gmail.com</td>
                             <td class="cell-phone">0905 123 456</td>
-                            <td class="cell-status">Không</td>
+                            <td class="cell-fullname">Nguyễn Linh Đan</td>
                             <td class="cell-create">02/09/2023</td>
                             <td class="cell-action">
                                 <button class="edit btn" id="edit-modal-btn12">Sửa</button>
-                                <button class="delete btn">Xoá</button>
+                                <button class="delete btn">Mở</button>
                             </td>
                         </tr>
                         </tbody>
@@ -898,12 +911,12 @@
     <div class="modal-overlay-deleteAll" id="deleteAll-account-modal">
         <div class="modal-content-deleteAll">
             <div class="group-text-deleteAll">
-                <p class="p-deleteAll1">Bạn có chắc chắn muốn xoá toàn bộ dữ liệu của các ô được chọn?</p>
-                <p class="p-deleteAll2"><ion-icon name="warning-outline" class="icon-warning"></ion-icon>Hành động này sẽ không thể hoàn tác</p>
+                <p class="p-deleteAll1">Bạn có chắc chắn muốn khoá toàn bộ tài khoản của các ô được chọn?</p>
+                <p class="p-deleteAll2"><ion-icon name="warning-outline" class="icon-warning"></ion-icon>Có thể hoàn tác hành động này</p>
             </div>
             <div class="group-button-action delete-all">
                 <button type="button" class="element-button" id="close-modal-btn6">Huỷ</button>
-                <button type="submit" class="deleteAll-button">Xoá Tất Cả</button>
+                <button type="submit" class="deleteAll-button">Khoá Tất Cả</button>
             </div>
         </div>
     </div>
