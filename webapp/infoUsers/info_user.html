@@ -18,10 +18,12 @@
         border-bottom: 1px solid #eee;
         padding-bottom: 15px;
     }
+
     .user-info-fields {
         width: 100%;
         margin-bottom: 20px;
     }
+
     .field {
         position: relative;
         display: flex;
@@ -31,6 +33,7 @@
         margin-bottom: 15px;
         background-color: #f9f9f9;
     }
+
     .field i {
         margin-right: 20px;
         color: #c7a17a;
@@ -38,6 +41,7 @@
         text-align: center;
         font-size: 1.1em;
     }
+
     .field i.left-icon {
         margin-right: 20px;
         color: #c7a17a;
@@ -45,6 +49,7 @@
         text-align: center;
         font-size: 1.1em;
     }
+
     .field:hover {
         background-color: #f5f5f5;
         border-left-color: #c7a17a;
@@ -151,11 +156,6 @@
         </div>
 
         <div class="field">
-            <i class="fa-solid fa-venus-mars left-icon"></i>
-            <span class="editable" data-key="gender" data-value="1">Nam</span>
-        </div>
-
-        <div class="field">
             <i class="fa-solid fa-calendar-days left-icon"></i>
             <span class="editable" data-key="dob">01/01/1990</span>
         </div>
@@ -224,25 +224,17 @@
 
                     let input;
 
-                    if (key === "gender") {
-                        input = document.createElement("select");
-                        input.add(new Option("Nam", "1"));
-                        input.add(new Option("Nữ", "0"));
-                        input.value = span.dataset.value;
-                    }
-                    else if (key === "password") {
+                    if (key === "password") {
                         input = document.createElement("input");
                         input.type = "password";
                         input.placeholder = "Nhập mật khẩu mới";
                         attachEyeToggle(newPassEye, input);
-                    }
-                    else if (key === "dob") {
+                    } else if (key === "dob") {
                         input = document.createElement("input");
                         input.type = "date";
                         let p = span.textContent.split("/");
                         input.value = `${p[2]}-${p[1]}-${p[0]}`;
-                    }
-                    else {
+                    } else {
                         input = document.createElement("input");
                         input.type = "text";
                         input.value = span.textContent;
@@ -257,8 +249,7 @@
                 editBtn.style.display = "none";
                 saveBtn.style.display = "inline-block";
                 cancelBtn.style.display = "inline-block";
-            }
-            else {
+            } else {
                 oldPassField.style.display = "none";
                 oldPassEye.style.display = "none";
                 newPassEye.style.display = "none";
@@ -269,12 +260,9 @@
                     span.classList.add("editable");
                     span.dataset.key = key;
 
-                    if (key === "gender") {
-                        span.dataset.value = backup[key];
-                        span.textContent = backup[key] === "1" ? "Nam" : "Nữ";
-                    } else {
-                        span.textContent = backup[key];
-                    }
+
+                    span.textContent = backup[key];
+                    
 
                     input.replaceWith(span);
                 });
