@@ -15,17 +15,23 @@
 </head>
 <body>
 
-<header>
+<header class="site-header">
     <div class="header-top">
         <div class="container">
             <div class="header-logo">
                 <a href="index.html" class="logo">LOGO</a>
             </div>
 
+            <div class="header-center">
+                <form class="search-form" action="#" method="get">
+                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
+                    <button type="submit" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+
             <div class="header-right">
-                <a href="#" aria-label="Search">
-                    <i class="fas fa-search"></i>
-                </a>
                 <a href="#" aria-label="Account">
                     <i class="fas fa-user"></i>
                 </a>
@@ -36,14 +42,13 @@
             </div>
         </div>
     </div>
-
     <div class="header-nav-bar">
         <div class="container">
             <nav class="header-nav">
                 <ul>
-                    <li><a href="index.html" class="active">Trang Chủ</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li class="has-dropdown">
-                        <a href="store.html">
+                        <a href="store.html" class="active">
                             Rượu Vang
                             <i class="fa-solid fa-caret-down"></i>
                         </a>
@@ -53,23 +58,23 @@
                                     <h4 class="mega-menu-title">Theo Loại Vang</h4>
                                     <ul class="mega-menu-list">
                                         <li><a href="store.html" class="mega-menu-link">Rượu Vang Đỏ</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Trắng</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Hồng</a></li>
-                                        <li><a href="#" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Ngọt</a></li>
-                                        <li><a href="#" class="mega-menu-link">Cognac & Rượu Mạnh</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Trắng</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Hồng</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Ngọt</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">Cognac & Rượu Mạnh</a></li>
                                     </ul>
                                 </div>
 
                                 <div class="mega-menu-column">
                                     <h4 class="mega-menu-title">Nhãn Hàng Nổi Bật</h4>
                                     <ul class="mega-menu-list">
-                                        <li><a href="#" class="mega-menu-link">CHÂTEAU CORBIN</a></li>
-                                        <li><a href="#" class="mega-menu-link">TENUTA LUCE</a></li>
-                                        <li><a href="#" class="mega-menu-link">MAISON LOUIS LATOUR</a></li>
-                                        <li><a href="#" class="mega-menu-link">Domaine Faiveley</a></li>
-                                        <li><a href="#" class="mega-menu-link">BODEGAS MUGA</a></li>
-                                        <li><a href="#" class="mega-menu-link">CHAMPAGNE RUINART</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">CHÂTEAU CORBIN</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">TENUTA LUCE</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">MAISON LOUIS LATOUR</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">Domaine Faiveley</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">BODEGAS MUGA</a></li>
+                                        <li><a href="store.html" class="mega-menu-link">CHAMPAGNE RUINART</a></li>
                                     </ul>
                                 </div>
 
@@ -97,8 +102,8 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -260,13 +265,6 @@
                 <div class="display-container">
                     <p>Hiển thị kết quả 1-24 trong số</p>
                     <div class="display-mode-container">
-                        <a href="#" class="view-btn" aria-label="List view">
-                            <i class="fa-solid fa-list"></i>
-                        </a>
-                        <a href="#" class="view-btn active" aria-label="Grid view">
-                            <i class="fa-solid fa-table-cells-large"></i>
-                        </a>
-
                         <select id="view-mode">
                             <option value="default">Thứ tự mặc định</option>
                             <option value="price-asc">Giá: Thấp đến Cao</option>
@@ -679,6 +677,7 @@
                 </ul>
             </nav>
         </div>
+    </div>
 </main>
 <footer class="site-footer">
     <div class="container">

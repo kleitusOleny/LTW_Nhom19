@@ -279,56 +279,140 @@
 .header-actions { display: flex; gap: 10px; }
 
 .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 20px; font-size: 15px; font-weight: 600;
-    border-radius: 8px; border: none; cursor: pointer;
-    transition: all 0.3s ease; text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
-.btn-primary { background-color: #6341ff; color: #fff; }
-.btn-primary:hover { background-color: #5234d8; color: #fff;}
-.btn-secondary { background-color: #f0f0f0; color: #333; border: 1px solid #ddd; }
-.btn-secondary:hover { background-color: #e5e5e5; }
+.btn-primary { background-color: #0872fa; color: #fff; }
+.btn-primary:hover { background-color: #0663dc; color: #fff;}
+.btn-secondary { background-color: #108814; color: #fff; border: 1px solid #ddd; }
+.btn-secondary:hover { background-color: #0c670f; }
 .btn-danger { background-color: #dc3545; color: #fff; }
 .btn-danger:hover { background-color: #c82333; color: #fff; }
 
+/* --- TABLE STYLES FROM MANAGE ACCOUNTS --- */
 .table-container {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #eaedfd;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
-}
-table.dataTable thead th {
-    background-color: #f9faff !important;
-    color: #5a6e8c;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    border-bottom: 2px solid #eaedfd !important;
-    vertical-align: middle;
-    text-align: center !important;
+    margin-top: 10px;
+    width: 100%;
+    overflow-x: auto;
+    background-color: transparent; /* Reset background cũ */
+    box-shadow: none; /* Reset shadow cũ */
+    border: none; /* Reset border cũ */
+    padding: 0;
 }
 
-table.dataTable tbody td {
-    vertical-align: middle !important;
-    font-size: 0.95rem;
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9em;
+    background-color: white;
     color: #333;
-    border-color: #eaedfd;
 }
 
+.product-table th,
+.product-table td {
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.product-table th {
+    padding: 10px 14px;
+}
+.product-table td {
+    padding: 5px 5px;
+}
+
+/* Header Style */
+.product-table thead .sample {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Row Hover Effect */
+.product-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.product-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* --- COLUMN WIDTHS (Custom for Banner) --- */
+.product-table .col-tick { width: 1%; text-align: center; }
+.product-table .col-id { width: 15%; }
+.product-table .col-img { width: 10%; text-align: center;}
+.product-table .col-link { width: 25%; }
+.product-table .col-date { width: 10%; }
+.product-table .col-duration { width: 10%; text-align: center;}
+.product-table .col-status { width: 10%; text-align: center;}
+.product-table .col-action { width: 10%; }
+
+/* --- ACTION BUTTONS (Style giống Accounts) --- */
+.cell-action {
+    display: flex;
+    gap: 5px;
+}
+
+.cell-action .btn {
+    border-radius: 5px;
+    height: 30px;
+    cursor: pointer;
+    border: solid 2px #ccc;
+    background-color: #fff; /* Default background */
+    padding: 0 10px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    text-decoration: none;
+}
+
+.cell-action .delete, .cell-action .edit {
+    min-width: 50px;
+}
+
+.cell-action .btn:hover {
+    border-color: #6341ff;
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+    color: #6341ff;
+}
+
+/* Checkbox alignment */
+.cell-tick {
+    text-align: center;
+}
+.cell-tick input {
+    margin-left: 0; /* Căn giữa */
+}
+
+/* Banner Image adjustments within new table */
 .banner-preview {
-    width: 120px;
-    height: 45px;
+    width: 100px;
+    height: 40px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 4px;
     border: 1px solid #eee;
+    display: block;
+    margin: 0 auto;
 }
 
+/* Status badge overrides for new table look */
 .status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 4px 10px;
+    font-size: 11px;
 }
 .status-badge.active {
     background-color: #e6f9ee;

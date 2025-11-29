@@ -16,31 +16,28 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar"><img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/><ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon></div>
-            <li><a href="#" class="a-with-icon">
+            <li><a href="admin_dashboard.html" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
-            <li><a href="#" class="a-with-icon">
+            <li><a href="manage_product.html" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="#" class="a-with-icon">
+            <li><a href="manage_accounts.html" class="a-with-icon">
                 <ion-icon name="people-outline"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="#" class="a-with-icon">
+            <li><a href="manage_orders.html" class="a-with-icon">
                 <ion-icon name="cart-outline"></ion-icon>
                 Quản Lí Đơn Hàng</a></li>
-            <li><a href="#" class="a-with-icon">
-                <ion-icon name="clipboard-outline"></ion-icon>
-                Quản Lí Kho Hàng</a></li>
             <li><a href="#" class="a-with-icon selected">
                 <ion-icon name="albums"></ion-icon>
                 Quản Lí Banner</a></li>
-            <li><a href="#" class="a-with-icon">
+            <li><a href="manage_blog.html" class="a-with-icon">
                 <ion-icon name="reader-outline"></ion-icon>
                 Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="#" class="a-with-icon">
+            <li><a href="manage_promotions.html" class="a-with-icon">
                 <ion-icon name="ticket-outline"></ion-icon>
                 Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="#" class="a-with-icon">
+            <li><a href="charts.html" class="a-with-icon">
                 <ion-icon name="stats-chart-outline"></ion-icon>
                 Thống Kê</a></li>
         </ul>
@@ -70,96 +67,82 @@
             </div>
 
             <div class="table-container">
-                <table id="banner-datatable" class="table table-hover table-bordered banner-table" style="width:100%">
+                <table id="banner-datatable" class="product-table">
                     <thead>
-                    <tr>
-                        <th></th>
-                        <th>ID Banner</th>
-                        <th>Ảnh Banner</th>
-                        <th>Link Đích</th>
-                        <th>Ngày Sự Kiện</th>
-                        <th>T/g Tồn Tại</th>
-                        <th>Trạng Thái</th>
-                        <th>Hành Động</th>
+                    <tr class="sample">
+                        <th class="col-tick">Chọn</th>
+                        <th class="col-id">ID Banner</th>
+                        <th class="col-img">Ảnh Banner</th>
+                        <th class="col-link">Link Đích</th>
+                        <th class="col-date">Ngày Sự Kiện</th>
+                        <th class="col-duration">T/g Tồn Tại</th>
+                        <th class="col-status">Trạng Thái</th>
+                        <th class="col-action">Hành Động</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="banner-id left-align">
-                                MAIN_BANNER
-                            </div>
+                    <tr class="row">
+                        <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                        <td class="cell-id">MAIN_BANNER</td>
+                        <td class="cell-img">
+                            <img class="banner-preview" src="assets/main_banner.jpg" alt="Banner Preview">
                         </td>
-                        <td class="center-align"><img class="banner-preview" src="assets/main_banner.jpg" alt="Banner Preview"></td>
-                        <td>
-                            <div class="target-url-cell left-align">
-                                <a href="#" title="/store?promo=sale11">/index.html</a>
-                            </div>
+                        <td class="cell-link">
+                            <a href="#" title="/store?promo=sale11">/index.html</a>
+                        </td>
+                        <td class="cell-date">2025-11-10</td>
+                        <td class="cell-duration" style="text-align: center;">5</td>
+                        <td class="cell-status" style="text-align: center;">
+                            <span class="status-badge active">Active</span>
                         </td>
                         <td>
-                            <div class="banner-date center-align">2025-11-10</div>
-                        </td>
-                        <td class="center-align">5</td>
-                        <td class="center-align"><span class="status-badge active">Active</span></td>
-                        <td>
-                            <div class="action-buttons center-align">
-                                <button class="btn-action edit">
-                                    <ion-icon name="pencil-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action delete">
-                                    <ion-icon name="trash-outline"></ion-icon>
-                                </button>
+                            <div  class="cell-action">
+                                <button class="edit btn" id="edit-modal-btn-1">Sửa</button>
+                                <button class="delete btn" id="del-modal-btn-1">Xoá</button>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="banner-id left-align">
-                                BANNER_VANG_BORDEAUX
-                            </div>
-                        </td>
-                        <td class="center-align">
+
+                    <tr class="row">
+                        <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                        <td class="cell-id">BANNER_VANG_BORDEAUX</td>
+                        <td class="cell-img">
                             <img class="banner-preview" src="assets/banner-vang-bordeaux.jpg" alt="Banner Preview">
                         </td>
-                        <td class="target-url-cell left-align"><a href="#" title="/store?category=new">/store?category=bordeaux</a>
+                        <td class="cell-link">
+                            <a href="#" title="/store?category=new">/store?category=bordeaux</a>
                         </td>
-                        <td class="center-align">2025-11-01</td>
-                        <td class="center-align">30</td>
-                        <td class="center-align"><span class="status-badge active">Active</span></td>
+                        <td class="cell-date">2025-11-01</td>
+                        <td class="cell-duration" style="text-align: center;">30</td>
+                        <td class="cell-status" style="text-align: center;">
+                            <span class="status-badge active">Active</span>
+                        </td>
                         <td>
-                            <div class="action-buttons">
-                                <button class="btn-action edit">
-                                    <ion-icon name="pencil-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action delete">
-                                    <ion-icon name="trash-outline"></ion-icon>
-                                </button>
+                            <div class="cell-action">
+                                <button class="edit btn">Sửa</button>
+                                <button class="delete btn">Xoá</button>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="banner-id left-align">
-                                BANNER_VANG_BOURGOGNE
-                            </div>
+
+                    <tr class="row">
+                        <td class="cell-tick"><input type="checkbox" class="row-checkbox" /></td>
+                        <td class="cell-id">BANNER_VANG_BOURGOGNE</td>
+                        <td class="cell-img">
+                            <img class="banner-preview" src="assets/banner-vang-bourgogne.jpg" alt="Banner Preview">
                         </td>
-                        <td class="center-align"><img class="banner-preview" src="assets/banner-vang-bourgogne.jpg" alt="Banner Preview">
+                        <td class="cell-link">
+                            <a href="#" title="/blog/post-1">/store?category=bourgogne</a>
                         </td>
-                        <td class="target-url-cell left-align"><a href="#" title="/blog/post-1">/store?category=bourgogne</a></td>
-                        <td class="center-align">2025-10-01</td>
-                        <td class="center-align">10</td>
-                        <td class="center-align"><span class="status-badge inactive">Inactive</span></td>
+                        <td class="cell-date">2025-10-01</td>
+                        <td class="cell-duration" style="text-align: center;">10</td>
+                        <td class="cell-status" style="text-align: center;">
+                            <span class="status-badge inactive">Inactive</span>
+                        </td>
                         <td>
-                            <div class="action-buttons">
-                                <button class="btn-action edit">
-                                    <ion-icon name="pencil-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action delete">
-                                    <ion-icon name="trash-outline"></ion-icon>
-                                </button>
+                            <div class="cell-action">
+                                <button class="edit btn">Sửa</button>
+                                <button class="delete btn">Xoá</button>
                             </div>
                         </td>
                     </tr>
@@ -289,13 +272,16 @@
         setupModal('banner-form-modal','add-banner-btn','close-form-btn')
         setupModal('banner-form-modal','add-banner-btn','cancel-form-btn')
         setupModal('banner-form-modal','add-banner-btn','ac-form-btn')
+
+        setupModal('banner-form-modal','edit-modal-btn-1','close-form-btn')
+        setupModal('delete-confirm-modal','del-modal-btn-1','close-delete-btn')
         $(document).ready(function () {
             $('#banner-datatable').DataTable({
                 // Tắt sắp xếp cho cột Ảnh và Hành động
                 "columnDefs": [
                     {
                         "orderable": false,
-                        "targets": [0, 2, 6, 7]
+                        "targets": [2, 7]
                     }
                 ],
                 "language": {
