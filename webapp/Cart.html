@@ -110,6 +110,7 @@
                 <table class="cart-table">
                     <thead>
                     <tr>
+                        <th><input type="checkbox" id="select-all"></th>
                         <th colspan="2">Sản phẩm</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
@@ -121,6 +122,7 @@
                     <tbody>
 
                     <tr class="cart-item-row">
+                        <td><input type="checkbox" class="select-product"></td>
                         <td class="cart-product-image">
                             <a href="Detail.html">
                                 <img src="img/SKU__VD_0845-17.jpg" alt="Luce Brunello Di Montalcino">
@@ -146,6 +148,7 @@
                     </tr>
 
                     <tr class="cart-item-row">
+                        <td><input type="checkbox" class="select-product"></td>
                         <td class="cart-product-image">
                             <a href="#">
                                 <img src="img/SKU__VD_1170.png" alt="Dufouleur Monopole">
@@ -174,6 +177,7 @@
                 </table>
                 <div class="cart-actions">
                     <a href="store.html" class="btn btn-secondary">Tiếp tục xem sản phẩm</a>
+                    <button class="btn btn-danger" id="delete-selected">Xóa sản phẩm đã chọn</button>
                 </div>
             </div>
 
@@ -234,5 +238,45 @@
     </div>
 </footer>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('select-all');
+    const productCheckboxes = document.querySelectorAll('.select-product');
+    const deleteSelectedButton = document.getElementById('delete-selected');
+
+    selectAllCheckbox.addEventListener('change', function() {
+        productCheckboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    });
+
+    productCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const allChecked = Array.from(productCheckboxes).every(cb => cb.checked);
+            const someChecked = Array.from(productCheckboxes).some(cb => cb.checked);
+            selectAllCheckbox.checked = allChecked;
+            selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        });
+    });
+
+    deleteSelectedButton.addEventListener('click', function() {
+        const selectedRows = [];
+        productCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                selectedRows.push(checkbox.closest('tr'));
+            }
+        });
+
+        if (selectedRows.length > 0) {
+            if (confirm('Bạn có chắc chắn muốn xóa ' + selectedRows.length + ' sản phẩm đã chọn?')) {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = false;
+                alert('Đã xóa ' + selectedRows.length + ' sản phẩm.');
+            }
+        } else {
+            alert('Vui lòng chọn ít nhất một sản phẩm để xóa.');
+        }
+    });
+});
+</script>
 </body>
-</html>
