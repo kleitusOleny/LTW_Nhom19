@@ -378,6 +378,11 @@ main
     text-transform: uppercase;
 }
 
+.cart-table th:first-child { /* Tiêu đề Chọn */
+    text-align: center;
+    width: 5%;
+}
+
 .cart-table th:nth-child(2), /* Tiêu đề Giá */
 .cart-table th:nth-child(3), /* Tiêu đề Số lượng */
 .cart-table th:nth-child(4) { /* Tiêu đề Tạm tính */
@@ -392,6 +397,10 @@ main
 .cart-item-row td {
     padding: 25px 10px 25px 10px;
     vertical-align: middle;
+}
+
+.cart-item-row td:first-child {
+    text-align: center;
 }
 
 .cart-item-row td.cart-product-price,
@@ -541,6 +550,17 @@ main
 .btn-secondary:hover {
     background-color: #eee;
     border-color: #ccc;
+}
+
+.btn-danger {
+    background-color: #d9534f;
+    color: #fff;
+    border-color: #d9534f;
+}
+
+.btn-danger:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
 }
 
 /* Các nút hành động dưới bảng */
