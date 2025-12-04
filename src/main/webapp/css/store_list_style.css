@@ -1,0 +1,171 @@
+/* css/store_list_style.css */
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 5px;
+}
+
+/* --- BỐ CỤC CHÍNH 3 CỘT --- */
+.product-list .product-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 0; /* Xóa padding của card cha để viền đẹp hơn */
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fff; /* Nên để nền trắng cho sạch */
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* 1. CỘT TRÁI (HÌNH ẢNH) */
+.product-list .product-image {
+    width: 200px;
+    min-width: 200px;
+    height: 200px;
+    margin: 0;
+    border-radius: 0; /* Bỏ bo góc để khớp khung */
+    background-color: #fff;
+    border-right: 1px solid #f0f0f0; /* Viền ngăn cách với cột giữa */
+}
+
+.product-list .product-image img {
+    padding: 15px;
+}
+
+/* 2. CỘT GIỮA (THÔNG TIN) */
+.product-list .product-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    padding: 20px;
+}
+
+.product-list .product-name {
+    font-size: 20px;
+    margin-bottom: 10px;
+    height: auto;
+    -webkit-line-clamp: 2; /* Giới hạn 2 dòng nếu tên quá dài */
+}
+
+.product-list .product-extra-details ul {
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.product-list .product-producer {
+    margin: 5px 0 10px 0;
+}
+
+/* 3. CỘT PHẢI (DETAIL / ACTION) - MỚI */
+.product-list .product-right {
+    width: 220px; /* Chiều rộng cố định cho cột phải */
+    min-width: 220px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Căn giữa nội dung cột phải */
+    border-left: 1px solid #f0f0f0; /* Viền ngăn cách với cột giữa */
+    background-color: #fcfcfc; /* Nền hơi khác một chút để nổi bật */
+    height: 100%; /* Full chiều cao */
+}
+
+.product-list .product-price {
+    font-size: 22px;
+    color: #8c3333;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+}
+
+.product-list .add-to-cart-btn {
+    width: 100%; /* Nút full chiều rộng cột phải */
+    text-align: center;
+    font-size: 14px;
+}
+
+.product-list .status-text {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #28a745; /* Màu xanh lá báo còn hàng */
+}
+
+
+/* --- RESPONSIVE MOBILE (< 768px) --- */
+@media (max-width: 768px) {
+    .product-list .product-card {
+        flex-direction: column; /* Quay về dạng dọc */
+        padding: 15px;
+    }
+
+    /* Ảnh full rộng */
+    .product-list .product-image {
+        width: 100%;
+        border-right: none;
+        margin-bottom: 15px;
+        height: auto;
+    }
+
+    .product-list .product-image img {
+        max-height: 250px;
+    }
+
+    /* Thông tin căn giữa */
+    .product-list .product-info {
+        padding: 0;
+        align-items: center;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .product-list .product-extra-details ul {
+        justify-content: center;
+    }
+
+    /* Cột phải thành phần dưới cùng */
+    .product-list .product-right {
+        width: 100%;
+        border-left: none;
+        background-color: transparent;
+        padding: 0;
+        align-self: center;
+    }
+}
+
+.product-list .info-desc {
+    flex: 1;
+    border-left: 1px dashed #ccc;
+    padding-left: 25px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+/* Giới hạn số dòng mô tả (tuỳ chọn) */
+.product-list .info-desc p {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* Hiện tối đa 5 dòng */
+    overflow: hidden;
+}
+
+.product-extra-details ul {
+    text-align: left !important;
+}
+
+.product-image img {
+    padding: 32px !important;
+}
+
+.product-card {
+    text-align: left !important;
+}

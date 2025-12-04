@@ -6,6 +6,7 @@
 ---
 
 ## 🛠 Công Nghệ Sử Dụng
+
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -15,6 +16,7 @@
 ---
 
 ## 📖 Mục Lục
+
 1. [Tổng Quan Tính Năng](#-tổng-quan-tính-năng)
 2. [Hướng Dẫn Cài Đặt & Sử Dụng](#-hướng-dẫn-cài-đặt--sử-dụng)
 3. [Thư Viện & Tài Nguyên](#-thư-viện--tài-nguyên)
@@ -74,6 +76,7 @@ Việc cài đặt cực kỳ đơn giản:
 > **"Uhm? Nó chỉ là các file HTML, CSS, JS... What do you expect? bro"** 🤣
 
 **Cách chạy:**
+
 1. **Khách hàng:** Mở file `index.html` để xem giao diện trang chủ và mua sắm.
 2. **Admin:** Mở file `admin_dashboard.html` để truy cập trang quản trị.
 
@@ -81,18 +84,20 @@ Việc cài đặt cực kỳ đơn giản:
 
 ## 📚 Thư Viện & Tài Nguyên
 
-| Thư Viện | Mục Đích Sử Dụng |
-| :--- | :--- |
-| **FontAwesome / Ionicons** | Hệ thống Icons giao diện |
-| **ApexCharts** | Vẽ biểu đồ thống kê |
-| **DataTables** | Xử lý dữ liệu bảng nâng cao (Tìm kiếm, sắp xếp) |
-| **JQuery** | Thư viện bổ trợ DOM & DataTables |
-| **Bootstrap 5** | Framework UI/UX Responsive |
+| Thư Viện                   | Mục Đích Sử Dụng                                |
+|:---------------------------|:------------------------------------------------|
+| **FontAwesome / Ionicons** | Hệ thống Icons giao diện                        |
+| **ApexCharts**             | Vẽ biểu đồ thống kê                             |
+| **DataTables**             | Xử lý dữ liệu bảng nâng cao (Tìm kiếm, sắp xếp) |
+| **JQuery**                 | Thư viện bổ trợ DOM & DataTables                |
+| **Bootstrap 5**            | Framework UI/UX Responsive                      |
 
 ---
 
 ## 📅 Lộ Trình Phát Triển Báo Cáo
+
 Lập Trình Web
+
 - [x] **Giai đoạn 1 (Giữa kì):** Hoàn thiện giao diện tĩnh (HTML/CSS/JS) - *Deadline: 30/11/2025*
 - [ ] **Giai đoạn 2 (Cuối kì):** *Đang cập nhật... (Dự Kiến: Kết nối Database, Dùng Servlet/JSP)*
 
@@ -105,4 +110,4 @@ Lập Trình Web
 
 ---
 *Thanks You For Reading ❤️️*
-  *README.md by [Jukis-Yuri](https://github.com/JukisYuri)*
+*README.md by [Jukis-Yuri](https://github.com/JukisYuri)*
