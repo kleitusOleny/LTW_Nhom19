@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Mulish, sans-serif;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../../img/ruou2.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.register-page {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+    gap: 25px;
+    width: 50rem;
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 40px 40px 20px 40px;
+    border-radius: 12px;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #595555;
+    font-weight: 700;
+    padding-bottom: 20px;
+}
+
+#register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+/*.address-row {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    flex-wrap: wrap;*/
+/*    gap: 20px;*/
+/*}*/
+
+.address-row .form-group {
+    min-width: 200px;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.reminder label {
+    font-weight: normal;
+    color: black;
+}
+
+.confirm-age label, .confirm-license label {
+    font-size: 0.9rem;
+    font-weight: normal;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="tel"],
+input[type="date"],
+input[type="email"] {
+    padding: 12px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%; /* Đảm bảo input luôn đầy */
+}
+
+input:focus:not(#age-confirm):not(#license-confirm) {
+    outline: none;
+    border-color: #ff0080;
+    box-shadow: 0 0 0 3px rgba(255, 0, 98, 0.15);
+}
+
+.confirm-age, .confirm-license {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    font-size: 16px;
+    color: #555;
+}
+
+input[type="checkbox"]:not(#age-confirm):not(#license-confirm) {
+    width: 14px;
+    height: 14px;
+}
+
+#age-confirm, #license-confirm {
+    width: 16px;
+    height: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #e5074a;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #ce1160;
+}
+
+.reminder {
+    margin-top: -15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.remind-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-top: 10px;
+}
+
+.reminder label {
+    font-size: 14px;
+}
+
+.register-page > p {
+    width: 100%;
+    text-align: left;
+}
+
+p {
+    color: rgba(85, 85, 85, 0.68);
+    margin-bottom: -10px;
+}
+
+/* backward */
+#backward {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    gap: 3px;
+}
+
+#backward::before {
+    content: "←";
+    font-size: 1.2rem;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+#backward:hover {
+    color: #e5074a;
+}
+
+#backward:hover::before {
+    transform: translateX(-5px);
+}
