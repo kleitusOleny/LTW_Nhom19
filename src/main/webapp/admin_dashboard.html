@@ -1,0 +1,1029 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trang Chủ</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Mulish, sans-serif, serif;
+        }
+
+        .dashboard-container {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: 250px 1fr
+        }
+
+        .dashboard-sidebar {
+            background-color: #21232d;
+            position: relative;
+        }
+
+        .dashboard-content {
+            background-color: #f4f7fa;
+        }
+
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            list-style-type: none;
+            position: fixed;
+            top: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            width: 250px;
+        }
+
+        .group-avatar .user-avatar {
+            border-radius: 100%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        .group-avatar {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 15px;
+        }
+
+        .user-avatar:hover {
+            border-color: #6341ff;
+        }
+
+        .icon-header {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            bottom: -5px;
+            right: 5px;
+            margin-left: 0;
+            background-color: #3a3a3a;
+            border-radius: 50%;
+            padding: 6px;
+            border: 2px solid #1f1f1f;
+            line-height: 1;
+            transition: 0.3s ease;
+        }
+
+        .icon-header:hover {
+            color: #020202;
+            transform: scale(1.1);
+            background-color: #f8f8f8;
+        }
+
+        .a-with-icon {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            width: 200px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .a-with-icon.selected {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+
+        .a-with-icon ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .a-with-icon:hover {
+            border-color: #6341ff;
+            background-color: #343746;
+            color: #ffffff;
+        }
+
+        .text {
+            color: #decdcd;
+            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 5px;
+            box-sizing: border-box;
+        }
+
+        .dashboard-main-content {
+            padding: 30px;
+            background-color: #f4f7fa;
+            flex-grow: 1;
+        }
+
+        .dashboard-main-content h1 {
+            font-size: 28px;
+            color: #21232d;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .stat-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive */
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-card.special {
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            border-color: #6341ff;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card h3 {
+            font-size: 16px;
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #21232d;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-description {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .stat-card:nth-child(1) .stat-number {
+            color: #6341ff;
+        }
+
+        .stat-card:nth-child(2) .stat-number {
+            color: #28a745;
+        }
+
+        .stat-card:nth-child(3) .stat-number {
+            color: #007bff;
+        }
+
+        .stat-card:nth-child(4) .stat-number {
+            color: #dc3545;
+        }
+
+        .todo-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 45%;
+            padding-left: 30px;
+            padding-top: 20px;
+            margin-left: 30px;
+        }
+
+        .todo-list-container.finished {
+            margin-left: 0;
+        }
+
+        .todo-list-container h2 {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .contain-todo {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .todo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            height: 50px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .todo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #6341ff;
+        }
+
+        .todo.finish {
+            border-left: 6px solid #28a745;
+        }
+
+        .todo.not-finish {
+            border-left: 6px solid #dc3545;
+        }
+
+        /* Avatar */
+        .modal-content-avatar {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            padding: 20px 20px 20px 10px;
+            gap: 8px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+            width: 90%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .btn-menu-item:hover {
+            border-color: #6341ff;
+            transform: scale(1.02);
+        }
+
+        .modal-close2 {
+            position: absolute;
+            top: 1px;
+            right: 0px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 20px;
+            padding: 4px;
+            line-height: 1;
+            border-radius: 50%;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .modal-close2:hover {
+            color: #111;
+            background-color: #f0f0f0;
+        }
+
+        .btn-menu-item ion-icon {
+            font-size: 18px;
+            color: #555;
+            flex-shrink: 0;
+        }
+
+        /* Notification */
+        .modal-overlay-notification, .modal-overlay-avatar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-start;
+
+            align-items: flex-start;
+            padding-left: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-content-notification {
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .modal-overlay-notification.show, .modal-overlay-avatar.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .group-notification {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            /*di chuyển không ảnh hưởng components khác*/
+            transform: translateY(-10px)
+        }
+
+        .modal-close:hover {
+            background: #f2f2f2;
+        }
+
+        .modal-close:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        .modal-close ion-icon {
+            font-size: 22px;
+            color: #333;
+            pointer-events: none;
+        }
+
+        .notification-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+
+        .notification-empty-state {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #888;
+            padding: 30px 0;
+        }
+
+        .notification-empty-state ion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .notification-empty-state p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* ------- */
+        .group-todo {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: flex-start;
+            background: #f4f7fa;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .group-todo .todo-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+            margin: 0;
+            padding: 20px 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 2px solid transparent;
+            transition: 0.2s ease;
+        }
+
+        .group-todo .todo-list-container.not-finish {
+            margin-left: 30px;
+        }
+
+        .group-todo .todo-list-container.finished {
+            margin-right: 30px;
+        }
+
+        .group-todo .todo-list-container:hover {
+            border-color: #6341ff;
+        }
+
+        .text-welcome {
+            display: flex;
+            justify-content: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 30px;
+            font-weight: normal;
+        }
+
+        #contain-todo div {
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        #contain-todo .icon-todo {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .modal-overlay-todo, .modal-overlay-out_of_stocks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-overlay-todo.show, .modal-overlay-out_of_stocks.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content-todo, .modal-content-out_of_stocks {
+            background-color: white;
+            border-radius: 12px;
+            gap: 25px;
+            padding: 2.5rem 3rem;
+            width: 25rem;
+        }
+
+        .group-button-action {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .group-button-action.section {
+            margin-top: 10px;
+        }
+
+        .element-button {
+            width: 100px;
+            padding: 14px 0;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .cancel {
+            width: 70px;
+            background: #9daab4;
+        }
+
+        .cancel:hover {
+            background: #8e96a4;
+        }
+
+        .fix-btn {
+            background: #08c249;
+        }
+
+        .fix-btn:hover {
+            background: #06a13d;
+        }
+
+        .todo-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .select-todo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background-color: #f9fafb;
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+
+        .select-todo label {
+            font-weight: 600;
+            color: #4f4f4f;
+            margin-right: 10px;
+        }
+
+        .select-todo select {
+            padding: 8px 32px 8px 12px;
+            border: 1px solid #595959;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            /* xoá mũi tên mặc định */
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+
+        .select-todo select:focus {
+            outline: none;
+            border-color: #6341ff;
+        }
+
+        /* ------ */
+        .modal-content-out_of_stocks {
+            width: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .out-of-stocks-container {
+            width: 100%;
+        }
+
+        .text-group-out_of_stocks {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .text-group-out_of_stocks h2 {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .text-group-out_of_stocks #close-modal-out_of_stock {
+            font-size: 24px;
+            color: #555;
+            flex-shrink: 0;
+            cursor: pointer;
+            transform: translateY(-20px) translateX(20px);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .text-group-out_of_stocks #close-modal-out_of_stock:hover {
+            background-color: rgba(136, 136, 136, 0.1);
+            color: #000;
+            box-shadow: none;
+        }
+
+        .group-stat-card {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .out-of-stocks-container .text-name {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+        }
+
+        .text-name .text-b {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <nav class="dashboard-sidebar">
+        <ul class="sidebar-items">
+            <div class="group-avatar">
+                <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+            </div>
+            <li><a href="admin_dashboard.html" class="a-with-icon selected">
+                <ion-icon name="home"></ion-icon>
+                Trang Chủ</a></li>
+            <li><a href="manage_product.html" class="a-with-icon">
+                <ion-icon name="bag-remove-outline"></ion-icon>
+                Quản Lí Sản Phẩm</a></li>
+            <li><a href="manage_accounts.html" class="a-with-icon">
+                <ion-icon name="people-outline"></ion-icon>
+                Quản Lí Tài Khoản Khách</a></li>
+            <li><a href="manage_orders.html" class="a-with-icon">
+                <ion-icon name="cart-outline"></ion-icon>
+                Quản Lí Đơn Hàng</a></li>
+            <li><a href="manage_banner.html" class="a-with-icon">
+                <ion-icon name="albums-outline"></ion-icon>
+                Quản Lí Banner</a></li>
+            <li><a href="manage_blog.html" class="a-with-icon">
+                <ion-icon name="reader-outline"></ion-icon>
+                Quản Lí Blog và Tin Tức</a></li>
+            <li><a href="manage_promotions.html" class="a-with-icon">
+                <ion-icon name="ticket-outline"></ion-icon>
+                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+            <li><a href="charts.html" class="a-with-icon">
+                <ion-icon name="stats-chart-outline"></ion-icon>
+                Thống Kê</a></li>
+        </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
+    </nav>
+    <div class="dashboard-content">
+        <main class="dashboard-main-content">
+            <h1>Chào mừng quay trở lại, Admin!</h1>
+            <div class="stat-cards-container">
+                <div class="stat-card">
+                    <h3>Đơn Hàng Mới</h3>
+                    <p class="stat-number">0</p>
+                    <span class="stat-description">Trong 24 giờ qua</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Tổng Doanh Thu (Tháng)</h3>
+                    <p class="stat-number">0đ</p>
+                    <span class="stat-description">Tháng 10, 2025</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Khách Hàng Mới</h3>
+                    <p class="stat-number">0</p>
+                    <span class="stat-description">Trong tuần này</span>
+                </div>
+                <div class="stat-card special" id="out_of_stocks-modal-btn">
+                    <div class="group-stat-card">
+                        <h3>Sắp Hết Hàng</h3>
+                        <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                    </div>
+                    <p class="stat-number">2</p>
+                    <span class="stat-description">Sản phẩm có SL < 5</span>
+                </div>
+            </div>
+        </main>
+        <div class="group-todo">
+            <div class="todo-list-container not-finish">
+                <h2>
+                    <ion-icon name="document-attach-outline"></ion-icon>
+                    Danh Sách Cần Làm
+                </h2>
+                <div class="contain-todo">
+                    <div class="todo not-finish" id="todo-modal-btn-1">
+                        Fix lỗi vỡ giao diện trên Mobile (Khách báo)
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                    <div class="todo not-finish" id="todo-modal-btn-2">
+                        Viết API lấy danh sách khách hàng VIP
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                    <div class="todo not-finish" id="todo-modal-btn-3">
+                        Đổi màu nút "Mua ngay" sang màu đỏ
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                    <div class="todo not-finish" id="todo-modal-btn-4">
+                        Trả lời email hỗ trợ đơn hàng #DH005
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                    <div class="todo not-finish" id="todo-modal-btn-5">
+                        Kiểm tra lỗi bảo mật form Đăng ký
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                </div>
+            </div>
+
+            <div class="todo-list-container finished">
+                <h2>
+                    <ion-icon name="checkbox-outline"></ion-icon>
+                    Đã Hoàn Thành
+                </h2>
+                <div class="contain-todo">
+                    <div class="todo finish" id="todo-modal-btn-6">
+                        Thiết kế xong Banner khuyến mãi tháng 11
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                    <div class="todo finish" id="todo-modal-btn-7">
+                        Tối ưu tốc độ load database sản phẩm
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                    <div class="todo finish" id="todo-modal-btn-8">
+                        Gọi điện xác nhận đơn hàng lớn
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                    <div class="todo finish" id="todo-modal-btn-9">
+                        Thêm hiệu ứng animation cho menu
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                    <div class="todo finish" id="todo-modal-btn-10">
+                        Backup dữ liệu web lúc 12h đêm
+                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="text-welcome">© 2025 Khoa Công Nghệ Thông Tin.</h4>
+    </div>
+</div>
+<div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-content-notification">
+        <div class="group-notification">
+            <h2 class="notification-title">Thông báo</h2>
+            <button class="modal-close" id="close-modal-btn8">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
+        <div class="notification-empty-state">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+            <p>Hiện tại chưa có thông báo mới</p>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-avatar" id="avatar-account-modal">
+    <div class="modal-content-avatar">
+        <button class="modal-close2" id="close-modal-btn9">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <span>Trở về trang người dùng</span>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="log-out-outline"></ion-icon>
+            <span>Đăng xuất tài khoản</span>
+        </button>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-1">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Fix lỗi vỡ giao diện trên Mobile (Khách báo)</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes">Hoàn Thành</option>
+                    <option value="no" selected>Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-11">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-2">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Viết API lấy danh sách khách hàng VIP</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes">Hoàn Thành</option>
+                    <option value="no" selected>Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-12">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-3">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Đổi màu nút "Mua ngay" sang màu đỏ</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes">Hoàn Thành</option>
+                    <option value="no" selected>Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-13">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-4">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Trả lời email hỗ trợ đơn hàng #DH005</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes">Hoàn Thành</option>
+                    <option value="no" selected>Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-14">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-5">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Kiểm tra lỗi bảo mật form Đăng ký</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes">Hoàn Thành</option>
+                    <option value="no" selected>Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-15">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-6">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Thiết kế xong Banner khuyến mãi tháng 11</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes" selected>Hoàn Thành</option>
+                    <option value="no">Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-16">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-7">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Tối ưu tốc độ load database sản phẩm</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes" selected>Hoàn Thành</option>
+                    <option value="no">Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-17">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-8">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Gọi điện xác nhận đơn hàng lớn</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes" selected>Hoàn Thành</option>
+                    <option value="no">Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-18">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-9">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Thêm hiệu ứng animation cho menu</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes" selected>Hoàn Thành</option>
+                    <option value="no">Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-19">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-todo" id="todo-list-modal-10">
+    <div class="modal-content-todo">
+        <div class="todo-container">
+            <h2>Backup dữ liệu web lúc 12h đêm</h2>
+            <div class="select-todo">
+                <label>Tiến độ:</label>
+                <select>
+                    <option value="yes" selected>Hoàn Thành</option>
+                    <option value="no">Chưa Hoàn Thành</option>
+                </select>
+            </div>
+        </div>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn-20">Huỷ</button>
+            <button type="submit" class="fix-btn element-button">Sửa</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay-out_of_stocks" id="out_of_stocks-modal">
+    <div class="modal-content-out_of_stocks">
+        <div class="text-group-out_of_stocks">
+            <h2>
+                <ion-icon name="cube-outline"></ion-icon>
+                Sản phẩm sắp hết hàng
+            </h2>
+            <ion-icon name="close-outline" id="close-modal-out_of_stock"></ion-icon>
+        </div>
+        <div class="out-of-stocks-container">
+            <div class="text-name">
+                <p>- Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022</p>
+                <p class="text-b">(VD/1193-22)</p>
+            </div>
+            <div class="text-name">
+                <p>- Rượu Sâm Panh Champagne Ruinart Rosé</p>
+                <p class="text-b">(VD/1233)</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+<script src="popup.js"></script>
+<script>
+    // Run Pop-up function
+    document.addEventListener("DOMContentLoaded", function () {
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
+        setupModal('todo-list-modal-1', 'todo-modal-btn-1', 'close-modal-btn-11');
+        setupModal('todo-list-modal-2', 'todo-modal-btn-2', 'close-modal-btn-12');
+        setupModal('todo-list-modal-3', 'todo-modal-btn-3', 'close-modal-btn-13');
+        setupModal('todo-list-modal-4', 'todo-modal-btn-4', 'close-modal-btn-14');
+        setupModal('todo-list-modal-5', 'todo-modal-btn-5', 'close-modal-btn-15');
+        setupModal('todo-list-modal-6', 'todo-modal-btn-6', 'close-modal-btn-16');
+        setupModal('todo-list-modal-7', 'todo-modal-btn-7', 'close-modal-btn-17');
+        setupModal('todo-list-modal-8', 'todo-modal-btn-8', 'close-modal-btn-18');
+        setupModal('todo-list-modal-9', 'todo-modal-btn-9', 'close-modal-btn-19');
+        setupModal('todo-list-modal-10', 'todo-modal-btn-10', 'close-modal-btn-20');
+        setupModal('out_of_stocks-modal', 'out_of_stocks-modal-btn', 'close-modal-out_of_stock');
+    });
+</script>
+</body>
+</html>
