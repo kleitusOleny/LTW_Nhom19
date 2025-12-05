@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Promotions Manage</title>
+    <title>Blog Manage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="../popup.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <style>
         * {
             margin: 0;
@@ -164,7 +169,7 @@
         .modal-close2 {
             position: absolute;
             top: 1px;
-            right: 0px;
+            right: 0;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -291,7 +296,7 @@
             overflow-x: auto;
         }
 
-        .promotion-table {
+        .account-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
@@ -300,18 +305,18 @@
             color: #333;
         }
 
-        .promotion-table th,
-        .promotion-table td {
+        .account-table th,
+        .account-table td {
             border: 1px solid #ddd;
             text-align: left;
             vertical-align: middle;
         }
 
-        .promotion-table th {
+        .account-table th {
             padding: 10px 14px;
         }
 
-        .promotion-table td {
+        .account-table td {
             padding: 5px 5px;
         }
 
@@ -319,60 +324,48 @@
             margin-left: 20px;
         }
 
-        .promotion-table thead .sample {
+        .account-table thead .sample {
             background-color: #f4f4f4;
             color: #333;
             font-weight: bold;
         }
 
-        .promotion-table tbody tr:nth-child(even) {
+        .account-table tbody tr:nth-child(even) {
             background-color: #f9f9f9;
         }
 
-        .promotion-table tbody tr:hover {
+        .account-table tbody tr:hover {
             background-color: #f1f1f1;
         }
 
-        .promotion-table .col-tick {
+        .account-table .col-tick {
             width: 1%;
         }
 
-        .promotion-table .col-id {
+        .account-table .col-id {
             width: 10%;
         }
 
-        .promotion-table .col-code {
-            width: 15%;
-        }
-
-        .promotion-table .col-type {
-            width: 15%;
-        }
-
-        .promotion-table .col-value {
+        .account-table .col-status {
             width: 10%;
         }
 
-        .promotion-table .col-start {
-            width: 15%;
-        }
-
-        .promotion-table .col-end {
-            width: 15%;
-        }
-
-        .promotion-table .col-status {
+        .account-table .col-action {
             width: 10%;
+            text-align: left;
         }
 
-        .promotion-table .col-action {
-            width: 10%;
+        .account-table .col-title {
+            width: 25%;
         }
 
-        .promotion-table .col-action {
-            width: 12%;
-            white-space: nowrap;
-            min-width: 120px;
+        .account-table .col-author {
+            width: 20%;
+        }
+
+        .account-table .col-date {
+            width: 15%;
+            text-align: left;
         }
 
         .cell-action .btn {
@@ -514,6 +507,10 @@
             width: 25rem;
         }
 
+        .approve-modal {
+            width: 50rem;
+        }
+
         .modal-content-deleteAll {
             display: flex;
             flex-direction: column;
@@ -562,14 +559,14 @@
             width: 100%;
         }
 
-        .code-input, .type-input, .value-input, .start-input, .end-input, .status-input {
+        .username-input, .password-input {
             display: flex;
             flex-direction: column;
             gap: 5px;
             width: 90%;
         }
 
-        .code-input label, .type-input label, .value-input label, .start-input label, .end-input label, .status-input label, .text-filter-group label, .edit-information-promotion label {
+        .username-input label, .password-input label, .text-filter-group label, .edit-information-account label {
             font-weight: bold;
             font-size: 1rem;
             color: #555;
@@ -577,31 +574,26 @@
             margin-top: 5px;
         }
 
-        .code-input input, .type-input select, .value-input input, .start-input input, .end-input input, .status-input select, #text-filter, .edit-information-promotion input, .edit-information-promotion select {
+        .username-input input, .password-input input, #text-filter, .edit-information-account input {
             font-size: 1rem;
             border-radius: 8px;
             border: 2px solid #ccc;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .code-input input, .value-input input {
+        .username-input input, .password-input input {
             padding: 12px 15px;
         }
 
-        .edit-information-promotion input, .edit-information-promotion select {
+        .edit-information-account input {
             padding: 6px 6px;
         }
 
-        .code-input input, .value-input input {
+        .username-input input, .password-input input {
             width: 100%;
         }
 
-        .type-input select, .status-input select {
-            width: 100%;
-            padding: 12px 15px;
-        }
-
-        .code-input input:focus, .type-input select:focus, .value-input input:focus, .start-input input:focus, .end-input input:focus, .status-input select:focus, #text-filter:focus, .edit-information-promotion input:focus, .edit-information-promotion select:focus {
+        .username-input input:focus, .password-input input:focus, #text-filter:focus, .edit-information-account input:focus {
             border-color: #6341ff;
             outline: none;
         }
@@ -666,22 +658,22 @@
             background: #c70d0d;
         }
 
-        .edit-information-promotion {
+        .edit-information-account {
             display: flex;
             flex-direction: column;
         }
 
-        .edit-information-promotion div:not(.active-section):not(:first-child) {
+        .edit-information-account div:not(.active-section):not(:first-child) {
             display: flex;
             flex-direction: column;
             margin-bottom: 5px;
         }
 
-        .edit-information-promotion .code-section {
+        .edit-information-account .email-section {
             margin-top: 5px;
         }
 
-        .edit-information-promotion .active-section {
+        .edit-information-account .active-section {
             margin-top: 10px;
         }
 
@@ -689,7 +681,7 @@
             border-radius: 5px;
         }
 
-        .edit-information-promotion .create_promotion-section {
+        .edit-information-account .create_account-section {
             margin-bottom: 10px;
         }
 
@@ -733,8 +725,179 @@
             border-color: #6341ff;
         }
 
-        table.dataTable > tbody > tr > td {
-            padding: 5px 5px 5px 8px !important;
+        .approve-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.1em;
+            background-color: white;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .approve-table th,
+        .approve-table td {
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: middle;
+            padding: 15px 20px;
+        }
+
+        .approve-table thead {
+            background-color: #6341ff;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .approve-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .approve-table tbody tr:hover {
+            background-color: #e8e4ff;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        .preview-btn, .approve-btn, .delete-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 8px;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+
+        .preview-btn {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .approve-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .preview-btn:hover {
+            background-color: #138496;
+            transform: translateY(-1px);
+        }
+
+        .approve-btn:hover {
+            background-color: #218838;
+            transform: translateY(-1px);
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-1px);
+        }
+
+        /* Styles for edit information modal */
+        .modal-content-edit_information {
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-content-edit_information h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .edit-information-account {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .edit-information-account > div {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .edit-information-account label {
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .edit-information-account input,
+        .edit-information-account select,
+        .edit-information-account textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .edit-information-account input:focus,
+        .edit-information-account select:focus,
+        .edit-information-account textarea:focus {
+            outline: none;
+            border-color: #6341ff;
+            box-shadow: 0 0 5px rgba(99, 65, 255, 0.3);
+        }
+
+        .edit-information-account textarea {
+            resize: vertical;
+            min-height: 100px;
+            max-height: 200px;
+        }
+
+        .edit-information-account .userId-section input {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .group-button-action.section {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .element-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .cancel:hover {
+            background-color: #5a6268;
+        }
+
+        .fix-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .fix-btn:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -743,31 +906,31 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <img src="../assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.html" class="a-with-icon">
+            <li><a href="admin_dashboard.jsp" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
-            <li><a href="manage_product.html" class="a-with-icon">
+            <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.html" class="a-with-icon">
+            <li><a href="manage_accounts.jsp" class="a-with-icon">
                 <ion-icon name="people-outline"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="manage_orders.html" class="a-with-icon">
+            <li><a href="manage_orders.jsp" class="a-with-icon">
                 <ion-icon name="cart-outline"></ion-icon>
                 Quản Lí Đơn Hàng</a></li>
-            <li><a href="manage_banner.html" class="a-with-icon">
+            <li><a href="manage_banner.jsp" class="a-with-icon">
                 <ion-icon name="albums-outline"></ion-icon>
                 Quản Lí Banner</a></li>
-            <li><a href="manage_blog.html" class="a-with-icon">
-                <ion-icon name="reader-outline"></ion-icon>
+            <li><a href="manage_blog.html" class="a-with-icon selected">
+                <ion-icon name="reader"></ion-icon>
                 Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="manage_promotions.html" class="a-with-icon selected">
-                <ion-icon name="ticket"></ion-icon>
+            <li><a href="manage_promotions.jsp" class="a-with-icon">
+                <ion-icon name="ticket-outline"></ion-icon>
                 Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="charts.html" class="a-with-icon">
+            <li><a href="charts.jsp" class="a-with-icon">
                 <ion-icon name="stats-chart-outline"></ion-icon>
                 Thống Kê</a></li>
         </ul>
@@ -776,15 +939,15 @@
     <div class="dashboard-content">
         <main class="dashboard-main-content">
             <div class="button-group">
-                <h2>Quản lí mã giảm giá và khuyến mãi</h2>
+                <h2>Quản lí Blog và Tin tức</h2>
                 <div class="func-group">
                     <button class="button del" id="deleteAll-modal-btn">
                         <ion-icon name="trash-outline"></ion-icon>
-                        Xoá (Đã Chọn)
+                        Xoá (Đã chon)
                     </button>
                     <button class="button add" id="open-modal-btn">
                         <ion-icon name="add-outline" class="type-needCss"></ion-icon>
-                        Thêm
+                        Duyệt Bài
                     </button>
                     <button class="button excel" id="excel-modal-btn">
                         <ion-icon name="cloud-download-outline"></ion-icon>
@@ -793,60 +956,40 @@
                 </div>
             </div>
             <div class="table-container">
-                <table id="promotion-table-main" class="promotion-table">
+                <table id="account-table-main" class="account-table">
                     <thead>
                     <tr class="sample">
                         <th class="col-tick">Chọn</th>
                         <th class="col-id">ID</th>
-                        <th class="col-code">Mã Giảm Giá</th>
-                        <th class="col-type">Loại</th>
-                        <th class="col-value">Giá Trị</th>
-                        <th class="col-start">Ngày Bắt Đầu</th>
-                        <th class="col-end">Ngày Kết Thúc</th>
-                        <th class="col-status">Trạng Thái</th>
-                        <th class="col-action">Hành Động</th>
+                        <th class="col-title">Tiêu đề</th>
+                        <th class="col-author">Tác giả</th>
+                        <th class="col-date">Ngày đăng</th>
+                        <th class="col-status">Trạng thái</th>
+                        <th class="col-action">Hành động</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="promotions">
+                    <tr class="blogs">
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
                         <td class="cell-id">1</td>
-                        <td class="cell-code">SALE2025</td>
-                        <td class="cell-type">Phần trăm</td>
-                        <td class="cell-value">10%</td>
-                        <td class="cell-start">06/10/2024</td>
-                        <td class="cell-end">06/10/2024</td>
-                        <td class="cell-status">Hoạt động</td>
+                        <td class="cell-title">Bài viết mẫu 1</td>
+                        <td class="cell-author">Admin</td>
+                        <td class="cell-date">06/10/2024</td>
+                        <td class="cell-status">Hiện</td>
                         <td class="cell-action">
                             <button class="edit btn" id="edit-modal-btn">Sửa</button>
                             <button class="delete btn">Xoá</button>
                         </td>
                     </tr>
-                    <tr class="promotions">
+                    <tr class="blogs">
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
                         <td class="cell-id">2</td>
-                        <td class="cell-code">FREESHIP</td>
-                        <td class="cell-type">Miễn phí vận chuyển</td>
-                        <td class="cell-value">0đ</td>
-                        <td class="cell-start">06/10/2024</td>
-                        <td class="cell-end">06/10/2024</td>
-                        <td class="cell-status">Không hoạt động</td>
+                        <td class="cell-title">Bài viết mẫu 2</td>
+                        <td class="cell-author">Nguyễn Văn A</td>
+                        <td class="cell-date">06/10/2024</td>
+                        <td class="cell-status">Ẩn</td>
                         <td class="cell-action">
                             <button class="edit btn" id="edit-modal-btn2">Sửa</button>
-                            <button class="delete btn">Xoá</button>
-                        </td>
-                    </tr>
-                    <tr class="promotions">
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">3</td>
-                        <td class="cell-code">SUMMER50</td>
-                        <td class="cell-type">Số tiền cố định</td>
-                        <td class="cell-value">50.000đ</td>
-                        <td class="cell-start">06/10/2024</td>
-                        <td class="cell-end">06/10/2024</td>
-                        <td class="cell-status">Không hoạt động</td>
-                        <td class="cell-action">
-                            <button class="edit btn" id="edit-modal-btn3">Sửa</button>
                             <button class="delete btn">Xoá</button>
                         </td>
                     </tr>
@@ -857,60 +1000,53 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="add-promotion-modal">
-    <div class="modal-content">
-        <form id="add-form">
-            <div class="code-input">
-                <label for="code" class="label-with-icon">
-                    <ion-icon name="pricetag-outline"></ion-icon>
-                    Mã Giảm Giá</label>
-                <input type="text" id="code" name="code" placeholder="Nhập mã giảm giá" required>
-            </div>
-            <div class="type-input">
-                <label for="type" class="label-with-icon">
-                    <ion-icon name="options-outline"></ion-icon>
-                    Loại</label>
-                <select id="type" name="type" required>
-                    <option value="Phần trăm">Phần trăm</option>
-                    <option value="Số tiền cố định">Số tiền cố định</option>
-                    <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
-                </select>
-            </div>
-            <div class="value-input">
-                <label for="value" class="label-with-icon">
-                    <ion-icon name="cash-outline"></ion-icon>
-                    Giá Trị</label>
-                <input type="text" id="value" name="value" placeholder="Nhập giá trị" required>
-            </div>
-            <div class="start-input">
-                <label for="start" class="label-with-icon">
-                    <ion-icon name="calendar-outline"></ion-icon>
-                    Ngày Bắt Đầu</label>
-                <input type="date" id="start" name="start" required>
-            </div>
-            <div class="end-input">
-                <label for="end" class="label-with-icon">
-                    <ion-icon name="calendar-outline"></ion-icon>
-                    Ngày Kết Thúc</label>
-                <input type="date" id="end" name="end" required>
-            </div>
-            <div class="status-input">
-                <label for="status" class="label-with-icon">
-                    <ion-icon name="checkmark-circle-outline"></ion-icon>
-                    Trạng Thái</label>
-                <select id="status" name="status" required>
-                    <option value="Hoạt động">Hoạt động</option>
-                    <option value="Không hoạt động">Không hoạt động</option>
-                </select>
-            </div>
-            <div class="group-button-action section">
-                <button type="button" class="cancel element-button" id="close-modal-btn">Huỷ</button>
-                <button type="submit" class="add-btn element-button">Thêm</button>
-            </div>
-        </form>
+<div class="modal-overlay" id="add-blog-modal">
+    <div class="modal-content approve-modal">
+        <h2>Duyệt Bài Viết</h2>
+        <table class="approve-table">
+            <thead>
+            <tr>
+                <th>Nguồn</th>
+                <th>Tiêu đề</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>User A</td>
+                <td>Bài viết mẫu 1</td>
+                <td>
+                    <button class="preview-btn">Xem trước</button>
+                    <button class="approve-btn">Duyệt</button>
+                    <button class="delete-btn">Xóa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>User B</td>
+                <td>Bài viết mẫu 2</td>
+                <td>
+                    <button class="preview-btn">Xem trước</button>
+                    <button class="approve-btn">Duyệt</button>
+                    <button class="delete-btn">Xóa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>User C</td>
+                <td>Bài viết mẫu 3</td>
+                <td>
+                    <button class="preview-btn">Xem trước</button>
+                    <button class="approve-btn">Duyệt</button>
+                    <button class="delete-btn">Xóa</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="group-button-action section">
+            <button type="button" class="cancel element-button" id="close-modal-btn">Đóng</button>
+        </div>
     </div>
 </div>
-<div class="modal-overlay-excel" id="excel-promotion-modal">
+<div class="modal-overlay-excel" id="excel-blog-modal">
     <div class="modal-content-excel">
         <p>Thành công xuất ra file Excel</p>
         <button class="modal-close2" id="close-modal-btn5">
@@ -918,7 +1054,7 @@
         </button>
     </div>
 </div>
-<div class="modal-overlay-deleteAll" id="deleteAll-promotion-modal">
+<div class="modal-overlay-deleteAll" id="deleteAll-blog-modal">
     <div class="modal-content-deleteAll">
         <div class="group-text-deleteAll">
             <p class="p-deleteAll1">Bạn có chắc chắn muốn xoá toàn bộ dữ liệu của các ô được chọn?</p>
@@ -933,44 +1069,33 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay-edit_information" id="edit_information-promotion-modal">
+<div class="modal-overlay-edit_information" id="edit_information-blog-modal">
     <div class="modal-content-edit_information">
-        <h2>Bảng thông tin khuyến mãi</h2>
-        <div class="edit-information-promotion">
-            <div class="id-section">
-                <label for="id">ID:</label>
-                <input type="text" id="id" name="id" value="1" placeholder="ID hiện không có">
+        <h2>Bảng thông tin</h2>
+        <div class="edit-information-account">
+            <div class="title-section">
+                <label for="title">Tiêu đề</label>
+                <input type="text" id="title" name="title" value="Bài viết mẫu 1" placeholder="Chưa có tiêu đề"
+                       required>
             </div>
-            <div class="code-section">
-                <label for="code_edit">Mã Giảm Giá</label>
-                <input type="text" id="code_edit" name="code_edit" value="SALE2025" placeholder="Chưa có mã" required>
+            <div class="author-section">
+                <label for="author">Tác giả</label>
+                <input type="text" id="author" name="author" value="Admin" placeholder="Chưa có tác giả" required>
             </div>
-            <div class="type-section">
-                <label for="type_edit">Loại</label>
-                <select id="type_edit" name="type_edit" required>
-                    <option value="Phần trăm" selected>Phần trăm</option>
-                    <option value="Số tiền cố định">Số tiền cố định</option>
-                    <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
-                </select>
-            </div>
-            <div class="value-section">
-                <label for="value_edit">Giá Trị</label>
-                <input type="text" id="value_edit" name="value_edit" value="10%" placeholder="Chưa có giá trị" required>
-            </div>
-            <div class="start-section">
-                <label for="start_edit">Ngày Bắt Đầu</label>
-                <input type="date" id="start_edit" name="start_edit" value="2025-01-01" required>
-            </div>
-            <div class="end-section">
-                <label for="end_edit">Ngày Kết Thúc</label>
-                <input type="date" id="end_edit" name="end_edit" value="2025-12-31" required>
+            <div class="date-section">
+                <label for="date">Ngày đăng</label>
+                <input type="date" id="date" name="date" value="2025-01-01" required>
             </div>
             <div class="status-section">
-                <label for="status_edit">Trạng Thái</label>
-                <select id="status_edit" name="status_edit" required>
-                    <option value="Hoạt động" selected>Hoạt động</option>
-                    <option value="Không hoạt động">Không hoạt động</option>
+                <label for="status">Trạng thái</label>
+                <select id="status" required>
+                    <option value="Hiện">Hiện</option>
+                    <option value="Ẩn">Ẩn</option>
                 </select>
+            </div>
+            <div class="content-section">
+                <label for="content">Nội dung</label>
+                <textarea id="content" name="content" placeholder="Chưa có nội dung"></textarea>
             </div>
         </div>
         <div class="group-button-action section">
@@ -979,44 +1104,32 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay-edit_information" id="edit_information-promotion-modal-2">
+<div class="modal-overlay-edit_information" id="edit_information-blog-modal-2">
     <div class="modal-content-edit_information">
-        <h2>Bảng thông tin khuyến mãi</h2>
-        <div class="edit-information-promotion">
-            <div class="id-section">
-                <label>ID:</label>
-                <input type="text" name="id" value="2" readonly>
+        <h2>Bảng thông tin</h2>
+        <div class="edit-information-account">
+            <div class="title-section">
+                <label>Tiêu đề</label>
+                <input type="text" name="title" value="Bài viết mẫu 2">
             </div>
-            <div class="code-section">
-                <label>Mã Giảm Giá</label>
-                <input type="text" name="code_edit" value="FREESHIP">
+            <div class="author-section">
+                <label>Tác giả</label>
+                <input type="text" name="author" value="Nguyễn Văn A">
             </div>
-            <div class="type-section">
-                <label>Loại</label>
-                <select name="type_edit">
-                    <option value="Miễn phí vận chuyển" selected>Miễn phí vận chuyển</option>
-                    <option value="Phần trăm">Phần trăm</option>
-                    <option value="Số tiền cố định">Số tiền cố định</option>
-                </select>
-            </div>
-            <div class="value-section">
-                <label>Giá Trị</label>
-                <input type="text" name="value_edit" value="0đ">
-            </div>
-            <div class="start-section">
-                <label>Ngày Bắt Đầu</label>
-                <input type="date" name="start_edit" value="2025-03-15">
-            </div>
-            <div class="end-section">
-                <label>Ngày Kết Thúc</label>
-                <input type="date" name="end_edit" value="2025-04-15">
+            <div class="date-section">
+                <label>Ngày đăng</label>
+                <input type="date" name="date" value="2025-02-10">
             </div>
             <div class="status-section">
-                <label>Trạng Thái</label>
-                <select name="status_edit">
-                    <option value="Hoạt động">Hoạt động</option>
-                    <option value="Không hoạt động" selected>Không hoạt động</option>
+                <label>Trạng thái</label>
+                <select>
+                    <option value="Hiện">Hiện</option>
+                    <option value="Ẩn" selected>Ẩn</option>
                 </select>
+            </div>
+            <div class="content-section">
+                <label>Nội dung</label>
+                <textarea name="content" placeholder="Chưa có nội dung"></textarea>
             </div>
         </div>
         <div class="group-button-action section">
@@ -1025,54 +1138,8 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay-edit_information" id="edit_information-promotion-modal-3">
-    <div class="modal-content-edit_information">
-        <h2>Bảng thông tin khuyến mãi</h2>
-        <div class="edit-information-promotion">
-            <div class="id-section">
-                <label>ID:</label>
-                <input type="text" name="id" value="3" readonly>
-            </div>
-            <div class="code-section">
-                <label>Mã Giảm Giá</label>
-                <input type="text" name="code_edit" value="SUMMER50">
-            </div>
-            <div class="type-section">
-                <label>Loại</label>
-                <select name="type_edit">
-                    <option value="Số tiền cố định" selected>Số tiền cố định</option>
-                    <option value="Phần trăm">Phần trăm</option>
-                    <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
-                </select>
-            </div>
-            <div class="value-section">
-                <label>Giá Trị</label>
-                <input type="text" name="value_edit" value="50.000đ">
-            </div>
-            <div class="start-section">
-                <label>Ngày Bắt Đầu</label>
-                <input type="date" name="start_edit" value="2025-06-01">
-            </div>
-            <div class="end-section">
-                <label>Ngày Kết Thúc</label>
-                <input type="date" name="end_edit" value="2025-08-31">
-            </div>
-            <div class="status-section">
-                <label>Trạng Thái</label>
-                <select name="status_edit">
-                    <option value="Hoạt động">Hoạt động</option>
-                    <option value="Không hoạt động" selected>Không hoạt động</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-3">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
 
-<div class="modal-overlay-notification" id="notification-promotion-modal">
+<div class="modal-overlay-notification" id="notification-account-modal">
     <div class="modal-content-notification">
         <div class="group-notification">
             <h2 class="notification-title">Thông báo</h2>
@@ -1086,8 +1153,7 @@
         </div>
     </div>
 </div>
-
-<div class="modal-overlay-avatar" id="avatar-promotion-modal">
+<div class="modal-overlay-avatar" id="avatar-account-modal">
     <div class="modal-content-avatar">
         <button class="modal-close2" id="close-modal-btn9">
             <ion-icon name="close-outline"></ion-icon>
@@ -1102,27 +1168,24 @@
         </button>
     </div>
 </div>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css"/>
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
-<script src="popup.js"></script>
+<script src="../popup.js"></script>
 <script>
     // Run Pop-up function
     document.addEventListener("DOMContentLoaded", function () {
-        setupModal('add-promotion-modal', 'open-modal-btn', 'close-modal-btn');
-        setupModal('excel-promotion-modal', 'excel-modal-btn', 'close-modal-btn5');
-        setupModal('deleteAll-promotion-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
-        setupModal('edit_information-promotion-modal', 'edit-modal-btn', 'close-modal-btn7');
-        setupModal('edit_information-promotion-modal-2', 'edit-modal-btn2', 'close-modal-btn-2');
-        setupModal('edit_information-promotion-modal-3', 'edit-modal-btn3', 'close-modal-btn-3');
-        setupModal('notification-promotion-modal', 'notification-modal-btn', 'close-modal-btn8');
-        setupModal('avatar-promotion-modal', 'avatar-modal-btn', 'close-modal-btn9');
+        setupModal('add-blog-modal', 'open-modal-btn', 'close-modal-btn');
+        setupModal('excel-blog-modal', 'excel-modal-btn', 'close-modal-btn5');
+        setupModal('deleteAll-blog-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
+        setupModal('edit_information-blog-modal', 'edit-modal-btn', 'close-modal-btn7');
+        setupModal('edit_information-blog-modal-2', 'edit-modal-btn2', 'close-modal-btn-2');
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
 
         $(document).ready(function () {
-            $('#promotion-table-main').DataTable({
+            $('#account-table-main').DataTable({
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/2.3.5/i18n/vi.json',
                 },
@@ -1130,5 +1193,6 @@
         });
     });
 </script>
+
 </body>
 </html>
