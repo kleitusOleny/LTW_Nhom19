@@ -1,0 +1,158 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
+    .support-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
+    }
+
+    .support-card h2 {
+        margin-bottom: 25px;
+        font-size: 26px;
+        color: #8c3333;
+        font-family: Roboto, serif;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+
+    .support-intro {
+        margin-bottom: 30px;
+        color: #666;
+        line-height: 1.6;
+    }
+
+    .support-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .support-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .support-form input,
+    .support-form textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        font-family: 'Roboto', sans-serif;
+        transition: border-color 0.3s ease;
+    }
+
+    .support-form input:focus,
+    .support-form textarea:focus {
+        border-color: #c7a17a;
+        outline: none;
+    }
+
+    .support-form .btn {
+        background-color: #8c3333;
+        color: white;
+        padding: 12px 25px;
+        border-color: #8c3333;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        transition: background-color 0.3s ease;
+    }
+
+    .support-form .btn:hover {
+        background-color: #fff;
+        color: #8c3333;
+    }
+
+    .faq {
+        margin-top: 40px;
+    }
+
+    .faq-item {
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+
+    .faq-item:last-child {
+        border-bottom: none;
+    }
+
+    .faq-item h4 {
+        margin-bottom: 10px;
+        color: #333;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .faq-item h4::after {
+        content: '+';
+        font-size: 20px;
+        color: #c7a17a;
+    }
+
+    .faq-item p {
+        color: #666;
+        display: none;
+        padding-left: 20px;
+        border-left: 2px solid #c7a17a;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="support-card">
+    <h2 data-lang-key="supportTitle">Hỗ trợ & Tư vấn Rượu Vang</h2>
+    <p class="support-intro" data-lang-key="supportIntroWine">
+        Bạn có câu hỏi về các dòng rượu vang, cần tư vấn chọn quà, hay muốn biết thêm về cách bảo quản? Đội ngũ chuyên
+        gia của chúng tôi luôn sẵn sàng hỗ trợ.
+    </p>
+
+    <div class="support-form">
+        <form>
+            <div class="form-group">
+                <label for="name" data-lang-key="yourName">Tên của bạn</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email" data-lang-key="yourEmail">Email của bạn</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="subject" data-lang-key="subject">Chủ đề</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="message" data-lang-key="message">Nội dung</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn" data-lang-key="submit">Gửi yêu cầu</button>
+        </form>
+    </div>
+
+    <div class="faq">
+        <h3 data-lang-key="faq">Các câu hỏi thường gặp</h3>
+        <div class="faq-item">
+            <h4 data-lang-key="faq1TitleWine">Làm sao để bảo quản rượu vang đúng cách?</h4>
+            <p data-lang-key="faq1AnswerWine">Rượu vang nên được bảo quản ở nơi tối, mát mẻ, nhiệt độ ổn định khoảng
+                12-18°C. Đặt chai nằm ngang để nút bần luôn ẩm, tránh không khí lọt vào.</p>
+        </div>
+        <div class="faq-item">
+            <h4 data-lang-key="faq2TitleWine">Nên chọn loại rượu nào cho bữa tiệc hải sản?</h4>
+            <p data-lang-key="faq2AnswerWine">Với hải sản, vang trắng là lựa chọn tuyệt vời. Sauvignon Blanc với hương
+                vị tươi mát hoặc Chardonnay không qua ủ thùng gỗ sẽ làm nổi bật vị ngon của món ăn.</p>
+        </div>
+        <div class="faq-item">
+            <h4 data-lang-key="faq3TitleWine">Decanter rượu vang trong bao lâu là hợp lý?</h4>
+            <p data-lang-key="faq3AnswerWine">Thời gian decanter phụ thuộc vào độ tuổi và loại rượu. Vang trẻ và đậm cần
+                khoảng 1-2 giờ, trong khi vang cũ chỉ cần 30 phút để "thở" và loại bỏ cặn.</p>
+        </div>
+    </div>
+</div>
