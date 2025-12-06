@@ -1,0 +1,270 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    .orders-container {
+        font-family: 'Roboto', sans-serif;
+        background: #fff;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
+    }
+
+    .orders-container h2 {
+        margin-bottom: 25px;
+        font-size: 26px;
+        color: #8c3333;
+        font-family: Roboto, serif;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+
+    .order-filter {
+        margin-bottom: 25px;
+    }
+
+    .order-filter select {
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    .order-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .order-card {
+        background: #f9f9f9;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        border-left: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .order-card:hover {
+        background-color: #f5f5f5;
+        border-left-color: #c7a17a;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .order-id {
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .order-status {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #fff;
+        text-transform: capitalize;
+    }
+
+    .status-completed {
+        background-color: #28a745;
+    }
+
+    .status-pending {
+        background-color: #ffc107;
+    }
+
+    .status-cancelled {
+        background-color: #dc3545;
+    }
+
+    .order-body p {
+        margin: 5px 0;
+    }
+
+    .order-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .order-actions .btn {
+        background-color: #8c3333;
+        color: #fff;
+        padding: 10px 15px;
+        border-color: #8c3333;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .order-actions .btn:hover {
+        background-color: #fff;
+        color: #8c3333;
+    }
+
+    .tracking-bar-container {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .tracking-bar {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin: 30px 0;
+    }
+
+    .tracking-bar::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background-color: #e0e0e0;
+        transform: translateY(-50%);
+        z-index: 1;
+    }
+
+    .tracking-progress {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        height: 4px;
+        background-color: #8c3333;
+        transform: translateY(-50%);
+        z-index: 2;
+    }
+
+    .tracking-step {
+        position: relative;
+        z-index: 3;
+        text-align: center;
+    }
+
+    .step-dot {
+        width: 20px;
+        height: 20px;
+        background-color: #e0e0e0;
+        border-radius: 50%;
+        margin: 0 auto 10px;
+        border: 3px solid #f8f9fa;
+    }
+
+    .tracking-step.active .step-dot {
+        background-color: #8c3333;
+    }
+
+    .step-label {
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+
+<div class="orders-container">
+    <h2>Đơn hàng của tôi</h2>
+
+    <div class="order-filter">
+        <select id="statusFilter">
+            <option selected>Tất cả trạng thái</option>
+            <option>Đang xử lý</option>
+            <option>Hoàn thành</option>
+            <option>Đã hủy</option>
+        </select>
+    </div>
+
+    <div class="order-list">
+        <div class="order-card" data-status="completed">
+            <div class="order-header">
+                <span class="order-id">#1001</span>
+                <span class="order-status status-completed">Hoàn thành</span>
+            </div>
+            <div class="order-body">
+                <p><strong>Ngày đặt:</strong> 15/01/2025</p>
+                <p><strong>Tổng tiền:</strong> 2.350.000₫</p>
+            </div>
+            <div class="tracking-bar-container">
+                <div class="tracking-bar">
+                    <div class="tracking-progress" style="width: 100%;"></div>
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đang xử lý</div>
+                    </div>
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đang giao</div>
+                    </div>
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đã giao</div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-actions">
+                <button class="btn" onclick="location.href='../infoUsers/detail_order.html'">Xem chi tiết</button>
+                <button class="btn">Mua lại</button>
+                <button class="btn" onclick="location.href='../infoUsers/evaluate.html'">Đánh giá</button>
+            </div>
+        </div>
+
+        <div class="order-card" data-status="pending">
+            <div class="order-header">
+                <span class="order-id">#1002</span>
+                <span class="order-status status-pending">Đang xử lý</span>
+            </div>
+            <div class="order-body">
+                <p><strong>Ngày đặt:</strong> 18/01/2025</p>
+                <p><strong>Tổng tiền:</strong> 950.000₫</p>
+            </div>
+            <div class="tracking-bar-container">
+                <div class="tracking-bar">
+                    <div class="tracking-progress" style="width: 50%;"></div>
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đang xử lý</div>
+                    </div>
+                    <div class="tracking-step active">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đang giao</div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="step-dot"></div>
+                        <div class="step-label">Đã giao</div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-actions">
+                <button class="btn" onclick="location.href='../infoUsers/detail_order.html'">Xem chi tiết</button>
+                <button class="btn">Mua lại</button>
+            </div>
+        </div>
+
+        <div class="order-card" data-status="cancelled">
+            <div class="order-header">
+                <span class="order-id">#1003</span>
+                <span class="order-status status-cancelled">Đã hủy</span>
+            </div>
+            <div class="order-body">
+                <p><strong>Ngày đặt:</strong> 20/01/2025</p>
+                <p><strong>Tổng tiền:</strong> 1.200.000₫</p>
+            </div>
+            <div class="order-actions">
+                <button class="btn" onclick="location.href='../infoUsers/detail_order.html'">Xem chi tiết</button>
+                <button class="btn">Mua lại</button>
+            </div>
+        </div>
+    </div>
+</div>
