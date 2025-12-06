@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+    <title>Login</title>
+    <script src='${pageContext.request.contextPath}/popup.js'></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/AuthPages/auth_css/Login.css">
+</head>
+<body>
+<div class="main-container">
+    <div class="backward-button-container">
+        <button class="question" id="btn-question">
+            <ion-icon name="help-outline"></ion-icon>
+        </button>
+    </div>
+    <div class="login-page">
+        <h2>Đăng Nhập</h2>
+        <form id="login-form">
+            <div class="username-input">
+                <label for="username" class="label-with-icon">
+                    <ion-icon name="person-outline"></ion-icon>
+                    Tài Khoản</label>
+                <input type="text" id="username" name="username" placeholder="Nhập tài khoản hoặc email hiện có"
+                       required>
+            </div>
+
+            <div class="password-input">
+                <label for="password" class="label-with-icon">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    Mật Khẩu</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu hiện có" required>
+                    <span id="eyeIcon">
+                    <ion-icon name="eye-off-outline"></ion-icon>
+                </span>
+                </div>
+            </div>
+
+            <div class="remember-me-input">
+                <input type="checkbox" id="remember-me" name="remember-me">
+                <label for="remember-me">Ghi nhớ đăng nhập</label>
+                <a href="Authentication.jsp">Quên Mật Khẩu</a>
+            </div>
+            <button>Đăng Nhập</button>
+            <div class="register-account">
+                <div id="register-remind">Chưa có tài khoản?</div>
+                <a href="Register.jsp">Đăng Kí</a>
+            </div>
+            <div class="social-login">
+                <div id="social-remind">Chọn phương thức khác để đăng nhập:</div>
+                <img src="${pageContext.request.contextPath}/assets/google-icon.png">
+            </div>
+            <a href="../index.html" id="backward">Quay Lại Trang Trước</a>
+        </form>
+    </div>
+</div>
+<div class="modal-overlay-question" id="question-account-modal">
+    <div class="modal-content-question">
+        <h2>Vì sao cần đăng nhập?</h2>
+        <div class="group-p">
+            <p>
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                Theo quy định về kinh doanh đồ uống có cồn, chúng tôi cần xác minh người mua đã đủ độ tuổi hợp pháp.
+            </p>
+            <p>
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                Việc đăng nhập cũng giúp bảo mật thông tin đơn hàng, thêm khuyến mãi cho cá nhân và đảm bảo quyền lợi
+                tốt nhất cho bạn trong quá trình vận chuyển.
+            </p>
+        </div>
+        <button id="close-btn">Đã rõ</button>
+    </div>
+</div>
+<script>
+    setupModal('question-account-modal', 'btn-question', 'close-btn')
+    let eyeClosed = document.getElementById('eyeIcon').querySelector('ion-icon');
+    let passwordReveal = document.getElementById('password');
+
+    eyeClosed.onclick = () => {
+        if (passwordReveal.type === 'password') {
+            passwordReveal.type = 'text';
+            eyeClosed.setAttribute('name', 'eye-outline');
+        } else {
+            passwordReveal.type = 'password';
+            eyeClosed.setAttribute('name', 'eye-off-outline');
+        }
+    }
+</script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

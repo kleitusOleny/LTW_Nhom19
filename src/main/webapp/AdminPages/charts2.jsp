@@ -2,417 +2,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <title>Thống Kê 2</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="popup.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: Mulish, sans-serif, serif;
-        }
-
-        body, html {
-            overflow-x: hidden; /* Ẩn thanh cuộn ngang */
-            width: 100%;
-            scroll-behavior: smooth;
-        }
-
-        .dashboard-container {
-            display: grid;
-            min-height: 100vh;
-            grid-template-columns: 250px 1fr
-        }
-
-        .dashboard-sidebar {
-            background-color: #21232d;
-            position: relative;
-        }
-
-        .dashboard-content {
-            background-color: #f4f7fa;
-        }
-
-        .sidebar-items {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            list-style-type: none;
-            position: fixed;
-            top: 20px;
-            height: 100vh;
-            overflow-y: auto;
-            width: 250px;
-        }
-
-        .group-avatar .user-avatar {
-            border-radius: 100%;
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            display: block;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: 0.2s;
-        }
-
-        .group-avatar {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin-bottom: 15px;
-        }
-
-        .user-avatar:hover {
-            border-color: #6341ff;
-        }
-
-        .icon-header {
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            position: absolute;
-            bottom: -5px;
-            right: 5px;
-            margin-left: 0;
-            background-color: #3a3a3a;
-            border-radius: 50%;
-            padding: 6px;
-            border: 2px solid #1f1f1f;
-            line-height: 1;
-            transition: 0.3s ease;
-        }
-
-        .icon-header:hover {
-            color: #020202;
-            transform: scale(1.1);
-            background-color: #f8f8f8;
-        }
-
-        .a-with-icon {
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            gap: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 12px 20px;
-            border-radius: 8px;
-            align-items: center;
-            width: 200px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .a-with-icon.selected {
-            border-color: #6341ff;
-            background-color: #343746;
-            color: #ffffff;
-        }
-
-        .a-with-icon ion-icon {
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .a-with-icon:hover {
-            border-color: #6341ff;
-            background-color: #343746;
-            color: #ffffff;
-        }
-
-        .text {
-            color: #decdcd;
-            font-size: 12px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            padding-bottom: 5px;
-            box-sizing: border-box;
-        }
-
-        .dashboard-main-content {
-            padding: 30px;
-            background-color: #f4f7fa;
-            flex-grow: 1;
-        }
-
-        .dashboard-main-content h1 {
-            font-size: 28px;
-            color: #21232d;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        /* Avatar */
-        .modal-content-avatar {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 250px;
-            padding: 20px 20px 20px 10px;
-            gap: 8px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .btn-menu-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            justify-content: center;
-            width: 90%;
-            padding: 10px;
-            background: transparent;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            text-align: left;
-            font-size: 15px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        .btn-menu-item:hover {
-            border-color: #6341ff;
-            transform: scale(1.02);
-        }
-
-        .modal-close2 {
-            position: absolute;
-            top: 1px;
-            right: 0px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: #666;
-            font-size: 20px;
-            padding: 4px;
-            line-height: 1;
-            border-radius: 50%;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-
-        .modal-close2:hover {
-            color: #111;
-            background-color: #f0f0f0;
-        }
-
-        .btn-menu-item ion-icon {
-            font-size: 18px;
-            color: #555;
-            flex-shrink: 0;
-        }
-
-        /* Notification */
-        .modal-overlay-notification, .modal-overlay-avatar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1000;
-            display: flex;
-            justify-content: flex-start;
-
-            align-items: flex-start;
-            padding-left: 250px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .modal-content-notification {
-            width: 400px;
-            max-height: 80vh;
-            overflow-y: auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
-
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-            padding: 20px;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .modal-overlay-notification.show, .modal-overlay-avatar.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .group-notification {
-            display: flex;
-            flex-direction: row;
-        }
-
-        .modal-close {
-            width: 36px;
-            height: 36px;
-            border: 0;
-            background: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            /*di chuyển không ảnh hưởng components khác*/
-            transform: translateY(-10px)
-        }
-
-        .modal-close:hover {
-            background: #f2f2f2;
-        }
-
-        .modal-close:focus-visible {
-            outline: 2px solid #3b82f6;
-            outline-offset: 2px;
-        }
-
-        .modal-close ion-icon {
-            font-size: 22px;
-            color: #333;
-            pointer-events: none;
-        }
-
-        .notification-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-            margin: 0 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            width: 100%;
-        }
-
-        .notification-empty-state {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            color: #888;
-            padding: 30px 0;
-        }
-
-        .notification-empty-state ion-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .notification-empty-state p {
-            font-size: 1rem;
-            text-align: center;
-            margin: 0;
-        }
-
-        /* ---------------------------- */
-        .dashboard-main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background-color: #f4f7fa;
-            margin-bottom: 80px;
-        }
-
-        .group-chart, .group-chart2, .group-chart3, .group-chart4 {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid transparent;
-        }
-
-        .group-chart:hover, .group-chart2:hover, .group-chart3:hover, .group-chart4:hover {
-            border-color: #6341ff;
-        }
-
-        .group-switch {
-            position: fixed;
-            bottom: 20px;
-            left: 300px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            align-items: center;
-            background-color: #fff;
-            padding: 10px 15px;
-            border-radius: 12px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease;
-        }
-
-        .group-switch button {
-            background: #efefef;
-            padding: 15px 20px 15px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            border: none;
-        }
-
-        .group-switch button:hover {
-            background: #6341ff;
-            color: #fff;
-            transform: scale(1.05);
-            transition: transform 0.2s ease;
-        }
-
-        .group-switch .group-p {
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-        }
-
-        .group-switch #p1 {
-            color: #6c757d;
-        }
-
-        .group-switch #p2 {
-            color: #8d93ff;
-        }
-
-        .selected-btn {
-            color: #0925c7;
-            outline: 2px solid #a4abf6;
-        }
-
-        .total-revenue {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .total-revenue .number {
-            color: #3314ff;
-        }
-    </style>
+    <script src="${pageContext.request.contextPath}/popup.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/AdminPages/admin_css/chart2.css">
 </head>
 <body>
 <div class="dashboard-container">
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <img src="${pageContext.request.contextPath}/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.html" class="a-with-icon">
+            <li><a href="admin_dashboard.jsp" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
-            <li><a href="manage_product.html" class="a-with-icon">
+            <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.html" class="a-with-icon">
+            <li><a href="manage_accounts.jsp" class="a-with-icon">
                 <ion-icon name="people-outline"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
             <li><a href="manage_orders.jsp" class="a-with-icon">
                 <ion-icon name="cart-outline"></ion-icon>
                 Quản Lí Đơn Hàng</a></li>
-            <li><a href="manage_banner.html" class="a-with-icon">
+            <li><a href="manage_banner.jsp" class="a-with-icon">
                 <ion-icon name="albums-outline"></ion-icon>
                 Quản Lí Banner</a></li>
             <li><a href="manage_blog.jsp" class="a-with-icon">
@@ -421,7 +39,7 @@
             <li><a href="manage_promotions.jsp" class="a-with-icon">
                 <ion-icon name="ticket-outline"></ion-icon>
                 Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="charts.html" class="a-with-icon selected">
+            <li><a href="charts.jsp" class="a-with-icon selected">
                 <ion-icon name="stats-chart"></ion-icon>
                 Thống Kê</a></li>
         </ul>
@@ -451,7 +69,7 @@
                 <div id="chart-column"></div>
             </div>
             <div class="group-switch">
-                <a href="charts.html">
+                <a href="charts.jsp">
                     <button class="unselected-btn">1</button>
                 </a>
                 <a href="charts2.html">

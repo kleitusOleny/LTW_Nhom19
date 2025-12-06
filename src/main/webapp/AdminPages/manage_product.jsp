@@ -6,8 +6,8 @@
     <title>Quản Lí Sản Phẩm</title>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="popup.js"></script>
-    <link rel="stylesheet" href="css/manage_product_style.css">
+    <script src="../popup.js"></script>
+    <link rel="stylesheet" href="../css/manage_product_style.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
 </head>
 <body>
@@ -15,22 +15,22 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <img src="../assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.html" class="a-with-icon">
+            <li><a href="admin_dashboard.jsp" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
             <li><a href="manage_product.html" class="a-with-icon selected">
                 <ion-icon name="bag-remove"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.html" class="a-with-icon">
+            <li><a href="manage_accounts.jsp" class="a-with-icon">
                 <ion-icon name="people-outline"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
             <li><a href="manage_orders.jsp" class="a-with-icon">
                 <ion-icon name="cart-outline"></ion-icon>
                 Quản Lí Đơn Hàng</a></li>
-            <li><a href="manage_banner.html" class="a-with-icon">
+            <li><a href="manage_banner.jsp" class="a-with-icon">
                 <ion-icon name="albums-outline"></ion-icon>
                 Quản Lí Banner</a></li>
             <li><a href="manage_blog.jsp" class="a-with-icon">
@@ -39,7 +39,7 @@
             <li><a href="manage_promotions.jsp" class="a-with-icon">
                 <ion-icon name="ticket-outline"></ion-icon>
                 Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="charts.html" class="a-with-icon">
+            <li><a href="charts.jsp" class="a-with-icon">
                 <ion-icon name="stats-chart-outline"></ion-icon>
                 Thống Kê</a></li>
         </ul>
@@ -84,7 +84,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_0845-17.jpg" alt="Product Image">
+                                <img src="../img/SKU__VD_0845-17.jpg" alt="Product Image">
                                 <span>Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</span>
                             </div>
                         </td>
@@ -103,7 +103,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_0834-14-1.5L.jpg" alt="Product">
+                                <img src="../img/SKU__VD_0834-14-1.5L.jpg" alt="Product">
                                 <span>Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L 2014</span>
                             </div>
                         </td>
@@ -122,7 +122,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_0845-17.jpg" alt="Product">
+                                <img src="../img/SKU__VD_0845-17.jpg" alt="Product">
                                 <span>Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</span>
                             </div>
                         </td>
@@ -141,7 +141,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_0883-09-3L.jpg" alt="Product">
+                                <img src="../img/SKU__VD_0883-09-3L.jpg" alt="Product">
                                 <span>Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3 Lít</span>
                             </div>
                         </td>
@@ -160,7 +160,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_0883-14.jpg" alt="Product">
+                                <img src="../img/SKU__VD_0883-14.jpg" alt="Product">
                                 <span>Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014</span>
                             </div>
                         </td>
@@ -179,7 +179,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_0926-22.png" alt="Product">
+                                <img src="../img/SKU__VD_0926-22.png" alt="Product">
                                 <span>Rượu Vang Trắng Greywacke Pinot Noir 2022</span>
                             </div>
                         </td>
@@ -198,7 +198,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_0939.png" alt="Product">
+                                <img src="../img/SKU__VD_0939.png" alt="Product">
                                 <span>Rượu vang sủi Freixenet Italian Rosé Sparkling Wine Extra Dry</span>
                             </div>
                         </td>
@@ -217,7 +217,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_1170.png" alt="Product">
+                                <img src="../img/SKU__VD_1170.png" alt="Product">
                                 <span>Rượu vang hồng Dufouleur Monopole</span>
                             </div>
                         </td>
@@ -236,7 +236,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_1185.png" alt="Product">
+                                <img src="../img/SKU__VD_1185.png" alt="Product">
                                 <span>Rượu vang hồng Famille Perrin Côtes-du-Rhône Réserve, rose</span>
                             </div>
                         </td>
@@ -255,7 +255,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_1193-22.png" alt="Product">
+                                <img src="../img/SKU__VD_1193-22.png" alt="Product">
                                 <span>Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022</span>
                             </div>
                         </td>
@@ -274,7 +274,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_1197.png" alt="Product">
+                                <img src="../img/SKU__VD_1197.png" alt="Product">
                                 <span>Rượu vang hồng Studio By Miraval</span>
                             </div>
                         </td>
@@ -293,7 +293,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_1233.jpg" alt="Product">
+                                <img src="../img/SKU__VD_1233.jpg" alt="Product">
                                 <span>Rượu Sâm Panh Champagne Ruinart Rosé</span>
                             </div>
                         </td>
@@ -312,7 +312,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_1274.png" alt="Product">
+                                <img src="../img/SKU__VD_1274.png" alt="Product">
                                 <span>Rượu vang hồng Flor de Muga Rosé</span>
                             </div>
                         </td>
@@ -331,7 +331,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                         <td>
                             <div class="product-cell">
-                                <img src="img/SKU__VD_1306.png" alt="Product">
+                                <img src="../img/SKU__VD_1306.png" alt="Product">
                                 <span>Rượu Vang Hồng Tenuta Ammiraglia Alìe</span>
                             </div>
                         </td>
