@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Orders Manage</title>
+    <title>Promotions Manage</title>
     <style>
         * {
             margin: 0;
@@ -291,7 +291,7 @@
             overflow-x: auto;
         }
 
-        .order-table {
+        .promotion-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
@@ -300,18 +300,18 @@
             color: #333;
         }
 
-        .order-table th,
-        .order-table td {
+        .promotion-table th,
+        .promotion-table td {
             border: 1px solid #ddd;
             text-align: left;
             vertical-align: middle;
         }
 
-        .order-table th {
+        .promotion-table th {
             padding: 10px 14px;
         }
 
-        .order-table td {
+        .promotion-table td {
             padding: 5px 5px;
         }
 
@@ -319,46 +319,60 @@
             margin-left: 20px;
         }
 
-        .order-table thead .sample {
+        .promotion-table thead .sample {
             background-color: #f4f4f4;
             color: #333;
             font-weight: bold;
         }
 
-        .order-table tbody tr:nth-child(even) {
+        .promotion-table tbody tr:nth-child(even) {
             background-color: #f9f9f9;
         }
 
-        .order-table tbody tr:hover {
+        .promotion-table tbody tr:hover {
             background-color: #f1f1f1;
         }
 
-        .order-table .col-tick {
+        .promotion-table .col-tick {
             width: 1%;
         }
 
-        .order-table .col-id {
+        .promotion-table .col-id {
             width: 10%;
         }
 
-        .order-table .col-customer {
-            width: 20%;
-        }
-
-        .order-table .col-date {
+        .promotion-table .col-code {
             width: 15%;
         }
 
-        .order-table .col-total {
+        .promotion-table .col-type {
             width: 15%;
         }
 
-        .order-table .col-status {
-            width: 15%;
-        }
-
-        .order-table .col-action {
+        .promotion-table .col-value {
             width: 10%;
+        }
+
+        .promotion-table .col-start {
+            width: 15%;
+        }
+
+        .promotion-table .col-end {
+            width: 15%;
+        }
+
+        .promotion-table .col-status {
+            width: 10%;
+        }
+
+        .promotion-table .col-action {
+            width: 10%;
+        }
+
+        .promotion-table .col-action {
+            width: 12%;
+            white-space: nowrap;
+            min-width: 120px;
         }
 
         .cell-action .btn {
@@ -368,7 +382,7 @@
             border: solid 2px #ccc;
         }
 
-        .cell-action .delete, .cell-action .view {
+        .cell-action .delete, .cell-action .edit {
             width: 50px;
         }
 
@@ -548,14 +562,14 @@
             width: 100%;
         }
 
-        .customer-input, .date-input, .total-input, .status-input {
+        .code-input, .type-input, .value-input, .start-input, .end-input, .status-input {
             display: flex;
             flex-direction: column;
             gap: 5px;
             width: 90%;
         }
 
-        .customer-input label, .date-input label, .total-input label, .status-input label, .text-filter-group label, .edit-information-order label {
+        .code-input label, .type-input label, .value-input label, .start-input label, .end-input label, .status-input label, .text-filter-group label, .edit-information-promotion label {
             font-weight: bold;
             font-size: 1rem;
             color: #555;
@@ -563,30 +577,31 @@
             margin-top: 5px;
         }
 
-        .customer-input input, .date-input input, .total-input input, .status-input select, #text-filter, .edit-information-order input {
+        .code-input input, .type-input select, .value-input input, .start-input input, .end-input input, .status-input select, #text-filter, .edit-information-promotion input, .edit-information-promotion select {
             font-size: 1rem;
             border-radius: 8px;
             border: 2px solid #ccc;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .customer-input input, .date-input input, .total-input input, .status-input select {
+        .code-input input, .value-input input {
             padding: 12px 15px;
         }
 
-        .edit-information-order input {
+        .edit-information-promotion input, .edit-information-promotion select {
             padding: 6px 6px;
         }
 
-        .customer-input input, .date-input input, .total-input input {
+        .code-input input, .value-input input {
             width: 100%;
         }
 
-        .status-input select {
+        .type-input select, .status-input select {
             width: 100%;
+            padding: 12px 15px;
         }
 
-        .customer-input input:focus, .date-input input:focus, .total-input input:focus, .status-input select:focus, #text-filter:focus, .edit-information-order input:focus {
+        .code-input input:focus, .type-input select:focus, .value-input input:focus, .start-input input:focus, .end-input input:focus, .status-input select:focus, #text-filter:focus, .edit-information-promotion input:focus, .edit-information-promotion select:focus {
             border-color: #6341ff;
             outline: none;
         }
@@ -651,30 +666,30 @@
             background: #c70d0d;
         }
 
-        .edit-information-order {
+        .edit-information-promotion {
             display: flex;
             flex-direction: column;
         }
 
-        .edit-information-order div:not(.active-section):not(:first-child) {
+        .edit-information-promotion div:not(.active-section):not(:first-child) {
             display: flex;
             flex-direction: column;
             margin-bottom: 5px;
         }
 
-        .edit-information-order .customer-section {
+        .edit-information-promotion .code-section {
             margin-top: 5px;
         }
 
-        .edit-information-order .active-section {
+        .edit-information-promotion .active-section {
             margin-top: 10px;
         }
 
-        #statusSelect {
+        #activeSelect {
             border-radius: 5px;
         }
 
-        .edit-information-order .create_order-section {
+        .edit-information-promotion .create_promotion-section {
             margin-bottom: 10px;
         }
 
@@ -718,147 +733,8 @@
             border-color: #6341ff;
         }
 
-        /* Order Detail Modal Styles */
-        #orderDetailModal .modal-content {
-            width: 90%;
-            max-width: 900px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        #orderDetailModal h2 {
-            color: #8c3333;
-            margin-bottom: 20px;
-            font-size: 26px;
-        }
-
-        #orderDetailModal .section {
-            margin-bottom: 30px;
-        }
-
-        #orderDetailModal .section h3 {
-            font-size: 20px;
-            color: #8c3333;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        #orderDetailModal .section.info p {
-            margin: 10px 0;
-        }
-
-        #orderDetailModal table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        #orderDetailModal table th,
-        #orderDetailModal table td {
-            border: 1px solid #eee;
-            padding: 10px;
-            text-align: left;
-        }
-
-        #orderDetailModal table th {
-            background: #f8f8f8;
-        }
-
-        #orderDetailModal .product-img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-        #orderDetailModal .status {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            text-transform: capitalize;
-            background: #28a745;
-        }
-
-        #orderDetailModal .tracking-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            position: relative;
-        }
-
-        #orderDetailModal .tracking-bar::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background-color: #e0e0e0;
-            transform: translateY(-50%);
-            z-index: 1;
-        }
-
-        #orderDetailModal .tracking-progress {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            height: 4px;
-            background-color: #8c3333;
-            transform: translateY(-50%);
-            z-index: 2;
-            width: 100%;
-        }
-
-        #orderDetailModal .tracking-step {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-        }
-
-        #orderDetailModal .step-dot {
-            width: 20px;
-            height: 20px;
-            background: #8c3333;
-            border-radius: 50%;
-            margin: 0 auto 8px;
-            border: 3px solid #fff;
-        }
-
-        #orderDetailModal .step-label {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Close button positioned outside modal */
-        #orderDetailModal .modal-close-outside {
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            width: 36px;
-            height: 36px;
-            background: #fff;
-            border: 2px solid #ccc;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1001;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        #orderDetailModal .modal-close-outside:hover {
-            background: #f0f0f0;
-            border-color: #999;
-        }
-
-        #orderDetailModal .modal-close-outside ion-icon {
-            font-size: 20px;
-            color: #666;
+        table.dataTable > tbody > tr > td {
+            padding: 5px 5px 5px 8px !important;
         }
     </style>
 </head>
@@ -867,31 +743,31 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <img src="../assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.html" class="a-with-icon">
+            <li><a href="admin_dashboard.jsp" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
-            <li><a href="manage_product.html" class="a-with-icon">
+            <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.html" class="a-with-icon">
+            <li><a href="manage_accounts.jsp" class="a-with-icon">
                 <ion-icon name="people-outline"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="manage_orders.html" class="a-with-icon selected">
-                <ion-icon name="cart"></ion-icon>
+            <li><a href="manage_orders.jsp" class="a-with-icon">
+                <ion-icon name="cart-outline"></ion-icon>
                 Quản Lí Đơn Hàng</a></li>
-            <li><a href="manage_banner.html" class="a-with-icon">
+            <li><a href="manage_banner.jsp" class="a-with-icon">
                 <ion-icon name="albums-outline"></ion-icon>
                 Quản Lí Banner</a></li>
-            <li><a href="manage_blog.html" class="a-with-icon">
+            <li><a href="manage_blog.jsp" class="a-with-icon">
                 <ion-icon name="reader-outline"></ion-icon>
                 Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="manage_promotions.html" class="a-with-icon">
-                <ion-icon name="ticket-outline"></ion-icon>
+            <li><a href="manage_promotions.html" class="a-with-icon selected">
+                <ion-icon name="ticket"></ion-icon>
                 Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="charts.html" class="a-with-icon">
+            <li><a href="charts.jsp" class="a-with-icon">
                 <ion-icon name="stats-chart-outline"></ion-icon>
                 Thống Kê</a></li>
         </ul>
@@ -900,11 +776,11 @@
     <div class="dashboard-content">
         <main class="dashboard-main-content">
             <div class="button-group">
-                <h2>Quản lí đơn hàng</h2>
+                <h2>Quản lí mã giảm giá và khuyến mãi</h2>
                 <div class="func-group">
                     <button class="button del" id="deleteAll-modal-btn">
                         <ion-icon name="trash-outline"></ion-icon>
-                        Xoá (Đã chọn)
+                        Xoá (Đã Chọn)
                     </button>
                     <button class="button add" id="open-modal-btn">
                         <ion-icon name="add-outline" class="type-needCss"></ion-icon>
@@ -917,52 +793,60 @@
                 </div>
             </div>
             <div class="table-container">
-                <table id="order-table-main" class="order-table">
+                <table id="promotion-table-main" class="promotion-table">
                     <thead>
                     <tr class="sample">
                         <th class="col-tick">Chọn</th>
-                        <th class="col-id">ID Đơn Hàng</th>
-                        <th class="col-customer">Khách Hàng</th>
-                        <th class="col-date">Ngày Đặt</th>
-                        <th class="col-total">Tổng Tiền</th>
+                        <th class="col-id">ID</th>
+                        <th class="col-code">Mã Giảm Giá</th>
+                        <th class="col-type">Loại</th>
+                        <th class="col-value">Giá Trị</th>
+                        <th class="col-start">Ngày Bắt Đầu</th>
+                        <th class="col-end">Ngày Kết Thúc</th>
                         <th class="col-status">Trạng Thái</th>
                         <th class="col-action">Hành Động</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="orders">
+                    <tr class="promotions">
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">DH001</td>
-                        <td class="cell-customer">Nguyễn Văn A</td>
-                        <td class="cell-date">06/10/2024</td>
-                        <td class="cell-total">1.500.000đ</td>
-                        <td class="cell-status">Đang xử lý</td>
+                        <td class="cell-id">1</td>
+                        <td class="cell-code">SALE2025</td>
+                        <td class="cell-type">Phần trăm</td>
+                        <td class="cell-value">10%</td>
+                        <td class="cell-start">06/10/2024</td>
+                        <td class="cell-end">06/10/2024</td>
+                        <td class="cell-status">Hoạt động</td>
                         <td class="cell-action">
-                            <button class="view btn" id="view-modal-btn">Xem</button>
+                            <button class="edit btn" id="edit-modal-btn">Sửa</button>
                             <button class="delete btn">Xoá</button>
                         </td>
                     </tr>
-                    <tr class="orders">
+                    <tr class="promotions">
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">DH002</td>
-                        <td class="cell-customer">Trần Thị B</td>
-                        <td class="cell-date">03/08/2019</td>
-                        <td class="cell-total">2.300.000đ</td>
-                        <td class="cell-status">Đã giao</td>
+                        <td class="cell-id">2</td>
+                        <td class="cell-code">FREESHIP</td>
+                        <td class="cell-type">Miễn phí vận chuyển</td>
+                        <td class="cell-value">0đ</td>
+                        <td class="cell-start">06/10/2024</td>
+                        <td class="cell-end">06/10/2024</td>
+                        <td class="cell-status">Không hoạt động</td>
                         <td class="cell-action">
-                            <button class="view btn" id="view-modal-btn2">Xem</button>
+                            <button class="edit btn" id="edit-modal-btn2">Sửa</button>
                             <button class="delete btn">Xoá</button>
                         </td>
                     </tr>
-                    <tr class="orders">
+                    <tr class="promotions">
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">DH003</td>
-                        <td class="cell-customer">Lê Văn C</td>
-                        <td class="cell-date">15/08/2019</td>
-                        <td class="cell-total">850.000đ</td>
-                        <td class="cell-status">Đã hủy</td>
+                        <td class="cell-id">3</td>
+                        <td class="cell-code">SUMMER50</td>
+                        <td class="cell-type">Số tiền cố định</td>
+                        <td class="cell-value">50.000đ</td>
+                        <td class="cell-start">06/10/2024</td>
+                        <td class="cell-end">06/10/2024</td>
+                        <td class="cell-status">Không hoạt động</td>
                         <td class="cell-action">
-                            <button class="view btn" id="view-modal-btn3">Xem</button>
+                            <button class="edit btn" id="edit-modal-btn3">Sửa</button>
                             <button class="delete btn">Xoá</button>
                         </td>
                     </tr>
@@ -973,35 +857,50 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="add-order-modal">
+<div class="modal-overlay" id="add-promotion-modal">
     <div class="modal-content">
         <form id="add-form">
-            <div class="customer-input">
-                <label for="customer" class="label-with-icon">
-                    <ion-icon name="person-outline"></ion-icon>
-                    Khách Hàng</label>
-                <input type="text" name="customer" placeholder="Nhập tên khách hàng" required>
+            <div class="code-input">
+                <label for="code" class="label-with-icon">
+                    <ion-icon name="pricetag-outline"></ion-icon>
+                    Mã Giảm Giá</label>
+                <input type="text" id="code" name="code" placeholder="Nhập mã giảm giá" required>
             </div>
-            <div class="date-input">
-                <label for="date" class="label-with-icon">
-                    <ion-icon name="calendar-outline"></ion-icon>
-                    Ngày Đặt</label>
-                <input type="date" name="date" required>
+            <div class="type-input">
+                <label for="type" class="label-with-icon">
+                    <ion-icon name="options-outline"></ion-icon>
+                    Loại</label>
+                <select id="type" name="type" required>
+                    <option value="Phần trăm">Phần trăm</option>
+                    <option value="Số tiền cố định">Số tiền cố định</option>
+                    <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
+                </select>
             </div>
-            <div class="total-input">
-                <label for="total" class="label-with-icon">
+            <div class="value-input">
+                <label for="value" class="label-with-icon">
                     <ion-icon name="cash-outline"></ion-icon>
-                    Tổng Tiền</label>
-                <input type="text" name="total" placeholder="Nhập tổng tiền" required>
+                    Giá Trị</label>
+                <input type="text" id="value" name="value" placeholder="Nhập giá trị" required>
+            </div>
+            <div class="start-input">
+                <label for="start" class="label-with-icon">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    Ngày Bắt Đầu</label>
+                <input type="date" id="start" name="start" required>
+            </div>
+            <div class="end-input">
+                <label for="end" class="label-with-icon">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    Ngày Kết Thúc</label>
+                <input type="date" id="end" name="end" required>
             </div>
             <div class="status-input">
                 <label for="status" class="label-with-icon">
                     <ion-icon name="checkmark-circle-outline"></ion-icon>
                     Trạng Thái</label>
                 <select id="status" name="status" required>
-                    <option value="processing">Đang xử lý</option>
-                    <option value="delivered">Đã giao</option>
-                    <option value="cancelled">Đã hủy</option>
+                    <option value="Hoạt động">Hoạt động</option>
+                    <option value="Không hoạt động">Không hoạt động</option>
                 </select>
             </div>
             <div class="group-button-action section">
@@ -1011,7 +910,7 @@
         </form>
     </div>
 </div>
-<div class="modal-overlay-excel" id="excel-order-modal">
+<div class="modal-overlay-excel" id="excel-promotion-modal">
     <div class="modal-content-excel">
         <p>Thành công xuất ra file Excel</p>
         <button class="modal-close2" id="close-modal-btn5">
@@ -1019,7 +918,7 @@
         </button>
     </div>
 </div>
-<div class="modal-overlay-deleteAll" id="deleteAll-order-modal">
+<div class="modal-overlay-deleteAll" id="deleteAll-promotion-modal">
     <div class="modal-content-deleteAll">
         <div class="group-text-deleteAll">
             <p class="p-deleteAll1">Bạn có chắc chắn muốn xoá toàn bộ dữ liệu của các ô được chọn?</p>
@@ -1034,33 +933,43 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay-edit_information" id="edit_information-order-modal">
+<div class="modal-overlay-edit_information" id="edit_information-promotion-modal">
     <div class="modal-content-edit_information">
-        <h2>Bảng thông tin đơn hàng</h2>
-        <div class="edit-information-order">
-            <div class="orderId-section">
-                <label for="id">ID Đơn Hàng:</label>
-                <input type="text" id="id" name="id" value="DH001" placeholder="ID hiện không có">
+        <h2>Bảng thông tin khuyến mãi</h2>
+        <div class="edit-information-promotion">
+            <div class="id-section">
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" value="1" placeholder="ID hiện không có">
             </div>
-            <div class="customer-section">
-                <label for="customer">Khách Hàng</label>
-                <input type="text" id="customer" name="customer" value="Nguyễn Văn A" placeholder="Chưa có khách hàng"
-                       required>
+            <div class="code-section">
+                <label for="code_edit">Mã Giảm Giá</label>
+                <input type="text" id="code_edit" name="code_edit" value="SALE2025" placeholder="Chưa có mã" required>
             </div>
-            <div class="date-section">
-                <label for="date">Ngày Đặt</label>
-                <input type="date" id="date" name="date" value="2024-10-06" required>
+            <div class="type-section">
+                <label for="type_edit">Loại</label>
+                <select id="type_edit" name="type_edit" required>
+                    <option value="Phần trăm" selected>Phần trăm</option>
+                    <option value="Số tiền cố định">Số tiền cố định</option>
+                    <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
+                </select>
             </div>
-            <div class="total-section">
-                <label for="total">Tổng Tiền</label>
-                <input type="text" id="total" name="total" value="1.500.000đ" placeholder="Chưa có tổng tiền" required>
+            <div class="value-section">
+                <label for="value_edit">Giá Trị</label>
+                <input type="text" id="value_edit" name="value_edit" value="10%" placeholder="Chưa có giá trị" required>
+            </div>
+            <div class="start-section">
+                <label for="start_edit">Ngày Bắt Đầu</label>
+                <input type="date" id="start_edit" name="start_edit" value="2025-01-01" required>
+            </div>
+            <div class="end-section">
+                <label for="end_edit">Ngày Kết Thúc</label>
+                <input type="date" id="end_edit" name="end_edit" value="2025-12-31" required>
             </div>
             <div class="status-section">
-                <label for="statusSelect">Trạng Thái:</label>
-                <select id="statusSelect" required>
-                    <option value="processing">Đang xử lý</option>
-                    <option value="delivered">Đã giao</option>
-                    <option value="cancelled">Đã hủy</option>
+                <label for="status_edit">Trạng Thái</label>
+                <select id="status_edit" name="status_edit" required>
+                    <option value="Hoạt động" selected>Hoạt động</option>
+                    <option value="Không hoạt động">Không hoạt động</option>
                 </select>
             </div>
         </div>
@@ -1070,32 +979,43 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay-edit_information" id="edit_information-order-modal-2">
+<div class="modal-overlay-edit_information" id="edit_information-promotion-modal-2">
     <div class="modal-content-edit_information">
-        <h2>Bảng thông tin đơn hàng</h2>
-        <div class="edit-information-order">
-            <div class="orderId-section">
-                <label>ID Đơn Hàng:</label>
-                <input type="text" name="id" value="DH002" readonly>
+        <h2>Bảng thông tin khuyến mãi</h2>
+        <div class="edit-information-promotion">
+            <div class="id-section">
+                <label>ID:</label>
+                <input type="text" name="id" value="2" readonly>
             </div>
-            <div class="customer-section">
-                <label>Khách Hàng</label>
-                <input type="text" name="customer" value="Trần Thị B">
+            <div class="code-section">
+                <label>Mã Giảm Giá</label>
+                <input type="text" name="code_edit" value="FREESHIP">
             </div>
-            <div class="date-section">
-                <label>Ngày Đặt</label>
-                <input type="date" name="date" value="2019-08-03">
+            <div class="type-section">
+                <label>Loại</label>
+                <select name="type_edit">
+                    <option value="Miễn phí vận chuyển" selected>Miễn phí vận chuyển</option>
+                    <option value="Phần trăm">Phần trăm</option>
+                    <option value="Số tiền cố định">Số tiền cố định</option>
+                </select>
             </div>
-            <div class="total-section">
-                <label>Tổng Tiền</label>
-                <input type="text" name="total" value="2.300.000đ">
+            <div class="value-section">
+                <label>Giá Trị</label>
+                <input type="text" name="value_edit" value="0đ">
+            </div>
+            <div class="start-section">
+                <label>Ngày Bắt Đầu</label>
+                <input type="date" name="start_edit" value="2025-03-15">
+            </div>
+            <div class="end-section">
+                <label>Ngày Kết Thúc</label>
+                <input type="date" name="end_edit" value="2025-04-15">
             </div>
             <div class="status-section">
-                <label>Trạng Thái:</label>
-                <select>
-                    <option value="delivered" selected>Đã giao</option>
-                    <option value="processing">Đang xử lý</option>
-                    <option value="cancelled">Đã hủy</option>
+                <label>Trạng Thái</label>
+                <select name="status_edit">
+                    <option value="Hoạt động">Hoạt động</option>
+                    <option value="Không hoạt động" selected>Không hoạt động</option>
                 </select>
             </div>
         </div>
@@ -1105,32 +1025,43 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay-edit_information" id="edit_information-order-modal-3">
+<div class="modal-overlay-edit_information" id="edit_information-promotion-modal-3">
     <div class="modal-content-edit_information">
-        <h2>Bảng thông tin đơn hàng</h2>
-        <div class="edit-information-order">
-            <div class="orderId-section">
-                <label>ID Đơn Hàng:</label>
-                <input type="text" name="id" value="DH003" readonly>
+        <h2>Bảng thông tin khuyến mãi</h2>
+        <div class="edit-information-promotion">
+            <div class="id-section">
+                <label>ID:</label>
+                <input type="text" name="id" value="3" readonly>
             </div>
-            <div class="customer-section">
-                <label>Khách Hàng</label>
-                <input type="text" name="customer" value="Lê Văn C">
+            <div class="code-section">
+                <label>Mã Giảm Giá</label>
+                <input type="text" name="code_edit" value="SUMMER50">
             </div>
-            <div class="date-section">
-                <label>Ngày Đặt</label>
-                <input type="date" name="date" value="2019-08-15">
+            <div class="type-section">
+                <label>Loại</label>
+                <select name="type_edit">
+                    <option value="Số tiền cố định" selected>Số tiền cố định</option>
+                    <option value="Phần trăm">Phần trăm</option>
+                    <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
+                </select>
             </div>
-            <div class="total-section">
-                <label>Tổng Tiền</label>
-                <input type="text" name="total" value="850.000đ">
+            <div class="value-section">
+                <label>Giá Trị</label>
+                <input type="text" name="value_edit" value="50.000đ">
+            </div>
+            <div class="start-section">
+                <label>Ngày Bắt Đầu</label>
+                <input type="date" name="start_edit" value="2025-06-01">
+            </div>
+            <div class="end-section">
+                <label>Ngày Kết Thúc</label>
+                <input type="date" name="end_edit" value="2025-08-31">
             </div>
             <div class="status-section">
-                <label>Trạng Thái:</label>
-                <select>
-                    <option value="cancelled" selected>Đã hủy</option>
-                    <option value="processing">Đang xử lý</option>
-                    <option value="delivered">Đã giao</option>
+                <label>Trạng Thái</label>
+                <select name="status_edit">
+                    <option value="Hoạt động">Hoạt động</option>
+                    <option value="Không hoạt động" selected>Không hoạt động</option>
                 </select>
             </div>
         </div>
@@ -1141,82 +1072,7 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="orderDetailModal">
-    <button class="modal-close-outside" id="closeModal">
-        <ion-icon name="close-outline"></ion-icon>
-    </button>
-    <div class="modal-content">
-        <h2>Chi Tiết Đơn Hàng #DH001</h2>
-
-        <div class="section info">
-            <h3>Thông tin khách hàng</h3>
-            <p><strong>Họ và tên:</strong> Nguyễn Văn A</p>
-            <p><strong>Email:</strong> nguyenvan@example.com</p>
-            <p><strong>Điện thoại:</strong> 0987654321</p>
-            <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận 1, TP.HCM</p>
-            <p><strong>Hình thức thanh toán:</strong> Thanh toán khi nhận hàng</p>
-        </div>
-
-        <div class="section">
-            <h3>Sản phẩm</h3>
-            <table>
-                <thead>
-                <tr>
-                    <th>Hình ảnh</th>
-                    <th>Sản phẩm</th>
-                    <th>Số lượng</th>
-                    <th>Đơn giá</th>
-                    <th>Tổng</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><img class="product-img" src="img/SKU__VD_0926-22.png" alt="Rượu vang đỏ"></td>
-                    <td>Rượu vang đỏ cao cấp</td>
-                    <td>2</td>
-                    <td>1.200.000₫</td>
-                    <td>2.400.000₫</td>
-                </tr>
-                <tr>
-                    <td><img class="product-img" src="img/SKU__VD_0926-22.png" alt="Whisky cao cấp"></td>
-                    <td>Whisky cao cấp</td>
-                    <td>1</td>
-                    <td>1.500.000₫</td>
-                    <td>1.500.000₫</td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th colspan="4" style="text-align:right;">Tổng cộng:</th>
-                    <th>3.900.000₫</th>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <div class="section">
-            <h3>Trạng thái đơn hàng</h3>
-            <span class="status completed">Hoàn thành</span>
-
-            <div class="tracking-bar">
-                <div class="tracking-progress" style="width: 100%;"></div>
-                <div class="tracking-step active">
-                    <div class="step-dot"></div>
-                    <div class="step-label">Đang xử lý</div>
-                </div>
-                <div class="tracking-step active">
-                    <div class="step-dot"></div>
-                    <div class="step-label">Đang giao</div>
-                </div>
-                <div class="tracking-step active">
-                    <div class="step-dot"></div>
-                    <div class="step-label">Đã giao</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-notification" id="notification-order-modal">
+<div class="modal-overlay-notification" id="notification-promotion-modal">
     <div class="modal-content-notification">
         <div class="group-notification">
             <h2 class="notification-title">Thông báo</h2>
@@ -1230,7 +1086,8 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay-avatar" id="avatar-order-modal">
+
+<div class="modal-overlay-avatar" id="avatar-promotion-modal">
     <div class="modal-content-avatar">
         <button class="modal-close2" id="close-modal-btn9">
             <ion-icon name="close-outline"></ion-icon>
@@ -1251,39 +1108,21 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css"/>
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
-<script src="popup.js"></script>
+<script src="../popup.js"></script>
 <script>
     // Run Pop-up function
     document.addEventListener("DOMContentLoaded", function () {
-        setupModal('add-order-modal', 'open-modal-btn', 'close-modal-btn');
-        setupModal('excel-order-modal', 'excel-modal-btn', 'close-modal-btn5');
-        setupModal('deleteAll-order-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
-        setupModal('notification-order-modal', 'notification-modal-btn', 'close-modal-btn8');
-        setupModal('avatar-order-modal', 'avatar-modal-btn', 'close-modal-btn9');
-
-        // Setup view buttons for order details
-        const viewButtons = document.querySelectorAll('.view.btn');
-        const orderDetailModal = document.getElementById('orderDetailModal');
-        const closeModal = document.getElementById('closeModal');
-
-        viewButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                orderDetailModal.classList.add('show');
-            });
-        });
-
-        closeModal.addEventListener('click', () => {
-            orderDetailModal.classList.remove('show');
-        });
-
-        orderDetailModal.addEventListener('click', (e) => {
-            if (e.target === orderDetailModal) {
-                orderDetailModal.classList.remove('show');
-            }
-        });
+        setupModal('add-promotion-modal', 'open-modal-btn', 'close-modal-btn');
+        setupModal('excel-promotion-modal', 'excel-modal-btn', 'close-modal-btn5');
+        setupModal('deleteAll-promotion-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
+        setupModal('edit_information-promotion-modal', 'edit-modal-btn', 'close-modal-btn7');
+        setupModal('edit_information-promotion-modal-2', 'edit-modal-btn2', 'close-modal-btn-2');
+        setupModal('edit_information-promotion-modal-3', 'edit-modal-btn3', 'close-modal-btn-3');
+        setupModal('notification-promotion-modal', 'notification-modal-btn', 'close-modal-btn8');
+        setupModal('avatar-promotion-modal', 'avatar-modal-btn', 'close-modal-btn9');
 
         $(document).ready(function () {
-            $('#order-table-main').DataTable({
+            $('#promotion-table-main').DataTable({
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/2.3.5/i18n/vi.json',
                 },

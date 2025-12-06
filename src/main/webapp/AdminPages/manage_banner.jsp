@@ -6,40 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="popup.js"></script>
+    <script src="../popup.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
-    <link rel="stylesheet" href="css/manage_banner_style.css">
+    <link rel="stylesheet" href="../css/manage_banner_style.css">
 </head>
 
 <body>
 <div class="dashboard-container">
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
-            <div class="group-avatar"><img src="assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+            <div class="group-avatar"><img src="../assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.html" class="a-with-icon">
+            <li><a href="admin_dashboard.jsp" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
-            <li><a href="manage_product.html" class="a-with-icon">
+            <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.html" class="a-with-icon">
+            <li><a href="manage_accounts.jsp" class="a-with-icon">
                 <ion-icon name="people-outline"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="manage_orders.html" class="a-with-icon">
+            <li><a href="manage_orders.jsp" class="a-with-icon">
                 <ion-icon name="cart-outline"></ion-icon>
                 Quản Lí Đơn Hàng</a></li>
             <li><a href="#" class="a-with-icon selected">
                 <ion-icon name="albums"></ion-icon>
                 Quản Lí Banner</a></li>
-            <li><a href="manage_blog.html" class="a-with-icon">
+            <li><a href="manage_blog.jsp" class="a-with-icon">
                 <ion-icon name="reader-outline"></ion-icon>
                 Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="manage_promotions.html" class="a-with-icon">
+            <li><a href="manage_promotions.jsp" class="a-with-icon">
                 <ion-icon name="ticket-outline"></ion-icon>
                 Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="charts.html" class="a-with-icon">
+            <li><a href="charts.jsp" class="a-with-icon">
                 <ion-icon name="stats-chart-outline"></ion-icon>
                 Thống Kê</a></li>
         </ul>
@@ -87,7 +87,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
                         <td class="cell-id">MAIN_BANNER</td>
                         <td class="cell-img">
-                            <img class="banner-preview" src="assets/main_banner.jpg" alt="Banner Preview">
+                            <img class="banner-preview" src="../assets/main_banner.jpg" alt="Banner Preview">
                         </td>
                         <td class="cell-link">
                             <a href="#" title="/store?promo=sale11">/index.html</a>
@@ -109,7 +109,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
                         <td class="cell-id">BANNER_VANG_BORDEAUX</td>
                         <td class="cell-img">
-                            <img class="banner-preview" src="assets/banner-vang-bordeaux.jpg" alt="Banner Preview">
+                            <img class="banner-preview" src="../assets/banner-vang-bordeaux.jpg" alt="Banner Preview">
                         </td>
                         <td class="cell-link">
                             <a href="#" title="/store?category=new">/store?category=bordeaux</a>
@@ -131,7 +131,7 @@
                         <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
                         <td class="cell-id">BANNER_VANG_BOURGOGNE</td>
                         <td class="cell-img">
-                            <img class="banner-preview" src="assets/banner-vang-bourgogne.jpg" alt="Banner Preview">
+                            <img class="banner-preview" src="../assets/banner-vang-bourgogne.jpg" alt="Banner Preview">
                         </td>
                         <td class="cell-link">
                             <a href="#" title="/blog/post-1">/store?category=bourgogne</a>
