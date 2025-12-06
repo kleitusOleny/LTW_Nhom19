@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -885,10 +886,10 @@
             <li><a href="manage_banner.html" class="a-with-icon">
                 <ion-icon name="albums-outline"></ion-icon>
                 Quản Lí Banner</a></li>
-            <li><a href="manage_blog.html" class="a-with-icon">
+            <li><a href="manage_blog.jsp" class="a-with-icon">
                 <ion-icon name="reader-outline"></ion-icon>
                 Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="manage_promotions.html" class="a-with-icon">
+            <li><a href="manage_promotions.jsp" class="a-with-icon">
                 <ion-icon name="ticket-outline"></ion-icon>
                 Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
             <li><a href="charts.html" class="a-with-icon">

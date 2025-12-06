@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -242,8 +243,8 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="../blog.html">Blog</a></li>
-                    <li><a href="../about_us.html">About Us</a></li>
+                    <li><a href="../blog.jsp">Blog</a></li>
+                    <li><a href="../about_us.jsp">About Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -258,20 +259,20 @@
             </div>
             <hr>
             <ul class="nav-menu">
-                <li><a href="../infoUsers/info_user.html"><i class="fa-solid fa-user"></i> <span
+                <li><a href="info_user.jsp"><i class="fa-solid fa-user"></i> <span
                         data-lang-key="userInfo">Thông tin</span></a></li>
-                <li><a href="../infoUsers/addresses.html"><i class="fa-solid fa-location-dot"></i> <span
+                <li><a href="addresses.jsp"><i class="fa-solid fa-location-dot"></i> <span
                         data-lang-key="address">Địa chỉ</span></a></li>
-                <li><a href="../infoUsers/favorites.html"><i class="fa-solid fa-heart"></i> <span
+                <li><a href="favorites.jsp"><i class="fa-solid fa-heart"></i> <span
                         data-lang-key="viewHistory">Yêu thích</span></a></li>
-                <li><a href="../infoUsers/my_orders.html"><i class="fa-solid fa-box"></i> <span
+                <li><a href="my_orders.jsp"><i class="fa-solid fa-box"></i> <span
                         data-lang-key="myOrders">Đơn hàng của tôi</span></a></li>
-                <li><a href="../infoUsers/review_history.html"><i class="fa-solid fa-star"></i> <span
+                <li><a href="review_history.jsp"><i class="fa-solid fa-star"></i> <span
                         data-lang-key="reviewHistory">Lịch sử đánh giá</span></a></li>
                 <hr>
-                <li><a href="../infoUsers/settings.html"><i class="fa-solid fa-gear"></i> <span
+                <li><a href="settings.jsp"><i class="fa-solid fa-gear"></i> <span
                         data-lang-key="settings">Cài đặt</span></a></li>
-                <li><a href="../infoUsers/support.html"><i class="fa-solid fa-circle-question"></i> <span
+                <li><a href="support.jsp"><i class="fa-solid fa-circle-question"></i> <span
                         data-lang-key="support">Hỗ trợ</span></a></li>
                 <hr>
                 <li>

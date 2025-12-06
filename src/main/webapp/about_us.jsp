@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -110,7 +111,7 @@
             </div>
 
             <div class="header-right">
-                <a href="infoUsers/user_sidebar.html" aria-label="Account">
+                <a href="infoUsers/user_sidebar.jsp" aria-label="Account">
                     <i class="fas fa-user"></i>
                 </a>
                 <a href="Cart.html" class="cart-link" aria-label="Cart">
@@ -180,7 +181,7 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="blog.jsp">Blog</a></li>
                     <li><a href="about_us.html" class="active">About Us</a></li>
                 </ul>
             </nav>

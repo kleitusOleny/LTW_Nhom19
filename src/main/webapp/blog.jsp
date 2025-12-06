@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="vi">
 <head>
@@ -28,7 +29,7 @@
             </div>
 
             <div class="header-right">
-                <a href="infoUsers/user_sidebar.html" aria-label="Account">
+                <a href="infoUsers/user_sidebar.jsp" aria-label="Account">
                     <i class="fas fa-user"></i>
                 </a>
                 <a href="Cart.html" class="cart-link" aria-label="Cart">
@@ -99,7 +100,7 @@
                         </div>
                     </li>
                     <li><a href="blog.html" class="active">Blog</a></li>
-                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="about_us.jsp">About Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -142,7 +143,7 @@
                     <h3 class="title">Đánh giá Cabernet Sauvignon Chile 2018</h3>
                     <p class="excerpt">Mạnh mẽ, tannin mịn, phù hợp với thịt đỏ nướng. Điểm: 88/100.</p>
                     <div class="tags"><span class="tag">cabernet</span><span class="tag">review</span></div>
-                    <a class="readmore" href="blog_detail.html">Đọc tiếp</a>
+                    <a class="readmore" href="blog_detail.jsp">Đọc tiếp</a>
                 </div>
             </article>
 
@@ -155,7 +156,7 @@
                     <p class="excerpt">Bạn mới tập uống vang? Hướng dẫn chọn vang theo phong cách: ngọt, khô, nhẹ,
                         đậm.</p>
                     <div class="tags"><span class="tag">mua-hang</span><span class="tag">huong-dan</span></div>
-                    <a class="readmore" href="blog_detail.html">Đọc tiếp</a>
+                    <a class="readmore" href="blog_detail.jsp">Đọc tiếp</a>
                 </div>
             </article>
 
@@ -167,7 +168,7 @@
                     <h3 class="title">Pairing vang với phô mai Pháp</h3>
                     <p class="excerpt">Các loại phô mai mềm phù hợp với Pinot Noir, phô mai cứng hợp với Cabernet.</p>
                     <div class="tags"><span class="tag">cheese</span><span class="tag">pairing</span></div>
-                    <a class="readmore" href="blog_detail.html">Đọc tiếp</a>
+                    <a class="readmore" href="blog_detail.jsp">Đọc tiếp</a>
                 </div>
             </article>
 
@@ -180,7 +181,7 @@
                     <p class="excerpt">Cửa hàng flagship của chúng tôi khai trương với bộ sưu tập vang nhập khẩu đặc
                         sắc.</p>
                     <div class="tags"><span class="tag">su-kien</span><span class="tag">shop</span></div>
-                    <a class="readmore" href="blog_detail.html">Đọc tiếp</a>
+                    <a class="readmore" href="blog_detail.jsp">Đọc tiếp</a>
                 </div>
             </article>
 
