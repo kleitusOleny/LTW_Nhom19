@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="vi">
 <head>
@@ -30,7 +31,7 @@
                     Điều này thúc đẩy các nhà làm vang không ngừng sáng tạo và đổi mới để mang đến những sản phẩm tốt
                     nhất.
                 </p>
-                <a class="readmore" href="blog.html">Quay lại Blog</a>
+                <a class="readmore" href="blog.jsp">Quay lại Blog</a>
             </div>
         </article>
     </main>

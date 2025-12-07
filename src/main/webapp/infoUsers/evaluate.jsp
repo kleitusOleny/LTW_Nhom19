@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -223,8 +224,8 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="../blog.html">Blog</a></li>
-                    <li><a href="../about_us.html">About Us</a></li>
+                    <li><a href="../blog.jsp">Blog</a></li>
+                    <li><a href="../about_us.jsp">About Us</a></li>
                 </ul>
             </nav>
         </div>

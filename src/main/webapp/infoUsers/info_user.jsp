@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -156,11 +157,6 @@
         </div>
 
         <div class="field">
-            <i class="fa-solid fa-venus-mars left-icon"></i>
-            <span class="editable" data-key="gender" data-value="1">Nam</span>
-        </div>
-
-        <div class="field">
             <i class="fa-solid fa-calendar-days left-icon"></i>
             <span class="editable" data-key="dob">01/01/1990</span>
         </div>
@@ -229,12 +225,7 @@
 
                     let input;
 
-                    if (key === "gender") {
-                        input = document.createElement("select");
-                        input.add(new Option("Nam", "1"));
-                        input.add(new Option("Nữ", "0"));
-                        input.value = span.dataset.value;
-                    } else if (key === "password") {
+                    if (key === "password") {
                         input = document.createElement("input");
                         input.type = "password";
                         input.placeholder = "Nhập mật khẩu mới";
@@ -270,12 +261,9 @@
                     span.classList.add("editable");
                     span.dataset.key = key;
 
-                    if (key === "gender") {
-                        span.dataset.value = backup[key];
-                        span.textContent = backup[key] === "1" ? "Nam" : "Nữ";
-                    } else {
-                        span.textContent = backup[key];
-                    }
+
+                    span.textContent = backup[key];
+
 
                     input.replaceWith(span);
                 });

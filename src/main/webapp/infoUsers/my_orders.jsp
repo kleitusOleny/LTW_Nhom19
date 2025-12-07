@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -214,9 +215,9 @@
                 </div>
             </div>
             <div class="order-actions">
-                <button class="btn" onclick="location.href='../infoUsers/detail_order.html'">Xem chi tiết</button>
+                <button class="btn" onclick="location.href='detail_order.jsp'">Xem chi tiết</button>
                 <button class="btn">Mua lại</button>
-                <button class="btn" onclick="location.href='../infoUsers/evaluate.html'">Đánh giá</button>
+                <button class="btn" onclick="location.href='evaluate.jsp'">Đánh giá</button>
             </div>
         </div>
 
@@ -247,7 +248,7 @@
                 </div>
             </div>
             <div class="order-actions">
-                <button class="btn" onclick="location.href='../infoUsers/detail_order.html'">Xem chi tiết</button>
+                <button class="btn" onclick="location.href='detail_order.jsp'">Xem chi tiết</button>
                 <button class="btn">Mua lại</button>
             </div>
         </div>
@@ -262,7 +263,7 @@
                 <p><strong>Tổng tiền:</strong> 1.200.000₫</p>
             </div>
             <div class="order-actions">
-                <button class="btn" onclick="location.href='../infoUsers/detail_order.html'">Xem chi tiết</button>
+                <button class="btn" onclick="location.href='detail_order.jsp'">Xem chi tiết</button>
                 <button class="btn">Mua lại</button>
             </div>
         </div>

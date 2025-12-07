@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -36,6 +37,9 @@
     .review-card:hover {
         background-color: #f5f5f5;
         border-left-color: #c7a17a;
+    }
+    .star-rating .fa-star{
+        color: #f39c12;
     }
 
     .review-header {
