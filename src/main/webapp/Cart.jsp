@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -13,7 +14,7 @@
     <div class="header-top">
         <div class="container">
             <div class="header-logo">
-                <a href="index.html" class="logo">LOGO</a>
+                <a href="index.jsp" class="logo">LOGO</a>
             </div>
 
             <div class="header-right">
@@ -35,9 +36,9 @@
         <div class="container">
             <nav class="header-nav">
                 <ul>
-                    <li><a href="index.html" class="active">Trang Chủ</a></li>
+                    <li><a href="index.jsp" class="active">Trang Chủ</a></li>
                     <li class="has-dropdown">
-                        <a href="store.html">
+                        <a href="store.jsp">
                             Rượu Vang
                             <i class="fa-solid fa-caret-down"></i>
                         </a>
@@ -46,7 +47,7 @@
                                 <div class="mega-menu-column">
                                     <h4 class="mega-menu-title">Theo Loại Vang</h4>
                                     <ul class="mega-menu-list">
-                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Đỏ</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">Rượu Vang Đỏ</a></li>
                                         <li><a href="#" class="mega-menu-link">Rượu Vang Trắng</a></li>
                                         <li><a href="#" class="mega-menu-link">Rượu Vang Hồng</a></li>
                                         <li><a href="#" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>
@@ -124,12 +125,12 @@
                     <tr class="cart-item-row">
                         <td><input type="checkbox" class="select-product"></td>
                         <td class="cart-product-image">
-                            <a href="Detail.html">
+                            <a href="Detail.jsp">
                                 <img src="img/SKU__VD_0845-17.jpg" alt="Luce Brunello Di Montalcino">
                             </a>
                         </td>
                         <td class="cart-product-name">
-                            <a href="Detail.html">Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</a>
+                            <a href="Detail.jsp">Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</a>
                         </td>
                         <td class="cart-product-price">5.989.500₫</td>
                         <td class="cart-product-quantity">
@@ -176,7 +177,7 @@
                     </tbody>
                 </table>
                 <div class="cart-actions">
-                    <a href="store.html" class="btn btn-secondary">Tiếp tục xem sản phẩm</a>
+                    <a href="store.jsp" class="btn btn-secondary">Tiếp tục xem sản phẩm</a>
                     <button class="btn btn-danger" id="delete-selected">Xóa sản phẩm đã chọn</button>
                 </div>
             </div>

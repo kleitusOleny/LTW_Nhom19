@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -19,7 +20,7 @@
     <div class="header-top">
         <div class="container">
             <div class="header-logo">
-                <a href="index.html" class="logo">LOGO</a>
+                <a href="index.jsp" class="logo">LOGO</a>
             </div>
 
             <div class="header-center">
@@ -35,7 +36,7 @@
                 <a href="infoUsers/user_sidebar.jsp" aria-label="Account">
                     <i class="fas fa-user"></i>
                 </a>
-                <a href="Cart.html" class="cart-link" aria-label="Cart">
+                <a href="Cart.jsp" class="cart-link" aria-label="Cart">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="cart-count">0</span>
                 </a>
@@ -46,7 +47,7 @@
         <div class="container">
             <nav class="header-nav">
                 <ul>
-                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="index.jsp">Trang Chủ</a></li>
                     <li class="has-dropdown">
                         <a href="store.html" class="active">
                             Rượu Vang
@@ -277,7 +278,7 @@
             <div class="product-grid">
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_0834-14-1.5L.jpg"
                                  alt="Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L 2014">
                         </a>
@@ -286,7 +287,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L
                             2014</a></h3>
                         <div class="product-extra-details">
                             <ul>
@@ -310,7 +311,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_0845-17.jpg" alt="Rượu Vang Đỏ Luce Brunello Di Montalcino 2017">
                         </a>
                         <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
@@ -318,7 +319,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</a>
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</a>
                         </h3>
                         <div class="product-extra-details">
                             <ul>
@@ -342,7 +343,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_0883-09-3L.jpg"
                                  alt="Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3 Lít">
                         </a>
@@ -351,7 +352,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3
                             Lít</a></h3>
                         <div class="product-extra-details">
                             <ul>
@@ -375,7 +376,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_0883-14.jpg" alt="Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014">
                         </a>
                         <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
@@ -383,7 +384,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu Vang Đỏ Muga Prado Enea Gran Reserva
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Đỏ Muga Prado Enea Gran Reserva
                             2014</a></h3>
                         <div class="product-extra-details">
                             <ul>
@@ -407,7 +408,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_0926-22.png" alt="Rượu Vang Trắng Greywacke Pinot Noir 2022">
                         </a>
                         <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
@@ -415,7 +416,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu Vang Trắng Greywacke Pinot Noir 2022</a>
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Trắng Greywacke Pinot Noir 2022</a>
                         </h3>
                         <div class="product-extra-details">
                             <ul>
@@ -439,7 +440,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_0939.png"
                                  alt="Rượu vang sủi Freixenet Italian Rosé Sparkling Wine Extra Dry">
                         </a>
@@ -448,7 +449,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu vang sủi Freixenet Italian Rosé Sparkling
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang sủi Freixenet Italian Rosé Sparkling
                             Wine Extra Dry</a></h3>
                         <div class="product-extra-details">
                             <ul>
@@ -472,7 +473,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
                         </a>
                         <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
@@ -480,7 +481,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu vang hồng Dufouleur Monopole</a></h3>
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang hồng Dufouleur Monopole</a></h3>
                         <div class="product-extra-details">
                             <ul>
                                 <li><strong>Xuất xứ:</strong> Pháp</li>
@@ -503,7 +504,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_1185.png"
                                  alt="Rượu vang hồng Famille Perrin Côtes-du-Rhône Réserve, rose">
                         </a>
@@ -512,7 +513,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu vang hồng Famille Perrin Côtes-du-Rhône
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang hồng Famille Perrin Côtes-du-Rhône
                             Réserve, rose</a></h3>
                         <div class="product-extra-details">
                             <ul>
@@ -536,7 +537,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_1193-22.png"
                                  alt="Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022">
                         </a>
@@ -545,7 +546,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu vang đỏ Famille Perrin Les Sinards
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang đỏ Famille Perrin Les Sinards
                             Châteauneuf-Du-Pape Rouge 2022</a></h3>
                         <div class="product-extra-details">
                             <ul>
@@ -569,7 +570,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_1197.png" alt="Rượu vang hồng Studio By Miraval">
                         </a>
                         <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
@@ -577,7 +578,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu vang hồng Studio By Miraval</a></h3>
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang hồng Studio By Miraval</a></h3>
                         <div class="product-extra-details">
                             <ul>
                                 <li><strong>Xuất xứ:</strong> Pháp</li>
@@ -600,7 +601,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_1233.jpg" alt="Rượu Sâm Panh Champagne Ruinart Rosé">
                         </a>
                         <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
@@ -608,7 +609,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu Sâm Panh Champagne Ruinart Rosé</a></h3>
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu Sâm Panh Champagne Ruinart Rosé</a></h3>
                         <div class="product-extra-details">
                             <ul>
                                 <li><strong>Xuất xứ:</strong> Pháp</li>
@@ -631,7 +632,7 @@
 
                 <div class="product-card">
                     <div class="product-image">
-                        <a href="Detail.html">
+                        <a href="Detail.jsp">
                             <img src="img/SKU__VD_1274.png" alt="Rượu vang hồng Flor de Muga Rosé">
                         </a>
                         <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
@@ -639,7 +640,7 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.html">Rượu vang hồng Flor de Muga Rosé</a></h3>
+                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang hồng Flor de Muga Rosé</a></h3>
                         <div class="product-extra-details">
                             <ul>
                                 <li><strong>Xuất xứ:</strong> Tây Ban Nha</li>

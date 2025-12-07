@@ -51,7 +51,7 @@
                 <div id="social-remind">Chọn phương thức khác để đăng nhập:</div>
                 <img src="${pageContext.request.contextPath}/assets/google-icon.png">
             </div>
-            <a href="../index.html" id="backward">Quay Lại Trang Trước</a>
+            <a href="../index.jsp" id="backward">Quay Lại Trang Trước</a>
         </form>
     </div>
 </div>
