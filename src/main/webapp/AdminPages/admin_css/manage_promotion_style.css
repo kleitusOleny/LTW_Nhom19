@@ -1,0 +1,732 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Mulish, sans-serif, serif;
+}
+
+.dashboard-container {
+    display: grid;
+    min-height: 100vh;
+    grid-template-columns: 250px 1fr
+}
+
+.dashboard-sidebar {
+    background-color: #21232d;
+    position: relative;
+}
+
+.dashboard-content {
+    background-color: #f4f7fa;
+}
+
+.sidebar-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    list-style-type: none;
+    position: fixed;
+    top: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    width: 250px;
+}
+
+.group-avatar .user-avatar {
+    border-radius: 100%;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: 0.2s;
+}
+
+.group-avatar {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+}
+
+.user-avatar:hover {
+    border-color: #6341ff;
+}
+
+.icon-header {
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    bottom: -5px;
+    right: 5px;
+    margin-left: 0;
+    background-color: #3a3a3a;
+    border-radius: 50%;
+    padding: 6px;
+    border: 2px solid #1f1f1f;
+    line-height: 1;
+    transition: 0.3s ease;
+}
+
+.icon-header:hover {
+    color: #020202;
+    transform: scale(1.1);
+    background-color: #f8f8f8;
+}
+
+.a-with-icon {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 8px;
+    align-items: center;
+    width: 200px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.a-with-icon.selected, .a-with-icon:hover {
+    border-color: #6341ff;
+    background-color: #343746;
+    color: #ffffff;
+}
+
+.a-with-icon ion-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.text {
+    color: #decdcd;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 5px;
+    box-sizing: border-box;
+}
+
+.dashboard-main-content {
+    padding: 10px;
+    background-color: #f4f7fa;
+    flex-grow: 1;
+}
+
+.modal-content-avatar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    padding: 20px 20px 20px 10px;
+    gap: 8px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+    width: 90%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+}
+
+.btn-menu-item:hover {
+    border-color: #6341ff;
+    transform: scale(1.02);
+}
+
+.modal-close2 {
+    position: absolute;
+    top: 1px;
+    right: 0px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 20px;
+    padding: 4px;
+    line-height: 1;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modal-close2:hover {
+    color: #111;
+    background-color: #f0f0f0;
+}
+
+.btn-menu-item ion-icon {
+    font-size: 18px;
+    color: #555;
+    flex-shrink: 0;
+}
+
+.modal-overlay-notification, .modal-overlay-avatar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 250px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-content-notification {
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 20px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.modal-overlay-notification.show, .modal-overlay-avatar.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.group-notification {
+    display: flex;
+    flex-direction: row;
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transform: translateY(-10px)
+}
+
+.modal-close:hover {
+    background: #f2f2f2;
+}
+
+.modal-close:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.modal-close ion-icon {
+    font-size: 22px;
+    color: #333;
+    pointer-events: none;
+}
+
+.notification-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+}
+
+.notification-empty-state {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: #888;
+    padding: 30px 0;
+}
+
+.notification-empty-state ion-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.notification-empty-state p {
+    font-size: 1rem;
+    text-align: center;
+    margin: 0;
+}
+
+/* ------*/
+.table-container {
+    margin-top: 10px;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.promotion-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9em;
+    background-color: white;
+    color: #333;
+}
+
+.promotion-table th,
+.promotion-table td {
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.promotion-table th {
+    padding: 10px 14px;
+}
+
+.promotion-table td {
+    padding: 5px 5px;
+}
+
+.cell-tick input {
+    margin-left: 20px;
+}
+
+.promotion-table thead .sample {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+}
+
+.promotion-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.promotion-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.promotion-table .col-tick {
+    width: 1%;
+}
+
+.promotion-table .col-id {
+    width: 10%;
+}
+
+.promotion-table .col-code {
+    width: 15%;
+}
+
+.promotion-table .col-type {
+    width: 15%;
+}
+
+.promotion-table .col-value {
+    width: 10%;
+}
+
+.promotion-table .col-start {
+    width: 15%;
+}
+
+.promotion-table .col-end {
+    width: 15%;
+}
+
+.promotion-table .col-status {
+    width: 10%;
+}
+
+.promotion-table .col-action {
+    width: 10%;
+}
+
+.promotion-table .col-action {
+    width: 12%;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+.cell-action .btn {
+    border-radius: 5px;
+    height: 30px;
+    cursor: pointer;
+    border: solid 2px #ccc;
+}
+
+.cell-action .delete, .cell-action .edit {
+    width: 50px;
+}
+
+.cell-action .btn:hover {
+    border-color: #6341ff;
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+
+/* ---*/
+.button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.button-group .button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.func-group {
+    display: flex;
+    flex-direction: row;
+}
+
+.button-group .del:hover {
+    background-color: #bb2c3b;
+}
+
+.add, .excel, .del {
+    margin-left: 10px;
+    color: #fff;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    gap: 5px;
+    font-weight: bold;
+}
+
+.button-group .add:hover {
+    background-color: #0663dc;
+}
+
+.del {
+    margin-left: 0;
+    background-color: #dc3545;
+}
+
+.add {
+    background-color: #0872fa;
+}
+
+.excel {
+    background-color: #108814;
+}
+
+.type-needCss {
+    font-size: 20px;
+}
+
+.button-group .excel:hover {
+    background-color: #0c670f;
+}
+
+.modal-overlay,
+.modal-overlay-excel,
+.modal-overlay-deleteAll,
+.modal-overlay-edit_information {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Phần trượt popup */
+.modal-overlay-excel {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 5vh;
+
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Phần fadein popup */
+.modal-overlay,
+.modal-overlay-deleteAll,
+.modal-overlay-edit_information {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-overlay.show,
+.modal-overlay-excel.show,
+.modal-overlay-deleteAll.show,
+.modal-overlay-edit_information.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content,
+.modal-content-deleteAll,
+.modal-content-edit_information {
+    background-color: white;
+    border-radius: 12px;
+    gap: 25px;
+    padding: 2.5rem 3rem;
+    width: 25rem;
+}
+
+.modal-content-deleteAll {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    gap: 20px;
+}
+
+.modal-content-excel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 250px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #eee;
+    transform: translateY(-50px);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.modal-overlay-excel.show .modal-content-excel {
+    transform: translateY(-25px);
+}
+
+.modal-content-refresh p, .modal-overlay-excel p {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.modal-content-deleteAll p {
+    font-size: 1.2rem;
+    text-align: center;
+    color: red;
+}
+
+.sort-option label {
+    cursor: pointer;
+}
+
+#add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.code-input, .type-input, .value-input, .start-input, .end-input, .status-input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 90%;
+}
+
+.code-input label, .type-input label, .value-input label, .start-input label, .end-input label, .status-input label, .text-filter-group label, .edit-information-promotion label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #555;
+    width: 200px;
+    margin-top: 5px;
+}
+
+.code-input input, .type-input select, .value-input input, .start-input input, .end-input input, .status-input select, #text-filter, .edit-information-promotion input, .edit-information-promotion select {
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.code-input input, .value-input input {
+    padding: 12px 15px;
+}
+
+.edit-information-promotion input, .edit-information-promotion select {
+    padding: 6px 6px;
+}
+
+.code-input input, .value-input input {
+    width: 100%;
+}
+
+.type-input select, .status-input select {
+    width: 100%;
+    padding: 12px 15px;
+}
+
+.code-input input:focus, .type-input select:focus, .value-input input:focus, .start-input input:focus, .end-input input:focus, .status-input select:focus, #text-filter:focus, .edit-information-promotion input:focus, .edit-information-promotion select:focus {
+    border-color: #6341ff;
+    outline: none;
+}
+
+.label-with-icon {
+    display: flex;
+    gap: 3px;
+}
+
+.group-button-action {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+}
+
+.group-button-action.section {
+    margin-top: 10px;
+}
+
+.element-button, .deleteAll-button {
+    width: 100px;
+    padding: 14px 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cancel {
+    width: 70px;
+}
+
+.deleteAll-button {
+    width: 150px;
+}
+
+.add-btn, .fix-btn {
+    background: #08c249;
+}
+
+.add-btn:hover, .fix-btn:hover {
+    background: #06a13d;
+}
+
+.deleteAll-button {
+    background: #e80f0f;
+}
+
+.cancel, .delete-all .element-button {
+    background: #9daab4;
+}
+
+.cancel:hover, .delete-all .element-button:hover {
+    background: #8e96a4;
+}
+
+.deleteAll-button:hover {
+    background: #c70d0d;
+}
+
+.edit-information-promotion {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-information-promotion div:not(.active-section):not(:first-child) {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.edit-information-promotion .code-section {
+    margin-top: 5px;
+}
+
+.edit-information-promotion .active-section {
+    margin-top: 10px;
+}
+
+#activeSelect {
+    border-radius: 5px;
+}
+
+.edit-information-promotion .create_promotion-section {
+    margin-bottom: 10px;
+}
+
+.modal-content-edit_information h2 {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.group-text-deleteAll {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.group-text-deleteAll .p-deleteAll1 {
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+.group-text-deleteAll .icon-warning {
+    font-size: 16px;
+}
+
+.group-text-deleteAll .p-deleteAll2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* datatable css only */
+.dt-search .dt-input {
+    border: 2px solid transparent;
+    border-radius: 10px;
+    outline: none;
+}
+
+.dt-search .dt-input:focus {
+    border-color: #6341ff;
+}
+
+table.dataTable > tbody > tr > td {
+    padding: 5px 5px 5px 8px !important;
+}
