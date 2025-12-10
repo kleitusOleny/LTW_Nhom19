@@ -1,40 +1,28 @@
 package model;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class User {
-    private String user_id;
+    private int id;
     private String email;
-    private String username;
-    private String password_hash;
-    private String phone_number;
+    private String userName;
+    private String passwordHash;
+    private String phoneNumber;
     private int administrator;
     private int active;
-    private String created_at;
+    private Timestamp createdAt;
 
     public User() {
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_id='" + user_id + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", password_hash='" + password_hash + '\'' +
-                ", phone_number='" + phone_number + '\'' +
-                ", administrator=" + administrator +
-                ", active=" + active +
-                ", created_at='" + created_at + '\'' +
-                '}';
+    public int getId() {
+        return id;
     }
 
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -45,28 +33,28 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getPassword_hash() {
-        return password_hash;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword_hash(String password_hash) {
-        this.password_hash = password_hash;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public int getAdministrator() {
@@ -85,11 +73,25 @@ public class User {
         this.active = active;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + userName + '\'' +
+                ", password_hash='" + passwordHash + '\'' +
+                ", phone_number='" + phoneNumber + '\'' +
+                ", administrator=" + administrator +
+                ", active=" + active +
+                ", created_at='" + createdAt + '\'' +
+                '}';
     }
 }
