@@ -12,6 +12,16 @@ public class User {
     private String phoneNumber;
     private int administrator;
     private int active;
+    private Timestamp birthDay;
+
+    public Timestamp getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Timestamp birthDay) {
+        this.birthDay = birthDay;
+    }
+
     private Timestamp createdAt;
 
     public User() {
