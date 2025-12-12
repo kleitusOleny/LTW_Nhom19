@@ -3,7 +3,7 @@ package model;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class CT_Evaluates {
+public class CTEvaluates {
     private int id;
     private String content;
     private String img;
@@ -12,7 +12,7 @@ public class CT_Evaluates {
     private Timestamp updateAt;
     private boolean isDelete;
 
-    public CT_Evaluates() {
+    public CTEvaluates() {
     }
 
     public int getId() {
