@@ -17,7 +17,7 @@
     <div class="header-top">
         <div class="container">
             <div class="header-logo">
-                <a href="index.html" class="logo">LOGO</a>
+                <a href="index.jsp" class="logo">LOGO</a>
             </div>
 
             <div class="header-center">
@@ -33,7 +33,7 @@
                 <a href="infoUsers/user_sidebar.jsp" aria-label="Account">
                     <i class="fas fa-user"></i>
                 </a>
-                <a href="Cart.html" class="cart-link" aria-label="Cart">
+                <a href="Cart.jsp" class="cart-link" aria-label="Cart">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="cart-count">0</span>
                 </a>
@@ -44,9 +44,9 @@
         <div class="container">
             <nav class="header-nav">
                 <ul>
-                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="index.jsp">Trang Chủ</a></li>
                     <li class="has-dropdown">
-                        <a href="store.html">
+                        <a href="store.jsp">
                             Rượu Vang
                             <i class="fa-solid fa-caret-down"></i>
                         </a>
@@ -55,24 +55,24 @@
                                 <div class="mega-menu-column">
                                     <h4 class="mega-menu-title">Theo Loại Vang</h4>
                                     <ul class="mega-menu-list">
-                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Đỏ</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Trắng</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Hồng</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">Rượu Vang Ngọt</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">Cognac & Rượu Mạnh</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">Rượu Vang Đỏ</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">Rượu Vang Trắng</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">Rượu Vang Hồng</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">Rượu Vang Ngọt</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">Cognac & Rượu Mạnh</a></li>
                                     </ul>
                                 </div>
 
                                 <div class="mega-menu-column">
                                     <h4 class="mega-menu-title">Nhãn Hàng Nổi Bật</h4>
                                     <ul class="mega-menu-list">
-                                        <li><a href="store.html" class="mega-menu-link">CHÂTEAU CORBIN</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">TENUTA LUCE</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">MAISON LOUIS LATOUR</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">Domaine Faiveley</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">BODEGAS MUGA</a></li>
-                                        <li><a href="store.html" class="mega-menu-link">CHAMPAGNE RUINART</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">CHÂTEAU CORBIN</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">TENUTA LUCE</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">MAISON LOUIS LATOUR</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">Domaine Faiveley</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">BODEGAS MUGA</a></li>
+                                        <li><a href="store.jsp" class="mega-menu-link">CHAMPAGNE RUINART</a></li>
                                     </ul>
                                 </div>
 
