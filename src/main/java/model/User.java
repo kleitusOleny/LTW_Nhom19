@@ -7,7 +7,7 @@ import java.util.Date;
 public class User {
     private int id;
     private String email;
-    private String userName;
+    private String username;
     private String passwordHash;
     private String phoneNumber;
     private int administrator;
@@ -43,12 +43,12 @@ public class User {
         this.email = email;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPasswordHash() {
@@ -96,7 +96,7 @@ public class User {
         return "User{" +
                 "user_id='" + id + '\'' +
                 ", email='" + email + '\'' +
-                ", username='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", password_hash='" + passwordHash + '\'' +
                 ", phone_number='" + phoneNumber + '\'' +
                 ", administrator=" + administrator +
