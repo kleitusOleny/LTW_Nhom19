@@ -1,11 +1,10 @@
 package dao;
 
-import dao.Interface.IUserDAO;
 import model.User;
 
 import java.util.List;
 
-public class UserDAO extends ADAO implements IUserDAO {
+public class UserDAO extends ADAO implements IDAO<User> {
     @Override
     public List<User> getAll() {
         return jdbi.withHandle(handle -> handle.createQuery("""
@@ -26,8 +25,9 @@ public class UserDAO extends ADAO implements IUserDAO {
     }
 
     @Override
-    public User findById(User id) {
-        throw new UnsupportedOperationException("Chưa hỗ trợ");
+    public User findById(User entity) {
+        return jdbi.withHandle(handle -> handle.createQuery("select * from users where id=:id"))
+                .bind("id", entity.getId()).mapToBean(User.class).findFirst().orElse(null);
     }
 
     @Override
@@ -57,7 +57,6 @@ public class UserDAO extends ADAO implements IUserDAO {
                         email=:email,
                         phone_number=:phone_number,
                         birth_day=:birth_day,
-                        password_hash=:password_hash,
                         active=:active
                        \sWHERE user_id=:user_id""")
                 .bind("user_id", entity.getId())
@@ -65,7 +64,6 @@ public class UserDAO extends ADAO implements IUserDAO {
                 .bind("email", entity.getEmail())
                 .bind("phone_number", entity.getPhoneNumber())
                 .bind("birth_day", entity.getBirthDay())
-                .bind("password_hash", entity.getPasswordHash())
                 .bind("active", entity.getActive())
                 .execute() > 0);
     }
@@ -85,7 +83,7 @@ public class UserDAO extends ADAO implements IUserDAO {
         throw new UnsupportedOperationException("Chưa hỗ trợ");
     }
 
-    @Override
+
     public boolean updateActiveStatus(User entity) {
         return jdbi.withHandle(handle -> handle.createUpdate("""
                 UPDATE users
@@ -97,19 +95,16 @@ public class UserDAO extends ADAO implements IUserDAO {
                 .execute() > 0);
     }
 
-    @Override
     public User findByEmail(String email) {
         return jdbi.withHandle(handle -> handle.createQuery("select * from users where email=:email and active=:true"))
                 .bind("email", email).mapToBean(User.class).findFirst().orElse(null);
     }
 
-    @Override
     public User findByUsername(String username) {
         return jdbi.withHandle(handle -> handle.createQuery("select * from users where username=:username and active=:true"))
                 .bind("username", username).mapToBean(User.class).findFirst().orElse(null);
     }
 
-    @Override
     public boolean updatePassword(String email, String newPasswordHashed) {
         return jdbi.withHandle(handle -> handle.createUpdate("""
                         update users set password_hash =:passwordHash where email=:email""")
@@ -117,7 +112,6 @@ public class UserDAO extends ADAO implements IUserDAO {
                 .bind("email", email).execute() > 0);
     }
 
-    @Override
     public int countUserId(String email) {
         return jdbi.withHandle(handle -> handle.createQuery("select count(id) from users where email =:email"))
                 .bind("email", email).mapTo(Integer.class).findOnly();
