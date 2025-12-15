@@ -34,17 +34,19 @@ public class UserDAO extends ADAO implements IDAO<User> {
     public boolean create(User entity) {
         return jdbi.withHandle(handle -> handle.createUpdate("""
                 INSERT INTO users\s
-                (email, username, password_hash, phone_number, administrator, active, birth_day)
+                (email, username, password_hash, phone_number, full_name, birth_day, administrator, active, create_at)
                 VALUES\s
-                (:email, :username, :passwordHash, :phoneNumber, :administrator, :active, :birthDay)
+                (:email, :username, :passwordHash, :phoneNumber, :fullName, :birthDay, :administrator, :active, :createAt)
                \s""")
                 .bind("email", entity.getEmail())
                 .bind("username", entity.getUsername())
                 .bind("passwordHash", entity.getPasswordHash())
                 .bind("phoneNumber", entity.getPhoneNumber())
+                .bind("fullName", entity.getFullName())
+                .bind("birthDay", entity.getBirthDay())
                 .bind("administrator", entity.getAdministrator())
                 .bind("active", entity.getActive())
-                .bind("birthDay", entity.getBirthDay())
+                .bind("createAt", entity.getCreatedAt())
                 .execute() > 0);
     }
 

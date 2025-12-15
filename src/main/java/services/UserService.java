@@ -4,6 +4,8 @@ import dao.UserDAO;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.sql.Timestamp;
+
 public class UserService {
     private final UserDAO userDAO = new UserDAO();
 
@@ -44,13 +46,15 @@ public class UserService {
         String plainPass = newUser.getPasswordHash();
         String hashedPass = BCrypt.hashpw(plainPass, BCrypt.gensalt(12));
 
-        newUser.setPasswordHash(hashedPass);
         newUser.setEmail(newUser.getEmail());
         newUser.setUsername(null);
+        newUser.setPasswordHash(hashedPass);
         newUser.setPhoneNumber("");
+        newUser.setFullName("");
+        newUser.setBirthDay(null);
         newUser.setAdministrator(0);
         newUser.setActive(1);
-        newUser.setBirthDay(null);
+        newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         return userDAO.create(newUser);
     }

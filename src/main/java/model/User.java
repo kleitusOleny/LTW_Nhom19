@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -10,19 +11,36 @@ public class User {
     private String username;
     private String passwordHash;
     private String phoneNumber;
+    private String fullName;
+    private Date birthDay;
     private int administrator;
     private int active;
-    private Timestamp birthDay;
+    private Timestamp createdAt;
+    private Timestamp updateAt;
 
-    public Timestamp getBirthDay() {
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Timestamp getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public Date getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Timestamp birthDay) {
+    public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
     }
-
-    private Timestamp createdAt;
 
     public User() {
     }
