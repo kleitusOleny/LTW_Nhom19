@@ -1,59 +1,42 @@
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Detail</title>
-    <style>
-
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <title>${product.productName} | Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <link rel="stylesheet" href="css/detail_style.css">
 </head>
 <body>
 <%@ include file="components/header.jsp" %>
 <main>
     <div class="product-detail-container">
-
         <div class="detail-grid-container">
-
             <div class="product-gallery-column">
                 <div class="main-image-container">
-                    <img src="img/SKU__VD_0845-17.jpg" alt="Tên sản phẩm chính" id="main-product-image">
+                    <img src="https://via.placeholder.com/500x700?text=Wine" alt="${product.productName}" id="main-product-image">
                 </div>
             </div>
 
             <div class="product-info-column">
-
-                <h1 class="product-detail-title">Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</h1>
+                <h1 class="product-detail-title">${product.productName}</h1>
 
                 <ul class="product-specs-list">
-                    <li>
-                        <span>Xuất xứ:</span>
-                        <strong>Ý</strong>
-                    </li>
-                    <li>
-                        <span>Loại rượu:</span>
-                        <strong>Rượu Vang Đỏ</strong>
-                    </li>
-                    <li>
-                        <span>Nồng độ:</span>
-                        <strong>15.0%</strong>
-                    </li>
-                    <li>
-                        <span>Dung tích:</span>
-                        <strong>750ML</strong>
-                    </li>
-                    <li>
-                        <span>Nhà sản xuất:</span>
-                        <strong>TENUTA LUCE</strong>
-                    </li>
+                    <li><span>Xuất xứ:</span> <strong>${product.origin}</strong></li>
+                    <li><span>Loại rượu:</span> <strong>${product.typeId}</strong></li>
+                    <li><span>Nồng độ:</span> <strong>${product.alcohol}%</strong></li>
+                    <li><span>Dung tích:</span> <strong>${product.capacity}</strong></li>
+                    <li><span>Nhà sản xuất:</span> <strong>${product.manufacturerId}</strong></li>
                 </ul>
 
                 <div class="product-detail-price">
-                    <p>5.989.500 VNĐ</p>
+                    <p>
+                        <fmt:setLocale value="vi_VN"/>
+                        <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="VNĐ" maxFractionDigits="0"/>
+                    </p>
                 </div>
 
                 <div class="product-actions-container">
@@ -62,293 +45,135 @@
                         <input type="number" id="product-quantity" value="1" min="1">
                         <button class="quantity-btn" id="increase-qty">+</button>
                     </div>
-
-                    <button class="btn btn-primary add-to-cart-detail">Thêm vào giỏ hàng</button>
+                    <a href="AddToCartServlet?id=${product.id}&quantity=1" id="add-to-cart-link" class="btn btn-primary add-to-cart-detail">
+                        Thêm vào giỏ hàng
+                    </a>
                 </div>
 
-                <button class="btn btn-secondary buy-now-detail" onclick="window.location.href='payment.html'">Mua
-                    ngay
-                </button>
+                <button class="btn btn-secondary buy-now-detail">Mua ngay</button>
 
                 <div class="product-meta">
                     <div class="meta-item">
-                        <strong>SKU:</strong>
-                        <span>VD/0845-17</span>
+                        <strong>Mã SP:</strong> <span>${product.id}</span>
                     </div>
                     <div class="meta-item">
-                        <strong>Categories:</strong>
-                        <span><a href="#">Brunello Di Montalcino</a>, <a href="#">Rượu Vang Nhập Khẩu</a>, <a href="#">Rượu Vang Ý</a>, <a
-                                href="#">Tuscany</a></span>
-                    </div>
-                    <div class="meta-item">
-                        <strong>Tag:</strong>
-                        <span>(Không có)</span>
+                        <strong>Danh mục:</strong> <span>${product.categoryId}</span>
                     </div>
                 </div>
             </div>
-            <div class="product-service-column">
-                <div class="service-widget">
-                    <h4 class="service-widget-title">Cần tư vấn?</h4>
-                    <p class="service-widget-text">Gọi ngay cho chúng tôi để được hỗ trợ nhanh nhất!</p>
 
-                    <a href="tel:012345678" class="service-contact-link">
-                        <i class="fa-solid fa-phone"></i>
-                        <span>037 420 5336</span>
-                    </a>
+                <div class="product-service-column">
+                    <div class="service-widget">
+                        <h4 class="service-widget-title">Cần tư vấn?</h4>
+                        <p class="service-widget-text">Gọi ngay cho chúng tôi để được hỗ trợ nhanh nhất!</p>
 
-                    <a href="#" class="service-contact-link"> <i class="fa-solid fa-comment-dots"></i>
-                        <span>Tư vấn qua Zalo</span>
-                    </a>
+                        <a href="tel:012345678" class="service-contact-link">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>037 420 5336</span>
+                        </a>
+
+                        <a href="#" class="service-contact-link"> <i class="fa-solid fa-comment-dots"></i>
+                            <span>Tư vấn qua Zalo</span>
+                        </a>
+                    </div>
+
+                    <div class="service-widget">
+                        <h4 class="service-widget-title">Cam kết dịch vụ</h4>
+                        <ul class="service-list">
+                            <li>
+                                <i class="fa-solid fa-truck-fast"></i>
+                                <span>Giao hàng nhanh 2H tại TP.HCM.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>Cam kết 100% sản phẩm chính hãng.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-box-open"></i>
+                                <span>Đổi trả dễ dàng trong vòng 7 ngày.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-wine-glass"></i>
+                                <span>Tư vấn & thử rượu miễn phí tại cửa hàng.</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-
-                <div class="service-widget">
-                    <h4 class="service-widget-title">Cam kết dịch vụ</h4>
-                    <ul class="service-list">
-                        <li>
-                            <i class="fa-solid fa-truck-fast"></i>
-                            <span>Giao hàng nhanh 2H tại TP.HCM.</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-shield-halved"></i>
-                            <span>Cam kết 100% sản phẩm chính hãng.</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-box-open"></i>
-                            <span>Đổi trả dễ dàng trong vòng 7 ngày.</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-wine-glass"></i>
-                            <span>Tư vấn & thử rượu miễn phí tại cửa hàng.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
         </div>
     </div>
+
     <div class="product-tabs-container">
         <div class="tab-nav">
             <button class="tab-link active" data-tab="tab-description">Mô tả</button>
-            <button class="tab-link" data-tab="tab-reviews">Đánh giá (1)</button>
+            <button class="tab-link" data-tab="tab-reviews">Đánh giá</button>
         </div>
-
         <div class="tab-content-container">
-
             <div class="tab-content active" id="tab-description">
-                <h3>Quy trình sản xuất rượu vang Luce Brunello Di Montalcino</h3>
-                <p>Tại trung tâm nhà máy của Tenuta Luce, từng nhịp đập trái tim đều ghi dấu những khoảnh
-                    khắc con người trao sức sống vào trong từng làn rượu.Đối với những nhà làm vang
-                    Luce, hầm rượu là nơi vật chất phát triển và biến đổi, là nơi mà thời gian thuộc về dòng chảy của
-                    rượu
-                    vang. Trong vụ thu hoạch, những trái nho đạt điều kiện chín lý tưởng được chuyển
-                    đến hầm từ khắp các vườn nho. </p>
-                <p>Giai đoạn vận chuyển cũng được chú trọng bởi sự tôn trọng dành cho sự nguyên vẹn của trái
-                    nho. Việc lựa chọn nho được thực hiện sau quá trình lên men với các loại men bản
-                    địa và ép mềm. Sau đó là thời gian để chờ đợi. </p>
-                <p>Hàng tuần, hàng tháng, hàng năm trôi qua chậm rãi trong phòng ủ rượu trong khi rượu được
-                    nghỉ ngơi và phát triển thành hương vị phức hợp của riêng nó. Con người lúc này
-                    trở thành một người kết nối với những gì thiên nhiên đã ban tặng, trong quá trình không ngừng tìm
-                    kiếm
-                    sự cân bằng và phát triển trong Hầm rượu. Biết chờ đợi là một nghệ thuật. Chính triết lý làm vang tỉ
-                    mỉ, kiên nhẫn đã giúp Tenuta Luce tạo nên những dòng rượu vang
-                    đẳng cấp, được giới mộ điệu săn đón.</p>
+                <h3>Chi tiết sản phẩm</h3>
+                <p><c:out value="${product.detail}" escapeXml="false" default="Đang cập nhật..."/></p>
             </div>
 
             <div class="tab-content" id="tab-reviews">
-
-                <div class="review-list">
-                    <h3 class="reviews-title">1 đánh giá cho "Rượu Vang Đỏ Luce Brunello Di Montalcino 2017"</h3>
-
-                    <div class="review-item">
-                        <div class="review-avatar">
-                            <img src="https://placehold.co/60x60/eee/aaa?text=User" alt="Avatar">
-                        </div>
-                        <div class="review-content">
-                            <div class="review-rating-stars">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <h4 class="review-author">Nguyễn Phú Vinh
-                                <span class="review-date"> - 28 Tháng 10, 2025</span>
-                            </h4>
-                            <p class="review-comment">Sản phẩm tuyệt vời, đóng gói cẩn thận, giao hàng nhanh. Sẽ ủng hộ
-                                shop!</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="review-form-container">
-                    <h3 class="review-form-title">Thêm đánh giá của bạn</h3>
-                    <p class="review-form-note">Email của bạn sẽ không được hiển thị công khai. Các trường bắt buộc được
-                        đánh dấu *</p>
-
-                    <form action="#" class="review-form">
-                        <div class="form-group-row">
-                            <div class="form-group">
-                                <label for="review_author">Tên *</label>
-                                <input type="text" id="review_author" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="review_email">Email *</label>
-                                <input type="email" id="review_email" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="product-rating">
-                            <label>Đánh giá sản phẩm *</label>
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i
-                                class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-                        </div>
-                        <div class="form-group">
-                            <label for="review_comment">Bình luận của bạn *</label>
-                            <textarea id="review_comment" class="form-control" rows="5" required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" style="height: auto; margin-top: 10px;">Gửi đi
-                        </button>
-                    </form>
-                </div>
-
+                <p>Chưa có đánh giá nào về sản phẩm</p>
             </div>
-
         </div>
-
-
     </div>
+
     <section class="related-products-section">
-
         <h2 class="section-title">Các Sản Phẩm Khác</h2>
-
         <div class="product-grid related-grid">
-
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="#">
-                        <img src="img/SKU__VD_0883-14.jpg" alt="Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014">
-                    </a>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name"><a href="#">Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014</a></h3>
-                    <div class="product-extra-details">
-                        <ul>
-                            <li><strong>Xuất xứ:</strong> Tây Ban Nha</li>
-                            <li><strong>Loại:</strong> Vang Đỏ</li>
-                        </ul>
+            <c:forEach var="r" items="${relatedProducts}">
+                <div class="product-card">
+                    <div class="product-image">
+                        <a href="detail?id=${r.id}">
+                            <img src="https://via.placeholder.com/300x400?text=Wine" alt="${r.productName}">
+                        </a>
                     </div>
-                    <p class="product-producer">Nhà sản xuất: BODEGAS MUGA</p>
-                    <div class="product-rating">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                    <div class="product-info">
+                        <h3 class="product-name"><a href="detail?id=${r.id}">${r.productName}</a></h3>
+                        <p class="product-price">
+                            <fmt:formatNumber value="${r.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                        </p>
+                        <a href="AddToCartServlet?id=${r.id}" class="add-to-cart-btn">Thêm vào giỏ</a>
                     </div>
-                    <p class="product-price">2.783.000₫</p>
-                    <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
                 </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="#">
-                        <img src="img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
-                    </a>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name"><a href="#">Rượu vang hồng Dufouleur Monopole</a></h3>
-                    <div class="product-extra-details">
-                        <ul>
-                            <li><strong>Xuất xứ:</strong> Pháp</li>
-                            <li><strong>Loại:</strong> Vang Hồng</li>
-                        </ul>
-                    </div>
-                    <p class="product-producer">Nhà sản xuất: Maison Dufouleur...</p>
-                    <div class="product-rating">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-                    </div>
-                    <p class="product-price">351.000₫</p>
-                    <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="#">
-                        <img src="img/SKU__VD_1197.png" alt="Rượu vang hồng Studio By Miraval">
-                    </a>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name"><a href="#">Rượu vang hồng Studio By Miraval</a></h3>
-                    <div class="product-extra-details">
-                        <ul>
-                            <li><strong>Xuất xứ:</strong> Pháp</li>
-                            <li><strong>Loại:</strong> Vang Hồng</li>
-                        </ul>
-                    </div>
-                    <p class="product-producer">Nhà sản xuất: Château Miraval</p>
-                    <div class="product-rating">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
-                    </div>
-                    <p class="product-price">750.000₫</p>
-                    <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="#">
-                        <img src="img/SKU__VD_1306.png" alt="Rượu Vang Hồng Tenuta Ammiraglia Alìe">
-                    </a>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name"><a href="#">Rượu Vang Hồng Tenuta Ammiraglia Alìe</a></h3>
-                    <div class="product-extra-details">
-                        <ul>
-                            <li><strong>Xuất xứ:</strong> Ý</li>
-                            <li><strong>Loại:</strong> Vang Hồng</li>
-                        </ul>
-                    </div>
-                    <p class="product-producer">Nhà sản xuất: Tenuta Ammiraglia</p>
-                    <div class="product-rating">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
-                    </div>
-                    <p class="product-price">726.000₫</p>
-                    <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </section>
 
     <script>
         const tabLinks = document.querySelectorAll('.tab-link');
-
         const tabContents = document.querySelectorAll('.tab-content');
-
-        tabLinks.forEach(function (link) {
-            link.addEventListener('click', function () {
-
+        tabLinks.forEach(link => {
+            link.addEventListener('click', () => {
                 const tabId = link.getAttribute('data-tab');
-
-                tabLinks.forEach(function (item) {
-                    item.classList.remove('active');
-                });
-
-                tabContents.forEach(function (item) {
-                    item.classList.remove('active');
-                });
-
+                tabLinks.forEach(item => item.classList.remove('active'));
+                tabContents.forEach(item => item.classList.remove('active'));
                 link.classList.add('active');
-
-                const targetContent = document.getElementById(tabId);
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
+                document.getElementById(tabId).classList.add('active');
             });
         });
+
+        const qtyInput = document.getElementById('product-quantity');
+        const addBtn = document.getElementById('add-to-cart-link');
+        const baseHref = addBtn.getAttribute('href'); // Lấy link gốc
+
+        function updateLink() {
+            let qty = qtyInput.value;
+            addBtn.setAttribute('href', baseHref.replace('quantity=1', 'quantity=' + qty));
+        }
+
+        document.getElementById('increase-qty').onclick = () => {
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+            updateLink();
+        };
+        document.getElementById('decrease-qty').onclick = () => {
+            if(qtyInput.value > 1) {
+                qtyInput.value = parseInt(qtyInput.value) - 1;
+                updateLink();
+            }
+        };
+        qtyInput.onchange = updateLink;
     </script>
 </main>
 <%@ include file="components/footer.jsp" %>

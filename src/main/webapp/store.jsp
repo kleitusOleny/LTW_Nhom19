@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -9,10 +11,6 @@
           integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="css/store_style.css">
-
-    <style>
-
-    </style>
 </head>
 <body>
 
@@ -183,418 +181,87 @@
                 </div>
             </div>
             <div class="product-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_0834-14-1.5L.jpg"
-                                 alt="Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L 2014">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L
-                            2014</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Ý</li>
-                                <li><strong>Loại:</strong> Rượu Vang Đỏ</li>
-                                <li><strong>Nồng độ:</strong> 14.5%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: LUCIANO SANDRONE</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">13.486.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                <jsp:useBean id="products" scope="request" type="java.util.List"/>
+                <c:if test="${empty products}">
+                    <p style="text-align: center; width: 100%;">Không tìm thấy sản phẩm nào phù hợp.</p>
+                </c:if>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_0845-17.jpg" alt="Rượu Vang Đỏ Luce Brunello Di Montalcino 2017">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</a>
-                        </h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Ý</li>
-                                <li><strong>Loại:</strong> Rượu Vang Đỏ</li>
-                                <li><strong>Nồng độ:</strong> 15.0%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: TENUTA LUCE</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="product-price">5.989.500₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                <c:forEach var="p" items="${products}">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <a href="detail?id=${p.id}">
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_0883-09-3L.jpg"
-                                 alt="Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3 Lít">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3
-                            Lít</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Tây Ban Nha</li>
-                                <li><strong>Loại:</strong> Rượu Vang Đỏ</li>
-                                <li><strong>Nồng độ:</strong> 14.5%</li>
-                            </ul>
+                                <img src="https://via.placeholder.com/300x400?text=Wine" alt="${p.productName}">
+                            </a>
+                            <button class="wishlist-btn" aria-label="Thêm vào yêu thích" data-id="${p.id}">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
                         </div>
-                        <p class="product-producer">Nhà sản xuất: BODEGAS MUGA</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">9.460.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_0883-14.jpg" alt="Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Đỏ Muga Prado Enea Gran Reserva
-                            2014</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Tây Ban Nha</li>
-                                <li><strong>Loại:</strong> Rượu Vang Đỏ</li>
-                                <li><strong>Nồng độ:</strong> 14.5%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: BODEGAS MUGA</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">2.783.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                        <div class="product-info">
+                            <h3 class="product-name">
+                                <a href="detail?id=${p.id}">${p.productName}</a>
+                            </h3>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_0926-22.png" alt="Rượu Vang Trắng Greywacke Pinot Noir 2022">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu Vang Trắng Greywacke Pinot Noir 2022</a>
-                        </h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> New Zealand</li>
-                                <li><strong>Loại:</strong> Rượu Vang Đỏ</li>
-                                <li><strong>Nồng độ:</strong> 13.5%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: GREYWACKE</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">1.089.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                            <div class="product-extra-details">
+                                <ul>
+                                    <li><strong>Xuất xứ:</strong> ${p.origin}</li>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_0939.png"
-                                 alt="Rượu vang sủi Freixenet Italian Rosé Sparkling Wine Extra Dry">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang sủi Freixenet Italian Rosé Sparkling
-                            Wine Extra Dry</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Ý</li>
-                                <li><strong>Loại:</strong> Rượu Vang Sủi</li>
-                                <li><strong>Nồng độ:</strong> 11.0%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: FREIXENET</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">787.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                                    <li><strong>Loại:</strong> ${p.typeId}</li>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_1170.png" alt="Rượu vang hồng Dufouleur Monopole">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang hồng Dufouleur Monopole</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Pháp</li>
-                                <li><strong>Loại:</strong> Rượu Vang Hồng</li>
-                                <li><strong>Nồng độ:</strong> 11.5%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: Maison Dufouleur Père et Fils</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">351.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                                    <li><strong>Nồng độ:</strong> ${p.alcohol}%</li>
+                                </ul>
+                            </div>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_1185.png"
-                                 alt="Rượu vang hồng Famille Perrin Côtes-du-Rhône Réserve, rose">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang hồng Famille Perrin Côtes-du-Rhône
-                            Réserve, rose</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Pháp</li>
-                                <li><strong>Loại:</strong> Rượu Vang Hồng</li>
-                                <li><strong>Nồng độ:</strong> 14.0%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: Famille Perrin</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">726.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                            <p class="product-producer">Nhà sản xuất: ${p.manufacturerId}</p>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_1193-22.png"
-                                 alt="Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang đỏ Famille Perrin Les Sinards
-                            Châteauneuf-Du-Pape Rouge 2022</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Pháp</li>
-                                <li><strong>Loại:</strong> Rượu Vang Đỏ</li>
-                                <li><strong>Nồng độ:</strong> 14.5%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: Famille Perrin</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">1.936.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                                <%-- 6. SỬA: Tạm ẩn Rating vì Product.java chưa có trường rating --%>
+                                <%--
+                                <div class="product-rating">
+                                    <c:forEach begin="1" end="5" var="i">
+                                         <c:choose>
+                                            <c:when test="${p.rating >= i}">
+                                                 <i class="fa-solid fa-star"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                 <i class="fa-regular fa-star"></i>
+                                            </c:otherwise>
+                                         </c:choose>
+                                    </c:forEach>
+                                </div>
+                                --%>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_1197.png" alt="Rượu vang hồng Studio By Miraval">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang hồng Studio By Miraval</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Pháp</li>
-                                <li><strong>Loại:</strong> Rượu Vang Hồng</li>
-                                <li><strong>Nồng độ:</strong> 12.5%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: Château Miraval</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">750.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                            <p class="product-price">
+                                <fmt:setLocale value="vi_VN"/>
+                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                            </p>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_1233.jpg" alt="Rượu Sâm Panh Champagne Ruinart Rosé">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu Sâm Panh Champagne Ruinart Rosé</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Pháp</li>
-                                <li><strong>Loại:</strong> Rượu Sâm Panh</li>
-                                <li><strong>Nồng độ:</strong> 12.5%</li>
-                            </ul>
+                            <a href="AddToCartServlet?id=${p.id}" class="add-to-cart-btn">Thêm vào giỏ</a>
                         </div>
-                        <p class="product-producer">Nhà sản xuất: CHAMPAGNE RUINART</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="product-price">6.160.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
                     </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <a href="Detail.jsp">
-                            <img src="img/SKU__VD_1274.png" alt="Rượu vang hồng Flor de Muga Rosé">
-                        </a>
-                        <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name"><a href="Detail.jsp">Rượu vang hồng Flor de Muga Rosé</a></h3>
-                        <div class="product-extra-details">
-                            <ul>
-                                <li><strong>Xuất xứ:</strong> Tây Ban Nha</li>
-                                <li><strong>Loại:</strong> Rượu Vang Hồng</li>
-                                <li><strong>Nồng độ:</strong> 13.5%</li>
-                            </ul>
-                        </div>
-                        <p class="product-producer">Nhà sản xuất: BODEGAS MUGA</p>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <p class="product-price">1.041.000₫</p>
-                        <a href="#" class="add-to-cart-btn">Thêm vào giỏ</a>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
             <nav class="pagination-container" aria-label="Page navigation">
                 <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Trang đầu">
-                            <span aria-hidden="true"><i class="fa-solid fa-backward-step"></i> </span>
-                        </a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
+
+                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="store?page=${currentPage - 1}" aria-label="Previous">
                             <i class="fa-solid fa-angle-left"></i>
                         </a>
                     </li>
 
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <c:forEach begin="1" end="${totalPages}" var="i">
+                        <li class="page-item ${currentPage == i ? 'active' : ''}">
+                            <a class="page-link" href="store?page=${i}">${i}</a>
+                        </li>
+                    </c:forEach>
 
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
+                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="store?page=${currentPage + 1}" aria-label="Next">
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Trang cuối">
-                            <span aria-hidden="true"><i class="fa-solid fa-forward-step"></i></span>
-                        </a>
-                    </li>
+
                 </ul>
             </nav>
         </div>
@@ -607,9 +274,8 @@
 
         wishlistBtns.forEach(btn => {
             btn.addEventListener('click', function (e) {
-                e.preventDefault(); // Ngăn chặn click vào thẻ a nếu có
+                e.preventDefault();
 
-                // Toggle class active
                 this.classList.toggle('active');
 
                 // Đổi icon
