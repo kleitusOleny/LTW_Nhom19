@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -7,22 +8,39 @@ import java.util.Date;
 public class User {
     private int id;
     private String email;
-    private String userName;
+    private String username;
     private String passwordHash;
     private String phoneNumber;
+    private String fullName;
+    private Date birthDay;
     private int administrator;
     private int active;
-    private Timestamp birthDay;
+    private Timestamp createdAt;
+    private Timestamp updateAt;
 
-    public Timestamp getBirthDay() {
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Timestamp getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public Date getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Timestamp birthDay) {
+    public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
     }
-
-    private Timestamp createdAt;
 
     public User() {
     }
@@ -43,12 +61,12 @@ public class User {
         this.email = email;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPasswordHash() {
@@ -96,7 +114,7 @@ public class User {
         return "User{" +
                 "user_id='" + id + '\'' +
                 ", email='" + email + '\'' +
-                ", username='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", password_hash='" + passwordHash + '\'' +
                 ", phone_number='" + phoneNumber + '\'' +
                 ", administrator=" + administrator +
