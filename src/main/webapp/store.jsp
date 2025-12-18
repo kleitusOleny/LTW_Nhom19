@@ -181,8 +181,7 @@
                 </div>
             </div>
             <div class="product-grid">
-                <jsp:useBean id="products" scope="request" type="model.Product"/>
-
+                <jsp:useBean id="products" scope="request" type="java.util.List"/>
                 <c:if test="${empty products}">
                     <p style="text-align: center; width: 100%;">Không tìm thấy sản phẩm nào phù hợp.</p>
                 </c:if>
@@ -190,7 +189,8 @@
                 <c:forEach var="p" items="${products}">
                     <div class="product-card">
                         <div class="product-image">
-                            <a href="Detail.jsp?id=${p.id}">
+                            <a href="detail?id=${p.id}">
+
                                 <img src="https://via.placeholder.com/300x400?text=Wine" alt="${p.productName}">
                             </a>
                             <button class="wishlist-btn" aria-label="Thêm vào yêu thích" data-id="${p.id}">
@@ -200,7 +200,7 @@
 
                         <div class="product-info">
                             <h3 class="product-name">
-                                <a href="Detail.jsp?id=${p.id}">${p.productName}</a>
+                                <a href="detail?id=${p.id}">${p.productName}</a>
                             </h3>
 
                             <div class="product-extra-details">
@@ -215,6 +215,7 @@
 
                             <p class="product-producer">Nhà sản xuất: ${p.manufacturerId}</p>
 
+                                <%-- 6. SỬA: Tạm ẩn Rating vì Product.java chưa có trường rating --%>
                                 <%--
                                 <div class="product-rating">
                                     <c:forEach begin="1" end="5" var="i">
