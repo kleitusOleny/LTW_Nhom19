@@ -12,8 +12,8 @@ public class Product {
     private String capacity;
     private Double alcohol;
     private String origin;
-    private String manufacturerId;
-    private String categoryId;
+    private String manufacturer;
+    private String category;
     private String detail;
     private Timestamp createAt;
     private Timestamp updateAt;
@@ -87,19 +87,19 @@ public class Product {
     }
 
     public String getManufacturerId() {
-        return manufacturerId;
+        return manufacturer;
     }
 
     public void setManufacturerId(String manufacturerId) {
-        this.manufacturerId = manufacturerId;
+        this.manufacturer = manufacturerId;
     }
 
     public String getCategoryId() {
-        return categoryId;
+        return category;
     }
 
     public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+        this.category = categoryId;
     }
 
     public String getDetail() {
@@ -132,5 +132,25 @@ public class Product {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
+    }
+    
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", productName='" + productName + '\'' +
+                ", slug='" + slug + '\'' +
+                ", typeId='" + typeId + '\'' +
+                ", price=" + price +
+                ", capacity='" + capacity + '\'' +
+                ", alcohol=" + alcohol +
+                ", origin='" + origin + '\'' +
+                ", manufacturerId='" + manufacturer + '\'' +
+                ", categoryId='" + category + '\'' +
+                ", detail='" + detail + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", isDelete=" + isDelete +
+                '}';
     }
 }
