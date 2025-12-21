@@ -17,7 +17,7 @@
     </div>
     <div class="login-page">
         <h2>Đăng Nhập</h2>
-        <form id="login-form">
+        <form id="login-form" action="${pageContext.request.contextPath}/NormalLogin" method="POST">
             <div class="username-input">
                 <label for="username" class="label-with-icon">
                     <ion-icon name="person-outline"></ion-icon>
@@ -105,11 +105,16 @@
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
-    window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('loginError')) {
-            alert("Đăng nhập Google thất bại. Vui lòng thử lại!");
-        }
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorCode = urlParams.get('loginError')
+    const errorMessages = {
+        '1': "Đăng nhập Google thất bại",
+        '2': "Sai thông tin đăng nhập",
+        '3': "Thiếu thông tin đăng nhập"
+    }
+    if (errorCode && errorMessages[errorCode]) {
+        alert(errorMessages[errorCode])
+        window.history.replaceState(null, '', window.location.pathname);
     }
 </script>
 </body>

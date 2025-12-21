@@ -10,7 +10,7 @@
 <div class="register-page">
     <h2>Đăng Kí</h2>
     <p>(* là trường bắt buộc)</p>
-    <form id="register-form">
+    <form id="register-form" action="${pageContext.request.contextPath}/RegisterController" method="POST">
         <div class="fullname form-group">
             <label for="name">Họ và Tên *</label>
             <input type="text" id="name" name="name" placeholder="Nhập đầy đủ họ và tên của bạn" required>
@@ -101,5 +101,17 @@
         <a href="Login.jsp" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
+<script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorCode = urlParams.get('loginError')
+        const errorMessages = {
+            "1" : "Đăng kí thất bại",
+            "2" : "Thiếu thông tin đăng kí"
+        }
+        if (errorCode && errorMessages[errorCode]) {
+            alert(errorMessages[errorCode])
+            window.history.replaceState(null, '', window.location.pathname)
+        }
+</script>
 </body>
 </html>
