@@ -7,6 +7,7 @@ import services.AuthService;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @WebServlet(name = "RegisterController", value = "/RegisterController")
 public class RegisterController extends HttpServlet {
@@ -23,24 +24,28 @@ public class RegisterController extends HttpServlet {
         String plainPassword = request.getParameter("password");
         String phoneNumber = request.getParameter("phone-number");
         String birth = request.getParameter("birth");
-        if (fullName == null || fullName.trim().isEmpty() ||
-                email == null || email.trim().isEmpty() ||
-                plainPassword == null || plainPassword.trim().isEmpty() ||
-                phoneNumber == null || phoneNumber.trim().isEmpty() ||
-                birth == null || birth.trim().isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/AuthPages/Register.jsp?registerError=2");
-            return;
-        }
 
         boolean account;
+        String registerUrl = "/AuthPages/Register.jsp";
         AuthService authService = new AuthService();
-        account = authService.register(fullName, email, username, plainPassword, phoneNumber, Date.valueOf(birth));
-        if (account) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", true);
-            response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
-        } else {
-            response.sendRedirect(request.getContextPath() + "/AuthPages/Register.jsp?registerError=1");
+        try {
+            account = authService.register(fullName, email, username, plainPassword, phoneNumber, LocalDate.parse(birth));
+            if (account) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", true);
+                response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+            } else {
+                response.sendRedirect(request.getContextPath() + registerUrl + "?registerError=1");
+            }
+        } catch (IllegalArgumentException e) {
+            String message = e.getMessage();
+            String errorCode = switch (message) {
+                case "ErrorCode2" -> "2";
+                case "ErrorCode3" -> "3";
+                case "ErrorCode4" -> "4";
+                default -> "1";
+            };
+            response.sendRedirect(request.getContextPath() + registerUrl + "?registerError=" + errorCode);
         }
     }
 }

@@ -102,16 +102,59 @@
     </form>
 </div>
 <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const errorCode = urlParams.get('loginError')
-        const errorMessages = {
-            "1" : "Đăng kí thất bại",
-            "2" : "Thiếu thông tin đăng kí"
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirm-password');
+
+    // Các checkbox hiển thị trạng thái
+    const remindWords = document.getElementById('remind-words');
+    const remindUppercase = document.getElementById('remind-uppercase');
+    const remindSpecial = document.getElementById('remind-special');
+    const remindConfirm = document.getElementById('remind-confirm');
+
+    function validatePassword() {
+        const value = passwordInput.value;
+        remindWords.checked = value.length >= 8;
+
+        const hasUpper = /[A-Z]/.test(value);
+        const hasLower = /[a-z]/.test(value);
+        remindUppercase.checked = hasUpper && hasLower;
+
+        remindSpecial.checked = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+        validateConfirm();
+    }
+
+    function validateConfirm() {
+        const passValue = passwordInput.value;
+        const confirmValue = confirmInput.value;
+        remindConfirm.checked = passValue.length > 0 && passValue === confirmValue;
+    }
+    passwordInput.addEventListener('input', validatePassword);
+    confirmInput.addEventListener('input', validateConfirm);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorCode = urlParams.get('registerError');
+    const errorMessages = {
+        "1" : "Đăng kí thất bại",
+        "2" : "Thiếu thông tin đăng kí. Vui lòng nhập thêm",
+        "3" : "Thông tin nhập không hợp lệ. Vui lòng nhập lại",
+        "4" : "Quý khách chưa đủ tuổi để mua rượu theo luật"
+    };
+    if (errorCode && errorMessages[errorCode]) {
+        alert(errorMessages[errorCode]);
+        window.history.replaceState(null, '', window.location.pathname);
+    }
+
+    const registerForm = document.getElementById('register-form');
+
+    registerForm.addEventListener('submit', function(event) {
+        const ageChecked = document.getElementById('age-confirm').checked;
+        const licenseChecked = document.getElementById('license-confirm').checked;
+
+        if (!ageChecked || !licenseChecked) {
+            event.preventDefault();
+            alert("Bạn phải xác nhận đủ 18 tuổi và đồng ý với chính sách để tiếp tục.");
         }
-        if (errorCode && errorMessages[errorCode]) {
-            alert(errorMessages[errorCode])
-            window.history.replaceState(null, '', window.location.pathname)
-        }
+    });
 </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ public class User implements Serializable {
     private String passwordHash;
     private String phoneNumber;
     private String fullName;
-    private Date birthDay;
+    private LocalDate birthDay;
     private int administrator;
     private int active;
     private Timestamp createdAt;
@@ -35,11 +36,11 @@ public class User implements Serializable {
         this.updateAt = updateAt;
     }
 
-    public Date getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 
