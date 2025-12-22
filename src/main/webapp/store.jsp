@@ -11,7 +11,86 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
           integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <link rel="stylesheet" href="css/store_style.css">
+    <style>
+        .price-slider-wrapper {
+            width: 100%;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .slider-track-bg {
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 3px;
+            z-index: 1;
+        }
+
+        .slider-track-progress {
+            height: 6px;
+            background-color: #8c3333;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            border-radius: 3px;
+        }
+
+        .range-input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .range-input-container input[type="range"] {
+            position: absolute;
+            width: 100%;
+            top: -3px;
+            left: 0;
+            height: 6px;
+            -webkit-appearance: none;
+            background: none;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .range-input-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #8c3333;
+            cursor: pointer;
+            pointer-events: auto;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .range-input-container input[type="range"]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #8c3333;
+            cursor: pointer;
+            pointer-events: auto;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .price-values {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,24 +101,36 @@
             <h3 class="filter-title">Bộ Lọc Sản Phẩm</h3>
             <form action="filter" method="get">
                 <%-- 1. LỌC GIÁ --%>
-                <div class="filter-widget">
-                    <h4 class="widget-title">Lọc theo giá</h4>
-                    <ul class="filter-list">
-                        <li><input type="checkbox" id="p1" name="price" value="0-500000"><label for="p1">Dưới
-                            500.000₫</label></li>
-                        <li><input type="checkbox" id="p2" name="price" value="500000-1000000"><label for="p2">500.000₫
-                            -
-                            1.000.000₫</label></li>
-                        <li><input type="checkbox" id="p3" name="price" value="1000000-2000000"><label for="p3">1.000.000₫
-                            -
-                            2.000.000₫</label></li>
-                        <li><input type="checkbox" id="p4" name="price" value="2000000-5000000"><label for="p4">2.000.000₫
-                            -
-                            5.000.000₫</label></li>
-                        <li><input type="checkbox" id="p5" name="price" value="5000000-max"><label for="p5">Trên
-                            5.000.000₫</label></li>
-                    </ul>
-                </div>
+                    <div class="filter-widget">
+                        <h4 class="widget-title">Lọc theo giá</h4>
+                        <c:set var="minVal" value="0"/>
+                        <c:set var="maxVal" value="10000000"/>
+
+                        <c:if test="${not empty selectedPrices && selectedPrices.size() > 0}">
+                            <c:set var="priceRange" value="${selectedPrices[0]}"/>
+                            <c:set var="parts" value="${fn:split(priceRange, '-')}"/>
+                            <c:if test="${fn:length(parts) == 2}">
+                                <c:set var="minVal" value="${parts[0]}"/>
+                                <c:set var="maxVal" value="${parts[1] == 'max' ? 10000000 : parts[1]}"/>
+                            </c:if>
+                        </c:if>
+
+                        <div class="price-slider-wrapper">
+                            <div class="slider-track-bg"></div> <div class="slider-track-progress" id="visual-track"></div> <div class="range-input-container">
+                            <input type="range" id="input-min" min="0" max="10000000" step="100000" value="${minVal}">
+                            <input type="range" id="input-max" min="0" max="10000000" step="100000" value="${maxVal}">
+                        </div>
+
+                            <input type="hidden" name="price" id="hidden-price-filter" value="${minVal}-${maxVal}">
+                        </div>
+
+                        <div class="price-values">
+                            <span id="min-price-display">0 ₫</span>
+                            <span id="max-price-display">10.000.000 ₫</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Áp dụng</button>
+                    </div>
 
                 <%-- 2. DANH MỤC --%>
                 <div class="filter-widget">
@@ -129,8 +220,8 @@
                     </ul>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; border: #000000 2px solid ;">Áp dụng bộ lọc
-                </button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; border: #000000 2px solid ;">Áp dụng bộ lọc</button>
+
             </form>
         </aside>
 
@@ -274,6 +365,61 @@
                 }
             });
         });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rangeMin = document.getElementById("input-min");
+        const rangeMax = document.getElementById("input-max");
+        const visualTrack = document.getElementById("visual-track");
+        const displayMin = document.getElementById("min-price-display");
+        const displayMax = document.getElementById("max-price-display");
+        const hiddenInput = document.getElementById("hidden-price-filter");
+
+        const minLimit = 0;
+        const maxLimit = 10000000;
+        const gap = 500000; // Khoảng cách tối thiểu giữa 2 nút
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+        }
+
+        function updateSlider() {
+            let minVal = parseInt(rangeMin.value);
+            let maxVal = parseInt(rangeMax.value);
+
+            // Chặn không cho 2 nút kéo qua nhau
+            if (maxVal - minVal < gap) {
+                if (this === rangeMin) {
+                    rangeMin.value = maxVal - gap;
+                    minVal = maxVal - gap;
+                } else {
+                    rangeMax.value = minVal + gap;
+                    maxVal = minVal + gap;
+                }
+            }
+
+            // Tính toán % để vẽ thanh màu đỏ
+            // Công thức: left = % của nút min, right = 100% - % của nút max
+            let percentMin = (minVal / maxLimit) * 100;
+            let percentMax = (maxVal / maxLimit) * 100;
+
+            visualTrack.style.left = percentMin + "%";
+            visualTrack.style.width = (percentMax - percentMin) + "%";
+
+            // Hiển thị text
+            displayMin.textContent = formatCurrency(minVal);
+            displayMax.textContent = formatCurrency(maxVal);
+
+            // Cập nhật input ẩn
+            hiddenInput.value = minVal + "-" + maxVal;
+        }
+
+        rangeMin.addEventListener("input", updateSlider);
+        rangeMax.addEventListener("input", updateSlider);
+
+        // Khởi chạy lần đầu
+        updateSlider();
     });
 </script>
 </body>
