@@ -190,8 +190,14 @@
                     <div class="product-card">
                         <div class="product-image">
                             <a href="detail?id=${p.id}">
-
-                                <img src="https://via.placeholder.com/300x400?text=Wine" alt="${p.productName}">
+                                <c:choose>
+                                    <c:when test="${not empty p.imageUrl}">
+                                        <img src="${p.imageUrl}" alt="${p.productName}">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="https://via.placeholder.com/300x400?text=Wine" alt="Chưa có ảnh">
+                                    </c:otherwise>
+                                </c:choose>
                             </a>
                             <button class="wishlist-btn" aria-label="Thêm vào yêu thích" data-id="${p.id}">
                                 <i class="fa-regular fa-heart"></i>
@@ -215,25 +221,27 @@
 
                             <p class="product-producer">Nhà sản xuất: ${p.manufacturerId}</p>
 
-                                <%-- 6. SỬA: Tạm ẩn Rating vì Product.java chưa có trường rating --%>
-                                <%--
-                                <div class="product-rating">
-                                    <c:forEach begin="1" end="5" var="i">
-                                         <c:choose>
-                                            <c:when test="${p.rating >= i}">
-                                                 <i class="fa-solid fa-star"></i>
-                                            </c:when>
-                                            <c:otherwise>
-                                                 <i class="fa-regular fa-star"></i>
-                                            </c:otherwise>
-                                         </c:choose>
-                                    </c:forEach>
-                                </div>
-                                --%>
+                            <div class="product-rating">
+                                <fmt:formatNumber var="roundedRating" value="${p.rating}" maxFractionDigits="0"/>
+
+                                <c:forEach begin="1" end="5" var="i">
+                                    <c:choose>
+                                        <c:when test="${i <= roundedRating}">
+                                            <i class="fa-solid fa-star" style="color: #FFD700;"></i>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="fa-regular fa-star" style="color: #ccc;"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+
+                                <span style="font-size: 12px; color: #666;">(${p.totalReviews})</span>
+                            </div>
 
                             <p class="product-price">
                                 <fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫"
+                                                  maxFractionDigits="0"/>
                             </p>
 
                             <a href="AddToCartServlet?id=${p.id}" class="add-to-cart-btn">Thêm vào giỏ</a>

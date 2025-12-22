@@ -18,6 +18,9 @@ public class Product {
     private Timestamp createAt;
     private Timestamp updateAt;
     private boolean isDelete;
+    private String imageUrl;
+    private Double rating;
+    private int totalReviews;
 
     public Product() {
     }
@@ -132,6 +135,30 @@ public class Product {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
+    }
+    
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    
+    public Double getRating() {
+        return rating == null ? 0.0 : rating;
+    }
+    
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+    
+    public int getTotalReviews() {
+        return totalReviews;
+    }
+    
+    public void setTotalReviews(int totalReviews) {
+        this.totalReviews = totalReviews;
     }
     
     @Override

@@ -5,6 +5,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Product;
+import model.Review;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -28,9 +30,11 @@ public class DetailController extends HttpServlet {
         }
         
         List<Product> relatedProducts = dao.getRelatedProducts();
+        List<Review> reviews = dao.getReviews(id);
         
         request.setAttribute("product", product);
         request.setAttribute("relatedProducts", relatedProducts);
+        request.setAttribute("reviews", reviews);
         
         request.getRequestDispatcher("Detail.jsp").forward(request, response);
     }

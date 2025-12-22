@@ -1,8 +1,5 @@
 package db;
 
-import dao.ProductDAO;
-import model.Product;
-import model.User;
 import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,11 +68,6 @@ public class JdbiConnector {
         }
         
     }
-    
-    public static void main(String[] args) {
-        List<Product> product = new ProductDAO().getProducts();
-        System.out.println();
-        System.out.println(product);
-    }
+
     
 }
