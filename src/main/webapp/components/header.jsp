@@ -16,7 +16,7 @@
   <div class="header-top">
     <div class="container">
       <div class="header-logo">
-        <a href="index.html" class="logo">LOGO</a>
+        <a href="" class="logo">LOGO</a>
       </div>
 
       <div class="header-center">
@@ -45,7 +45,7 @@
         <ul>
           <li><a href="index.html" class="active">Trang Chủ</a></li>
           <li class="has-dropdown">
-            <a href="store.jsp">
+            <a href="store">
               Rượu Vang
               <i class="fa-solid fa-caret-down"></i>
             </a>
@@ -54,7 +54,7 @@
                 <div class="mega-menu-column">
                   <h4 class="mega-menu-title">Theo Loại Vang</h4>
                   <ul class="mega-menu-list">
-                    <li><a href="store.jsp" class="mega-menu-link">Rượu Vang Đỏ</a></li>
+                    <li><a href="../store" class="mega-menu-link">Rượu Vang Đỏ</a></li>
                     <li><a href="store.jsp" class="mega-menu-link">Rượu Vang Trắng</a></li>
                     <li><a href="store.jsp" class="mega-menu-link">Rượu Vang Hồng</a></li>
                     <li><a href="store.jsp" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>

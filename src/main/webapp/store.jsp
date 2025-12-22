@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -19,150 +20,118 @@
     <div class="content-container">
         <aside class="filter-content">
             <h3 class="filter-title">Bộ Lọc Sản Phẩm</h3>
+            <form action="filter" method="get">
+                <%-- 1. LỌC GIÁ --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Lọc theo giá</h4>
+                    <ul class="filter-list">
+                        <li><input type="checkbox" id="p1" name="price" value="0-500000"><label for="p1">Dưới
+                            500.000₫</label></li>
+                        <li><input type="checkbox" id="p2" name="price" value="500000-1000000"><label for="p2">500.000₫
+                            -
+                            1.000.000₫</label></li>
+                        <li><input type="checkbox" id="p3" name="price" value="1000000-2000000"><label for="p3">1.000.000₫
+                            -
+                            2.000.000₫</label></li>
+                        <li><input type="checkbox" id="p4" name="price" value="2000000-5000000"><label for="p4">2.000.000₫
+                            -
+                            5.000.000₫</label></li>
+                        <li><input type="checkbox" id="p5" name="price" value="5000000-max"><label for="p5">Trên
+                            5.000.000₫</label></li>
+                    </ul>
+                </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Lọc theo giá</h4>
+                <%-- 2. DANH MỤC --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Danh Mục</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="c" items="${categories}">
+                            <c:set var="cid" value="${c.id}"/>
+                            <li>
+                                <input type="checkbox" id="cat-${c.id}" name="category" value="${c.id}"
+                                    ${fn:contains(selectedCategories, String.valueOf(cid)) ? 'checked' : ''}>
+                                <label for="cat-${c.id}">${c.categoryName}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="price-1">
-                        <label for="price-1">Dưới 500.000₫</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="price-2">
-                        <label for="price-2">500.000₫ - 1.000.000₫</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="price-3">
-                        <label for="price-3">1.000.000₫ - 2.000.000₫</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="price-4">
-                        <label for="price-4">2.000.000₫ - 5.000.000₫</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="price-5">
-                        <label for="price-5">Trên 5.000.000₫</label>
-                    </li>
-                </ul>
+                <%-- 3. LOẠI RƯỢU --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Loại Rượu</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="t" items="${types}">
+                            <c:set var="tid" value="${t.id}"/>
+                            <li>
+                                <input type="checkbox" id="type-${t.id}" name="type" value="${t.id}"
+                                    ${fn:contains(selectedTypes, String.valueOf(tid)) ? 'checked' : ''}>
+                                <label for="type-${t.id}">${t.typeName}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-            </div>
+                <%-- 4. XUẤT XỨ --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Xuất Xứ</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="o" items="${origins}" varStatus="loop">
+                            <li>
+                                <input type="checkbox" id="origin-${loop.index}" name="origin" value="${o}"
+                                    ${fn:contains(selectedOrigins, o) ? 'checked' : ''}>
+                                <label for="origin-${loop.index}">${o}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Danh Mục</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="cat-bordeaux">
-                        <label for="cat-bordeaux">Bordeaux</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cat-khuyenmai">
-                        <label for="cat-khuyenmai">Khuyến Mại</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cat-nhapkhau">
-                        <label for="cat-nhapkhau">Rượu Vang Nhập Khẩu</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cat-phap">
-                        <label for="cat-phap">Rượu Vang Pháp</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cat-saint-emilion">
-                        <label for="cat-saint-emilion">Saint-Émilion</label>
-                    </li>
-                </ul>
-            </div>
+                <%-- 5. NHÀ SẢN XUẤT--%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Nhà sản xuất</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="m" items="${manufacturers}">
+                            <c:set var="mid" value="${m.id}"/>
+                            <li>
+                                <input type="checkbox" id="manu-${m.id}" name="manufacturer" value="${m.id}"
+                                    ${fn:contains(selectedManufacturers, String.valueOf(mid)) ? 'checked' : ''}>
+                                <label for="manu-${m.id}">${m.manufacturerName}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Loại Rượu</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="type-vangdo">
-                        <label for="type-vangdo">Rượu Vang Đỏ</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="type-vangtrang">
-                        <label for="type-vangtrang">Rượu Vang Trắng</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="type-vanghong">
-                        <label for="type-vanghong">Rượu Vang Hồng</label>
-                    </li>
-                </ul>
-            </div>
+                <%-- 6. DUNG TÍCH --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Dung tích</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="cap" items="${capacities}" varStatus="loop">
+                            <li>
+                                <input type="checkbox" id="cap-${loop.index}" name="capacity" value="${cap}"
+                                    ${fn:contains(selectedCapacities, cap) ? 'checked' : ''}>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Xuất Xứ</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="origin-phap">
-                        <label for="origin-phap">Pháp</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="origin-y">
-                        <label for="origin-y">Ý</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="origin-chile">
-                        <label for="origin-chile">Chile</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="origin-my">
-                        <label for="origin-my">Mỹ</label>
-                    </li>
-                </ul>
-            </div>
+                                <label for="cap-${loop.index}">${cap}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Nhà sản xuất</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="manu-corbin">
-                        <label for="manu-corbin">CHÂTEAU CORBIN</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="manu-cantine">
-                        <label for="manu-cantine">Cantine</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="manu-penfolds">
-                        <label for="manu-penfolds">Penfolds</label>
-                    </li>
-                </ul>
-            </div>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Tags nổi bật</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="tag" items="${tags}">
+                            <c:set var="tagid" value="${tag.id}"/>
+                            <li>
+                                <input type="checkbox" id="tag-${tag.id}" name="tag" value="${tag.id}"
+                                    ${fn:contains(selectedTags, String.valueOf(tagid)) ? 'checked' : ''}>
+                                <label for="tag-${tag.id}">${tag.tagName}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Dung tích</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="cap-750">
-                        <label for="cap-750">750ML</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cap-1500">
-                        <label for="cap-1500">1.5L</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cap-3000">
-                        <label for="cap-3000">3L</label>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="filter-widget">
-                <h4 class="widget-title">Tags</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="tag-dacbiet">
-                        <label for="tag-dacbiet">gcc giá đặc biệt</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="tag-quatang">
-                        <label for="tag-quatang">Quà tặng</label>
-                    </li>
-                </ul>
-            </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; border: #000000 2px solid ;">Áp dụng bộ lọc
+                </button>
+            </form>
         </aside>
 
         <div class="product-content">
@@ -250,26 +219,34 @@
                 </c:forEach>
             </div>
             <nav class="pagination-container" aria-label="Page navigation">
-                <ul class="pagination">
 
+                <%-- Xác định đường dẫn gốc: store hay filter --%>
+                <c:set var="baseUrl"
+                       value="${requestScope['javax.servlet.forward.servlet_path'] == '/filter' ? 'filter' : 'store'}"/>
+
+                <ul class="pagination">
+                    <%-- Nút Previous --%>
                     <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                        <a class="page-link" href="store?page=${currentPage - 1}" aria-label="Previous">
+                        <%-- Link: baseUrl + page mới + filterParams cũ --%>
+                        <a class="page-link" href="${baseUrl}?page=${currentPage - 1}${filterParams}"
+                           aria-label="Previous">
                             <i class="fa-solid fa-angle-left"></i>
                         </a>
                     </li>
 
+                    <%-- Các số trang --%>
                     <c:forEach begin="1" end="${totalPages}" var="i">
                         <li class="page-item ${currentPage == i ? 'active' : ''}">
-                            <a class="page-link" href="store?page=${i}">${i}</a>
+                            <a class="page-link" href="${baseUrl}?page=${i}${filterParams}">${i}</a>
                         </li>
                     </c:forEach>
 
+                    <%-- Nút Next --%>
                     <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                        <a class="page-link" href="store?page=${currentPage + 1}" aria-label="Next">
+                        <a class="page-link" href="${baseUrl}?page=${currentPage + 1}${filterParams}" aria-label="Next">
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
-
                 </ul>
             </nav>
         </div>
