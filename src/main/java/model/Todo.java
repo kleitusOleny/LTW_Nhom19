@@ -1,9 +1,18 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 public class Todo {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("title")
     private String title;
+
+    @ColumnName("description")
     private String description;
+
+    @ColumnName("status")
     private boolean status;
 
     public Todo() {

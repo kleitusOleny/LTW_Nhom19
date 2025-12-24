@@ -1,31 +1,73 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class User implements Serializable {
+    @ColumnName("id")
     private int id;
-    private String email;
-    private String userName;
-    private String passwordHash;
-    private String phoneNumber;
-    private int administrator;
-    private int active;
-    private Timestamp birthDay;
 
-    public Timestamp getBirthDay() {
+    @ColumnName("email")
+    private String email;
+
+    @ColumnName("username")
+    private String username;
+
+    @ColumnName("password_hash")
+    private String passwordHash;
+
+    @ColumnName("phone_number")
+    private String phoneNumber;
+
+    @ColumnName("full_name")
+    private String fullName;
+
+    @ColumnName("birth_day")
+    private LocalDateTime birthDay;
+
+    @ColumnName("administrator")
+    private int administrator;
+
+    @ColumnName("active")
+    private int active;
+
+    @ColumnName("created_at")
+    private LocalDateTime createdAt;
+
+    @ColumnName("update_at")
+    private LocalDateTime updateAt;
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public LocalDateTime getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Timestamp birthDay) {
+    public void setBirthDay(LocalDateTime birthDay) {
         this.birthDay = birthDay;
     }
 
-    private Timestamp createdAt;
-
     public User() {
+    }
+
+    public User(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -44,12 +86,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPasswordHash() {
@@ -84,25 +126,28 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "user_id='" + id + '\'' +
+                "id=" + id +
                 ", email='" + email + '\'' +
-                ", username='" + userName + '\'' +
-                ", password_hash='" + passwordHash + '\'' +
-                ", phone_number='" + phoneNumber + '\'' +
+                ", username='" + username + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", birthDay=" + birthDay +
                 ", administrator=" + administrator +
                 ", active=" + active +
-                ", created_at='" + createdAt + '\'' +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
                 '}';
     }
 }

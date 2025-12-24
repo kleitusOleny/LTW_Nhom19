@@ -1,15 +1,30 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class CTEvaluates {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("content")
     private String content;
+
+    @ColumnName("img")
     private String img;
+
+    @ColumnName("star")
     private double star;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("update_at")
     private Timestamp updateAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     public CTEvaluates() {

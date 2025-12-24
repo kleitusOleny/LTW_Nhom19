@@ -1,8 +1,15 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 public class Favourite {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("product_id")
     private String productId;
+
+    @ColumnName("user_id")
     private String userId;
 
     public Favourite() {

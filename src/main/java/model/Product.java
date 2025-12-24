@@ -1,22 +1,51 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 
 public class Product {
+    @ColumnName("id")
     private String id;
+
+    @ColumnName("product_name")
     private String productName;
+
+    @ColumnName("slug")
     private String slug;
+
+    @ColumnName("type_id")
     private String typeId;
+
+    @ColumnName("price")
     private BigDecimal price;
+
+    @ColumnName("capacity")
     private String capacity;
+
+    @ColumnName("alcohol")
     private Double alcohol;
+
+    @ColumnName("origin")
     private String origin;
+
+    @ColumnName("manufacturer_id")
     private String manufacturer;
+
+    @ColumnName("category_id")
     private String category;
+
+    @ColumnName("detail")
     private String detail;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("update_at")
     private Timestamp updateAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
     private String imageUrl;
     private Double rating;

@@ -20,7 +20,11 @@ public class JdbiConnector {
             e.printStackTrace();
         }
         if (jdbi == null) {
-            jdbi = Jdbi.create("jdbc:mysql://" + DBProperties.host() + ":" + DBProperties.port() + "/" + DBProperties.database(), DBProperties.username(), DBProperties.password());
+            jdbi = Jdbi.create(
+                    "jdbc:mysql://" + DBProperties.host() + ":" + DBProperties.port() + "/" + DBProperties.database(),
+                    DBProperties.username(), DBProperties.password());
+            // Install SqlObjectPlugin to enable @ColumnName annotation mapping
+            jdbi.installPlugin(new SqlObjectPlugin());
         }
         return jdbi;
     }

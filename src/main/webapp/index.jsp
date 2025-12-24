@@ -426,5 +426,12 @@
         });
     });
 </script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('loginSuccess')) {
+        alert("Bạn đã đăng nhập thành công!");
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+</script>
 </body>
 </html>

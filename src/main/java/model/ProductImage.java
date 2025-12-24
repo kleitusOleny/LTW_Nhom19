@@ -1,13 +1,24 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class ProductImage {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("product_id")
     private int idImg;
+
+    @ColumnName("url_img")
     private String urlImg;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     public ProductImage() {

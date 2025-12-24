@@ -1,15 +1,30 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 
 public class ShipOrder {
+    @ColumnName("ship_id")
     private int id;
+
+    @ColumnName("order_id")
     private int orderId;
+
+    @ColumnName("carrier_name")
     private String carrierName;
+
+    @ColumnName("tracking_number")
     private String trackingNumber;
+
+    @ColumnName("shipping_fee")
     private BigDecimal shippingFee;
+
+    @ColumnName("status")
     private String status;
+
+    @ColumnName("estimated_delivery_date")
     private Timestamp estimatedDeliveryDate;
 
     public ShipOrder() {
