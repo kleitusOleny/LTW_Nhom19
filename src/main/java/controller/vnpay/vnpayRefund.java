@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vn.hcmuaf.nlu.fit.ltw_nhom19;
+package controller.vnpay;
 
 
 import com.google.gson.JsonObject;

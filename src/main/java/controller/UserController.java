@@ -1,13 +1,13 @@
-package vn.hcmuaf.nlu.fit.ltw_nhom19;
+package controller;
 
-import dao.UserDAO;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
-import model.Address;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
-import services.AddressService;
 import services.AuthService;
 import services.UserService;
 

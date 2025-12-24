@@ -1,7 +1,6 @@
 
-package vn.hcmuaf.nlu.fit.ltw_nhom19;
+package controller.vnpay;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
