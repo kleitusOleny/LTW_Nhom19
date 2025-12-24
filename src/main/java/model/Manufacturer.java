@@ -1,10 +1,19 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 public class Manufacturer {
     // Khai báo biến
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("manufacturer_name")
     private String manufacturerName;
+
+    @ColumnName("location")
     private String location;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     // Constructor rỗng

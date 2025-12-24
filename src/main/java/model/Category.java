@@ -1,13 +1,24 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 
 public class Category {
     // Khai báo biến
+    @ColumnName("id")
     private String id;
+
+    @ColumnName("category_name")
     private String categoryName;
+
+    @ColumnName("slug")
     private String slug;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     // Constructor rỗng

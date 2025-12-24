@@ -1,17 +1,36 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class Banner {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("url_banner")
     private String urlBanner;
+
+    @ColumnName("target_url")
     private String targetUrl;
+
+    @ColumnName("event_date")
     private Timestamp eventDate;
+
+    @ColumnName("life_time")
     private int lifeTime;
+
+    @ColumnName("active")
     private boolean active;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("update_at")
     private Timestamp updateAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     public Banner() {
