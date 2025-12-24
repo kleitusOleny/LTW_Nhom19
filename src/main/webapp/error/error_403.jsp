@@ -1,102 +1,14 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lỗi</title>
-    <link rel="stylesheet" href="error_style.css">
-    <link rel="stylesheet" href="../css/store_style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/error/error_style.css">
 </head>
 <body>
-<header>
-    <div class="header-top">
-        <div class="container">
-            <div class="header-logo">
-                <a href="../index.jsp" class="logo">LOGO</a>
-            </div>
-
-            <div class="header-right">
-                <a href="#" aria-label="Search">
-                    <i class="fas fa-search"></i>
-                </a>
-                <a href="../infoUsers/user_sidebar.jsp" aria-label="Account">
-                    <i class="fas fa-user"></i>
-                </a>
-                <a href="../Cart.jsp" class="cart-link" aria-label="Cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="header-nav-bar">
-        <div class="container">
-            <nav class="header-nav">
-                <ul>
-                    <li><a href="../index.jsp" class="active">Trang Chủ</a></li>
-                    <li class="has-dropdown">
-                        <a href="../store.jsp">
-                            Rượu Vang
-                            <i class="fa-solid fa-caret-down"></i>
-                        </a>
-                        <div class="mega-menu">
-                            <div class="mega-menu-grid">
-                                <div class="mega-menu-column">
-                                    <h4 class="mega-menu-title">Theo Loại Vang</h4>
-                                    <ul class="mega-menu-list">
-                                        <li><a href="../store.jsp" class="mega-menu-link">Rượu Vang Đỏ</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Trắng</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Hồng</a></li>
-                                        <li><a href="#" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Ngọt</a></li>
-                                        <li><a href="#" class="mega-menu-link">Cognac & Rượu Mạnh</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="mega-menu-column">
-                                    <h4 class="mega-menu-title">Nhãn Hàng Nổi Bật</h4>
-                                    <ul class="mega-menu-list">
-                                        <li><a href="#" class="mega-menu-link">CHÂTEAU CORBIN</a></li>
-                                        <li><a href="#" class="mega-menu-link">TENUTA LUCE</a></li>
-                                        <li><a href="#" class="mega-menu-link">MAISON LOUIS LATOUR</a></li>
-                                        <li><a href="#" class="mega-menu-link">Domaine Faiveley</a></li>
-                                        <li><a href="#" class="mega-menu-link">BODEGAS MUGA</a></li>
-                                        <li><a href="#" class="mega-menu-link">CHAMPAGNE RUINART</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="mega-menu-column">
-                                    <h4 class="mega-menu-title">Theo Tag</h4>
-                                    <ul class="mega-menu-list">
-                                        <li><a href="#" class="mega-menu-link">Giá Đặc Biệt (gcc)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Bộ Sưu Tập Giá Tốt</a></li>
-                                        <li><a href="#" class="mega-menu-link">Vang Hồng Giá Tốt</a></li>
-                                        <li><a href="#" class="mega-menu-link">Bộ Sưu Tập</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="mega-menu-column">
-                                    <h4 class="mega-menu-title">Theo Vùng Nổi Bật</h4>
-                                    <ul class="mega-menu-list">
-                                        <li><a href="#" class="mega-menu-link">Bordeaux (Pháp)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Tuscany (Ý)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Napa Valley (Mỹ)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Champagne (Pháp)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rioja (Tây Ban Nha)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Marlborough (New Zealand)</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li><a href="../blog.jsp">Blog</a></li>
-                    <li><a href="../about_us.jsp">About Us</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</header>
+<%@ include file="../components/header.jsp" %>
 
 <div class="error-container">
     <div id="error-code" class="error-code">403</div>
@@ -104,57 +16,9 @@
     <p id="error-message">Bạn không có quyền truy cập vào trang này.</p>
     <p class="support-info">Nếu sự cố vẫn tiếp diễn, vui lòng liên hệ bộ phận hỗ trợ qua số: <strong>1900 8888</strong>
     </p>
-    <a href="../index.jsp" class="home-button">Quay lại trang chủ</a>
+    <a href="<%=request.getContextPath()%>/index.jsp" class="home-button">Quay lại trang chủ</a>
 </div>
 
-<footer class="site-footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-column">
-                <h4 class="footer-heading">Về Chúng Tôi</h4>
-                <p class="footer-text">
-                    Mô tả ngắn gọn về dự án của bạn.
-                    Nội dung này giúp người dùng hiểu rõ hơn về mục đích của bạn.
-                </p>
-                <div class="footer-socials">
-                    <a href="#" class="social-link" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="footer-column">
-                <h4 class="footer-heading">Liên Kết Nhanh</h4>
-                <ul class="footer-links">
-                    <li><a href="">Trang chủ</a></li>
-                    <li><a href="">Giới thiệu</a></li>
-                    <li><a href="">Dịch vụ</a></li>
-                    <li><a href="">Liên hệ</a></li>
-                    <li><a href="">Chính sách</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h4 class="footer-heading">Liên Hệ</h4>
-                <ul class="footer-contact">
-                    <li><strong>Địa chỉ:</strong> Khu Phố 6, P. Linh Trung, Q. Thủ Đức, TP.HCM</li>
-                    <li><strong>Email:</strong> Olenydev@gmail.com</li>
-                    <li><strong>Điện thoại:</strong> (+84) 1234 5678</li>
-                </ul>
-            </div>
-
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Khoa Công Nghệ Thông Tin.</p>
-        </div>
-
-    </div>
-</footer>
+<%@ include file="../components/footer.jsp" %>
 </body>
 </html>
