@@ -1,12 +1,23 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 
 public class DiscountProcess {
+    @ColumnName("product_id")
     private String productId;
+
+    @ColumnName("discount_id")
     private int discountId;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("update_at")
     private Timestamp updateAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     public DiscountProcess() {

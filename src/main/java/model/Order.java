@@ -1,16 +1,33 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Order {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("user_id")
     private int userId;
+
+    @ColumnName("shipping_address_id")
     private int shippingAddressId;
+
+    @ColumnName("discount_id")
     private int discountId;
+
+    @ColumnName("total_price")
     private BigDecimal totalPrice;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("update_at")
     private Timestamp updateAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     public Order() {
