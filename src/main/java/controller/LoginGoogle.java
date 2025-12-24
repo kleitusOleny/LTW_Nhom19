@@ -1,9 +1,12 @@
 package controller;
 
+import dao.UserDAO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.User;
+import services.AuthService;
 
 import java.io.IOException;
 
@@ -13,12 +16,18 @@ public class LoginGoogle extends HttpServlet {
             throws IOException {
         // Google gửi mã xác thực qua tham số "credential"
         String idTokenString = request.getParameter("credential");
+        AuthService authService = new AuthService();
+        String emailFromGoogleToken = authService.getEmailFromGoogleToken(idTokenString);
 
-        if (idTokenString != null) {
-            System.out.println("Token: " + idTokenString);
-            response.sendRedirect(request.getContextPath() + "/index.jsp?loginSuccess=1");
+        UserDAO userDao = new UserDAO();
+        User user = userDao.findByEmail(emailFromGoogleToken);
+        if (user != null) {
+            request.getSession().setAttribute("user", user);
+            response.sendRedirect(request.getContextPath() + "/index.jsp?loginSuccess");
         } else {
-            response.sendRedirect(request.getContextPath() + "AuthPages/Login.jsp?loginError=1");
+            System.out.println("Token: " + idTokenString);
+            request.getSession().setAttribute("googleEmail", emailFromGoogleToken);
+            response.sendRedirect(request.getContextPath() + "/AuthPages/OnBoarding.jsp");
         }
     }
 }

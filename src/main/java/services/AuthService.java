@@ -1,13 +1,41 @@
 package services;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import dao.UserDAO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 public class AuthService {
     private final UserDAO userDAO = new UserDAO();
+    private static final String CLIENT_ID = "561993862196-rspl5j67m79f0857je2sdrv8f75m2ijs.apps.googleusercontent.com";
+
+    public String getEmailFromGoogleToken(String idTokenString){
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                    .setAudience(Collections.singletonList(CLIENT_ID))
+                    .build();
+
+            GoogleIdToken idToken = verifier.verify(idTokenString);
+            if (idToken != null) {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                System.out.println(payload.getEmail());
+                return payload.getEmail();
+            }
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
     public User login(String loginKey, String plainPassword) {
         User user;
@@ -38,7 +66,7 @@ public class AuthService {
         user.setBirthDay(birthday);
         user.setAdministrator(0);
         user.setActive(1);
-        user.setCreatedAt(birthday);
+        user.setCreatedAt(LocalDateTime.now());
 
         userDAO.create(user);
     }
