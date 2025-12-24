@@ -9,6 +9,7 @@ import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -85,7 +86,7 @@ public class UserService {
         newUser.setBirthDay(null);
         newUser.setAdministrator(0);
         newUser.setActive(1);
-        newUser.setCreatedAt(LocalDateTime.now());
+        newUser.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
 
         return userDAO.create(newUser);
     }
@@ -116,7 +117,7 @@ public class UserService {
         user.setEmail(email);
         user.setFullName(fullName);
         user.setPhoneNumber(phone);
-        user.setBirthDay(birthDateTime);
+//        user.setBirthDay(birthDateTime);
 
         this.updateProfile(user);
 

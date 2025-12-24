@@ -3,7 +3,7 @@ package model;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class User implements Serializable {
     @ColumnName("id")
@@ -25,7 +25,7 @@ public class User implements Serializable {
     private String fullName;
 
     @ColumnName("birth_day")
-    private LocalDateTime birthDay;
+    private Timestamp birthDay;
 
     @ColumnName("administrator")
     private int administrator;
@@ -34,10 +34,10 @@ public class User implements Serializable {
     private int active;
 
     @ColumnName("created_at")
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 
     @ColumnName("update_at")
-    private LocalDateTime updateAt;
+    private Timestamp updateAt;
 
     public String getFullName() {
         return fullName;
@@ -47,19 +47,19 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
-    public LocalDateTime getUpdateAt() {
+    public Timestamp getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(LocalDateTime updateAt) {
+    public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
     }
 
-    public LocalDateTime getBirthDay() {
+    public Timestamp getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(LocalDateTime birthDay) {
+    public void setBirthDay(Timestamp birthDay) {
         this.birthDay = birthDay;
     }
 
@@ -126,11 +126,11 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
