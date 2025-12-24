@@ -11,7 +11,7 @@ import model.Product;
 import java.io.IOException;
 import java.util.List;
 
-//@WebServlet(name = "DetailController", value = "/detail")
+
 public class DetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -4,7 +4,7 @@ import dao.UserDAO;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class AuthService {
     private final UserDAO userDAO = new UserDAO();
@@ -25,24 +25,22 @@ public class AuthService {
         }
     }
 
-    public boolean register(User newUser) {
-        int count = userDAO.countUserId(newUser.getEmail());
-        if (count > 0) return false;
+    public void register(String fullName, String email, String username, String plainPassword, String phoneNumber, LocalDateTime birthday) {
+        if (userDAO.countUserId(email) > 0) return;
+        String hashedPass = BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
 
-        String plainPass = newUser.getPasswordHash();
-        String hashedPass = BCrypt.hashpw(plainPass, BCrypt.gensalt(12));
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPasswordHash(hashedPass);
+        user.setPhoneNumber(phoneNumber);
+        user.setFullName(fullName);
+        user.setBirthDay(birthday);
+        user.setAdministrator(0);
+        user.setActive(1);
+        user.setCreatedAt(birthday);
 
-        newUser.setEmail(newUser.getEmail());
-        newUser.setUsername(newUser.getUsername() != null ? newUser.getUsername() : null);
-        newUser.setPasswordHash(hashedPass);
-        newUser.setPhoneNumber(newUser.getPhoneNumber());
-        newUser.setFullName(newUser.getFullName());
-        newUser.setBirthDay(newUser.getBirthDay());
-        newUser.setAdministrator(0);
-        newUser.setActive(1);
-        newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
-        return userDAO.create(newUser);
+        userDAO.create(user);
     }
 
     // unfinished

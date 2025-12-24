@@ -5,6 +5,14 @@
     font-family: Mulish, sans-serif;
 }
 
+input::-ms-reveal {
+    display: none;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
 body {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../../img/ruou2.jpg");
     background-size: cover;
