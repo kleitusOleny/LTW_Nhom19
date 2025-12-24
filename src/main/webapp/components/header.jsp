@@ -21,14 +21,14 @@
             <a href="<%= request.getContextPath() %>/index.jsp" class="logo">LOGO</a>
           </div>
 
-          <div class="header-center">
-            <form class="search-form" action="#" method="get">
-              <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
-              <button type="submit" aria-label="Search">
-                <i class="fas fa-search"></i>
-              </button>
-            </form>
-          </div>
+      <div class="header-center">
+        <form class="search-form" action="#" method="get">
+          <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
+          <button type="submit" aria-label="Search">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
 
           <div class="header-right">
             <a href="<%= request.getContextPath() %>/infoUsers/user_sidebar.jsp" aria-label="Account">
