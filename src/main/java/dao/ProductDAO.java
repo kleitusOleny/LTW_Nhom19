@@ -91,7 +91,6 @@ public class ProductDAO extends ADAO {
         );
     }
     
-    // Hàm lấy 4 sản phẩm liên quan
     public List<Product> getRelatedProducts() {
         return jdbi.withHandle(handle ->
                 handle.createQuery(
@@ -105,7 +104,7 @@ public class ProductDAO extends ADAO {
                                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
                                         "LEFT JOIN categorys c ON p.category_id = c.id " +
                                         "WHERE p.is_delete = 0 " +
-                                        "ORDER BY RAND() LIMIT 4"
+                                        "ORDER BY RAND() LIMIT 8"
                         )
                         .mapToBean(Product.class)
                         .list()
@@ -142,7 +141,7 @@ public class ProductDAO extends ADAO {
     
     public List<ProductType> getAllTypes() {
         return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT id AS typeId, type_name AS typeName FROM product_types WHERE is_delete = 0")
+                handle.createQuery("SELECT id, type_name AS typeName FROM product_types WHERE is_delete = 0")
                         .mapToBean(ProductType.class)
                         .list()
         );
@@ -195,8 +194,6 @@ public class ProductDAO extends ADAO {
                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
                         "WHERE p.is_delete = 0 "
         );
-        
-        // Truyền thêm tags vào hàm nối chuỗi
         appendFilterConditions(sql, prices, categories, manufacturers, types, origins, capacities, tags);
         
         sql.append(" LIMIT :limit OFFSET :offset");

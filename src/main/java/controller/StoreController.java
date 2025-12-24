@@ -48,7 +48,7 @@ public class StoreController extends HttpServlet {
         request.setAttribute("tags", dao.getAllTags());
         request.setAttribute("origins", dao.getAllOrigins());
         request.setAttribute("capacities", dao.getAllCapacities());
-//        request.setAttribute("selectedTags", new ArrayList<>());
+        request.setAttribute("selectedTags", new ArrayList<>());
         
         
         request.getRequestDispatcher("store.jsp").forward(request, response);
