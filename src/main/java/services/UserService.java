@@ -4,27 +4,48 @@ import dao.UserDAO;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class UserService {
     private final UserDAO userDAO = new UserDAO();
 
     private boolean safeCheck(User currentUser, User newUser) {
-        if (currentUser == null) return false;
-        if (currentUser.getEmail().equals(newUser.getEmail())) return false;
+        if (currentUser == null)
+            return false;
+        if (currentUser.getEmail().equals(newUser.getEmail()))
+            return false;
         return true;
     }
 
     public boolean updateProfile(User newUser) {
-        User currentUser = userDAO.findById(newUser);
+        if (newUser == null)
+            return false;
 
-        if (safeCheck(currentUser, newUser)) {
-            currentUser.setUsername(newUser.getUsername());
+        User currentUser = userDAO.findById(newUser);
+        if (currentUser == null)
+            return false;
+
+        if (!Objects.equals(currentUser.getEmail(), newUser.getEmail())) {
+            if (userDAO.findByEmail(newUser.getEmail()) != null) {
+                throw new IllegalArgumentException("Email đã tồn tại");
+            }
             currentUser.setEmail(newUser.getEmail());
-            currentUser.setActive(newUser.getActive());
-            currentUser.setBirthDay(newUser.getBirthDay());
-            currentUser.setPhoneNumber(newUser.getPhoneNumber());
         }
+
+        if (newUser.getUsername() != null)
+            currentUser.setUsername(newUser.getUsername());
+
+        if (newUser.getFullName() != null)
+            currentUser.setFullName(newUser.getFullName());
+
+        if (newUser.getBirthDay() != null)
+            currentUser.setBirthDay(newUser.getBirthDay());
+
+        if (newUser.getPhoneNumber() != null)
+            currentUser.setPhoneNumber(newUser.getPhoneNumber());
+
+        currentUser.setActive(newUser.getActive());
 
         return userDAO.update(currentUser);
     }
@@ -32,7 +53,7 @@ public class UserService {
     public boolean blockAccount(User newUser) {
         User currentUser = userDAO.findById(newUser);
 
-        if (safeCheck(currentUser, newUser)){
+        if (safeCheck(currentUser, newUser)) {
             currentUser.setActive(newUser.getActive());
         }
 
@@ -41,7 +62,8 @@ public class UserService {
 
     public boolean addAccount(User newUser) {
         int count = userDAO.countUserId(newUser.getEmail());
-        if (count > 0) return false;
+        if (count > 0)
+            return false;
 
         String plainPass = newUser.getPasswordHash();
         String hashedPass = BCrypt.hashpw(plainPass, BCrypt.gensalt(12));
@@ -54,7 +76,7 @@ public class UserService {
         newUser.setBirthDay(null);
         newUser.setAdministrator(0);
         newUser.setActive(1);
-        newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        newUser.setCreatedAt(LocalDateTime.now());
 
         return userDAO.create(newUser);
     }

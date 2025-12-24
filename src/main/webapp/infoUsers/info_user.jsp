@@ -1,151 +1,138 @@
+<%@ page import="model.User" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.ZoneId" %>
+<% String birthDayStr = "";
+    User user = (User) request.getAttribute("user");
+    if (user != null &&
+            user.getBirthDay() != null) {
+        LocalDate localDate = user.getBirthDay().atZone(ZoneId.systemDefault()).toLocalDate();
+        birthDayStr = String.format("%04d-%02d-%02d",
+                localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+    } %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<link rel="stylesheet" href="../css/info_user_style.css">
-
-
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/info_user_style.css">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="user-profile-card">
     <h2>Thông tin người dùng</h2>
+    <form action="<%= request.getContextPath() %>/user" method="post">
+        <input type="hidden" name="action" value="updateProfile">
+        <c:if test="${not empty sessionScope.error}">
+            <div class="alert alert-danger auto-hide">${sessionScope.error}</div>
+            <c:remove var="error" scope="session"/>
+        </c:if>
 
-    <div class="user-info-fields">
+        <c:if test="${not empty sessionScope.success}">
+            <div class="alert alert-success auto-hide">${sessionScope.success}</div>
+            <c:remove var="success" scope="session"/>
+        </c:if>
+        <div class="user-info-fields">
+            <div class="field">
+                <i class="fa-solid fa-user left-icon"></i>
+                <input class="editable-input" type="text" name="fullName"
+                       value="${user.fullName}" disabled>
+            </div>
 
-        <div class="field">
-            <i class="fa-solid fa-user left-icon"></i>
-            <span class="editable" data-key="name">Nguyễn Văn A</span>
+            <div class="field">
+                <i class="fa-solid fa-envelope left-icon"></i>
+                <input class="editable-input" type="email" name="email" value="${user.email}"
+                       disabled>
+            </div>
+
+            <div class="field">
+                <i class="fa-solid fa-phone left-icon"></i>
+                <input class="editable-input" type="text" name="phone"
+                       value="${user.phoneNumber}" disabled>
+            </div>
+
+            <div class="field">
+                <i class="fa-solid fa-calendar-days left-icon"></i>
+                <input class="editable-input" type="date" name="birthDay"
+                       value="<%= birthDayStr%>" disabled>
+            </div>
+
+            <div class="field edit-only" style="display:none;">
+                <i class="fa-solid fa-lock left-icon"></i>
+                <input class="editable-input" type="password" name="oldPassword"
+                       placeholder="Nhập mật khẩu cũ">
+            </div>
+
+            <div class="field edit-only" style="display:none;">
+                <i class="fa-solid fa-lock left-icon"></i>
+                <input class="editable-input" type="password" name="newPassword"
+                       placeholder="Mật khẩu mới (nếu đổi)">
+            </div>
+
         </div>
 
-        <div class="field">
-            <i class="fa-solid fa-envelope left-icon"></i>
-            <span class="editable" data-key="email">nguyenvan@example.com</span>
+        <div class="buttons">
+            <button type="button" id="editBtn" class="btn gray">Sửa</button>
+            <button type="submit" id="saveBtn" class="btn" style="display:none;">Lưu</button>
+            <button type="button" id="cancelBtn" class="btn cancel"
+                    style="display:none;">Hủy
+            </button>
         </div>
 
-        <div class="field">
-            <i class="fa-solid fa-phone left-icon"></i>
-            <span class="editable" data-key="phone">0987654321</span>
-        </div>
-
-        <div class="field">
-            <i class="fa-solid fa-calendar-days left-icon"></i>
-            <span class="editable" data-key="dob">01/01/1990</span>
-        </div>
-
-        <div class="field old-password-field" style="display:none;">
-            <i class="fa-solid fa-lock left-icon"></i>
-            <input id="old-password" type="password" placeholder="Nhập mật khẩu cũ">
-            <i class="fa-solid fa-eye password-toggle old-pass-eye"></i>
-        </div>
-
-        <div class="field">
-            <i class="fa-solid fa-lock left-icon"></i>
-            <span class="editable" data-key="password">********</span>
-            <i class="fa-solid fa-eye password-toggle new-pass-eye"></i>
-        </div>
-
-    </div>
-
-    <div class="buttons">
-        <button id="edit-btn" class="btn gray">Sửa</button>
-        <button id="save-btn" class="btn" style="display:none;">Lưu</button>
-        <button id="cancel-btn" class="btn cancel" style="display:none;">Hủy</button>
-    </div>
+    </form>
 </div>
 <script>
-    (function () {
-        const editBtn = document.getElementById("edit-btn");
-        if (!editBtn || editBtn.dataset.initialized) return;
-        editBtn.dataset.initialized = true;
-        const saveBtn = document.getElementById("save-btn");
-        const cancelBtn = document.getElementById("cancel-btn");
-        const oldPassField = document.querySelector(".old-password-field");
-        const oldPassInput = document.getElementById("old-password");
-        const oldPassEye = document.querySelector(".old-pass-eye");
-        const newPassEye = document.querySelector(".new-pass-eye");
+    const editBtn = document.getElementById("editBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
 
-        let backup = {};
+    const inputs = document.querySelectorAll(".editable-input");
+    const editOnlyFields = document.querySelectorAll(".edit-only");
 
-        function attachEyeToggle(icon, input) {
-            icon.style.display = "block";
+    const backup = {};
 
-            icon.onclick = () => {
-                if (input.type === "password") {
-                    input.type = "text";
-                    icon.classList.remove("fa-eye");
-                    icon.classList.add("fa-eye-slash");
-                } else {
-                    input.type = "password";
-                    icon.classList.remove("fa-eye-slash");
-                    icon.classList.add("fa-eye");
-                }
-            };
-        }
+    editBtn.onclick = () => {
+        inputs.forEach(input => {
+            backup[input.name] = input.value;
 
-        function toggleEditMode(on) {
-            const editable = document.querySelectorAll(".editable");
+            input.disabled = false;
+        });
 
-            if (on) {
-                oldPassField.style.display = "flex";
-                oldPassInput.value = "";
-                attachEyeToggle(oldPassEye, oldPassInput);
+        editOnlyFields.forEach(div => {
+            div.style.display = "flex";
+            const pwd = div.querySelector("input");
+            if (pwd) pwd.disabled = false;
+        });
 
-                editable.forEach(span => {
-                    const key = span.dataset.key;
-                    backup[key] = key === "gender" ? span.dataset.value : span.textContent;
+        editBtn.style.display = "none";
+        saveBtn.style.display = "inline-block";
+        cancelBtn.style.display = "inline-block";
+    };
 
-                    let input;
+    cancelBtn.onclick = (e) => {
+        e.preventDefault();
 
-                    if (key === "password") {
-                        input = document.createElement("input");
-                        input.type = "password";
-                        input.placeholder = "Nhập mật khẩu mới";
-                        attachEyeToggle(newPassEye, input);
-                    } else if (key === "dob") {
-                        input = document.createElement("input");
-                        input.type = "date";
-                        let p = span.textContent.split("/");
-                        input.value = `${p[2]}-${p[1]}-${p[0]}`;
-                    } else {
-                        input = document.createElement("input");
-                        input.type = "text";
-                        input.value = span.textContent;
-                    }
+        inputs.forEach(input => {
+            input.value = backup[input.name] || "";
+            input.disabled = true;
+        });
 
-                    input.classList.add("editable-input");
-                    input.dataset.key = key;
-
-                    span.replaceWith(input);
-                });
-
-                editBtn.style.display = "none";
-                saveBtn.style.display = "inline-block";
-                cancelBtn.style.display = "inline-block";
-            } else {
-                oldPassField.style.display = "none";
-                oldPassEye.style.display = "none";
-                newPassEye.style.display = "none";
-
-                document.querySelectorAll(".editable-input").forEach(input => {
-                    let key = input.dataset.key;
-                    let span = document.createElement("span");
-                    span.classList.add("editable");
-                    span.dataset.key = key;
-
-
-                    span.textContent = backup[key];
-
-
-                    input.replaceWith(span);
-                });
-
-                editBtn.style.display = "inline-block";
-                saveBtn.style.display = "none";
-                cancelBtn.style.display = "none";
+        editOnlyFields.forEach(div => {
+            div.style.display = "none";
+            const pwd = div.querySelector("input");
+            if (pwd) {
+                pwd.value = "";
+                pwd.disabled = true;
             }
-        }
+        });
 
-        editBtn.onclick = () => toggleEditMode(true);
-        cancelBtn.onclick = () => toggleEditMode(false);
+        editBtn.style.display = "inline-block";
+        saveBtn.style.display = "none";
+        cancelBtn.style.display = "none";
+    };
+</script>
+<script>
+    const alerts = document.querySelectorAll(".auto-hide");
 
-        saveBtn.onclick = () => {
-            alert("Thông tin đã cập nhật!");
-            toggleEditMode(false);
-        };
-    })();
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.transition = "opacity 0.5s ease";
+            alert.style.opacity = "0";
+            setTimeout(() => alert.remove(), 500);
+        }, 2000);
+    });
 </script>
