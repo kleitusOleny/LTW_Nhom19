@@ -114,6 +114,7 @@
         <a href="Login.jsp" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
+<script src="${pageContext.request.contextPath}/preventspace.js"></script>
 <script>
     const passwordInput = document.getElementById('password');
     const confirmInput = document.getElementById('confirm-password');
@@ -126,20 +127,8 @@
     const remindUsernameLength = document.getElementById('remind-username');
     const remindConfirm = document.getElementById('remind-confirm');
 
-    const preventSpaceFields = document.querySelectorAll('#email, #username, #password, #confirm-password, #phone-number, #birth');
-    preventSpaceFields.forEach(field => {
-        // Chặn ngay khi nhấn phím
-        field.addEventListener('keydown', function(e) {
-            if (e.key === ' ') {
-                e.preventDefault();
-            }
-        });
-
-        // Xóa khoảng trắng nếu người dùng cố tình paste vào
-        field.addEventListener('input', function() {
-            this.value = this.value.replace(/\s/g, '');
-        });
-    });
+    const listFields = ['#email, #username, #password, #confirm-password, #phone-number, #birth'];
+    preventspace(listFields)
 
     function validatePassword() {
         const value = passwordInput.value;

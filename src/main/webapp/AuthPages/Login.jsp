@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,19 +24,38 @@
                     <ion-icon name="person-outline"></ion-icon>
                     Tài Khoản</label>
                 <input type="text" id="username" name="username" placeholder="Nhập tài khoản hoặc email hiện có"
-                       required>
+                       value="${param.username}"
+                       class="${not empty usernameError or not empty inputError or not empty loginError ? 'input-error' : ''}" required>
+                <c:if test="${not empty inputError}">
+                    <span class="error-msg">${inputError}</span>
+                </c:if>
+                <c:if test="${not empty usernameError}">
+                    <span class="error-msg">${usernameError}</span>
+                </c:if>
+                <c:if test="${not empty loginError}">
+                    <span class="error-msg">${loginError}</span>
+                </c:if>
             </div>
 
             <div class="password-input">
                 <label for="password" class="label-with-icon">
-                    <ion-icon name="lock-closed-outline"></ion-icon>
-                    Mật Khẩu</label>
+                    <ion-icon name="lock-closed-outline"></ion-icon>Mật Khẩu
+                </label>
                 <div class="input-wrapper">
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu hiện có" required>
+                    <input type="password" id="password" name="password"
+                           placeholder="Nhập mật khẩu hiện có"
+                           class="${not empty inputError ? 'input-error' : ''}"
+                           required>
                     <span id="eyeIcon">
-                    <ion-icon name="eye-off-outline"></ion-icon>
-                </span>
+                        <ion-icon name="eye-off-outline"></ion-icon>
+                    </span>
                 </div>
+                <c:if test="${not empty inputError}">
+                    <span class="error-msg">${inputError}</span>
+                </c:if>
+                <c:if test="${not empty loginError}">
+                    <span class="error-msg">${loginError}</span>
+                </c:if>
             </div>
 
             <div class="remember-me-input">
@@ -87,6 +107,7 @@
         <button id="close-btn">Đã rõ</button>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/preventspace.js"></script>
 <script>
     setupModal('question-account-modal', 'btn-question', 'close-btn')
     let eyeClosed = document.getElementById('eyeIcon').querySelector('ion-icon');
@@ -109,13 +130,25 @@
     const errorCode = urlParams.get('loginError')
     const errorMessages = {
         '1': "Đăng nhập Google thất bại",
-        '2': "Sai thông tin đăng nhập",
-        '3': "Thiếu thông tin đăng nhập"
     }
     if (errorCode && errorMessages[errorCode]) {
         alert(errorMessages[errorCode])
         window.history.replaceState(null, '', window.location.pathname);
     }
+    const listFields = ['#username', '#password']
+    preventspace(listFields)
 </script>
+<style>
+    .error-msg {
+        color: red;
+        font-size: 0.85em;
+        font-style: italic;
+        margin-top: -5px;
+        display: block;
+    }
+    input.input-error {
+        border: 1px solid red;
+    }
+</style>
 </body>
 </html>

@@ -7,47 +7,27 @@ import java.util.List;
 public class UserDAO extends ADAO implements IDAO<User> {
     @Override
     public List<User> getAll() {
-        return jdbi.withHandle(handle -> handle.createQuery("""
-                        SELECT\s
-                            id,
-                            email,\s
-                            username,
-                            password_hash AS passwordHash,
-                            phone_number AS phoneNumber,
-                            active,\s
-                            created_at AS createdAt,
-                            birth_day AS birthDay,
-                            full_name AS fullName
-                        FROM users
-                       \s"""))
-                .mapToBean(User.class)
-                .list();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT id, email, username, password_hash AS passwordHash, phone_number AS phoneNumber, active, created_at AS createdAt, birth_day AS birthDay, full_name AS fullName FROM users")
+                        .mapToBean(User.class)
+                        .list()
+        );
     }
 
     @Override
     public User findById(User entity) {
-        return jdbi.withHandle(handle -> handle.createQuery("select * from users where id=:id"))
-                .bind("id", entity.getId()).mapToBean(User.class).findFirst().orElse(null);
+        return jdbi.withHandle(handle -> handle.createQuery("select * from users where id=:id")
+                .bind("id", entity.getId()).mapToBean(User.class).findFirst().orElse(null));
     }
 
     @Override
     public boolean create(User entity) {
-        return jdbi.withHandle(handle -> handle.createUpdate("""
-                INSERT INTO users\s
-                (email, username, password_hash, phone_number, full_name, birth_day, administrator, active, created_at)
-                VALUES\s
-                (:email, :username, :passwordHash, :phoneNumber, :fullName, :birthDay, :administrator, :active, :createdAt)
-               \s""")
-                .bind("email", entity.getEmail())
-                .bind("username", entity.getUsername())
-                .bind("passwordHash", entity.getPasswordHash())
-                .bind("phoneNumber", entity.getPhoneNumber())
-                .bind("fullName", entity.getFullName())
-                .bind("birthDay", entity.getBirthDay())
-                .bind("administrator", entity.getAdministrator())
-                .bind("active", entity.getActive())
-                .bind("createdAt", entity.getCreatedAt())
-                .execute() > 0);
+        return jdbi.withHandle(handle ->
+                handle.createUpdate("INSERT INTO users (email, username, password_hash, phone_number, full_name, birth_day, administrator, active, created_at) " +
+                                "VALUES (:email, :username, :passwordHash, :phoneNumber, :fullName, :birthDay, :administrator, :active, :createdAt)")
+                        .bindBean(entity) // Dùng bindBean cho nhanh vì tên field khớp với tên tham số
+                        .execute() > 0
+        );
     }
 
     @Override
@@ -98,24 +78,31 @@ public class UserDAO extends ADAO implements IDAO<User> {
     }
 
     public User findByEmail(String email) {
-        return jdbi.withHandle(handle -> handle.createQuery("select * from users where email=:email and active=:true"))
-                .bind("email", email).mapToBean(User.class).findFirst().orElse(null);
+        return jdbi.withHandle(handle -> handle.createQuery("select * from users where email = :email and active = 1")
+                .bind("email", email)
+                .mapToBean(User.class)
+                .findFirst()
+                .orElse(null));
     }
 
     public User findByUsername(String username) {
-        return jdbi.withHandle(handle -> handle.createQuery("select * from users where username=:username and active=:true"))
-                .bind("username", username).mapToBean(User.class).findFirst().orElse(null);
+        return jdbi.withHandle(handle -> handle.createQuery("select * from users where username=:username and active=:true")
+                .bind("username", username).mapToBean(User.class).findFirst().orElse(null));
     }
 
     public boolean updatePassword(String email, String newPasswordHashed) {
-        return jdbi.withHandle(handle -> handle.createUpdate("""
-                        update users set password_hash =:passwordHash where email=:email""")
-                .bind("passwordHash", newPasswordHashed)
-                .bind("email", email).execute() > 0);
+        return jdbi.withHandle(handle ->
+                handle.createUpdate("update users set password_hash = :passwordHash where email = :email")
+                        .bind("passwordHash", newPasswordHashed)
+                        .bind("email", email)
+                        .execute() > 0
+        );
     }
 
     public int countUserId(String email) {
-        return jdbi.withHandle(handle -> handle.createQuery("select count(id) from users where email =:email"))
-                .bind("email", email).mapTo(Integer.class).findOnly();
+        return jdbi.withHandle(handle -> handle.createQuery("select count(id) from users where email = :email")
+                .bind("email", email)
+                .mapTo(Integer.class)
+                .findOnly());
     }
 }
