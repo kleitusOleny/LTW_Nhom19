@@ -1,10 +1,19 @@
 package services;
 
 import dao.UserDAO;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Objects;
 
 public class UserService {
@@ -79,5 +88,42 @@ public class UserService {
         newUser.setCreatedAt(LocalDateTime.now());
 
         return userDAO.create(newUser);
+    }
+    public void updateProfile(HttpServletRequest request, HttpServletResponse response)
+            throws ParseException, ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("user");
+
+        String fullName = request.getParameter("fullName");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDay = formatter.parse(request.getParameter("birthDay"));
+        LocalDateTime birthDateTime = birthDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        String oldPassword = request.getParameter("oldPassword");
+        String newPassword = request.getParameter("newPassword");
+
+        if (newPassword != null && !newPassword.isEmpty()) {
+            if (!BCrypt.checkpw(oldPassword, user.getPasswordHash())) {
+                session.setAttribute("error", "Mật khẩu cũ không đúng");
+                request.setAttribute("user", user);
+                request.getRequestDispatcher("/infoUsers/user_sidebar.jsp").forward(request, response);
+                return;
+            }
+            String hashedPass = BCrypt.hashpw(newPassword, BCrypt.gensalt(12));
+            user.setPasswordHash(hashedPass);
+        }
+        user.setEmail(email);
+        user.setFullName(fullName);
+        user.setPhoneNumber(phone);
+        user.setBirthDay(birthDateTime);
+
+        this.updateProfile(user);
+
+        session.setAttribute("user", user);
+
+        session.setAttribute("success", "Cập nhật thông tin thành công");
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("/infoUsers/user_sidebar.jsp").forward(request, response);
     }
 }
