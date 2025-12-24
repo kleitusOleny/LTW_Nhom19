@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -10,7 +11,86 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
           integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <link rel="stylesheet" href="css/store_style.css">
+    <style>
+        .price-slider-wrapper {
+            width: 100%;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .slider-track-bg {
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 3px;
+            z-index: 1;
+        }
+
+        .slider-track-progress {
+            height: 6px;
+            background-color: #8c3333;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            border-radius: 3px;
+        }
+
+        .range-input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .range-input-container input[type="range"] {
+            position: absolute;
+            width: 100%;
+            top: -3px;
+            left: 0;
+            height: 6px;
+            -webkit-appearance: none;
+            background: none;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .range-input-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #8c3333;
+            cursor: pointer;
+            pointer-events: auto;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .range-input-container input[type="range"]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #8c3333;
+            cursor: pointer;
+            pointer-events: auto;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .price-values {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
 
@@ -19,150 +99,130 @@
     <div class="content-container">
         <aside class="filter-content">
             <h3 class="filter-title">Bộ Lọc Sản Phẩm</h3>
+            <form action="filter" method="get">
+                <%-- 1. LỌC GIÁ --%>
+                    <div class="filter-widget">
+                        <h4 class="widget-title">Lọc theo giá</h4>
+                        <c:set var="minVal" value="0"/>
+                        <c:set var="maxVal" value="10000000"/>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Lọc theo giá</h4>
+                        <c:if test="${not empty selectedPrices && selectedPrices.size() > 0}">
+                            <c:set var="priceRange" value="${selectedPrices[0]}"/>
+                            <c:set var="parts" value="${fn:split(priceRange, '-')}"/>
+                            <c:if test="${fn:length(parts) == 2}">
+                                <c:set var="minVal" value="${parts[0]}"/>
+                                <c:set var="maxVal" value="${parts[1] == 'max' ? 10000000 : parts[1]}"/>
+                            </c:if>
+                        </c:if>
 
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="price-1">
-                        <label for="price-1">Dưới 500.000₫</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="price-2">
-                        <label for="price-2">500.000₫ - 1.000.000₫</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="price-3">
-                        <label for="price-3">1.000.000₫ - 2.000.000₫</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="price-4">
-                        <label for="price-4">2.000.000₫ - 5.000.000₫</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="price-5">
-                        <label for="price-5">Trên 5.000.000₫</label>
-                    </li>
-                </ul>
+                        <div class="price-slider-wrapper">
+                            <div class="slider-track-bg"></div> <div class="slider-track-progress" id="visual-track"></div> <div class="range-input-container">
+                            <input type="range" id="input-min" min="0" max="10000000" step="100000" value="${minVal}">
+                            <input type="range" id="input-max" min="0" max="10000000" step="100000" value="${maxVal}">
+                        </div>
 
-            </div>
+                            <input type="hidden" name="price" id="hidden-price-filter" value="${minVal}-${maxVal}">
+                        </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Danh Mục</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="cat-bordeaux">
-                        <label for="cat-bordeaux">Bordeaux</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cat-khuyenmai">
-                        <label for="cat-khuyenmai">Khuyến Mại</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cat-nhapkhau">
-                        <label for="cat-nhapkhau">Rượu Vang Nhập Khẩu</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cat-phap">
-                        <label for="cat-phap">Rượu Vang Pháp</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cat-saint-emilion">
-                        <label for="cat-saint-emilion">Saint-Émilion</label>
-                    </li>
-                </ul>
-            </div>
+                        <div class="price-values">
+                            <span id="min-price-display">0 ₫</span>
+                            <span id="max-price-display">10.000.000 ₫</span>
+                        </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Loại Rượu</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="type-vangdo">
-                        <label for="type-vangdo">Rượu Vang Đỏ</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="type-vangtrang">
-                        <label for="type-vangtrang">Rượu Vang Trắng</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="type-vanghong">
-                        <label for="type-vanghong">Rượu Vang Hồng</label>
-                    </li>
-                </ul>
-            </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Áp dụng</button>
+                    </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Xuất Xứ</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="origin-phap">
-                        <label for="origin-phap">Pháp</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="origin-y">
-                        <label for="origin-y">Ý</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="origin-chile">
-                        <label for="origin-chile">Chile</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="origin-my">
-                        <label for="origin-my">Mỹ</label>
-                    </li>
-                </ul>
-            </div>
+                <%-- 2. DANH MỤC --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Danh Mục</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="c" items="${categories}">
+                            <c:set var="cid" value="${c.id}"/>
+                            <li>
+                                <input type="checkbox" id="cat-${c.id}" name="category" value="${c.id}"
+                                    ${fn:contains(selectedCategories, String.valueOf(cid)) ? 'checked' : ''}>
+                                <label for="cat-${c.id}">${c.categoryName}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Nhà sản xuất</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="manu-corbin">
-                        <label for="manu-corbin">CHÂTEAU CORBIN</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="manu-cantine">
-                        <label for="manu-cantine">Cantine</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="manu-penfolds">
-                        <label for="manu-penfolds">Penfolds</label>
-                    </li>
-                </ul>
-            </div>
+                <%-- 3. LOẠI RƯỢU --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Loại Rượu</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="t" items="${types}">
+                            <c:set var="tid" value="${t.id}"/>
+                            <li>
+                                <input type="checkbox" id="type-${t.id}" name="type" value="${t.id}"
+                                    ${fn:contains(selectedTypes, String.valueOf(tid)) ? 'checked' : ''}>
+                                <label for="type-${t.id}">${t.typeName}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Dung tích</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="cap-750">
-                        <label for="cap-750">750ML</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cap-1500">
-                        <label for="cap-1500">1.5L</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cap-3000">
-                        <label for="cap-3000">3L</label>
-                    </li>
-                </ul>
-            </div>
+                <%-- 4. XUẤT XỨ --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Xuất Xứ</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="o" items="${origins}" varStatus="loop">
+                            <li>
+                                <input type="checkbox" id="origin-${loop.index}" name="origin" value="${o}"
+                                    ${fn:contains(selectedOrigins, o) ? 'checked' : ''}>
+                                <label for="origin-${loop.index}">${o}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
-            <div class="filter-widget">
-                <h4 class="widget-title">Tags</h4>
-                <ul class="filter-list">
-                    <li>
-                        <input type="checkbox" id="tag-dacbiet">
-                        <label for="tag-dacbiet">gcc giá đặc biệt</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="tag-quatang">
-                        <label for="tag-quatang">Quà tặng</label>
-                    </li>
-                </ul>
-            </div>
+                <%-- 5. NHÀ SẢN XUẤT--%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Nhà sản xuất</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="m" items="${manufacturers}">
+                            <c:set var="mid" value="${m.id}"/>
+                            <li>
+                                <input type="checkbox" id="manu-${m.id}" name="manufacturer" value="${m.id}"
+                                    ${fn:contains(selectedManufacturers, String.valueOf(mid)) ? 'checked' : ''}>
+                                <label for="manu-${m.id}">${m.manufacturerName}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+
+                <%-- 6. DUNG TÍCH --%>
+                <div class="filter-widget">
+                    <h4 class="widget-title">Dung tích</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="cap" items="${capacities}" varStatus="loop">
+                            <li>
+                                <input type="checkbox" id="cap-${loop.index}" name="capacity" value="${cap}"
+                                    ${fn:contains(selectedCapacities, cap) ? 'checked' : ''}>
+
+                                <label for="cap-${loop.index}">${cap}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+
+                <div class="filter-widget">
+                    <h4 class="widget-title">Tags nổi bật</h4>
+                    <ul class="filter-list">
+                        <c:forEach var="tag" items="${tags}">
+                            <c:set var="tagid" value="${tag.id}"/>
+                            <li>
+                                <input type="checkbox" id="tag-${tag.id}" name="tag" value="${tag.id}"
+                                    ${fn:contains(selectedTags, String.valueOf(tagid)) ? 'checked' : ''}>
+                                <label for="tag-${tag.id}">${tag.tagName}</label>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; border: #000000 2px solid ;">Áp dụng bộ lọc</button>
+
+            </form>
         </aside>
 
         <div class="product-content">
@@ -190,8 +250,14 @@
                     <div class="product-card">
                         <div class="product-image">
                             <a href="detail?id=${p.id}">
-
-                                <img src="https://via.placeholder.com/300x400?text=Wine" alt="${p.productName}">
+                                <c:choose>
+                                    <c:when test="${not empty p.imageUrl}">
+                                        <img src="${p.imageUrl}" alt="${p.productName}">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="https://via.placeholder.com/300x400?text=Wine" alt="Chưa có ảnh">
+                                    </c:otherwise>
+                                </c:choose>
                             </a>
                             <button class="wishlist-btn" aria-label="Thêm vào yêu thích" data-id="${p.id}">
                                 <i class="fa-regular fa-heart"></i>
@@ -215,25 +281,27 @@
 
                             <p class="product-producer">Nhà sản xuất: ${p.manufacturerId}</p>
 
-                                <%-- 6. SỬA: Tạm ẩn Rating vì Product.java chưa có trường rating --%>
-                                <%--
-                                <div class="product-rating">
-                                    <c:forEach begin="1" end="5" var="i">
-                                         <c:choose>
-                                            <c:when test="${p.rating >= i}">
-                                                 <i class="fa-solid fa-star"></i>
-                                            </c:when>
-                                            <c:otherwise>
-                                                 <i class="fa-regular fa-star"></i>
-                                            </c:otherwise>
-                                         </c:choose>
-                                    </c:forEach>
-                                </div>
-                                --%>
+                            <div class="product-rating">
+                                <fmt:formatNumber var="roundedRating" value="${p.rating}" maxFractionDigits="0"/>
+
+                                <c:forEach begin="1" end="5" var="i">
+                                    <c:choose>
+                                        <c:when test="${i <= roundedRating}">
+                                            <i class="fa-solid fa-star" style="color: #FFD700;"></i>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="fa-regular fa-star" style="color: #ccc;"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+
+                                <span style="font-size: 12px; color: #666;">(${p.totalReviews})</span>
+                            </div>
 
                             <p class="product-price">
                                 <fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫"
+                                                  maxFractionDigits="0"/>
                             </p>
 
                             <a href="AddToCartServlet?id=${p.id}" class="add-to-cart-btn">Thêm vào giỏ</a>
@@ -242,26 +310,34 @@
                 </c:forEach>
             </div>
             <nav class="pagination-container" aria-label="Page navigation">
-                <ul class="pagination">
 
+                <%-- Xác định đường dẫn gốc: store hay filter --%>
+                <c:set var="baseUrl"
+                       value="${requestScope['javax.servlet.forward.servlet_path'] == '/filter' ? 'filter' : 'store'}"/>
+
+                <ul class="pagination">
+                    <%-- Nút Previous --%>
                     <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                        <a class="page-link" href="store?page=${currentPage - 1}" aria-label="Previous">
+                        <%-- Link: baseUrl + page mới + filterParams cũ --%>
+                        <a class="page-link" href="${baseUrl}?page=${currentPage - 1}${filterParams}"
+                           aria-label="Previous">
                             <i class="fa-solid fa-angle-left"></i>
                         </a>
                     </li>
 
+                    <%-- Các số trang --%>
                     <c:forEach begin="1" end="${totalPages}" var="i">
                         <li class="page-item ${currentPage == i ? 'active' : ''}">
-                            <a class="page-link" href="store?page=${i}">${i}</a>
+                            <a class="page-link" href="${baseUrl}?page=${i}${filterParams}">${i}</a>
                         </li>
                     </c:forEach>
 
+                    <%-- Nút Next --%>
                     <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                        <a class="page-link" href="store?page=${currentPage + 1}" aria-label="Next">
+                        <a class="page-link" href="${baseUrl}?page=${currentPage + 1}${filterParams}" aria-label="Next">
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
-
                 </ul>
             </nav>
         </div>
@@ -289,6 +365,61 @@
                 }
             });
         });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rangeMin = document.getElementById("input-min");
+        const rangeMax = document.getElementById("input-max");
+        const visualTrack = document.getElementById("visual-track");
+        const displayMin = document.getElementById("min-price-display");
+        const displayMax = document.getElementById("max-price-display");
+        const hiddenInput = document.getElementById("hidden-price-filter");
+
+        const minLimit = 0;
+        const maxLimit = 10000000;
+        const gap = 500000; // Khoảng cách tối thiểu giữa 2 nút
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+        }
+
+        function updateSlider() {
+            let minVal = parseInt(rangeMin.value);
+            let maxVal = parseInt(rangeMax.value);
+
+            // Chặn không cho 2 nút kéo qua nhau
+            if (maxVal - minVal < gap) {
+                if (this === rangeMin) {
+                    rangeMin.value = maxVal - gap;
+                    minVal = maxVal - gap;
+                } else {
+                    rangeMax.value = minVal + gap;
+                    maxVal = minVal + gap;
+                }
+            }
+
+            // Tính toán % để vẽ thanh màu đỏ
+            // Công thức: left = % của nút min, right = 100% - % của nút max
+            let percentMin = (minVal / maxLimit) * 100;
+            let percentMax = (maxVal / maxLimit) * 100;
+
+            visualTrack.style.left = percentMin + "%";
+            visualTrack.style.width = (percentMax - percentMin) + "%";
+
+            // Hiển thị text
+            displayMin.textContent = formatCurrency(minVal);
+            displayMax.textContent = formatCurrency(maxVal);
+
+            // Cập nhật input ẩn
+            hiddenInput.value = minVal + "-" + maxVal;
+        }
+
+        rangeMin.addEventListener("input", updateSlider);
+        rangeMax.addEventListener("input", updateSlider);
+
+        // Khởi chạy lần đầu
+        updateSlider();
     });
 </script>
 </body>
