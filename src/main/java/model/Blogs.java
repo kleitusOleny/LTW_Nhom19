@@ -1,18 +1,39 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class Blogs {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("title")
     private String title;
+
+    @ColumnName("content")
     private String content;
+
+    @ColumnName("upload_at")
     private Timestamp uploadAt;
+
+    @ColumnName("display")
     private boolean display;
+
+    @ColumnName("blog_image")
     private String bImage;
+
+    @ColumnName("slug")
     private String slug;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("update_at")
     private Timestamp updateAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     public Blogs() {

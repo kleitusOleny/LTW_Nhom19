@@ -1,9 +1,16 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 public class ProductType {
     // Khai báo biến
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("type_name")
     private String typeName;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     // Constructor rỗng

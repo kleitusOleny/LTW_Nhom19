@@ -1,14 +1,27 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 
 public class Payment {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("order_id")
     private int orderId;
+
+    @ColumnName("pay_strategy")
     private String payStrategy;
+
+    @ColumnName("status")
     private String status;
+
+    @ColumnName("amount")
     private BigDecimal amount;
+
+    @ColumnName("paid_at")
     private Timestamp paidAt;
 
     public Payment() {

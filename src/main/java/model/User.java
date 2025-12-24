@@ -1,24 +1,43 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.io.Serializable;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class User implements Serializable {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("email")
     private String email;
+
+    @ColumnName("username")
     private String username;
+
+    @ColumnName("password_hash")
     private String passwordHash;
+
+    @ColumnName("phone_number")
     private String phoneNumber;
+
+    @ColumnName("full_name")
     private String fullName;
-    private LocalDate birthDay;
+
+    @ColumnName("birth_day")
+    private LocalDateTime birthDay;
+
+    @ColumnName("administrator")
     private int administrator;
+
+    @ColumnName("active")
     private int active;
-    private Timestamp createdAt;
-    private Timestamp updateAt;
+
+    @ColumnName("created_at")
+    private LocalDateTime createdAt;
+
+    @ColumnName("update_at")
+    private LocalDateTime updateAt;
 
     public String getFullName() {
         return fullName;
@@ -28,23 +47,27 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
-    public Timestamp getUpdateAt() {
+    public LocalDateTime getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
+    public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
     }
 
-    public LocalDate getBirthDay() {
+    public LocalDateTime getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
+    public void setBirthDay(LocalDateTime birthDay) {
         this.birthDay = birthDay;
     }
 
     public User() {
+    }
+
+    public User(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -103,25 +126,28 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "user_id='" + id + '\'' +
+                "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
-                ", password_hash='" + passwordHash + '\'' +
-                ", phone_number='" + phoneNumber + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", birthDay=" + birthDay +
                 ", administrator=" + administrator +
                 ", active=" + active +
-                ", created_at='" + createdAt + '\'' +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
                 '}';
     }
 }

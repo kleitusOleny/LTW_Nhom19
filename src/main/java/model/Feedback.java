@@ -1,14 +1,29 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 
 public class Feedback {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("user_id")
     private int uId;
+
+    @ColumnName("title")
     private String title;
+
+    @ColumnName("content")
     private String content;
+
+    @ColumnName("create_at")
     private Timestamp createAt;
+
+    @ColumnName("update_at")
     private Timestamp updateAt;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     public Feedback() {

@@ -1,249 +1,136 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tài khoản người dùng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/store_style.css">
-    <link rel="stylesheet" href="../css/user_sidebar_style.css">
-</head>
-<body>
-<header class="site-header">
-    <div class="header-top">
-        <div class="container">
-            <div class="header-logo">
-                <a href="../index.jsp" class="logo">LOGO</a>
-            </div>
+    <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+        <!DOCTYPE html>
+        <html lang="vi">
 
-            <div class="header-center">
-                <form class="search-form" action="#" method="get">
-                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
-                    <button type="submit" aria-label="Search">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
-            </div>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Tài khoản người dùng</title>
+            <link rel="stylesheet" href="<%= request.getContextPath() %>/css/user_sidebar_style.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        </head>
 
-            <div class="header-right">
-                <a href="#" aria-label="Account">
-                    <i class="fas fa-user"></i>
-                </a>
-                <a href="../Cart.jsp" class="cart-link" aria-label="Cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="header-nav-bar">
-        <div class="container">
-            <nav class="header-nav">
-                <ul>
-                    <li><a href="../index.jsp">Trang Chủ</a></li>
-                    <li class="has-dropdown">
-                        <a href="../store.jsp">
-                            Rượu Vang
-                            <i class="fa-solid fa-caret-down"></i>
-                        </a>
-                        <div class="mega-menu">
-                            <div class="mega-menu-grid">
-                                <div class="mega-menu-column">
-                                    <h4 class="mega-menu-title">Theo Loại Vang</h4>
-                                    <ul class="mega-menu-list">
-                                        <li><a href="../store.jsp" class="mega-menu-link">Rượu Vang Đỏ</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Trắng</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Hồng</a></li>
-                                        <li><a href="#" class="mega-menu-link">Sâm Panh / Vang Nổ</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rượu Vang Ngọt</a></li>
-                                        <li><a href="#" class="mega-menu-link">Cognac & Rượu Mạnh</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="mega-menu-column">
-                                    <h4 class="mega-menu-title">Nhãn Hàng Nổi Bật</h4>
-                                    <ul class="mega-menu-list">
-                                        <li><a href="#" class="mega-menu-link">CHÂTEAU CORBIN</a></li>
-                                        <li><a href="#" class="mega-menu-link">TENUTA LUCE</a></li>
-                                        <li><a href="#" class="mega-menu-link">MAISON LOUIS LATOUR</a></li>
-                                        <li><a href="#" class="mega-menu-link">Domaine Faiveley</a></li>
-                                        <li><a href="#" class="mega-menu-link">BODEGAS MUGA</a></li>
-                                        <li><a href="#" class="mega-menu-link">CHAMPAGNE RUINART</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="mega-menu-column">
-                                    <h4 class="mega-menu-title">Theo Tag</h4>
-                                    <ul class="mega-menu-list">
-                                        <li><a href="#" class="mega-menu-link">Giá Đặc Biệt (gcc)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Bộ Sưu Tập Giá Tốt</a></li>
-                                        <li><a href="#" class="mega-menu-link">Vang Hồng Giá Tốt</a></li>
-                                        <li><a href="#" class="mega-menu-link">Bộ Sưu Tập</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="mega-menu-column">
-                                    <h4 class="mega-menu-title">Theo Vùng Nổi Bật</h4>
-                                    <ul class="mega-menu-list">
-                                        <li><a href="#" class="mega-menu-link">Bordeaux (Pháp)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Tuscany (Ý)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Napa Valley (Mỹ)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Champagne (Pháp)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Rioja (Tây Ban Nha)</a></li>
-                                        <li><a href="#" class="mega-menu-link">Marlborough (New Zealand)</a></li>
-                                    </ul>
-                                </div>
+        <body>
+            <%@ include file="../components/header.jsp" %>
+                <main>
+                    <div class="container">
+                        <div class="left-sidebar">
+                            <div class="user-info">
+                                <img src="https://i.pinimg.com/1200x/44/80/45/448045692c52f8e84fdad5ccc69f1939.jpg"
+                                    alt="User Avatar">
+                                <span>${user.fullName}</span>
                             </div>
+                            <hr>
+                            <ul class="nav-menu">
+                                <li><a href="info_user.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                            class="fa-solid fa-user"></i> <span data-lang-key="userInfo">Thông
+                                            tin</span></a></li>
+                                <li><a href="addresses.jsp" data-url="<%= request.getContextPath() %>/address"><i
+                                            class="fa-solid fa-location-dot"></i> <span data-lang-key="address">Địa
+                                            chỉ</span></a></li>
+                                <li><a href="favorites.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                            class="fa-solid fa-heart"></i> <span data-lang-key="viewHistory">Yêu
+                                            thích</span></a></li>
+                                <li><a href="my_orders.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                            class="fa-solid fa-box"></i> <span data-lang-key="myOrders">Đơn
+                                            hàng của tôi</span></a></li>
+                                <li><a href="review_history.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                            class="fa-solid fa-star"></i> <span data-lang-key="reviewHistory">Lịch
+                                            sử đánh giá</span></a></li>
+                                <hr>
+                                <li><a href="settings.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                            class="fa-solid fa-gear"></i> <span data-lang-key="settings">Cài
+                                            đặt</span></a></li>
+                                <li><a href="support.jsp"><i class="fa-solid fa-circle-question"></i> <span
+                                            data-lang-key="support">Hỗ trợ</span></a></li>
+                                <hr>
+                                <li>
+                                    <button type="button" class="logout-button">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                        <span data-lang-key="logout">Đăng xuất</span>
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
-                    </li>
-                    <li><a href="../blog.jsp">Blog</a></li>
-                    <li><a href="../about_us.jsp">About Us</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</header>
-<main>
-    <div class="container">
-        <div class="left-sidebar">
-            <div class="user-info">
-                <img src="https://i.pinimg.com/1200x/44/80/45/448045692c52f8e84fdad5ccc69f1939.jpg" alt="User Avatar">
-                <span>nguyenvan</span>
-            </div>
-            <hr>
-            <ul class="nav-menu">
-                <li><a href="info_user.jsp"><i class="fa-solid fa-user"></i> <span
-                        data-lang-key="userInfo">Thông tin</span></a></li>
-                <li><a href="addresses.jsp"><i class="fa-solid fa-location-dot"></i> <span
-                        data-lang-key="address">Địa chỉ</span></a></li>
-                <li><a href="favorites.jsp"><i class="fa-solid fa-heart"></i> <span
-                        data-lang-key="viewHistory">Yêu thích</span></a></li>
-                <li><a href="my_orders.jsp"><i class="fa-solid fa-box"></i> <span
-                        data-lang-key="myOrders">Đơn hàng của tôi</span></a></li>
-                <li><a href="review_history.jsp"><i class="fa-solid fa-star"></i> <span
-                        data-lang-key="reviewHistory">Lịch sử đánh giá</span></a></li>
-                <hr>
-                <li><a href="settings.jsp"><i class="fa-solid fa-gear"></i> <span
-                        data-lang-key="settings">Cài đặt</span></a></li>
-                <li><a href="support.jsp"><i class="fa-solid fa-circle-question"></i> <span
-                        data-lang-key="support">Hỗ trợ</span></a></li>
-                <hr>
-                <li>
-                    <button type="button" class="logout-button">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span data-lang-key="logout">Đăng xuất</span>
-                    </button>
-                </li>
-            </ul>
-        </div>
-        <div id="main-content"></div>
-    </div>
-</main>
-<footer class="site-footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-column">
-                <h4 class="footer-heading">Về Chúng Tôi</h4>
-                <p class="footer-text">
-                    Mô tả ngắn gọn về dự án của bạn.
-                    Nội dung này giúp người dùng hiểu rõ hơn về mục đích của bạn.
-                </p>
-                <div class="footer-socials">
-                    <a href="#" class="social-link" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="footer-column">
-                <h4 class="footer-heading">Liên Kết Nhanh</h4>
-                <ul class="footer-links">
-                    <li><a href="">Trang chủ</a></li>
-                    <li><a href="">Giới thiệu</a></li>
-                    <li><a href="">Dịch vụ</a></li>
-                    <li><a href="">Liên hệ</a></li>
-                    <li><a href="">Chính sách</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h4 class="footer-heading">Liên Hệ</h4>
-                <ul class="footer-contact">
-                    <li><strong>Địa chỉ:</strong> Khu Phố 6, P. Linh Trung, Q. Thủ Đức, TP.HCM</li>
-                    <li><strong>Email:</strong> Olenydev@gmail.com</li>
-                    <li><strong>Điện thoại:</strong> (+84) 1234 5678</li>
-                </ul>
-            </div>
-
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Khoa Công Nghệ Thông Tin.</p>
-        </div>
-
-    </div>
-</footer>
+                        <div id="main-content"></div>
+                    </div>
+                </main>
+                <%@ include file="../components/footer.jsp" %>
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const mainContent = document.getElementById('main-content');
-        const navLinks = document.querySelectorAll('.nav-menu a');
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const mainContent = document.getElementById('main-content');
+                            const navLinks = document.querySelectorAll('.nav-menu a');
 
-        const loadContent = (url) => {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    mainContent.innerHTML = html;
-                    const scripts = mainContent.querySelectorAll("script");
-                    scripts.forEach(script => {
-                        const newScript = document.createElement("script");
-                        newScript.textContent = script.textContent;
-                        script.parentNode.replaceChild(newScript, script);
-                    });
-                })
-                .catch(error => {
-                    mainContent.innerHTML = '<p>Error loading page.</p>';
-                    console.error('Error:', error);
-                });
-        };
+                            const loadContent = (url) => {
+                                fetch(url, {
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    }
+                                })
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        mainContent.innerHTML = html;
+                                        const scripts = mainContent.querySelectorAll("script");
+                                        scripts.forEach(script => {
+                                            const newScript = document.createElement("script");
+                                            newScript.textContent = script.textContent;
+                                            script.parentNode.replaceChild(newScript, script);
+                                        });
+                                    })
+                                    .catch(error => {
+                                        mainContent.innerHTML = '<p>Error loading page.</p>';
+                                        console.error('Error:', error);
+                                    });
+                            };
+                            navLinks.forEach(link => {
+                                link.addEventListener('click', function (event) {
+                                    event.preventDefault();
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-                const pageUrl = this.getAttribute('href');
-                window.location.hash = pageUrl.replace('infoUsers/', '');
-                loadContent(pageUrl);
-            });
-        });
-        navLinks.forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-                navLinks.forEach(l => l.parentElement.classList.remove('active'));
-                this.parentElement.classList.add('active');
-            });
-        });
-        const defaultPage = '../infoUsers/info_user.html';
-        const hashPage = location.hash.replace('#', '');
-        if (hashPage) {
-            loadContent('infoUsers/' + hashPage);
-        } else {
-            loadContent(defaultPage);
-        }
-        const logout = document.querySelector('.logout-button');
-        logout.addEventListener('click', function () {
-            if (confirm('Bạn có chắc chắn muốn đăng xuất')) {
-                alert("Đăng xuất thành công")
-            }
-        })
-    });
-</script>
-</body>
-</html>
+                                    const pageUrl = this.getAttribute('href');
+
+                                    navLinks.forEach(l => l.parentElement.classList.remove('active'));
+                                    this.parentElement.classList.add('active');
+
+                                    window.location.hash = pageUrl;
+
+                                    loadContent(pageUrl);
+                                });
+                            });
+                            const defaultPage = '<%= request.getContextPath() %>/user';
+                            const hashPage = location.hash.replace('#', '');
+                            if (hashPage) {
+                                if (hashPage.startsWith('/')) {
+                                    loadContent(hashPage);
+                                    navLinks.forEach(link => {
+                                        if (link.getAttribute('href') === hashPage) {
+                                            link.parentElement.classList.add('active');
+                                        }
+                                    });
+                                } else {
+                                    loadContent(hashPage);
+                                    navLinks.forEach(link => {
+                                        if (link.getAttribute('href') === hashPage) {
+                                            link.parentElement.classList.add('active');
+                                        }
+                                    });
+                                }
+                            } else {
+                                loadContent(defaultPage);
+                                if (navLinks.length > 0) {
+                                    navLinks[0].parentElement.classList.add('active');
+                                }
+                            }
+                            const logout = document.querySelector('.logout-button');
+                            logout.addEventListener('click', function () {
+                                if (confirm('Bạn có chắc chắn muốn đăng xuất')) {
+                                    alert("Đăng xuất thành công")
+                                }
+                            })
+                        });
+                    </script>
+        </body>
+
+        </html>

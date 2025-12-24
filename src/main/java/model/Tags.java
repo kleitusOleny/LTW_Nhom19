@@ -1,8 +1,15 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 public class Tags {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("tag_name")
     private String tagName;
+
+    @ColumnName("is_delete")
     private boolean isDelete;
 
     public Tags() {

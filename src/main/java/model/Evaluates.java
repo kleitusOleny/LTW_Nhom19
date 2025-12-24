@@ -1,8 +1,15 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 public class Evaluates {
+    @ColumnName("product_id")
     private String id;
+
+    @ColumnName("user_id")
     private int userId;
+
+    @ColumnName("evaluate_id")
     private int evaluatesId;
 
     public Evaluates() {

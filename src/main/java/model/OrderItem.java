@@ -1,11 +1,20 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.math.BigDecimal;
 
 public class OrderItem {
+    @ColumnName("id")
     private int orderId;
+
+    @ColumnName("product_id")
     private String productId;
+
+    @ColumnName("quantity")
     private int quantity;
+
+    @ColumnName("unit_price")
     private BigDecimal unitPrice;
 
     public OrderItem() {
