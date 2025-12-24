@@ -6,8 +6,9 @@ import jakarta.servlet.annotation.*;
 import services.AuthService;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 
 @WebServlet(name = "RegisterController", value = "/RegisterController")
 public class RegisterController extends HttpServlet {
@@ -89,7 +90,8 @@ public class RegisterController extends HttpServlet {
 
         LocalDate now = LocalDate.now();
         LocalDate birthday = LocalDate.parse(birth) ;
-        if (now.getYear() - birthday.getYear() < 18) {
+        int age = Period.between(birthday, now).getYears();
+        if (age < 18) {
             request.setAttribute("ageError", "Ngày sinh không đủ tuổi");
             hasError = true;
         }
@@ -98,7 +100,8 @@ public class RegisterController extends HttpServlet {
         AuthService authService = new AuthService();
         // Nếu là false thì pass
         if (!hasError) {
-            authService.register(fullName, email, username, plainPassword, phoneNumber, birthday);
+            LocalDateTime birthDayTime = birthday.atStartOfDay();
+            authService.register(fullName, email, username, plainPassword, phoneNumber, birthDayTime);
             response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
         } else {
             request.getRequestDispatcher(registerUrl).forward(request, response);

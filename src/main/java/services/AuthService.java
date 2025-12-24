@@ -4,8 +4,7 @@ import dao.UserDAO;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AuthService {
     private final UserDAO userDAO = new UserDAO();
@@ -26,7 +25,7 @@ public class AuthService {
         }
     }
 
-    public void register(String fullName, String email, String username, String plainPassword, String phoneNumber, LocalDate birthday) {
+    public void register(String fullName, String email, String username, String plainPassword, String phoneNumber, LocalDateTime birthday) {
         if (userDAO.countUserId(email) > 0) return;
         String hashedPass = BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
 
@@ -39,7 +38,7 @@ public class AuthService {
         user.setBirthDay(birthday);
         user.setAdministrator(0);
         user.setActive(1);
-        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        user.setCreatedAt(birthday);
 
         userDAO.create(user);
     }
