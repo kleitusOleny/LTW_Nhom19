@@ -104,7 +104,7 @@ public class ProductDAO extends ADAO {
                                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
                                         "LEFT JOIN categorys c ON p.category_id = c.id " +
                                         "WHERE p.is_delete = 0 " +
-                                        "ORDER BY RAND() LIMIT 8"
+                                        "ORDER BY RAND() LIMIT 6"
                         )
                         .mapToBean(Product.class)
                         .list()

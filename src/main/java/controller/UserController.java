@@ -55,7 +55,7 @@ public class UserController extends HttpServlet {
             fakeUser.setPhoneNumber("0909999999");
             LocalDate localDate = LocalDate.of(2000, 11, 20);
             LocalDateTime birthDate = localDate.atStartOfDay();
-            fakeUser.setBirthDay(birthDate);
+//            fakeUser.setBirthDay(birthDate);
             fakeUser.setPasswordHash(BCrypt.hashpw("123456", BCrypt.gensalt()));
             session.setAttribute("user", fakeUser);
         }

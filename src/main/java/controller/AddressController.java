@@ -41,20 +41,20 @@ public class AddressController extends HttpServlet {
                 fakeUser.setPhoneNumber("0909999999");
                 LocalDate localDate = LocalDate.of(2000, 11, 20);
                 LocalDateTime birthDate = localDate.atStartOfDay();
-                fakeUser.setBirthDay(birthDate);
+//                fakeUser.setBirthDay(birthDate);
                 fakeUser.setPasswordHash(BCrypt.hashpw("123456", BCrypt.gensalt()));
                 session.setAttribute("user", fakeUser);
             }
             User user = (User) session.getAttribute("user");
             System.out.println("Getting addresses for user ID: " + user.getId());
 
-            List<Address> addressList = addressService.getByUserID(user.getId());
-            System.out.println("Address list size: " + addressList.size());
+//            List<Address> addressList = addressService.getByUserID(user.getId());
+//            System.out.println("Address list size: " + addressList.size());
             // for(Address a : addressList) {
             // System.out.println("Address: " + a.getFullName() + ", " + a.getCity());
             // }
-            System.out.println(addressList);
-            request.setAttribute("addressList", addressList);
+//            System.out.println(addressList);
+//            request.setAttribute("addressList", addressList);
             request.getRequestDispatcher("/infoUsers/addresses.jsp").forward(request, response);
         } catch (Exception e) {
             System.err.println("ERROR in AddressController.doGet: " + e.getMessage());
@@ -80,7 +80,7 @@ public class AddressController extends HttpServlet {
             fakeUser.setPhoneNumber("0909999999");
             LocalDate localDate = LocalDate.of(2000, 11, 20);
             LocalDateTime birthDate = localDate.atStartOfDay();
-            fakeUser.setBirthDay(birthDate);
+//            fakeUser.setBirthDay(birthDate);
             fakeUser.setPasswordHash(BCrypt.hashpw("123456", BCrypt.gensalt()));
             session.setAttribute("user", fakeUser);
         }
@@ -123,7 +123,7 @@ public class AddressController extends HttpServlet {
         Address address = mapRequestToAddress(req);
         address.setUserId(user.getId());
 
-        addressService.addAddress(address);
+//        addressService.addAddress(address);
     }
 
     private void handleUpdate(HttpServletRequest req, User user) {
@@ -133,7 +133,7 @@ public class AddressController extends HttpServlet {
         address.setId(addressId);
         address.setUserId(user.getId());
 
-        addressService.updateAddress(address, user.getId());
+//        addressService.updateAddress(address, user.getId());
     }
 
     private void handleDelete(HttpServletRequest req, User user) {
@@ -143,7 +143,7 @@ public class AddressController extends HttpServlet {
 
     private void handleSetDefault(HttpServletRequest req, User user) {
         int id = Integer.parseInt(req.getParameter("id"));
-        addressService.setDefaultAddress(id, user.getId());
+//        addressService.setDefaultAddress(id, user.getId());
     }
 
     private Address mapRequestToAddress(HttpServletRequest req) {

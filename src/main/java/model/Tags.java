@@ -2,7 +2,7 @@ package model;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
-public class Tag {
+public class Tags {
     @ColumnName("id")
     private int id;
 
