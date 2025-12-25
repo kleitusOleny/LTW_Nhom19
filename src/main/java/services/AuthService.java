@@ -5,13 +5,12 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import dao.UserDAO;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -53,7 +52,7 @@ public class AuthService {
         }
     }
 
-    public void register(String fullName, String email, String username, String plainPassword, String phoneNumber, LocalDateTime birthday) {
+    public void register(String fullName, String email, String username, String plainPassword, String phoneNumber, Timestamp birthday) {
         if (userDAO.countUserId(email) > 0) return;
         String hashedPass = BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
 
@@ -66,7 +65,7 @@ public class AuthService {
         user.setBirthDay(birthday);
         user.setAdministrator(0);
         user.setActive(1);
-        user.setCreatedAt(LocalDateTime.now());
+        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         userDAO.create(user);
     }

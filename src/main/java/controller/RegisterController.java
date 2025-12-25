@@ -6,9 +6,11 @@ import jakarta.servlet.annotation.*;
 import services.AuthService;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet(name = "RegisterController", value = "/RegisterController")
 public class RegisterController extends HttpServlet {
@@ -100,8 +102,8 @@ public class RegisterController extends HttpServlet {
         AuthService authService = new AuthService();
         // Nếu là false thì pass
         if (!hasError) {
-            LocalDateTime birthDayTime = birthDay.atStartOfDay();
-            authService.register(fullName, email, username, plainPassword, phoneNumber, birthDayTime);
+            Timestamp ts = Timestamp.valueOf(birthDay.atStartOfDay());
+            authService.register(fullName, email, username, plainPassword, phoneNumber, ts);
             response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
         } else {
             request.getRequestDispatcher(registerUrl).forward(request, response);

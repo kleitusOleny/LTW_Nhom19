@@ -6,9 +6,11 @@ import jakarta.servlet.annotation.*;
 import services.AuthService;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet(name = "OnBoardingController", value = "/OnBoardingController")
 public class OnBoardingController extends HttpServlet {
@@ -79,8 +81,8 @@ public class OnBoardingController extends HttpServlet {
         AuthService authService = new AuthService();
         // Nếu là false thì pass
         if (!hasError) {
-            LocalDateTime birthDayTime = birthDay.atStartOfDay();
-            authService.register(fullName, emailToken, username, null, phoneNumber, birthDayTime);
+            Timestamp ts = Timestamp.valueOf(birthDay.atStartOfDay());
+            authService.register(fullName, emailToken, username, null, phoneNumber, ts);
             response.sendRedirect(request.getContextPath());
         } else {
             request.getRequestDispatcher(onBoardingUrl).forward(request, response);
