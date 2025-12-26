@@ -8,15 +8,13 @@ import services.AuthService;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 
-@WebServlet(name = "RegisterController", value = "/RegisterController")
+@WebServlet(name = "RegisterController", value = "/register")
 public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/AuthPages/Register.jsp").forward(request, response);
     }
 
     @Override
@@ -104,7 +102,7 @@ public class RegisterController extends HttpServlet {
         if (!hasError) {
             Timestamp ts = Timestamp.valueOf(birthDay.atStartOfDay());
             authService.register(fullName, email, username, plainPassword, phoneNumber, ts);
-            response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+            response.sendRedirect("login");
         } else {
             request.getRequestDispatcher(registerUrl).forward(request, response);
         }

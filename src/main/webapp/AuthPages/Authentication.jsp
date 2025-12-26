@@ -9,7 +9,7 @@
 <body>
 <div class="forgot-password-container">
     <h2>Xác Thực</h2>
-    <form id="forgot-password-form" action="${pageContext.request.contextPath}/AuthenticationController" method="POST">
+    <form id="forgot-password-form" action="${pageContext.request.contextPath}/authentication" method="POST">
         <input type="hidden" name="action" id="form-action" value="">
         <div class="email-class form-group">
             <div class="container-mail">
@@ -47,7 +47,7 @@
                 <button class="submit" type="submit" onclick="setAction('finish-otp')">Đồng ý</button>
             </div>
         </div>
-        <a href="Login.jsp" id="backward">Quay Lại Trang Trước</a>
+        <a href="login" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

@@ -9,11 +9,11 @@ import services.EmailServices;
 
 import java.io.IOException;
 
-@WebServlet(name = "AuthenticationController", value = "/AuthenticationController")
+@WebServlet(name = "AuthenticationController", value = "/authentication")
 public class AuthenticationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/AuthPages/Authentication.jsp").forward(request, response);
     }
 
     @Override
@@ -61,8 +61,8 @@ public class AuthenticationController extends HttpServlet {
         } else if ("finish-otp".equals(action)) {
             String storedOtp = (String) session.getAttribute("otpCode"); // session đã lưu
             if (otpInput.equals(storedOtp)) {
-                session.removeAttribute(storedOtp);
-                response.sendRedirect(request.getContextPath() + "/AuthPages/ForgotPassword.jsp");
+                session.removeAttribute("otpCode"); // xoá theo key, không phải xoá theo value là storedOtp
+                response.sendRedirect("forgotpassword");
             } else {
                 request.setAttribute("otpError", "Mã OTP không chính xác!");
                 request.getRequestDispatcher("/AuthPages/Authentication.jsp").forward(request, response);

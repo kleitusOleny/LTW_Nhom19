@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet(name = "OnBoardingController", value = "/OnBoardingController")
+@WebServlet(name = "OnBoardingController", value = "/onboarding")
 public class OnBoardingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/AuthPages/OnBoarding.jsp").forward(request, response);
     }
 
     @Override
