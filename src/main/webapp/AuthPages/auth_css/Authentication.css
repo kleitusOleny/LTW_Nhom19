@@ -42,11 +42,27 @@ h2 {
     padding-bottom: 20px;
 }
 
-.form-group {
+.form-group:not(.email-class) {
     display: flex;
     flex-direction: column;
     gap: 10px;
     flex: 1;
+}
+
+.email-class {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.container-mail, .group-message {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.group-message {
+    gap: 3px;
 }
 
 #forgot-password-form {
@@ -169,4 +185,21 @@ input:focus {
 
 #backward:hover::before {
     transform: translateX(-5px);
+}
+
+.group-remind {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+#remind {
+    font-weight: bold;
+    text-align: center;
+}
+
+.group-button-verify {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

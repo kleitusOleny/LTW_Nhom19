@@ -9,31 +9,69 @@
 <body>
 <div class="forgot-password-container">
     <h2>Xác Thực</h2>
-    <form id="forgot-password-form">
+    <form id="forgot-password-form" action="${pageContext.request.contextPath}/AuthenticationController" method="POST">
+        <input type="hidden" name="action" id="form-action" value="">
         <div class="email-class form-group">
-            <label for="email" class="label-with-icon">
-                <ion-icon name="mail-outline"></ion-icon>
-                Email</label>
-            <input type="email" id="email" name="email" placeholder="Nhập Email để lấy mã xác thực" required>
+            <div class="container-mail">
+                <label for="email" class="label-with-icon">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    Email</label>
+                <input type="email" id="email" name="email" placeholder="Nhập Email để lấy mã xác thực"
+                       value="${otpEmail != null ? otpEmail : param.email}"
+                       class="${not empty emailError ? 'input-error' : ''}" required>
+            </div>
+            <div class="group-message">
+                <c:if test="${not empty emailError}">
+                    <span class="error-msg">${emailError}</span>
+                </c:if>
+                <c:if test="${not empty message}">
+                    <span style="color: green; font-size: 0.85em;">${message}</span>
+                </c:if>
+            </div>
         </div>
         <div class="verify form-group">
             <div class="verify-title">
                 <label for="verify-code" class="label-with-icon">
                     <ion-icon name="chatbox-ellipses-outline"></ion-icon>
                     Mã xác thực</label>
-                <input type="text" id="verify-code" name="verify-code" placeholder="Nhập mã xác thực đã gửi" required>
+                <input type="text" id="verify-code" name="otpInput" placeholder="Nhập mã xác thực đã gửi" required>
             </div>
-            <ion-icon name="refresh-outline" id="refresh"></ion-icon>
+            <c:if test="${not empty otpError}">
+                <span class="error-msg">${otpError}</span>
+            </c:if>
         </div>
-        <div id="remind" hidden="hidden">Bạn phải chờ thêm 1 phút để có thể tiếp tục lấy mã</div>
-        <button class="get-verify-code">Lấy mã xác thực</button>
-        <button class="submit" type="button" onclick="window.location.href='ForgotPassword.html'">
-            Đồng ý
-        </button>
+        <div class="group-remind">
+            <p id="remind">Bạn phải chờ thêm 1 phút để có thể tiếp tục lấy mã</p>
+            <div class="group-button-verify">
+                <button class="get-verify-code" onclick="setAction('send-otp')" formnovalidate>Lấy mã xác thực</button>
+                <button class="submit" type="submit" onclick="setAction('finish-otp')">Đồng ý</button>
+            </div>
+        </div>
         <a href="Login.jsp" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="${pageContext.request.contextPath}/preventspace.js"></script>
+<script>
+    function setAction(actionName) {
+        document.getElementById('form-action').value = actionName;
+    }
+
+    const listFields = ['#email', '#verify-code'];
+    preventspace(listFields)
+</script>
+<style>
+    .error-msg {
+        color: red;
+        font-size: 0.85em;
+        font-style: italic;
+        margin-top: -5px;
+        display: block;
+    }
+    input.input-error {
+        border: 1px solid red;
+    }
+</style>
 </body>
 </html>

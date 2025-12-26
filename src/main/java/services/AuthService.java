@@ -11,7 +11,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Collections;
 
 public class AuthService {
@@ -34,6 +33,16 @@ public class AuthService {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public String generateOtp(String email) {
+        User user = userDAO.findByEmail(email);
+        String otp = null;
+        if (user != null) {
+            otp = String.valueOf((int) (Math.random() * 900000) + 100000);
+            System.out.println("User " + email + "has OTP: " + otp);
+        }
+        return otp;
     }
 
     public User login(String loginKey, String plainPassword) {
