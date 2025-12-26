@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -33,59 +35,41 @@
                     </thead>
 
                     <tbody>
-
+                    <c:forEach items="${sessionScope.cart.items}" var="ci">
                     <tr class="cart-item-row">
                         <td><input type="checkbox" class="select-product"></td>
                         <td class="cart-product-image">
-                            <a href="Detail.jsp">
-                                <img src="img/SKU__VD_0845-17.jpg" alt="Luce Brunello Di Montalcino">
+                            <a href="detail?id=${ci.product.id}">
+                                <img src=${ci.product.imageUrl} alt="${ci.product.productName}">
                             </a>
                         </td>
                         <td class="cart-product-name">
-                            <a href="Detail.jsp">Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</a>
+                            <a href="detail?id=${ci.product.id}">${ci.product.productName}</a>
                         </td>
-                        <td class="cart-product-price">5.989.500₫</td>
+                        <td class="cart-product-price">
+                            <fmt:setLocale value="vi_VN"/>
+                            <fmt:formatNumber value="${ci.product.price}" type="currency" currencySymbol="₫"
+                                              maxFractionDigits="0"/>
+                        </td>
                         <td class="cart-product-quantity">
                             <div class="quantity-selector">
                                 <button class="quantity-btn">-</button>
-                                <input type="number" value="1" min="1">
+                                <input type="number" value=${ci.quantity} min="1">
                                 <button class="quantity-btn">+</button>
                             </div>
                         </td>
-                        <td class="cart-product-subtotal">5.989.500₫</td>
+                        <td class="cart-product-subtotal">
+                            <fmt:setLocale value="vi_VN"/>
+                            <fmt:formatNumber value="${ci.quantity * ci.product.price}" type="currency" currencySymbol="₫"
+                                              maxFractionDigits="0"/>
+                        </td>
                         <td class="cart-product-remove">
                             <a href="#" class="remove-item-btn" aria-label="Xóa sản phẩm">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </td>
                     </tr>
-
-                    <tr class="cart-item-row">
-                        <td><input type="checkbox" class="select-product"></td>
-                        <td class="cart-product-image">
-                            <a href="#">
-                                <img src="img/SKU__VD_1170.png" alt="Dufouleur Monopole">
-                            </a>
-                        </td>
-                        <td class="cart-product-name">
-                            <a href="#">Rượu vang hồng Dufouleur Monopole</a>
-                        </td>
-                        <td class="cart-product-price">351.000₫</td>
-                        <td class="cart-product-quantity">
-                            <div class="quantity-selector">
-                                <button class="quantity-btn">-</button>
-                                <input type="number" value="2" min="1">
-                                <button class="quantity-btn">+</button>
-                            </div>
-                        </td>
-                        <td class="cart-product-subtotal">702.000₫</td>
-                        <td class="cart-product-remove">
-                            <a href="#" class="remove-item-btn" aria-label="Xóa sản phẩm">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </a>
-                        </td>
-                    </tr>
-
+                    </c:forEach>
                     </tbody>
                 </table>
                 <div class="cart-actions">

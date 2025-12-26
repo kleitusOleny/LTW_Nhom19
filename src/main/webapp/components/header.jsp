@@ -21,7 +21,7 @@
       <div class="header-top">
         <div class="container">
           <div class="header-logo">
-            <a href="<%= request.getContextPath() %>/index.jsp" class="logo">LOGO</a>
+            <a href="store" class="logo">LOGO</a>
           </div>
 
       <div class="header-center">
