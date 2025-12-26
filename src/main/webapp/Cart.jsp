@@ -84,7 +84,11 @@
 
                     <div class="summary-row">
                         <span>Tạm tính</span>
-                        <strong>6.691.500₫</strong>
+                        <strong>
+                            <fmt:setLocale value="vi_VN"/>
+                            <fmt:formatNumber value="${sessionScope.cart.total}" type="currency" currencySymbol="₫"
+                                              maxFractionDigits="0"/>
+                        </strong>
                     </div>
 
                     <div class="summary-row">
@@ -94,7 +98,11 @@
 
                     <div class="summary-total">
                         <span>Tổng</span>
-                        <strong>6.691.500₫</strong>
+                        <strong>
+                            <fmt:setLocale value="vi_VN"/>
+                            <fmt:formatNumber value="${sessionScope.cart.total}" type="currency" currencySymbol="₫"
+                                              maxFractionDigits="0"/>
+                        </strong>
                     </div>
 
                     <a href="payment.jsp" class="btn btn-checkout">Tiến hành thanh toán</a>
