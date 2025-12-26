@@ -2,10 +2,11 @@ package model;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 
-public class Product {
+public class Product implements Serializable {
     @ColumnName("id")
     private String id;
 
