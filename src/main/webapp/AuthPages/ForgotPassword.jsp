@@ -44,7 +44,6 @@
             </div>
         </div>
         <button>Xác nhận</button>
-        <a href="Authentication.jsp" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

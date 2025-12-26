@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet(name = "RegisterController", value = "/RegisterController")
-public class RegisterController extends HttpServlet {
+@WebServlet(name = "OnBoardingController", value = "/OnBoardingController")
+public class OnBoardingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -21,13 +21,14 @@ public class RegisterController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String emailToken = (String) request.getSession().getAttribute("googleEmail");
+        if (emailToken == null) {
+            response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+        }
         String fullName = request.getParameter("name");
-        String email = request.getParameter("email");
         String username = request.getParameter("username");
-        String plainPassword = request.getParameter("password");
         String phoneNumber = request.getParameter("phone-number");
         String birth = request.getParameter("birth");
-        String confirmPassword = request.getParameter("confirm-password");
 
         boolean hasError = false;
         long spaceCount = fullName.chars().filter(c -> c == ' ').count();
@@ -57,31 +58,9 @@ public class RegisterController extends HttpServlet {
             }
         }
 
-        if (email == null || email.trim().isEmpty() ||
-                !email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
-            request.setAttribute("emailError", "Email không đúng định dạng (ví dụ: jukisyuri@gmail.com)");
-            hasError = true;
-        }
-
-        if (email.length() < 6 || email.length() > 80){
-            request.setAttribute("emailError2", "Email quá ngắn hoặc quá dài");
-            hasError = true;
-        }
-
-        if (plainPassword == null || plainPassword.trim().isEmpty() ||
-                !plainPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$")) {
-            request.setAttribute("passwordError", "Mật khẩu cần ít nhất 8 ký tự, gồm chữ hoa, chữ thường và ký tự đặc biệt");
-            hasError = true;
-        }
-
         if (phoneNumber == null || phoneNumber.trim().isEmpty() ||
                 !phoneNumber.matches("^0\\d{9,10}$")){
             request.setAttribute("phoneNumberError", "Số điện thoại phải bắt đầu bằng số 0 và có 10-11 chữ số");
-            hasError = true;
-        }
-
-        if (!plainPassword.equals(confirmPassword)) {
-            request.setAttribute("confirmedPasswordError", "Mật khẩu xác nhận không khớp, vui lòng nhập lại");
             hasError = true;
         }
 
@@ -98,15 +77,15 @@ public class RegisterController extends HttpServlet {
             hasError = true;
         }
 
-        String registerUrl = "/AuthPages/Register.jsp";
+        String onBoardingUrl = "/AuthPages/OnBoarding.jsp";
         AuthService authService = new AuthService();
         // Nếu là false thì pass
         if (!hasError) {
             Timestamp ts = Timestamp.valueOf(birthDay.atStartOfDay());
-            authService.register(fullName, email, username, plainPassword, phoneNumber, ts);
-            response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+            authService.register(fullName, emailToken, username, null, phoneNumber, ts);
+            response.sendRedirect(request.getContextPath());
         } else {
-            request.getRequestDispatcher(registerUrl).forward(request, response);
+            request.getRequestDispatcher(onBoardingUrl).forward(request, response);
         }
     }
 }
