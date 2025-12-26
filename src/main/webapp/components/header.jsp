@@ -32,6 +32,10 @@
 
           <div class="header-right">
             <a href="<%= request.getContextPath() %>/infoUsers/user_sidebar.jsp" aria-label="Account">
+              ${sessionScope.get("user").fullName}
+            </a>
+            <a href="<%= request.getContextPath() %>/infoUsers/user_sidebar.jsp" aria-label="Account">
+
               <i class="fas fa-user"></i>
             </a>
             <a href="<%= request.getContextPath() %>/Cart.jsp" class="cart-link" aria-label="Cart">
