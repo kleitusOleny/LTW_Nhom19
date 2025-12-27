@@ -61,6 +61,13 @@
     const listFields = ['#email', '#verify-code'];
     preventspace(listFields)
 </script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('failResetPassword')) {
+        alert("Bạn phải đảm bảo là đã xác thực email trước khi tiến sang bước làm lại mật khẩu")
+        window.history.replaceState(null, '', window.location.pathname);
+    }
+</script>
 <style>
     .error-msg {
         color: red;

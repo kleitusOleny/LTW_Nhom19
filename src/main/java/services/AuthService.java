@@ -40,7 +40,7 @@ public class AuthService {
         String otp = null;
         if (user != null) {
             otp = String.valueOf((int) (Math.random() * 900000) + 100000);
-            System.out.println("User " + email + "has OTP: " + otp);
+            System.out.println("User " + email + " | OTP: " + otp);
         }
         return otp;
     }
@@ -79,20 +79,12 @@ public class AuthService {
         userDAO.create(user);
     }
 
-    // unfinished
-    public boolean startPasswordReset(String email) {
-        if (email.contains("@")) {
-            userDAO.findByEmail(email);
-            return true;
-        }
-        return false;
-    }
-
-    // unfinished
-    public boolean resetPassword(String email, String newPlainPassword) {
-        if (startPasswordReset(email)) {
+    public boolean updatePasswordAfterAuthentication(String email, String newPlainPassword) {
+        User user = userDAO.findByEmail(email);
+        if (user != null) {
             String hashedPass = BCrypt.hashpw(newPlainPassword, BCrypt.gensalt(12));
-            return userDAO.updatePassword(email, hashedPass);
+            userDAO.updatePassword(email, hashedPass);
+            return true;
         }
         return false;
     }

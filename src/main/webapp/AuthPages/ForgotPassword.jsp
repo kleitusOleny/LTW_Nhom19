@@ -14,7 +14,9 @@
             <label for="password" class="label-with-icon">
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 Nhập mật khẩu mới</label>
-            <input type="password" id="password" name="password" placeholder="Nhập mật khẩu mới" required>
+            <input type="password" id="password" name="password" placeholder="Nhập mật khẩu mới"
+                   class="${not empty passwordError ? 'input-error' : ''}" required>
+            <span class="error-msg">${passwordError}</span>
         </div>
         <div class="verify form-group">
             <div class="verify-title">
@@ -22,7 +24,8 @@
                     <ion-icon name="checkbox-outline"></ion-icon>
                     </ion-icon>Xác nhận mật khẩu mới</label>
                 <input type="password" id="confirm-password" name="confirm-password" placeholder="Nhập lại mật khẩu mới"
-                       required>
+                       class="${not empty confirmedPasswordError ? 'input-error' : ''}" required>
+                <span class="error-msg">${confirmedPasswordError}</span>
             </div>
         </div>
         <div class="reminder">
@@ -48,5 +51,50 @@
 </div>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="${pageContext.request.contextPath}/preventspace.js"></script>
+<script>
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirm-password');
+
+    // Các checkbox hiển thị trạng thái
+    const remindWords = document.getElementById('remind-words');
+    const remindUppercase = document.getElementById('remind-uppercase');
+    const remindSpecial = document.getElementById('remind-special');
+    const remindConfirm = document.getElementById('remind-confirm');
+
+    const listPreventSpace = ['#password, #confirm-password'];
+    preventspace(listPreventSpace);
+
+    function validateWords() {
+        const value = passwordInput.value;
+        remindWords.checked = value.length >= 8;
+        const hasUpper = /[A-Z]/.test(value);
+        const hasLower = /[a-z]/.test(value);
+        remindUppercase.checked = hasUpper && hasLower;
+        remindSpecial.checked = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+        validateConfirm();
+    }
+
+    function validateConfirm() {
+        const passValue = passwordInput.value;
+        const confirmValue = confirmInput.value;
+        remindConfirm.checked = passValue.length > 0 && passValue === confirmValue;
+    }
+
+    passwordInput.addEventListener('input', validateWords);
+    confirmInput.addEventListener('input', validateConfirm);
+</script>
+<style>
+    .error-msg {
+        color: red;
+        font-size: 0.85em;
+        font-style: italic;
+        margin-top: -5px;
+        display: block;
+    }
+    input.input-error {
+        border: 1px solid red;
+    }
+</style>
 </body>
 </html>
