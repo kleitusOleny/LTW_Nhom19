@@ -6,11 +6,11 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "ForgotPassword", value = "/ForgotPassword")
+@WebServlet(name = "ForgotPassword", value = "/forgotpassword")
 public class ForgotPasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/AuthPages/ForgotPassword.jsp").forward(request, response);
     }
 
     @Override

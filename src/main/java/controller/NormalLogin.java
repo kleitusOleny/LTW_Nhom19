@@ -8,11 +8,11 @@ import services.AuthService;
 
 import java.io.IOException;
 
-@WebServlet(name = "NormalLogin", value = "/NormalLogin")
+@WebServlet(name = "NormalLogin", value = "/login")
 public class NormalLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/AuthPages/Login.jsp").forward(request, response);
     }
 
     @Override

@@ -18,7 +18,7 @@
     </div>
     <div class="login-page">
         <h2>Đăng Nhập</h2>
-        <form id="login-form" action="${pageContext.request.contextPath}/NormalLogin" method="POST">
+        <form id="login-form" action="${pageContext.request.contextPath}/login" method="POST">
             <div class="username-input">
                 <label for="username" class="label-with-icon">
                     <ion-icon name="person-outline"></ion-icon>
@@ -61,12 +61,12 @@
             <div class="remember-me-input">
                 <input type="checkbox" id="remember-me" name="remember-me">
                 <label for="remember-me">Ghi nhớ đăng nhập</label>
-                <a href="Authentication.jsp">Quên Mật Khẩu</a>
+                <a href="authentication">Quên Mật Khẩu</a>
             </div>
             <button>Đăng Nhập</button>
             <div class="register-account">
                 <div id="register-remind">Chưa có tài khoản?</div>
-                <a href="Register.jsp">Đăng Kí</a>
+                <a href="register">Đăng Kí</a>
             </div>
 <%--         Đăng nhập bằng google --%>
             <div class="social-login">
@@ -86,7 +86,7 @@
                      data-logo_alignment="left">
                 </div>
             </div>
-            <a href="../index.jsp" id="backward">Quay Lại Trang Trước</a>
+            <a href="index.jsp" id="backward">Quay Lại Trang Trước</a>
         </form>
     </div>
 </div>

@@ -10,7 +10,7 @@
 <div class="register-page">
     <h2>Đăng Kí</h2>
     <p>(* là trường bắt buộc)</p>
-    <form id="register-form" action="${pageContext.request.contextPath}/RegisterController" method="POST">
+    <form id="register-form" action="${pageContext.request.contextPath}/register" method="POST">
         <div class="fullname form-group">
             <label for="name">Họ và Tên *</label>
             <input type="text" id="name" name="name"
@@ -111,7 +111,7 @@
             <label for="license-confirm">Xác nhận bạn sẽ tuân thủ chính sách</label>
         </div>
         <button type="submit">Đăng Kí</button>
-        <a href="Login.jsp" id="backward">Quay Lại Trang Trước</a>
+        <a href="login" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
 <script src="${pageContext.request.contextPath}/preventspace.js"></script>

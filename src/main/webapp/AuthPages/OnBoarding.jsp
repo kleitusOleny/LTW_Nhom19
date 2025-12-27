@@ -10,7 +10,7 @@
 <div class="register-page">
     <h2>Tiếp Tục Đăng Kí Với Google</h2>
     <p>(* là trường bắt buộc)</p>
-    <form id="register-form" action="${pageContext.request.contextPath}/OnBoardingController" method="POST">
+    <form id="register-form" action="${pageContext.request.contextPath}/onboarding" method="POST">
     <div class="fullname form-group">
         <label for="name">Họ và Tên *</label>
         <input type="text" id="name" name="name"
@@ -62,7 +62,7 @@
         </div>
     </div>
     <button type="submit">Xác Nhận</button>
-    <a href="Login.jsp" id="backward">Quay Lại Trang Trước</a>
+    <a href="login" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
 <script src="${pageContext.request.contextPath}/preventspace.js"></script>
