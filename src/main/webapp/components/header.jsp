@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
   <!DOCTYPE html>
   <html lang="en">
 
@@ -18,7 +21,7 @@
       <div class="header-top">
         <div class="container">
           <div class="header-logo">
-            <a href="<%= request.getContextPath() %>/index.jsp" class="logo">LOGO</a>
+            <a href="store" class="logo">LOGO</a>
           </div>
 
       <div class="header-center">
@@ -32,11 +35,15 @@
 
           <div class="header-right">
             <a href="<%= request.getContextPath() %>/infoUsers/user_sidebar.jsp" aria-label="Account">
+              ${sessionScope.get("user").fullName}
+            </a>
+            <a href="<%= request.getContextPath() %>/infoUsers/user_sidebar.jsp" aria-label="Account">
+
               <i class="fas fa-user"></i>
             </a>
             <a href="<%= request.getContextPath() %>/Cart.jsp" class="cart-link" aria-label="Cart">
               <i class="fa-solid fa-cart-shopping"></i>
-              <span class="cart-count">0</span>
+              <span class="cart-count">${sessionScope.cart.totalQuantity}</span>
             </a>
           </div>
         </div>

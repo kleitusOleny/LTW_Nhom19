@@ -304,7 +304,7 @@
                                                   maxFractionDigits="0"/>
                             </p>
 
-                            <a href="AddToCartServlet?id=${p.id}" class="add-to-cart-btn">Thêm vào giỏ</a>
+                            <a href="add-cart?productId=${p.id}&quantity=1" class="add-to-cart-btn">Thêm vào giỏ</a>
                         </div>
                     </div>
                 </c:forEach>
