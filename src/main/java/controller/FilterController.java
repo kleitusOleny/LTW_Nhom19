@@ -44,7 +44,10 @@ public class FilterController extends HttpServlet {
                 keepParams = "&" + keepParams;
             }
         }
-
+        
+        double maxPrice = dao.getMaxPrice();
+        request.setAttribute("maxPrice", maxPrice > 0 ? maxPrice : 10000000);
+        
         request.setAttribute("products", products);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);

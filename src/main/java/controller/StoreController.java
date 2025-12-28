@@ -34,6 +34,8 @@ public class StoreController extends HttpServlet {
         // 2. Lấy dữ liệu
         List<Product> products = dao.getProducts(pageSize, offset);
         int totalProducts = dao.countTotalProducts();
+        double maxPrice = dao.getMaxPrice();
+        request.setAttribute("maxPrice", maxPrice > 0 ? maxPrice : 10000000);
         
         // 3. Tính tổng số trang
         int totalPages = (int) Math.ceil((double) totalProducts / pageSize);

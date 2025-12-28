@@ -101,24 +101,25 @@
             <h3 class="filter-title">Bộ Lọc Sản Phẩm</h3>
             <form action="filter" method="get">
                 <%-- 1. LỌC GIÁ --%>
+                    <fmt:formatNumber var="maxPriceInt" value="${maxPrice}" maxFractionDigits="0" groupingUsed="false"/>
                     <div class="filter-widget">
                         <h4 class="widget-title">Lọc theo giá</h4>
                         <c:set var="minVal" value="0"/>
-                        <c:set var="maxVal" value="10000000"/>
+                        <c:set var="maxVal" value="${maxPriceInt}"/>
 
                         <c:if test="${not empty selectedPrices && selectedPrices.size() > 0}">
                             <c:set var="priceRange" value="${selectedPrices[0]}"/>
                             <c:set var="parts" value="${fn:split(priceRange, '-')}"/>
                             <c:if test="${fn:length(parts) == 2}">
                                 <c:set var="minVal" value="${parts[0]}"/>
-                                <c:set var="maxVal" value="${parts[1] == 'max' ? 10000000 : parts[1]}"/>
+                                <c:set var="maxVal" value="${parts[1] == 'max' ? maxPriceInt : parts[1]}"/>
                             </c:if>
                         </c:if>
 
                         <div class="price-slider-wrapper">
                             <div class="slider-track-bg"></div> <div class="slider-track-progress" id="visual-track"></div> <div class="range-input-container">
-                            <input type="range" id="input-min" min="0" max="10000000" step="100000" value="${minVal}">
-                            <input type="range" id="input-max" min="0" max="10000000" step="100000" value="${maxVal}">
+                            <input type="range" id="input-min" min="0" max="${maxPriceInt}" step="10000" value="${minVal}">
+                            <input type="range" id="input-max" min="0" max="${maxPriceInt}" step="10000" value="${maxVal}">
                         </div>
 
                             <input type="hidden" name="price" id="hidden-price-filter" value="${minVal}-${maxVal}">
@@ -126,7 +127,9 @@
 
                         <div class="price-values">
                             <span id="min-price-display">0 ₫</span>
-                            <span id="max-price-display">10.000.000 ₫</span>
+                            <span id="max-price-display">
+                                <fmt:formatNumber value="${maxPrice}" type="currency" currencySymbol="₫"/>
+                            </span>
                         </div>
 
                         <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Áp dụng</button>
@@ -377,8 +380,8 @@
         const hiddenInput = document.getElementById("hidden-price-filter");
 
         const minLimit = 0;
-        const maxLimit = 10000000;
-        const gap = 500000; // Khoảng cách tối thiểu giữa 2 nút
+        const maxLimit = parseInt(rangeMax.max);
+        const gap = maxLimit / 20;// Khoảng cách tối thiểu giữa 2 nút
 
         function formatCurrency(value) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);

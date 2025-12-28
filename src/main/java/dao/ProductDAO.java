@@ -2,6 +2,7 @@ package dao;
 
 import model.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductDAO extends ADAO {
@@ -347,6 +348,14 @@ public class ProductDAO extends ADAO {
             }
             sql.append("))");
         }
+    }
+    
+    public double getMaxPrice() {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT MAX(price) FROM products WHERE is_delete = 0")
+                        .mapTo(Double.class)
+                        .findOnly()
+        );
     }
     
 }
