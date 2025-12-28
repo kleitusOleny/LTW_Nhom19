@@ -13,6 +13,7 @@ import java.util.List;
 public class StoreController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("curHeader","store");
         ProductDAO dao = new ProductDAO();
         
         // 1. Cấu hình phân trang

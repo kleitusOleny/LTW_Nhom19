@@ -4,10 +4,11 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "MenuController", value = "/menu")
-public class MenuController extends HttpServlet {
+@WebServlet(name = "HomeController", value = "/home")
+public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("curHeader","home");
         request.getRequestDispatcher("index.jsp").forward(request,response);
     }
 

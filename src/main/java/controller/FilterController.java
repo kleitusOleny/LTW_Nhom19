@@ -14,6 +14,7 @@ import java.util.List;
 public class FilterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("curHeader","store");
         ProductDAO dao = new ProductDAO();
 
         String[] prices = request.getParameterValues("price");
