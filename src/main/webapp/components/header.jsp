@@ -25,8 +25,8 @@
             </div>
 
             <div class="header-center">
-                <form class="search-form" action="#" method="get">
-                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
+                <form class="search-form" action="filter" method="get">
+                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="${param.search}" required>
                     <button type="submit" aria-label="Search">
                         <i class="fas fa-search"></i>
                     </button>
@@ -59,7 +59,6 @@
                         <a href="home" class=${current.equals("home") ? "active" : ''}>Trang Chủ</a>
                     </li>
 
-                    <%-- 3. RƯỢU VANG (Cửa hàng): Active khi ở 'store', 'filter' (lọc) hoặc 'detail' (chi tiết) --%>
                     <li class="has-dropdown">
                         <a href="store" class="${current.equals("store") ? "active" : ''}">
                             Rượu Vang
@@ -116,13 +115,11 @@
                         </div>
                     </li>
 
-                    <%-- 4. BLOG: Active khi link chứa 'blog.jsp' --%>
                     <li>
                         <a href="<%= request.getContextPath() %>/blog.jsp"
                            class="${fn:contains(uri, 'blog.jsp') ? 'active' : ''}">Blog</a>
                     </li>
 
-                    <%-- 5. ABOUT US: Active khi link chứa 'about_us.jsp' --%>
                     <li>
                         <a href="<%= request.getContextPath() %>/about_us.jsp"
                            class="${fn:contains(uri, 'about_us.jsp') ? 'active' : ''}">About Us</a>

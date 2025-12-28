@@ -14,6 +14,7 @@ import java.util.List;
 public class FilterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         request.setAttribute("curHeader","store");
         ProductDAO dao = new ProductDAO();
 
@@ -24,6 +25,8 @@ public class FilterController extends HttpServlet {
         String[] origins = request.getParameterValues("origin");
         String[] capacities = request.getParameterValues("capacity");
         String[] tags = request.getParameterValues("tag");
+        
+        String search = request.getParameter("search");
         //Xử lý phân trang
         int pageSize = 24;
         int page = 1;
@@ -32,11 +35,10 @@ public class FilterController extends HttpServlet {
         } catch (NumberFormatException e) { page = 1; }
         int offset = (page - 1) * pageSize;
         
-        List<Product> products = dao.filterProducts(prices, categories, manufacturers, types, origins,capacities, tags, pageSize, offset);
-        int totalFiltered = dao.countFilteredProducts(prices, categories, manufacturers, types, origins, capacities, tags);
+        List<Product> products = dao.filterProducts(prices, categories, manufacturers, types, origins, capacities, tags, search, pageSize, offset);
+        int totalFiltered = dao.countFilteredProducts(prices, categories, manufacturers, types, origins, capacities, tags, search);
         int totalPages = (int) Math.ceil((double) totalFiltered / pageSize);
         
-        // GIỮ LẠI BỘ LỌC
         String queryString = request.getQueryString();
         String keepParams = "";
         if (queryString != null) {
@@ -53,7 +55,8 @@ public class FilterController extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
         request.setAttribute("filterParams", keepParams);
-
+        request.setAttribute("searchKeyword", search);
+        
         request.setAttribute("categories", dao.getAllCategories());
         request.setAttribute("types", dao.getAllTypes());
         request.setAttribute("manufacturers", dao.getAllManufacturers());

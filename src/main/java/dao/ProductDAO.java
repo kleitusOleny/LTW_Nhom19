@@ -212,7 +212,7 @@ public class ProductDAO extends ADAO {
     }
     
     //Lấy danh sách đã lọc
-    public List<Product> filterProducts(String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags, int limit, int offset) {
+    public List<Product> filterProducts(String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags, String keyword, int limit, int offset) {
         StringBuilder sql = new StringBuilder(
                 "SELECT p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, " +
                         "t.type_name AS typeId, m.manufacturer_name AS manufacturerId, " +
@@ -224,20 +224,28 @@ public class ProductDAO extends ADAO {
                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
                         "WHERE p.is_delete = 0 "
         );
-        appendFilterConditions(sql, prices, categories, manufacturers, types, origins, capacities, tags);
+        
+        // Gọi hàm nối chuỗi điều kiện
+        appendFilterConditions(sql, prices, categories, manufacturers, types, origins, capacities, tags, keyword);
         
         sql.append(" LIMIT :limit OFFSET :offset");
         
-        return jdbi.withHandle(handle ->
-                handle.createQuery(sql.toString())
-                        .bind("limit", limit)
-                        .bind("offset", offset)
-                        .mapToBean(Product.class)
-                        .list()
-        );
+        return jdbi.withHandle(handle -> {
+            // Tạo query
+            var query = handle.createQuery(sql.toString())
+                    .bind("limit", limit)
+                    .bind("offset", offset);
+            
+            // Bind tham số keyword nếu có
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                query.bind("keyword", "%" + keyword.trim() + "%");
+            }
+            
+            return query.mapToBean(Product.class).list();
+        });
     }
     
-    public int countFilteredProducts(String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags) {
+    public int countFilteredProducts(String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags, String keyword) {
         StringBuilder sql = new StringBuilder(
                 "SELECT COUNT(*) FROM products p " +
                         "LEFT JOIN product_types t ON p.type_id = t.id " +
@@ -245,17 +253,19 @@ public class ProductDAO extends ADAO {
                         "WHERE p.is_delete = 0 "
         );
         
-        appendFilterConditions(sql, prices, categories, manufacturers, types, origins, capacities, tags);
+        appendFilterConditions(sql, prices, categories, manufacturers, types, origins, capacities, tags, keyword);
         
-        return jdbi.withHandle(handle ->
-                handle.createQuery(sql.toString())
-                        .mapTo(Integer.class)
-                        .findOnly()
-        );
+        return jdbi.withHandle(handle -> {
+            var query = handle.createQuery(sql.toString());
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                query.bind("keyword", "%" + keyword.trim() + "%");
+            }
+            return query.mapTo(Integer.class).findOnly();
+        });
     }
     
     // Phương thức private hỗ trợ nối chuỗi SQL cho lọc
-    private void appendFilterConditions(StringBuilder sql, String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags) {
+    private void appendFilterConditions(StringBuilder sql, String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags,String keyword) {
         
         if (categories != null && categories.length > 0) {
             sql.append(" AND p.category_id IN (");
@@ -347,6 +357,12 @@ public class ProductDAO extends ADAO {
                 }
             }
             sql.append("))");
+        }
+        
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND (p.product_name LIKE :keyword ")
+                    .append(" OR m.manufacturer_name LIKE :keyword ")
+                    .append(" OR t.type_name LIKE :keyword) ");
         }
     }
     

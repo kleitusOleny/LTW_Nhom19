@@ -100,6 +100,9 @@
         <aside class="filter-content">
             <h3 class="filter-title">Bộ Lọc Sản Phẩm</h3>
             <form action="filter" method="get">
+                <c:if test="${not empty searchKeyword}">
+                    <input type="hidden" name="search" value="${searchKeyword}">
+                </c:if>
                 <%-- 1. LỌC GIÁ --%>
                     <fmt:formatNumber var="maxPriceInt" value="${maxPrice}" maxFractionDigits="0" groupingUsed="false"/>
                     <div class="filter-widget">
@@ -230,7 +233,16 @@
 
         <div class="product-content">
             <div class="shop-content">
-                <h3 class="type-wine">Rượu Vang Đỏ</h3>
+                <c:choose>
+                    <c:when test="${not empty searchKeyword}">
+                        <h3 class="type-wine">Kết quả tìm kiếm cho: "${searchKeyword}"</h3>
+                        <p>Tìm thấy ${products.size()} sản phẩm</p>
+                    </c:when>
+                    <c:otherwise>
+                        <h3 class="type-wine">Tất cả sản phẩm</h3>
+                    </c:otherwise>
+                </c:choose>
+
                 <div class="display-container">
                     <p>Hiển thị kết quả 1-24 trong số</p>
                     <div class="display-mode-container">
