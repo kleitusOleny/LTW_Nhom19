@@ -22,6 +22,16 @@ public class Cart implements Serializable {
         }
     }
     
+    public void updateQuantity(String idProduct, int quantity){
+        CartItem cartItem = get(idProduct);
+        if (cartItem == null || quantity == 0) return;
+        int newQuantity = cartItem.getQuantity() + quantity;
+        if (newQuantity <= 0){
+            removeItem(idProduct);
+        }
+        cartItem.setQuantity(newQuantity);
+    }
+    
     public boolean updateItem(String idProduct, int quantity){
         if (get(idProduct) == null) return false;
         if (quantity <= 0) quantity = 1;
@@ -30,7 +40,6 @@ public class Cart implements Serializable {
     }
     
     public CartItem removeItem(String idProduct){
-        if (get(idProduct) == null) return null;
         return data.remove(idProduct);
     }
     

@@ -33,8 +33,6 @@ public class AddCart extends HttpServlet {
         }
         request.setAttribute("msg","Product not found");
         request.getRequestDispatcher("/store").forward(request,response);
-        
-        
     }
     
     @Override

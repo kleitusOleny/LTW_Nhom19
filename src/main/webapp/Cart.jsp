@@ -36,44 +36,65 @@
 
                     <tbody>
                     <c:forEach items="${sessionScope.cart.items}" var="ci">
-                    <tr class="cart-item-row">
-                        <td><input type="checkbox" class="select-product"></td>
-                        <td class="cart-product-image">
-                            <a href="detail?id=${ci.product.id}">
-                                <img src=${ci.product.imageUrl} alt="${ci.product.productName}">
-                            </a>
-                        </td>
-                        <td class="cart-product-name">
-                            <a href="detail?id=${ci.product.id}">${ci.product.productName}</a>
-                        </td>
-                        <td class="cart-product-price">
-                            <fmt:setLocale value="vi_VN"/>
-                            <fmt:formatNumber value="${ci.product.price}" type="currency" currencySymbol="₫"
-                                              maxFractionDigits="0"/>
-                        </td>
-                        <td class="cart-product-quantity">
-                            <div class="quantity-selector">
-                                <button class="quantity-btn">-</button>
-                                <input type="number" value=${ci.quantity} min="1">
-                                <button class="quantity-btn">+</button>
-                            </div>
-                        </td>
-                        <td class="cart-product-subtotal">
-                            <fmt:setLocale value="vi_VN"/>
-                            <fmt:formatNumber value="${ci.quantity * ci.product.price}" type="currency" currencySymbol="₫"
-                                              maxFractionDigits="0"/>
-                        </td>
-                        <td class="cart-product-remove">
-                            <a href="#" class="remove-item-btn" aria-label="Xóa sản phẩm">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr class="cart-item-row">
+                            <td><input type="checkbox" class="select-product"></td>
+                            <td class="cart-product-image">
+                                <a href="detail?id=${ci.product.id}">
+                                    <img src=${ci.product.imageUrl} alt="${ci.product.productName}">
+                                </a>
+                            </td>
+                            <td class="cart-product-name">
+                                <a href="detail?id=${ci.product.id}">${ci.product.productName}</a>
+                            </td>
+                            <td class="cart-product-price">
+                                <fmt:setLocale value="vi_VN"/>
+                                <fmt:formatNumber value="${ci.product.price}" type="currency" currencySymbol="₫"
+                                                  maxFractionDigits="0"/>
+                            </td>
+                            <td class="cart-product-quantity">
+                                <div class="quantity-selector">
+                                    <form action="update-item" method="post">
+                                        <input type="hidden" name="id" value="${ci.product.id}">
+                                        <input type="hidden" name="quantity" value="-1">
+                                        <button class="quantity-btn">-</button>
+                                    </form>
+
+                                    <form action="update-item" method="post">
+                                        <input type="hidden" name="id" value="${ci.product.id}">
+                                        <input type="number"
+                                               value="${ci.quantity}"
+                                               name="setQuantity"
+                                               onchange="this.form.submit()">
+                                    </form>
+
+                                    <form action="update-item" method="post">
+                                        <input type="hidden" name="id" value="${ci.product.id}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button class="quantity-btn">+</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td class="cart-product-subtotal">
+                                <fmt:setLocale value="vi_VN"/>
+                                <fmt:formatNumber value="${ci.quantity * ci.product.price}" type="currency"
+                                                  currencySymbol="₫"
+                                                  maxFractionDigits="0"/>
+                            </td>
+                            <td class="cart-product-remove">
+                                <form action="delete-cart" method="post">
+                                    <input type="hidden" name="id" value="${ci.product.id}">
+                                    <button class="remove-item-btn" aria-label="Xóa sản phẩm"
+                                            style="border: 0; background: white">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                     </c:forEach>
                     </tbody>
                 </table>
                 <div class="cart-actions">
-                    <a href="store.jsp" class="btn btn-secondary">Tiếp tục xem sản phẩm</a>
+                    <a href="store" class="btn btn-secondary">Tiếp tục xem sản phẩm</a>
                     <button class="btn btn-danger" id="delete-selected">Xóa sản phẩm đã chọn</button>
                 </div>
             </div>
