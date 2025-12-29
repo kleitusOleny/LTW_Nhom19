@@ -37,27 +37,24 @@ public class ProductDAO extends ADAO {
     
     public List<Product> getProducts() {
         return jdbi.withHandle(handle ->
-                handle.createQuery(
-                                "SELECT " +
-                                        "p.id, " +
-                                        "p.product_name, " +
-                                        "p.slug, " +
-                                        "p.price, " +
-                                        "p.capacity, " +
-                                        "p.alcohol, " +
-                                        "p.origin, " +
-                                        "p.detail, " +
-                                        "p.create_at, " +
-                                        "p.update_at, " +
-                                        "p.is_delete, " +
-                                        "t.type_name AS typeId, " +
-                                        "m.manufacturer_name AS manufacturerId, " +
-                                        "c.category_name AS categoryId " +
-                                        "FROM products p " +
-                                        "LEFT JOIN product_types t ON p.type_id = t.id " +
-                                        "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
-                                        "LEFT JOIN categorys c ON p.category_id = c.id " +
-                                        "LIMIT 24"
+                handle.createQuery("SELECT " +
+                                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, " +
+                                "t.type_name AS typeId, " +
+                                "m.manufacturer_name AS manufacturerId, " +
+                                
+                                "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl, " +
+                                
+                                "(SELECT AVG(ct.star) " +
+                                " FROM evaluates e " +
+                                " JOIN ct_evaluates ct ON e.evaluate_id = ct.id " +
+                                " WHERE e.product_id = p.id) AS rating, " +
+                                
+                                "(SELECT COUNT(*) FROM evaluates WHERE product_id = p.id) AS totalReviews " +
+                                
+                                "FROM products p " +
+                                "LEFT JOIN product_types t ON p.type_id = t.id " +
+                                "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
+                                "WHERE p.is_delete = 0 "
                         )
                         .mapToBean(Product.class)
                         .list()
@@ -130,13 +127,14 @@ public class ProductDAO extends ADAO {
                                         "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.detail, p.create_at, p.update_at, p.is_delete, " +
                                         "t.type_name AS typeId, " +
                                         "m.manufacturer_name AS manufacturerId, " +
-                                        "c.category_name AS categoryId " +
+                                        "c.category_name AS categoryId, " +
+                                        "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl " +
                                         "FROM products p " +
                                         "LEFT JOIN product_types t ON p.type_id = t.id " +
                                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
                                         "LEFT JOIN categorys c ON p.category_id = c.id " +
                                         "WHERE p.is_delete = 0 " +
-                                        "ORDER BY RAND() LIMIT 6"
+                                        "ORDER BY RAND() LIMIT 5"
                         )
                         .mapToBean(Product.class)
                         .list()
