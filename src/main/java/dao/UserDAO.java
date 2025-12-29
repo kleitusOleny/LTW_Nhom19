@@ -12,12 +12,12 @@ public class UserDAO extends ADAO implements IDAO<User> {
                              id,
                              email,\s
                              username,
-                             password_hash AS passwordHash,
-                             phone_number AS phoneNumber,
+                             password_hash,
+                             phone_number,
                              active,\s
-                             created_at AS createdAt,
-                             birth_day AS birthDay,
-                             full_name AS fullName
+                             created_at,
+                             birth_day,
+                             full_name
                          FROM users
                         \s""")
                 .mapToBean(User.class)
@@ -29,14 +29,14 @@ public class UserDAO extends ADAO implements IDAO<User> {
         return jdbi.withHandle(handle ->
                 handle.createQuery("""
                                     SELECT id, email, username,
-                                           password_hash AS passwordHash,
-                                           phone_number AS phoneNumber,
-                                           full_name AS fullName,
-                                           birth_day AS birthDay,
+                                           password_hash,
+                                           phone_number,
+                                           full_name,
+                                           birth_day,
                                            administrator,
                                            active,
-                                           created_at AS createdAt,
-                                           update_at AS updateAt
+                                           created_at,
+                                           update_at
                                     FROM users
                                     WHERE id = :id
                                 """)
@@ -168,6 +168,12 @@ public boolean updatePassword(String email, String newPasswordHashed) {
                     update users set password_hash =:passwordHash where email=:email""")
             .bind("passwordHash", newPasswordHashed)
             .bind("email", email).execute() > 0);
+}
+
+public boolean updateActive(int id, int activeNum) {
+        return jdbi.withHandle(handle -> handle.createUpdate("""
+                    update users set active = :activeNum where id = :id""")
+                .bind("activeNum", activeNum).execute() > 0);
 }
 
     public int countUserId(String email) {
