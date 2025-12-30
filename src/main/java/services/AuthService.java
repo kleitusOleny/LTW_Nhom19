@@ -4,7 +4,7 @@ import dao.UserDAO;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class AuthService {
     private final UserDAO userDAO = new UserDAO();
@@ -40,7 +40,7 @@ public class AuthService {
         newUser.setBirthDay(newUser.getBirthDay());
         newUser.setAdministrator(0);
         newUser.setActive(1);
-        newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        newUser.setCreatedAt(LocalDateTime.now());
 
         return userDAO.create(newUser);
     }
