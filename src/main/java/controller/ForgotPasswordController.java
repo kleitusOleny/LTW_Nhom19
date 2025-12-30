@@ -5,8 +5,11 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.User;
 import services.AuthService;
+import services.UserValidationServices;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "ForgotPassword", value = "/forgotpassword")
 public class ForgotPasswordController extends HttpServlet {
@@ -21,20 +24,13 @@ public class ForgotPasswordController extends HttpServlet {
         String plainPassword = request.getParameter("password");
         String confirmPassword = request.getParameter("confirm-password");
 
-        boolean hasError = false;
-        if (plainPassword == null || plainPassword.trim().isEmpty() ||
-                !plainPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$")) {
-            request.setAttribute("passwordError", "Mật khẩu cần ít nhất 8 ký tự, gồm chữ hoa, chữ thường và ký tự đặc biệt");
-            hasError = true;
-        }
-
-        if (!plainPassword.equals(confirmPassword)) {
-            request.setAttribute("confirmedPasswordError", "Mật khẩu xác nhận không khớp, vui lòng nhập lại");
-            hasError = true;
-        }
+        UserValidationServices userValidationServices = new UserValidationServices();
+        Map<String, String> allErrors = new HashMap<>();
+        allErrors.putAll(userValidationServices.isPasswordEqualConfirmed(plainPassword, confirmPassword));
+        allErrors.putAll(userValidationServices.validatePassword(plainPassword));
 
         AuthService authService = new AuthService();
-        if (!hasError){
+        if (allErrors.isEmpty()){
             String emailGetFromSession = (String) session.getAttribute("otpEmail");
             if (emailGetFromSession != null) {
                 boolean renewPassword = authService.updatePasswordAfterAuthentication(emailGetFromSession, plainPassword);
@@ -47,6 +43,7 @@ public class ForgotPasswordController extends HttpServlet {
                 response.sendRedirect("authentication" + "?failResetPassword");
             }
         } else {
+            allErrors.forEach(request::setAttribute);
             request.getRequestDispatcher("/AuthPages/ForgotPassword.jsp").forward(request, response);
         }
     }
