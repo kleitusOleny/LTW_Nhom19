@@ -1,3 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +11,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="../popup.js"></script>
-    <link rel="stylesheet" href="../css/manage_product_style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/manage_product_style.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
 </head>
 <body>
@@ -21,7 +25,7 @@
             <li><a href="admin_dashboard.jsp" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
-            <li><a href="manage_product.html" class="a-with-icon selected">
+            <li><a href="manage_product.jsp" class="a-with-icon selected">
                 <ion-icon name="bag-remove"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
             <li><a href="manage_accounts.jsp" class="a-with-icon">
@@ -66,6 +70,50 @@
                     </button>
                 </div>
             </div>
+            <div class="filter-card">
+                <div class="filter-left">
+                    <div class="filter-item">
+                        <span class="label-text">Trạng thái kho</span>
+                        <div class="select-wrapper">
+                            <ion-icon name="layers-outline" class="field-icon"></ion-icon>
+                            <select id="filter-stock" class="form-control">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="instock">Còn hàng</option>
+                                <option value="outstock">Hết hàng</option>
+                            </select>
+                            <ion-icon name="chevron-down-outline" class="arrow-icon"></ion-icon>
+                        </div>
+                    </div>
+
+                    <div class="filter-item">
+                        <span class="label-text">Khoảng giá</span>
+                        <div class="price-group">
+                            <div class="input-wrapper">
+                                <span class="currency">₫</span>
+                                <input type="number" id="min-price" placeholder="Từ..." class="form-control price-input">
+                            </div>
+                            <span class="divider">-</span>
+                            <div class="input-wrapper">
+                                <span class="currency">₫</span>
+                                <input type="number" id="max-price" placeholder="Đến..." class="form-control price-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-item item-bottom">
+                        <button id="btn-reset-filter" class="btn-reset" title="Đặt lại">
+                            <ion-icon name="refresh-outline"></ion-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-right">
+                    <div class="search-wrapper">
+                        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                        <input type="text" id="custom-search-input" placeholder="Tìm tên sản phẩm, mã SKU..." class="search-input">
+                    </div>
+                </div>
+            </div>
 
             <div class="table-container">
                 <table id="product-datatable" class="product-table">
@@ -80,271 +128,30 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_0845-17.jpg" alt="Product Image">
-                                <span>Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</span>
-                            </div>
-                        </td>
-                        <td>VD/0845-17</td>
-                        <td>5.989.500₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">150</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-1">Sửa</button>
-                                <button class="delete btn" id="delete-product-btn-1">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
+                    <c:forEach items="${product}" var="p">
+                        <tr>
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
+                            <td>
+                                <div class="product-cell">
+                                    <img src="${p.imageUrl}" alt="Product Image">
+                                    <span>${p.productName}</span>
+                                </div>
+                            </td>
+                            <td>${p.id}</td>
+                            <td><fmt:setLocale value="vi_VN"/>
+                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫"
+                                                  maxFractionDigits="0"/>
+                            </td>
+                            <td class="center-align"><span class="stock-status in-stock">150</span></td>
+                            <td>
+                                <div class="cell-action">
+                                    <button class="edit btn" id="edit-product-btn-1">Sửa</button>
+                                    <button class="delete btn" id="delete-product-btn-1">Xoá</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
 
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_0834-14-1.5L.jpg" alt="Product">
-                                <span>Rượu Vang Đỏ Sandrone Barolo Le Vigne – 1.5L 2014</span>
-                            </div>
-                        </td>
-                        <td>VD/0834-14-1.5L</td>
-                        <td>13.486.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">20</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-2">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_0845-17.jpg" alt="Product">
-                                <span>Rượu Vang Đỏ Luce Brunello Di Montalcino 2017</span>
-                            </div>
-                        </td>
-                        <td>VD/0845-17</td>
-                        <td>5.989.500₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">150</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-3">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_0883-09-3L.jpg" alt="Product">
-                                <span>Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2009 3 Lít</span>
-                            </div>
-                        </td>
-                        <td>VD/0883-09-3L</td>
-                        <td>9.460.000₫</td>
-                        <td class="center-align"><span class="stock-status low-stock">9</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-4">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_0883-14.jpg" alt="Product">
-                                <span>Rượu Vang Đỏ Muga Prado Enea Gran Reserva 2014</span>
-                            </div>
-                        </td>
-                        <td>VD/0883-14</td>
-                        <td>2.783.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">45</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-5">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_0926-22.png" alt="Product">
-                                <span>Rượu Vang Trắng Greywacke Pinot Noir 2022</span>
-                            </div>
-                        </td>
-                        <td>VD/0926-22</td>
-                        <td>1.089.000₫</td>
-                        <td class="center-align"><span class="stock-status low-stock">7</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-6">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_0939.png" alt="Product">
-                                <span>Rượu vang sủi Freixenet Italian Rosé Sparkling Wine Extra Dry</span>
-                            </div>
-                        </td>
-                        <td>VD/0939</td>
-                        <td>787.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">88</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-7">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_1170.png" alt="Product">
-                                <span>Rượu vang hồng Dufouleur Monopole</span>
-                            </div>
-                        </td>
-                        <td>VD/1170</td>
-                        <td>351.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">110</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-8">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_1185.png" alt="Product">
-                                <span>Rượu vang hồng Famille Perrin Côtes-du-Rhône Réserve, rose</span>
-                            </div>
-                        </td>
-                        <td>VD/1185</td>
-                        <td>726.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">60</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-9">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_1193-22.png" alt="Product">
-                                <span>Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022</span>
-                            </div>
-                        </td>
-                        <td>VD/1193-22</td>
-                        <td>1.936.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">30</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-10">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_1197.png" alt="Product">
-                                <span>Rượu vang hồng Studio By Miraval</span>
-                            </div>
-                        </td>
-                        <td>VD/1197</td>
-                        <td>750.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">90</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-11">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_1233.jpg" alt="Product">
-                                <span>Rượu Sâm Panh Champagne Ruinart Rosé</span>
-                            </div>
-                        </td>
-                        <td>VD/1233</td>
-                        <td>6.160.000₫</td>
-                        <td class="center-align"><span class="stock-status low-stock">4</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-12">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_1274.png" alt="Product">
-                                <span>Rượu vang hồng Flor de Muga Rosé</span>
-                            </div>
-                        </td>
-                        <td>VD/1274</td>
-                        <td>1.041.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">18</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-13">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-cell">
-                                <img src="../img/SKU__VD_1306.png" alt="Product">
-                                <span>Rượu Vang Hồng Tenuta Ammiraglia Alìe</span>
-                            </div>
-                        </td>
-                        <td>VD/1306</td>
-                        <td>726.000₫</td>
-                        <td class="center-align"><span class="stock-status in-stock">65</span></td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-product-btn-14">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -501,41 +308,87 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
-        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
-
-        setupModal('product-form-modal', 'add-product-btn', 'close-form-btn')
-        setupModal('product-form-modal', 'add-product-btn', 'cancel-form-btn')
-
-        setupModal('delete-confirm-modal', 'delete-selected-btn', 'cancel-delete-btn')
-        setupModal('delete-confirm-modal', 'delete-selected-btn', 'ac-delete-btn')
-        setupModal('delete-confirm-modal', 'delete-selected-btn', 'close-delete-btn')
-
-        setupModal('product-form-modal', 'edit-product-btn-1', 'close-form-btn')
-        setupModal('delete-confirm-modal', 'delete-product-btn-1', 'cancel-delete-btn')
+        // Setup Modals (Giữ nguyên code cũ của bạn)
+        // setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
+        // setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
+        // setupModal('product-form-modal', 'add-product-btn', 'close-form-btn');
+        // setupModal('product-form-modal', 'add-product-btn', 'cancel-form-btn');
+        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'cancel-delete-btn');
+        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'ac-delete-btn');
+        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'close-delete-btn');
+        // setupModal('product-form-modal', 'edit-product-btn-1', 'close-form-btn');
+        // setupModal('delete-confirm-modal', 'delete-product-btn-1', 'cancel-delete-btn');
 
         $(document).ready(function () {
-            $('#product-datatable').DataTable({
-                "columnDefs": [
-                    {
-                        "orderable": false,
-                        "targets": [0, 5] // Không sort cột Checkbox (0) và Action (5)
-                    },
-                    {
-                        "searchable": false,
-                        "targets": [0, 5]
-                    }
-                ],
+            // 1. Cấu hình Custom Filter cho Giá (Price Range)
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var min = parseInt($('#min-price').val(), 10);
+                    var max = parseInt($('#max-price').val(), 10);
 
+                    // Lấy dữ liệu cột Giá (Cột index 3), loại bỏ ký tự không phải số (đ, dấu chấm, phẩy)
+                    var priceStr = data[3] || "0";
+                    var price = parseFloat(priceStr.replace(/[\D\s\._\-]+/g, ""));
+
+                    if ((isNaN(min) && isNaN(max)) ||
+                        (isNaN(min) && price <= max) ||
+                        (min <= price && isNaN(max)) ||
+                        (min <= price && price <= max)) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+            // 2. Cấu hình Custom Filter cho Tồn kho (Stock)
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var stockStatus = $('#filter-stock').val();
+                    // Lấy dữ liệu cột Stock (Cột index 4)
+                    var stockVal = parseInt(data[4]) || 0;
+
+                    if (stockStatus === "") return true; // Chọn tất cả
+                    if (stockStatus === "instock" && stockVal > 0) return true;
+                    if (stockStatus === "outstock" && stockVal <= 0) return true;
+
+                    return false;
+                }
+            );
+
+            // 3. Khởi tạo DataTable
+            var table = $('#product-datatable').DataTable({
+                "paging": true,       // Bật phân trang (Mặc định là true, khai báo rõ ràng)
+                "pageLength": 10,     // Số dòng mỗi trang
+                "lengthMenu": [5, 10, 25, 50], // Tùy chọn số dòng hiển thị
+                "columnDefs": [
+                    {"orderable": false, "targets": [0, 5]},
+                    {"searchable": false, "targets": [0, 5]}
+                ],
                 "language": {
-                    "url": 'https://cdn.datatables.net/plug-ins/2.3.5/i18n/vi.json', // Tiếng Việt
+                    "url": 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json',
                     "paginate": {
                         "first": "<ion-icon name='play-skip-back-outline'></ion-icon>",
                         "last": "<ion-icon name='play-skip-forward-outline'></ion-icon>",
                         "next": "<ion-icon name='chevron-forward-outline'></ion-icon>",
                         "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
                     }
-                }
+                },
+                // Dom option để sắp xếp lại vị trí các thành phần (nếu cần)
+                // l: length changing input control, f: filtering input, r: processing, t: table, i: info, p: pagination
+                "dom": '<"top"l>rt<"bottom"ip><"clear">'
+            });
+
+            // 4. Bắt sự kiện khi nhập liệu vào bộ lọc -> Vẽ lại bảng
+            $('#min-price, #max-price, #filter-stock').on('keyup change', function () {
+                table.draw();
+            });
+
+            // 5. Nút Reset bộ lọc
+            $('#btn-reset-filter').on('click', function () {
+                $('#min-price').val('');
+                $('#max-price').val('');
+                $('#filter-stock').val('');
+                table.search('').draw(); // Xóa cả ô tìm kiếm nhanh
             });
         });
     });

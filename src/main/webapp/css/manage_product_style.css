@@ -976,3 +976,157 @@
 .btn-secondary[for="excel-file-input"] {
     cursor: pointer;
 }
+/* --- 1. KHUNG BAO NGOÀI (CONTAINER) --- */
+.filter-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-wrap: wrap; /* Cho phép xuống dòng nếu màn hình bé */
+    gap: 20px;       /* Khoảng cách giữa khối trái và khối phải */
+    align-items: flex-end; /* Căn đáy để các input thẳng hàng nhau */
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+/* --- 2. BỐ CỤC TRÁI - PHẢI --- */
+.filter-left {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Khoảng cách giữa Kho, Giá, Reset */
+    align-items: flex-end;
+}
+
+.filter-right {
+    margin-left: auto; /* Đẩy khối tìm kiếm sang phải cùng */
+    flex-grow: 1;      /* Cho phép chiếm không gian còn lại */
+    max-width: 400px;  /* Nhưng không quá 400px (Fix lỗi thanh search quá dài) */
+    min-width: 250px;
+}
+
+/* --- 3. CÁC THÀNH PHẦN CHUNG (Label, Item) --- */
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Khoảng cách giữa Label và Input */
+}
+
+.label-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Reset chiều cao chuẩn cho tất cả input */
+.form-control, .search-input, .btn-reset {
+    height: 40px !important; /* QUAN TRỌNG: Chiều cao bằng nhau */
+    box-sizing: border-box;
+}
+
+/* --- 4. SELECT BOX (TRẠNG THÁI KHO) --- */
+.select-wrapper {
+    position: relative;
+    width: 200px; /* Fix chiều rộng, không cho giãn */
+}
+
+.select-wrapper .form-control {
+    width: 100%;
+    padding: 0 35px 0 40px; /* Chừa chỗ icon */
+    border: 1px solid #dfe6e9;
+    border-radius: 6px;
+    background: #f8f9fa;
+    color: #2d3436;
+    appearance: none; /* Xóa mũi tên mặc định */
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.field-icon {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: #636e72; font-size: 18px; pointer-events: none;
+}
+.arrow-icon {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    color: #636e72; font-size: 14px; pointer-events: none;
+}
+
+/* --- 5. KHOẢNG GIÁ (FIX LỖI TO KHỔNG LỒ) --- */
+.price-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 130px; /* Fix chiều rộng mỗi ô nhập giá */
+}
+
+.input-wrapper .currency {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    color: #b2bec3; font-size: 13px; font-weight: 600;
+}
+
+.price-input {
+    width: 100%;
+    padding: 0 10px 0 25px; /* Padding trái né chữ đ */
+    border: 1px solid #dfe6e9;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
+}
+
+.divider { color: #b2bec3; font-weight: bold; }
+
+/* --- 6. NÚT RESET --- */
+.btn-reset {
+    width: 40px; /* Vuông 40x40 */
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid #dfe6e9;
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #636e72;
+    font-size: 18px;
+    transition: 0.2s;
+}
+.btn-reset:hover {
+    background: #ffeaa7; border-color: #fdcb6e; color: #d63031;
+}
+
+/* --- 7. THANH TÌM KIẾM (SEARCH BAR) --- */
+.search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    border: 1px solid #dfe6e9;
+    border-radius: 50px; /* Bo tròn viên thuốc */
+    padding: 0 20px 0 45px; /* Chừa chỗ kính lúp */
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.search-input:focus {
+    border-color: #0984e3;
+    box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
+    outline: none;
+}
+
+.search-icon {
+    position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+    color: #636e72; font-size: 20px;
+}
+
+/* --- 8. RESPONSIVE (MOBILE) --- */
+@media (max-width: 992px) {
+    .filter-card { flex-direction: column; align-items: stretch; }
+    .filter-left { width: 100%; justify-content: space-between; }
+    .filter-right { width: 100%; max-width: 100%; margin: 0; }
+    .search-input { width: 100%; }
+}
