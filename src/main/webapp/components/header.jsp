@@ -2,23 +2,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<!DOCTYPE html>
-<html lang="en">
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+  <!DOCTYPE html>
+  <html lang="en">
 
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Main Menu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/index_style.css">
-</head>
+  </head>
 
-<body>
-<header class="site-header">
-    <div class="header-top">
+  <body>
+    <header class="site-header">
+      <div class="header-top">
         <div class="container">
             <div class="header-logo">
                 <a href="home" class="logo">LOGO</a>
@@ -34,22 +35,26 @@
             </div>
 
             <div class="header-right">
-                <a href="<%= request.getContextPath() %>/infoUsers/user_sidebar.jsp" aria-label="Account">
-                    ${sessionScope.get("user").fullName}
-                </a>
-                <a href="<%= request.getContextPath() %>/infoUsers/user_sidebar.jsp" aria-label="Account">
-
-                    <i class="fas fa-user"></i>
-                </a>
-                <a href="my-cart" class="cart-link" aria-label="Cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="cart-count">${sessionScope.cart.totalQuantity}</span>
-                </a>
+                <c:if test="${empty sessionScope.user}">
+                    <a href="${pageContext.request.contextPath}/AuthPages/Login.jsp"
+                       aria-label="Login">
+                        <span style="text-decoration-color: red">Đăng nhập</span>
+                    </a>
+                </c:if>
+                <c:if test="${not empty sessionScope.user}">
+                    <a href="${pageContext.request.contextPath}/infoUsers/user_sidebar.jsp"
+                       aria-label="Account">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </c:if>
+            <a href="my-cart" class="cart-link" aria-label="Cart">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span class="cart-count">${sessionScope.cart.totalQuantity}</span>
+            </a>
             </div>
         </div>
-    </div>
-
-    <div class="header-nav-bar">
+      </div>
+      <div class="header-nav-bar">
         <div class="container">
             <nav class="header-nav">
               <c:set var="uri" value="${pageContext.request.requestURI}"/>
@@ -127,5 +132,5 @@
                 </ul>
             </nav>
         </div>
-    </div>
-</header>
+      </div>
+    </header>
