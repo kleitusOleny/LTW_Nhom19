@@ -40,7 +40,7 @@
                        class="${not empty usernameError ? 'input-error' : ''}">
                 <span class="error-msg">${usernameError}</span>
                 <div class="reminder">
-                    <div class="remind-item">
+                    <div class="remind-item username-remind">
                         <input type="checkbox" id="remind-username" name="remind-username" disabled>
                         <label for="remind-username">Tên tài khoản phải từ 4-30 kí tự</label>
                     </div>
@@ -101,14 +101,15 @@
             <span class="error-msg-birth">${birthError}</span>
             <span class="error-msg-birth">${ageError}</span>
         </div>
-        <div class="confirm-age">
-            <input type="checkbox" id="age-confirm" class="checkbox">
-            <label for="age-confirm">Xác nhận bạn đã đủ 18 tuổi</label>
-        </div>
-
-        <div class="confirm-license">
-            <input type="checkbox" id="license-confirm" class="checkbox license">
-            <label for="license-confirm">Xác nhận bạn sẽ tuân thủ chính sách</label>
+        <div class="group-license">
+            <div class="confirm-age">
+                <input type="checkbox" id="age-confirm" class="checkbox">
+                <label for="age-confirm">Xác nhận bạn đã đủ 18 tuổi</label>
+            </div>
+            <div class="confirm-license">
+                <input type="checkbox" id="license-confirm" class="checkbox license">
+                <label for="license-confirm">Xác nhận bạn sẽ tuân thủ chính sách</label>
+            </div>
         </div>
         <button type="submit">Đăng Kí</button>
         <a href="login" id="backward">Quay Lại Trang Trước</a>

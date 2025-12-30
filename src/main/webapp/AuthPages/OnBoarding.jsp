@@ -29,7 +29,7 @@
                class="${not empty usernameError ? 'input-error' : ''}">
         <span class="error-msg">${usernameError}</span>
         <div class="reminder">
-            <div class="remind-item">
+            <div class="remind-item username-remind">
                 <input type="checkbox" id="remind-username" name="remind-username" disabled>
                 <label for="remind-username">Tên tài khoản phải từ 4-30 kí tự</label>
             </div>

@@ -52,8 +52,14 @@ h2 {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     flex: 1;
+}
+
+.group-license {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .form-row {
@@ -156,6 +162,10 @@ button:hover {
     align-items: center;
     gap: 5px;
     padding-top: 10px;
+}
+
+.remind-item.username-remind {
+    padding-top: 20px;
 }
 
 .reminder label {

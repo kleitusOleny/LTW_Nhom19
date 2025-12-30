@@ -332,11 +332,15 @@
 }
 
 .account-table .col-id {
-    width: 10%;
+    width: 5%;
 }
 
 .account-table .col-email {
     width: 30%;
+}
+
+.account-table .col-administrator {
+    width: 5%;
 }
 
 .account-table .col-phone {
@@ -450,6 +454,42 @@
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+/* Giới hạn chiều cao tổng thể của Modal để không vượt quá màn hình */
+.modal-content-edit_information {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-information-account {
+    max-height: 55vh;
+    overflow-y: auto;
+    padding-right: 15px;
+    margin-bottom: 10px;
+}
+
+.edit-information-account::-webkit-scrollbar {
+    width: 6px;
+}
+.edit-information-account::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.edit-information-account::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+.edit-information-account::-webkit-scrollbar-thumb:hover {
+    background: #6341ff;
+}
+
+/* Đảm bảo khu vực lỗi và nút bấm nằm ngay dưới vùng cuộn */
+.error-message {
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
 /* Phần trượt popup */
 .modal-overlay-excel {
     display: flex;
@@ -488,6 +528,10 @@
     gap: 25px;
     padding: 2.5rem 3rem;
     width: 25rem;
+}
+
+.modal-content-edit_information {
+    gap: 0 !important;
 }
 
 .modal-content-deleteAll {
@@ -565,7 +609,7 @@
 }
 
 .edit-information-account input {
-    padding: 6px 6px;
+    padding: 8px 6px;
 }
 
 .username-input input, .password-input input {
@@ -642,21 +686,17 @@
     flex-direction: column;
 }
 
-.edit-information-account div:not(.active-section):not(:first-child) {
+.edit-information-account div:not(.active-section):not(:first-child):not(.administrator-section) {
     display: flex;
     flex-direction: column;
     margin-bottom: 5px;
 }
 
-.edit-information-account .email-section {
+.edit-information-account .active-section, .administrator-section {
     margin-top: 5px;
 }
 
-.edit-information-account .active-section {
-    margin-top: 5px;
-}
-
-#activeSelect {
+#activeSelect, #administratorSelect {
     border-radius: 5px;
 }
 

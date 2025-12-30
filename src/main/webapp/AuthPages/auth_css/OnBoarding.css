@@ -54,7 +54,7 @@ p {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     flex: 1;
 }
 
@@ -111,6 +111,10 @@ input.input-error {
     align-items: center;
     gap: 5px;
     padding-top: 10px;
+}
+
+.remind-item.username-remind {
+    padding-top: 20px;
 }
 
 .reminder label, .confirm-age label, .confirm-license label {

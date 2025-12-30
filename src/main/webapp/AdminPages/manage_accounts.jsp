@@ -72,6 +72,7 @@
                         <th class="col-tick">Chọn</th>
                         <th class="col-id">ID Tài Khoản</th>
                         <th class="col-email">Email</th>
+                        <th class="col-administrator">Admin</th>
                         <th class="col-phone">Số Liên Lạc</th>
                         <th class="col-fullname">Họ và Tên</th>
                         <th class="col-create">Ngày tạo</th>
@@ -84,6 +85,7 @@
                             <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
                             <td class="cell-id">${user.id}</td>
                             <td class="cell-email">${user.email}</td>
+                            <td class="cell-administrator">${user.administrator}</td>
                             <td class="cell-phone">${user.phoneNumber}</td>
                             <td class="cell-fullname">${user.fullName}</td>
                             <td class="cell-create">${user.createdAt}</td>
@@ -96,15 +98,20 @@
                         <div class="modal-overlay-edit_information" id="modal-edit-${user.id}">
                             <div class="modal-content-edit_information">
                                 <h2>Bảng thông tin</h2>
+                                <form action="${pageContext.request.contextPath}/accountmanager/edit" method="POST">
                                 <div class="edit-information-account">
                                     <div class="userId-section">
                                         <label for="id">ID:</label>
-                                        <input type="text" id="id" name="id" value="${user.id}" placeholder="ID hiện không có" disabled>
+                                        <input type="text" id="id" name="id" value="${user.id}" placeholder="ID hiện không có" readonly>
                                     </div>
                                     <div class="email-section">
                                         <label for="email">Email</label>
                                         <input type="text" id="email" name="email" value="${user.email}" placeholder="Chưa có Email"
                                                required>
+                                    </div>
+                                    <div class="newPassword-section">
+                                        <label for="newPass">Mật khẩu mới (nếu có)</label>
+                                        <input type="text" id="password_" name="password_" placeholder="Nhập mật khẩu mới nếu muốn thay đổi">
                                     </div>
                                     <div class="fullname-section">
                                         <label for="fullname">Tên Đầy Đủ</label>
@@ -113,7 +120,7 @@
                                     </div>
                                     <div class="birth-section">
                                         <label for="birth">Thời Gian Sinh</label>
-                                        <input type="date" value="<fmt:formatDate value='${user.birthDay}' pattern="yyyy-MM-dd" />">
+                                        <input type="date" name="birth" value="<fmt:formatDate value='${user.birthDay}' pattern='yyyy-MM-dd' />" required>
                                     </div>
                                     <div class="username-section">
                                         <label for="username_">Tên Đăng Nhập</label>
@@ -126,9 +133,16 @@
                                     </div>
                                     <div class="active-section">
                                         <label for="activeSelect">Đang hoạt động:</label>
-                                        <select id="activeSelect" required>
-                                            <option value="yes" ${user.active == 1 ? 'selected' : ''}>Có</option>
-                                            <option value="no" ${user.active == 0 ? 'selected' : ''}>Không</option>
+                                        <select id="activeSelect" name="activeSelect" required>
+                                            <option value="1" ${user.active == 1 ? 'selected' : ''}>Có</option>
+                                            <option value="0" ${user.active == 0 ? 'selected' : ''}>Không</option>
+                                        </select>
+                                    </div>
+                                    <div class="administrator-section">
+                                        <label for="administratorSelect">Là Quản Trị Viên:</label>
+                                        <select id="administratorSelect" name="administratorSelect" required>
+                                            <option value="1" ${user.administrator == 1 ? 'selected' : ''}>Có</option>
+                                            <option value="0" ${user.administrator == 0 ? 'selected' : ''}>Không</option>
                                         </select>
                                     </div>
                                     <div class="create_account-section">
@@ -136,10 +150,20 @@
                                         <input type="date" value="<fmt:formatDate value='${user.createdAt}' pattern="yyyy-MM-dd" />" disabled>
                                     </div>
                                 </div>
+                                    <div class="error-message">
+                                        <c:if test="${editingId == user.id and not empty errorList}">
+                                            <ul class="error-list-summary">
+                                                <c:forEach var="msg" items="${errorList}">
+                                                    <li><ion-icon name="alert-circle-outline"></ion-icon> ${msg}</li>
+                                                </c:forEach>
+                                            </ul>
+                                        </c:if>
+                                    </div>
                                 <div class="group-button-action section">
                                     <button type="button" class="cancel element-button close-edit-modal" id="close-modal-btn7">Huỷ</button>
                                     <button type="submit" class="fix-btn element-button">Sửa</button>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </c:forEach>
@@ -152,18 +176,24 @@
 
 <div class="modal-overlay" id="add-account-modal">
     <div class="modal-content">
-        <form id="add-form">
+        <form id="add-form" action="${pageContext.request.contextPath}/accountmanager/add" method="POST">
             <div class="username-input">
                 <label for="username" class="label-with-icon">
                     <ion-icon name="person-outline"></ion-icon>
                     Tài Khoản</label>
-                <input type="text" id="username" name="username" placeholder="Nhập Email" required>
+                <input type="text" id="username" name="email" placeholder="Nhập Email"
+                       value="${param.email}"
+                       class="${not empty emailError ? 'input-error' : ''}" required>
+                <span class="error-msg">${emailError}</span>
+                <span class="error-msg">${emailError2}</span>
             </div>
             <div class="password-input">
                 <label for="password" class="label-with-icon">
                     <ion-icon name="lock-closed-outline"></ion-icon>
                     Mật Khẩu</label>
-                <input type="text" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                <input type="text" id="password" name="password" placeholder="Nhập mật khẩu"
+                       class="${not empty passwordError ? 'input-error' : ''}" required>
+                <span class="error-msg">${passwordError}</span>
             </div>
             <div class="group-button-action section">
                 <button type="button" class="cancel element-button" id="close-modal-btn">Huỷ</button>
@@ -225,6 +255,22 @@
         </button>
     </div>
 </div>
+<c:if test="${errorSource == 'edit_account' and targetId == user.id}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById('modal-edit-${user.id}');
+            if (modal) modal.classList.add('show');
+        });
+    </script>
+</c:if>
+<c:if test="${errorSource == 'add_account'}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById('add-account-modal');
+            if (modal) modal.classList.add('show');
+        });
+    </script>
+</c:if>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
@@ -232,6 +278,43 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css"/>
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
 <script src="${pageContext.request.contextPath}/popup.js"></script>
+<script src="${pageContext.request.contextPath}/preventspace.js"></script>
+<style>
+    .error-msg {
+        color: red;
+        font-size: 0.85em;
+        font-style: italic;
+        margin-top: -5px;
+        display: block;
+    }
+    input.input-error {
+        border: 1px solid red;
+    }
+
+    .error-message {
+        margin-top: 15px;
+        width: 100%;
+    }
+    .error-list-summary {
+        background-color: #fff2f2;
+        border-left: 4px solid #d8000c;
+        padding: 10px 15px;
+        margin: 0;
+        list-style: none;
+        border-radius: 4px;
+    }
+    .error-list-summary li {
+        color: #d8000c;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+    }
+    .error-list-summary li:last-child {
+        margin-bottom: 0;
+    }
+</style>
 <script>
     // Run Pop-up function
     document.addEventListener("DOMContentLoaded", function () {
@@ -248,6 +331,10 @@
             });
         });
     });
+</script>
+<script>
+    const listFields = ['#username, #password, #email, #password_, #birth, #username_, #phone-number'];
+    preventspace(listFields)
 </script>
 </body>
 </html>
