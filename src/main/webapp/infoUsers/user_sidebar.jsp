@@ -16,23 +16,17 @@
                 <main>
                     <div class="container">
                         <div class="left-sidebar">
-                            <div class="user-info">
-                                <img src="https://i.pinimg.com/1200x/44/80/45/448045692c52f8e84fdad5ccc69f1939.jpg"
-                                    alt="User Avatar">
-                                <span>${user.fullName}</span>
-                            </div>
-                            <hr>
                             <ul class="nav-menu">
                                 <li><a href="info_user.jsp" data-url="<%= request.getContextPath() %>/user"><i
                                             class="fa-solid fa-user"></i> <span data-lang-key="userInfo">Thông
                                             tin</span></a></li>
-                                <li><a href="addresses.jsp" data-url="<%= request.getContextPath() %>/address"><i
+                                <li><a href="#" data-url="<%= request.getContextPath() %>/address"><i
                                             class="fa-solid fa-location-dot"></i> <span data-lang-key="address">Địa
                                             chỉ</span></a></li>
-                                <li><a href="favorites.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                <li><a href="#" data-url="<%= request.getContextPath() %>/favorites"><i
                                             class="fa-solid fa-heart"></i> <span data-lang-key="viewHistory">Yêu
                                             thích</span></a></li>
-                                <li><a href="my_orders.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                <li><a href="#" data-url="<%= request.getContextPath() %>/orders"><i
                                             class="fa-solid fa-box"></i> <span data-lang-key="myOrders">Đơn
                                             hàng của tôi</span></a></li>
                                 <li><a href="review_history.jsp" data-url="<%= request.getContextPath() %>/user"><i
@@ -89,7 +83,7 @@
                                 link.addEventListener('click', function (event) {
                                     event.preventDefault();
 
-                                    const pageUrl = this.getAttribute('href');
+                                    const pageUrl = this.dataset.url;
 
                                     navLinks.forEach(l => l.parentElement.classList.remove('active'));
                                     this.parentElement.classList.add('active');
@@ -105,14 +99,14 @@
                                 if (hashPage.startsWith('/')) {
                                     loadContent(hashPage);
                                     navLinks.forEach(link => {
-                                        if (link.getAttribute('href') === hashPage) {
+                                        if (link.dataset.url === hashPage) {
                                             link.parentElement.classList.add('active');
                                         }
                                     });
                                 } else {
                                     loadContent(hashPage);
                                     navLinks.forEach(link => {
-                                        if (link.getAttribute('href') === hashPage) {
+                                        if (link.dataset.url === hashPage) {
                                             link.parentElement.classList.add('active');
                                         }
                                     });

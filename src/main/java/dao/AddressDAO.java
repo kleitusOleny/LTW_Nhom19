@@ -15,11 +15,14 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
     }
 
     @Override
-    public Address findById(Address id) {
+    public Address findById(Address address) {
         return jdbi.withHandle(handle -> {
             return handle.createQuery(
-                    "select full_name, phone_number, address_line,city,country,is_default from addresses where user_id=:id AND id=:id")
-                    .bind("user_id", id.getUserId()).bind("id", id.getId()).mapToBean(Address.class).findOnly();
+                    "select id, user_id, full_name, phone_number, address_line, city, ward, country, is_default from addresses where user_id = :user_id AND id = :id")
+                    .bind("user_id", address.getUserId())
+                    .bind("id", address.getId())
+                    .mapToBean(Address.class)
+                    .findOnly();
         });
     }
 
@@ -28,11 +31,17 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
         return jdbi.withHandle(handle -> handle
                 .createUpdate(
                         """
-                                INSERT INTO addresses (full_name, phone_number, city, country, address_line) VALUES (:full_name, :phone_number, :city, :country, :address_line)
+                                INSERT INTO addresses (user_id, full_name, phone_number, city, ward, country, address_line)
+                                VALUES (:user_id, :full_name, :phone_number, :city, :ward, :country, :address_line)
                                 """)
-                .bind("full_name", entity.getFullName()).bind("phone_number", entity.getPhoneNumber())
-                .bind("city", entity.getCity()).bind("country", entity.getCountry())
-                .bind("address_line", entity.getAddressLine()).execute() > 0);
+                .bind("user_id", entity.getUserId())
+                .bind("full_name", entity.getFullName())
+                .bind("phone_number", entity.getPhoneNumber())
+                .bind("city", entity.getCity())
+                .bind("ward", entity.getWard())
+                .bind("country", entity.getCountry())
+                .bind("address_line", entity.getAddressLine())
+                .execute() > 0);
     }
 
     @Override
@@ -42,21 +51,31 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
                  SET full_name = :full_name,
                      phone_number = :phone_number,
                      city = :city,
+                     ward = :ward,
                      country = :country,
                      address_line = :address_line
-                 WHERE user_id=:uid AND id=:id
-                """).bind("user_id", entity.getUserId()).bind("id", entity.getId())
-                .bind("full_name", entity.getFullName()).bind("phone_number", entity.getPhoneNumber())
-                .bind("city", entity.getCity()).bind("country", entity.getCountry())
-                .bind("address_line", entity.getAddressLine()).execute() > 0);
+                 WHERE user_id = :user_id AND id = :id
+                """)
+                .bind("user_id", entity.getUserId())
+                .bind("id", entity.getId())
+                .bind("full_name", entity.getFullName())
+                .bind("phone_number", entity.getPhoneNumber())
+                .bind("city", entity.getCity())
+                .bind("ward", entity.getWard())
+                .bind("country", entity.getCountry())
+                .bind("address_line", entity.getAddressLine())
+                .execute() > 0);
     }
 
     @Override
-    public boolean delete(Address id) {
+    public boolean delete(Address address) {
         return jdbi.withHandle(handle -> handle.createUpdate("""
                  DELETE FROM addresses
-                 WHERE user_id=:uid AND id=:id
-                """).bind("user_id", id.getUserId()).bind("id", id.getId()).execute() > 0);
+                 WHERE user_id = :user_id AND id = :id
+                """)
+                .bind("user_id", address.getUserId())
+                .bind("id", address.getId())
+                .execute() > 0);
     }
 
     @Override
@@ -69,10 +88,10 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
         return jdbi.withHandle(handle -> handle.createQuery("""
                     SELECT 1
                     FROM addresses
-                    WHERE user_id = :uid
+                    WHERE user_id = :user_id
                       AND address_line = :address_line
                 """)
-                .bind("uid", entity.getUserId())
+                .bind("user_id", entity.getUserId())
                 .bind("address_line", entity.getAddressLine())
                 .mapTo(Integer.class)
                 .findFirst()
@@ -82,23 +101,40 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
     public List<Address> getByUserID(int id) {
         return jdbi.withHandle(handle -> {
             return handle.createQuery(
-                    "select full_name, phone_number, address_line,city,country,is_default from addresses where user_id=:user_id")
-                    .bind("user_id", id).mapToBean(Address.class).list();
+                    "select id, user_id, full_name, phone_number, address_line, city, country, ward, is_default from addresses where user_id = :user_id")
+                    .bind("user_id", id)
+                    .mapToBean(Address.class)
+                    .list();
         });
     }
 
-    public void setDefault(Address a) {
-        a.setDefault(true);
+    public void setDefault(Address address) {
+        address.setDefault(true);
         jdbi.withHandle(handle -> handle.createUpdate("""
                  UPDATE addresses
-                 SET is_default=:bl
-                 WHERE user_id=:uid AND id=:id
-                """).bind("user_id", a.getUserId()).bind("id", a.getId()).bind("is_default", a.isDefault()));
+                 SET is_default = :is_default
+                 WHERE user_id = :user_id AND id = :id
+                """)
+                .bind("user_id", address.getUserId())
+                .bind("id", address.getId())
+                .bind("is_default", address.isDefault())
+                .execute());
     }
 
-    static void main() {
+    public void unsetAllDefaults(int userId) {
+        jdbi.withHandle(handle -> handle.createUpdate("""
+                 UPDATE addresses
+                 SET is_default = false
+                 WHERE user_id = :user_id
+                """)
+                .bind("user_id", userId)
+                .execute());
+    }
+
+    public static void main(String[] args) {
         AddressDAO d = new AddressDAO();
-        System.out.println(d.getByUserID(1));
+        List<Address> ls = d.getByUserID(1);
+        System.out.println(ls);
     }
 
 }

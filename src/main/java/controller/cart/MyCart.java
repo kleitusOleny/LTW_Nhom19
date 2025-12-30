@@ -1,18 +1,15 @@
-package controller.controller;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
+package controller.cart;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 import java.io.IOException;
 
-
-public class NormalLogin extends HttpServlet {
+@WebServlet(name = "MyCart", value = "/my-cart")
+public class MyCart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("Cart.jsp").forward(request,response);
+        
     }
 
     @Override

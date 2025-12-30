@@ -29,35 +29,15 @@ public class AddressController extends HttpServlet {
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession(true);
-            // if (session == null || session.getAttribute("user") == null) {
-            // response.sendRedirect(request.getContextPath() + "/login");
-            // return;
-            // }
-            if (session.getAttribute("user") == null) {
-                User fakeUser = new User();
-                fakeUser.setId(1);
-                fakeUser.setFullName("Nguyễn Văn A");
-                fakeUser.setEmail("test@gmail.com");
-                fakeUser.setPhoneNumber("0909999999");
-                LocalDate localDate = LocalDate.of(2000, 11, 20);
-                LocalDateTime birthDate = localDate.atStartOfDay();
-//                fakeUser.setBirthDay(birthDate);
-                fakeUser.setPasswordHash(BCrypt.hashpw("123456", BCrypt.gensalt()));
-                session.setAttribute("user", fakeUser);
+            if (session == null || session.getAttribute("user") == null) {
+                response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+                return;
             }
             User user = (User) session.getAttribute("user");
-            System.out.println("Getting addresses for user ID: " + user.getId());
-
-//            List<Address> addressList = addressService.getByUserID(user.getId());
-//            System.out.println("Address list size: " + addressList.size());
-            // for(Address a : addressList) {
-            // System.out.println("Address: " + a.getFullName() + ", " + a.getCity());
-            // }
-//            System.out.println(addressList);
-//            request.setAttribute("addressList", addressList);
+            List<Address> addressList = addressService.getByUserID(user.getId());
+            request.setAttribute("addressList", addressList);
             request.getRequestDispatcher("/infoUsers/addresses.jsp").forward(request, response);
         } catch (Exception e) {
-            System.err.println("ERROR in AddressController.doGet: " + e.getMessage());
             e.printStackTrace();
             throw new ServletException("Error loading addresses", e);
         }
@@ -80,33 +60,33 @@ public class AddressController extends HttpServlet {
             fakeUser.setPhoneNumber("0909999999");
             LocalDate localDate = LocalDate.of(2000, 11, 20);
             LocalDateTime birthDate = localDate.atStartOfDay();
-//            fakeUser.setBirthDay(birthDate);
+            fakeUser.setBirthDay(birthDate);
             fakeUser.setPasswordHash(BCrypt.hashpw("123456", BCrypt.gensalt()));
             session.setAttribute("user", fakeUser);
         }
         User user = (User) session.getAttribute("user");
         String action = request.getParameter("action");
         try {
-
+            System.out.println(action);
             switch (action) {
                 case "add": {
-                    handleAdd(request, user);
+                    addressService.handleAdd(request, user);
                     session.setAttribute("success", "Thêm địa chỉ thành công");
                     break;
                 }
                 case "delete": {
-                    handleDelete(request, user);
+                    addressService.handleDelete(request, user);
                     session.setAttribute("success", "Xóa địa chỉ thành công");
 
                     break;
                 }
-                case "update": {
-                    handleUpdate(request, user);
+                case "edit": {
+                    addressService.handleUpdate(request, user);
                     session.setAttribute("success", "Cập nhật địa chỉ thành công");
                     break;
                 }
                 case "default": {
-                    handleSetDefault(request, user);
+                    addressService.handleSetDefault(request, user);
                     session.setAttribute("success", "Đặt địa chỉ mặc định thành công");
                     break;
                 }
@@ -116,47 +96,7 @@ public class AddressController extends HttpServlet {
         } catch (Exception e) {
             session.setAttribute("error", e.getMessage());
         }
-        request.getRequestDispatcher("/infoUsers/user_sidebar.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/infoUsers/user_sidebar.jsp#" + request.getContextPath() + "/address");
     }
 
-    private void handleAdd(HttpServletRequest req, User user) {
-        Address address = mapRequestToAddress(req);
-        address.setUserId(user.getId());
-
-//        addressService.addAddress(address);
-    }
-
-    private void handleUpdate(HttpServletRequest req, User user) {
-        int addressId = Integer.parseInt(req.getParameter("id"));
-
-        Address address = mapRequestToAddress(req);
-        address.setId(addressId);
-        address.setUserId(user.getId());
-
-//        addressService.updateAddress(address, user.getId());
-    }
-
-    private void handleDelete(HttpServletRequest req, User user) {
-        int id = Integer.parseInt(req.getParameter("id"));
-        // addressService.deleteAddress(id, user.getId());
-    }
-
-    private void handleSetDefault(HttpServletRequest req, User user) {
-        int id = Integer.parseInt(req.getParameter("id"));
-//        addressService.setDefaultAddress(id, user.getId());
-    }
-
-    private Address mapRequestToAddress(HttpServletRequest req) {
-        Address address = new Address();
-
-        address.setFullName(req.getParameter("fullName"));
-        address.setPhoneNumber(req.getParameter("phone"));
-        address.setCity(req.getParameter("city"));
-        address.setWard(req.getParameter("ward"));
-        // Set country to Vietnam by default since validation requires it
-        address.setCountry("Việt Nam");
-        address.setAddressLine(req.getParameter("addressLine"));
-
-        return address;
-    }
 }

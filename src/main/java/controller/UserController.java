@@ -34,36 +34,19 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-
-        // code chính là phần comment lại, code đang mở là test session thôi
-        /*
-         * HttpSession session = request.getSession(false);
-         * if (session == null || session.getAttribute("user") == null) {
-         * response.sendRedirect(request.getContextPath() + "/login");
-         * return;
-         * }
-         * User user = (User) session.getAttribute("user");
-         * request.setAttribute("user", user);
-         * request.getRequestDispatcher("../webapp/infoUsers/info_user.jsp").forward(
-         * request, response);
-         */
-        if (session.getAttribute("user") == null) {
-            User fakeUser = new User();
-            fakeUser.setId(1);
-            fakeUser.setFullName("Nguyễn Văn A");
-            fakeUser.setEmail("test@gmail.com");
-            fakeUser.setPhoneNumber("0909999999");
-            LocalDate localDate = LocalDate.of(2000, 11, 20);
-            LocalDateTime birthDate = localDate.atStartOfDay();
-//            fakeUser.setBirthDay(birthDate);
-            fakeUser.setPasswordHash(BCrypt.hashpw("123456", BCrypt.gensalt()));
-            session.setAttribute("user", fakeUser);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
         }
-
         User user = (User) session.getAttribute("user");
-        System.out.println(user);
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("/infoUsers/info_user.jsp").forward(request, response);
+        try {
+            request.setAttribute("user", user);
+            request.getRequestDispatcher("/infoUsers/info_user.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("error", "Không thể tải danh sách yêu thích");
+            response.sendRedirect(request.getContextPath() + "/");
+        }
     }
 
     @Override
@@ -80,7 +63,6 @@ public class UserController extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action không hợp lệ");
         }
     }
-
 
 
 }

@@ -100,25 +100,29 @@
         <aside class="filter-content">
             <h3 class="filter-title">Bộ Lọc Sản Phẩm</h3>
             <form action="filter" method="get">
+                <c:if test="${not empty searchKeyword}">
+                    <input type="hidden" name="search" value="${searchKeyword}">
+                </c:if>
                 <%-- 1. LỌC GIÁ --%>
+                    <fmt:formatNumber var="maxPriceInt" value="${maxPrice}" maxFractionDigits="0" groupingUsed="false"/>
                     <div class="filter-widget">
                         <h4 class="widget-title">Lọc theo giá</h4>
                         <c:set var="minVal" value="0"/>
-                        <c:set var="maxVal" value="10000000"/>
+                        <c:set var="maxVal" value="${maxPriceInt}"/>
 
                         <c:if test="${not empty selectedPrices && selectedPrices.size() > 0}">
                             <c:set var="priceRange" value="${selectedPrices[0]}"/>
                             <c:set var="parts" value="${fn:split(priceRange, '-')}"/>
                             <c:if test="${fn:length(parts) == 2}">
                                 <c:set var="minVal" value="${parts[0]}"/>
-                                <c:set var="maxVal" value="${parts[1] == 'max' ? 10000000 : parts[1]}"/>
+                                <c:set var="maxVal" value="${parts[1] == 'max' ? maxPriceInt : parts[1]}"/>
                             </c:if>
                         </c:if>
 
                         <div class="price-slider-wrapper">
                             <div class="slider-track-bg"></div> <div class="slider-track-progress" id="visual-track"></div> <div class="range-input-container">
-                            <input type="range" id="input-min" min="0" max="10000000" step="100000" value="${minVal}">
-                            <input type="range" id="input-max" min="0" max="10000000" step="100000" value="${maxVal}">
+                            <input type="range" id="input-min" min="0" max="${maxPriceInt}" step="10000" value="${minVal}">
+                            <input type="range" id="input-max" min="0" max="${maxPriceInt}" step="10000" value="${maxVal}">
                         </div>
 
                             <input type="hidden" name="price" id="hidden-price-filter" value="${minVal}-${maxVal}">
@@ -126,7 +130,9 @@
 
                         <div class="price-values">
                             <span id="min-price-display">0 ₫</span>
-                            <span id="max-price-display">10.000.000 ₫</span>
+                            <span id="max-price-display">
+                                <fmt:formatNumber value="${maxPrice}" type="currency" currencySymbol="₫"/>
+                            </span>
                         </div>
 
                         <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Áp dụng</button>
@@ -227,7 +233,16 @@
 
         <div class="product-content">
             <div class="shop-content">
-                <h3 class="type-wine">Rượu Vang Đỏ</h3>
+                <c:choose>
+                    <c:when test="${not empty searchKeyword}">
+                        <h3 class="type-wine">Kết quả tìm kiếm cho: "${searchKeyword}"</h3>
+                        <p>Tìm thấy ${products.size()} sản phẩm</p>
+                    </c:when>
+                    <c:otherwise>
+                        <h3 class="type-wine">Tất cả sản phẩm</h3>
+                    </c:otherwise>
+                </c:choose>
+
                 <div class="display-container">
                     <p>Hiển thị kết quả 1-24 trong số</p>
                     <div class="display-mode-container">
@@ -304,7 +319,7 @@
                                                   maxFractionDigits="0"/>
                             </p>
 
-                            <a href="AddToCartServlet?id=${p.id}" class="add-to-cart-btn">Thêm vào giỏ</a>
+                            <a href="add-cart?productId=${p.id}&quantity=1" class="add-to-cart-btn">Thêm vào giỏ</a>
                         </div>
                     </div>
                 </c:forEach>
@@ -377,8 +392,8 @@
         const hiddenInput = document.getElementById("hidden-price-filter");
 
         const minLimit = 0;
-        const maxLimit = 10000000;
-        const gap = 500000; // Khoảng cách tối thiểu giữa 2 nút
+        const maxLimit = parseInt(rangeMax.max);
+        const gap = maxLimit / 20;// Khoảng cách tối thiểu giữa 2 nút
 
         function formatCurrency(value) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);

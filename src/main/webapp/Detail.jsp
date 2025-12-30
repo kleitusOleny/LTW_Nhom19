@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <title>${product.productName} | Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-    <link rel="stylesheet" href="css/detail_style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/detail_style.css">
 </head>
 <body>
 <%@ include file="components/header.jsp" %>
@@ -52,7 +52,7 @@
                         <input type="number" id="product-quantity" value="1" min="1">
                         <button class="quantity-btn" id="increase-qty">+</button>
                     </div>
-                    <a href="AddToCartServlet?id=${product.id}&quantity=1" id="add-to-cart-link" class="btn btn-primary add-to-cart-detail">
+                    <a href="add-cart?productId=${product.id}&quantity=1" id="add-to-cart-link" class="btn btn-primary add-to-cart-detail">
                         Thêm vào giỏ hàng
                     </a>
                 </div>
@@ -160,12 +160,12 @@
 
     <section class="related-products-section">
         <h2 class="section-title">Các Sản Phẩm Khác</h2>
-        <div class="product-grid related-grid">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding-top: 5px;">
             <c:forEach var="r" items="${relatedProducts}">
                 <div class="product-card">
                     <div class="product-image">
                         <a href="detail?id=${r.id}">
-                            <img src="https://via.placeholder.com/300x400?text=Wine" alt="${r.productName}">
+                            <img src="${r.imageUrl}" alt="${r.productName}">
                         </a>
                     </div>
                     <div class="product-info">
@@ -173,7 +173,7 @@
                         <p class="product-price">
                             <fmt:formatNumber value="${r.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                         </p>
-                        <a href="AddToCartServlet?id=${r.id}" class="add-to-cart-btn">Thêm vào giỏ</a>
+                        <a href="productId=${r.id}&quantity=1" class="add-to-cart-btn">Thêm vào giỏ</a>
                     </div>
                 </div>
             </c:forEach>
