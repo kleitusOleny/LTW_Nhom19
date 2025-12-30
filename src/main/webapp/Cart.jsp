@@ -64,7 +64,7 @@
                                         <input type="number"
                                                value="${ci.quantity}"
                                                name="setQuantity"
-                                               onchange="this.form.submit()">
+                                               onchange="this.form.submit()" style="align-content: center;">
                                     </form>
 
                                     <form action="update-item" method="post">

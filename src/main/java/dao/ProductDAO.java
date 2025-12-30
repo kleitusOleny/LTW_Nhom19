@@ -22,6 +22,7 @@ public class ProductDAO extends ADAO {
                                         "p.create_at, " +
                                         "p.update_at, " +
                                         "p.is_delete, " +
+                                        "p.quantiy," +
                                         "t.type_name AS typeId, " +
                                         "m.manufacturer_name AS manufacturerId, " +
                                         "c.category_name AS categoryId " +
@@ -38,7 +39,7 @@ public class ProductDAO extends ADAO {
     public List<Product> getProducts() {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT " +
-                                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, " +
+                                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin,p.quantity, " +
                                 "t.type_name AS typeId, " +
                                 "m.manufacturer_name AS manufacturerId, " +
                                 
@@ -65,7 +66,7 @@ public class ProductDAO extends ADAO {
     public List<Product> getProducts(int limit, int offset) {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT " +
-                                        "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, " +
+                                        "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity," +
                                         "t.type_name AS typeId, " +
                                         "m.manufacturer_name AS manufacturerId, " +
 
@@ -102,7 +103,7 @@ public class ProductDAO extends ADAO {
         return jdbi.withHandle(handle ->
                 handle.createQuery(
                                 "SELECT " +
-                                        "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.detail, p.create_at, p.update_at, p.is_delete, " +
+                                        "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.detail, p.create_at, p.update_at, p.is_delete, p.quantity," +
                                         "t.type_name AS typeId, " +
                                         "m.manufacturer_name AS manufacturerId, " +
                                         "c.category_name AS categoryId, " +
@@ -124,7 +125,7 @@ public class ProductDAO extends ADAO {
         return jdbi.withHandle(handle ->
                 handle.createQuery(
                                 "SELECT " +
-                                        "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.detail, p.create_at, p.update_at, p.is_delete, " +
+                                        "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.detail, p.create_at, p.update_at, p.is_delete, p.quantity," +
                                         "t.type_name AS typeId, " +
                                         "m.manufacturer_name AS manufacturerId, " +
                                         "c.category_name AS categoryId, " +
@@ -247,7 +248,7 @@ public class ProductDAO extends ADAO {
     
     public int countFilteredProducts(String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags, String keyword) {
         StringBuilder sql = new StringBuilder(
-                "SELECT COUNT(*) FROM products p " +
+                "SELECT COUNT(1) FROM products p " +
                         "LEFT JOIN product_types t ON p.type_id = t.id " +
                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
                         "WHERE p.is_delete = 0 "
@@ -364,6 +365,7 @@ public class ProductDAO extends ADAO {
                     .append(" OR m.manufacturer_name LIKE :keyword ")
                     .append(" OR t.type_name LIKE :keyword) ");
         }
+        
     }
     
     public double getMaxPrice() {

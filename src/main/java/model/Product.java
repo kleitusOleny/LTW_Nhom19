@@ -51,7 +51,8 @@ public class Product implements Serializable {
     private String imageUrl;
     private Double rating;
     private int totalReviews;
-
+    private int quantity;
+    
     public Product() {
     }
 
@@ -189,6 +190,14 @@ public class Product implements Serializable {
     
     public void setTotalReviews(int totalReviews) {
         this.totalReviews = totalReviews;
+    }
+    
+    public int getQuantity() {
+        return quantity;
+    }
+    
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
     
     @Override

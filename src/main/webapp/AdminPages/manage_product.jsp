@@ -142,7 +142,7 @@
                                 <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫"
                                                   maxFractionDigits="0"/>
                             </td>
-                            <td class="center-align"><span class="stock-status in-stock">150</span></td>
+                            <td class="center-align"><span class="stock-status in-stock">${p.quantity}</span></td>
                             <td>
                                 <div class="cell-action">
                                     <button class="edit btn" id="edit-product-btn-1">Sửa</button>
@@ -308,16 +308,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Setup Modals (Giữ nguyên code cũ của bạn)
-        // setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
-        // setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
-        // setupModal('product-form-modal', 'add-product-btn', 'close-form-btn');
-        // setupModal('product-form-modal', 'add-product-btn', 'cancel-form-btn');
-        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'cancel-delete-btn');
-        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'ac-delete-btn');
-        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'close-delete-btn');
-        // setupModal('product-form-modal', 'edit-product-btn-1', 'close-form-btn');
-        // setupModal('delete-confirm-modal', 'delete-product-btn-1', 'cancel-delete-btn');
 
         $(document).ready(function () {
             // 1. Cấu hình Custom Filter cho Giá (Price Range)
