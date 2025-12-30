@@ -17,7 +17,14 @@
         <div class="detail-grid-container">
             <div class="product-gallery-column">
                 <div class="main-image-container">
-                    <img src="https://via.placeholder.com/500x700?text=Wine" alt="${product.productName}" id="main-product-image">
+                    <c:choose>
+                        <c:when test="${not empty product.imageUrl}">
+                            <img src="${product.imageUrl}" alt="${product.productName}" id="main-product-image">
+                        </c:when>
+                        <c:otherwise>
+                            <img src="https://via.placeholder.com/300x400?text=Wine" alt="Chưa có ảnh" id="main-product-image">
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
 
@@ -114,7 +121,39 @@
             </div>
 
             <div class="tab-content" id="tab-reviews">
-                <p>Chưa có đánh giá nào về sản phẩm</p>
+                <c:if test="${not empty reviews}">
+                    <div class="reviews-list">
+                        <c:forEach var="r" items="${reviews}">
+                            <div class="review-item" style="border-bottom: 1px solid #eee; padding: 15px 0;">
+                                <div class="review-header" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <strong class="reviewer-name" style="font-size: 1.1em;">${r.fullName}</strong>
+                                    <span class="review-date" style="color: #888; font-size: 0.9em;">
+                                        <fmt:formatDate value="${r.createAt}" pattern="dd/MM/yyyy"/>
+                                    </span>
+                                </div>
+
+                                <div class="review-stars" style="color: #FFD700; margin-bottom: 8px;">
+                                        <%-- Logic hiển thị sao --%>
+                                    <fmt:formatNumber var="starR" value="${r.star}" maxFractionDigits="0"/>
+                                    <c:forEach begin="1" end="5" var="i">
+                                        <c:choose>
+                                            <c:when test="${i <= starR}"><i class="fa-solid fa-star"></i></c:when>
+                                            <c:otherwise><i class="fa-regular fa-star" style="color: #ddd;"></i></c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </div>
+
+                                <p class="review-content" style="color: #333; line-height: 1.5;">${r.content}</p>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </c:if>
+
+                <c:if test="${empty reviews}">
+                    <p style="text-align: center; color: #666; padding: 20px;">
+                        Hiện chưa có đánh giá nào cho sản phẩm này. Hãy là người đầu tiên đánh giá!
+                    </p>
+                </c:if>
             </div>
         </div>
     </div>

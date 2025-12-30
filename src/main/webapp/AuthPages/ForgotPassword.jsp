@@ -9,7 +9,7 @@
 <body>
 <div class="forgot-password-container">
     <h2>Quên Mật Khẩu</h2>
-    <form id="forgot-password-form">
+    <form id="forgot-password-form" action="${pageContext.request.contextPath}/forgotpassword" method="POST">
         <div class="email-class form-group">
             <label for="password" class="label-with-icon">
                 <ion-icon name="lock-closed-outline"></ion-icon>
@@ -44,7 +44,6 @@
             </div>
         </div>
         <button>Xác nhận</button>
-        <a href="Authentication.jsp" id="backward">Quay Lại Trang Trước</a>
     </form>
 </div>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

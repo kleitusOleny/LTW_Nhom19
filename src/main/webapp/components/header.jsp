@@ -1,8 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -21,8 +23,8 @@
     <div class="header-top">
         <div class="container">
             <div class="header-logo">
-                <a href="<%= request.getContextPath() %>/index.jsp" class="logo">LOGO</a>
-            </div>
+            <a href="store" class="logo">LOGO</a>
+          </div>
 
             <div class="header-center">
                 <form class="search-form" action="#" method="get">
@@ -46,11 +48,10 @@
                         <i class="fas fa-user"></i>
                     </a>
                 </c:if>
-                <a href="<%= request.getContextPath() %>/Cart.jsp"
-                   class="cart-link" aria-label="Cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="cart-count">0</span>
-                </a>
+            <a href="<%= request.getContextPath() %>/Cart.jsp" class="cart-link" aria-label="Cart">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span class="cart-count">${sessionScope.cart.totalQuantity}</span>
+            </a>
             </div>
         </div>
     </div>

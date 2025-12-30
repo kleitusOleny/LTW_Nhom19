@@ -5,6 +5,14 @@
     font-family: Mulish, sans-serif;
 }
 
+input::-ms-reveal {
+    display: none;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
 body {
     display: flex;
     justify-content: center;

@@ -19,10 +19,10 @@
         <error-code>403</error-code>
         <location>/error/error_403.jsp</location>
     </error-page>
-    <error-page>
-        <error-code>500</error-code>
-        <location>/error/error_500.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <error-code>500</error-code>-->
+<!--        <location>/error/error_500.jsp</location>-->
+<!--    </error-page>-->
 
     <session-config>
         <session-timeout>30</session-timeout> <!-- phút -->

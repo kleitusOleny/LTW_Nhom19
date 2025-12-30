@@ -15,7 +15,7 @@ public class UserDAO extends ADAO implements IDAO<User> {
                              password_hash AS passwordHash,
                              phone_number AS phoneNumber,
                              active,\s
-                             create_at AS createdAt,
+                             created_at AS createdAt,
                              birth_day AS birthDay,
                              full_name AS fullName
                          FROM users
@@ -53,9 +53,9 @@ public boolean create(User entity) {
             .createUpdate(
                     """
                              INSERT INTO users\s
-                             (email, username, password_hash, phone_number, full_name, birth_day, administrator, active, create_at)
+                             (email, username, password_hash, phone_number, full_name, birth_day, administrator, active, created_at)
                              VALUES\s
-                             (:email, :username, :passwordHash, :phoneNumber, :fullName, :birthDay, :administrator, :active, :createAt)
+                             (:email, :username, :passwordHash, :phoneNumber, :fullName, :birthDay, :administrator, :active, :createdAt)
                             \s""")
             .bind("email", entity.getEmail())
             .bind("username", entity.getUsername())
@@ -65,7 +65,7 @@ public boolean create(User entity) {
             .bind("birthDay", entity.getBirthDay())
             .bind("administrator", entity.getAdministrator())
             .bind("active", entity.getActive())
-            .bind("createAt", entity.getCreatedAt())
+            .bind("createdAt", entity.getCreatedAt())
             .execute() > 0);
 }
 
@@ -133,11 +133,11 @@ public User findByEmail(String email) {
                         update_at AS updateAt
                     FROM users
                     WHERE email=:email AND active=1
-                    """))
+                    """)
             .bind("email", email)
             .mapToBean(User.class)
             .findFirst()
-            .orElse(null);
+            .orElse(null));
 }
 
 public User findByUsername(String username) {
@@ -156,11 +156,11 @@ public User findByUsername(String username) {
                         update_at AS updateAt
                     FROM users
                     WHERE username=:username AND active=1
-                    """))
+                    """)
             .bind("username", username)
             .mapToBean(User.class)
             .findFirst()
-            .orElse(null);
+            .orElse(null));
 }
 
 public boolean updatePassword(String email, String newPasswordHashed) {
@@ -170,10 +170,12 @@ public boolean updatePassword(String email, String newPasswordHashed) {
             .bind("email", email).execute() > 0);
 }
 
-public int countUserId(String email) {
-    return jdbi.withHandle(handle -> handle.createQuery("select count(id) from users where email =:email"))
-            .bind("email", email).mapTo(Integer.class).findOnly();
-}
+    public int countUserId(String email) {
+        return jdbi.withHandle(handle -> handle.createQuery("select count(id) from users where email = :email")
+                .bind("email", email)
+                .mapTo(Integer.class)
+                .findOnly());
+    }
 
 public static void main(String[] args) {
     UserDAO u = new UserDAO();

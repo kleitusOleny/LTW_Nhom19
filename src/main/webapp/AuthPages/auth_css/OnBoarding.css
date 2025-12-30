@@ -1,0 +1,185 @@
+/* --- Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Mulish, sans-serif;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../../img/ruou2.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- Layout Container --- */
+.register-page {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+    gap: 25px;
+    width: 50rem;
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 40px 40px 20px 40px;
+    border-radius: 12px;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #595555;
+    font-weight: 700;
+    padding-bottom: 20px;
+}
+
+p {
+    color: rgba(85, 85, 85, 0.68);
+    margin-bottom: -10px;
+    width: 100%;
+    text-align: left;
+}
+
+#register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+/* --- Form Groups & Labels --- */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555;
+}
+
+/* --- Inputs --- */
+input[type="text"],
+input[type="tel"],
+input[type="date"] {
+    padding: 12px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+input:focus:not(#age-confirm):not(#license-confirm) {
+    outline: none;
+    border-color: #ff0080;
+    box-shadow: 0 0 0 3px rgba(255, 0, 98, 0.15);
+}
+
+/* --- Error Styles (Bưng từ Register.jsp qua) --- */
+.error-msg, .error-msg-birth {
+    color: red;
+    font-size: 0.85em;
+    font-style: italic;
+    margin-top: -5px;
+    display: block;
+}
+
+.error-msg-birth {
+    margin-top: -8px;
+}
+
+input.input-error {
+    border: 1px solid red;
+}
+
+/* --- Checkbox & Reminders --- */
+.reminder {
+    margin-top: -15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.remind-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-top: 10px;
+}
+
+.reminder label, .confirm-age label, .confirm-license label {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.confirm-age, .confirm-license {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+/* --- Button & Back Link --- */
+button {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #e5074a;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #ce1160;
+}
+
+/* backward */
+#backward {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    gap: 3px;
+}
+
+#backward::before {
+    content: "←";
+    font-size: 1.2rem;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+#backward:hover {
+    color: #e5074a;
+}
+
+#backward:hover::before {
+    transform: translateX(-5px);
+}
+
+#age-confirm, #license-confirm {
+    width: 16px;
+    height: 16px;
+}
+
+.group-confirm {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
