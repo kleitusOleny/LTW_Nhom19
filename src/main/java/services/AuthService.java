@@ -61,8 +61,8 @@ public class AuthService {
         }
     }
 
-    public void register(String fullName, String email, String username, String plainPassword, String phoneNumber, Timestamp birthday) {
-        if (userDAO.countUserId(email) > 0) return;
+    public User register(String fullName, String email, String username, String plainPassword, String phoneNumber, Timestamp birthday) {
+        if (userDAO.countUserId(email) > 0) return null;
         String hashedPass = BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
 
         User user = new User();
@@ -77,6 +77,7 @@ public class AuthService {
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         userDAO.create(user);
+        return user;
     }
 
     public boolean updatePasswordAfterAuthentication(String email, String newPlainPassword) {

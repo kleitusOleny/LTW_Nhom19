@@ -6,18 +6,55 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserValidationServices {
-    public Map<String, String> validateFullName(String fullName) {
+    public Map<String, String> validateFirstAndLastName(String lastName, String firstName) {
         Map<String, String> errors = new HashMap<>();
 
-        long spaceCount = fullName.chars().filter(c -> c == ' ').count();
-        if (fullName.trim().isEmpty() || fullName.matches(".*\\d.*") || !fullName.matches("^[\\p{L} ]+$") || fullName.matches(".*\\s{2,}.*") || spaceCount < 2) {
-            errors.put("fullNameError", "Họ và tên không được chứa số hoặc ký tự đặc biệt, và phải có khoảng cách giữa các từ");
+        // Trường kiểm tra tên
+        if (firstName.trim().isEmpty()){
+            errors.put("firstNameError", "Tên không được để trống");
+        } else {
+            if (firstName.startsWith(" ") || firstName.endsWith(" ")) {
+                errors.put("firstNameError", "Tên không được có khoảng trắng ở đầu hoặc cuối");
+            }
+            if (!firstName.matches("^[\\p{L}]+( [\\p{L}]+)*$")) {
+                errors.put("firstNameError2", "Tên không hợp lệ (không chứa số, ký tự đặc biệt hoặc khoảng trắng kép)");
+            }
+            if (firstName.length() < 2 || firstName.length() > 30) {
+                errors.put("firstNameError3", "Tên quá dài hoặc quá ngắn");
+            }
         }
-        if (fullName.startsWith(" ") || fullName.endsWith(" ")) {
-            errors.put("fullNameError2", "Họ tên không được có khoảng trắng ở đầu hoặc cuối");
+        // Trường kiểm tra họ
+        if (lastName.trim().isEmpty()) {
+            errors.put("lastNameError", "Họ không được để trống");
+        } else {
+            if (lastName.startsWith(" ") || lastName.endsWith(" ")) {
+                errors.put("lastNameError", "Họ không được có khoảng trắng ở đầu hoặc cuối");
+            }
+            if (!lastName.matches("^[\\p{L}]+( [\\p{L}]+)*$")) {
+                errors.put("lastNameError2", "Họ không hợp lệ (không chứa số, ký tự đặc biệt hoặc khoảng trắng kép)");
+            }
+            if (lastName.length() < 2 || lastName.length() > 20) {
+                errors.put("lastNameError3", "Họ quá dài hoặc quá ngắn");
+            }
         }
-        if (fullName.length() < 6 || fullName.length() > 20){
-            errors.put("fullNameError3", "Họ và tên quá ngắn hoặc quá dài");
+        return errors;
+    }
+
+    public Map<String, String> validateFullName(String fullName){
+        Map<String, String> errors = new HashMap<>();
+
+        if (fullName.trim().isEmpty()) {
+            errors.put("fullNameError", "Họ và tên không được để trống");
+        } else {
+            if (!fullName.matches("^[\\p{L}]+( [\\p{L}]+)*$")) {
+                errors.put("fullNameError", "Họ tên không hợp lệ (không chứa số, ký tự đặc biệt hoặc khoảng trắng thừa)");
+            }
+            if (fullName.startsWith(" ") || fullName.endsWith(" ")) {
+                errors.put("fullNameError2", "Họ tên không được có khoảng trắng ở đầu hoặc cuối");
+            }
+            if (fullName.length() < 5 || fullName.length() > 51) { // tính thêm khoảng trắng
+                errors.put("fullNameError3", "Họ và tên quá ngắn hoặc quá dài");
+            }
         }
         return errors;
     }
@@ -27,7 +64,7 @@ public class UserValidationServices {
         if (username != null) {
             username = username.trim();
             if (!username.isEmpty()) {
-                if (username.length() <= 4 || username.length() >= 30) {
+                if (username.length() < 4 || username.length() > 30) {
                     errors.put("usernameError", "Tên tài khoản quá ngắn hoặc quá dài");
                 }
             }
@@ -41,7 +78,7 @@ public class UserValidationServices {
                 !email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
             errors.put("emailError", "Email không đúng định dạng (ví dụ: jukisyuri@gmail.com)");
         }
-        if (email.length() < 6 || email.length() > 80){
+        if (email.length() < 6 || email.length() > 100){
             errors.put("emailError2", "Email quá ngắn hoặc quá dài");
         }
         return errors;

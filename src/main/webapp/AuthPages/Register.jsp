@@ -11,15 +11,27 @@
     <h2>Đăng Kí</h2>
     <p>(* là trường bắt buộc)</p>
     <form id="register-form" action="${pageContext.request.contextPath}/register" method="POST">
-        <div class="fullname form-group">
-            <label for="name">Họ và Tên *</label>
-            <input type="text" id="name" name="name"
-                   placeholder="Nhập đầy đủ họ và tên của bạn"
-                   value="${param.name}"
-                   class="${not empty fullNameError ? 'input-error' : ''}" required>
-            <span class="error-msg">${fullNameError}</span>
-            <span class="error-msg">${fullNameError2}</span>
-            <span class="error-msg">${fullNameError3}</span>
+        <div class="fullname-form">
+            <div class="lastname form-group">
+                <label for="name">Họ *</label>
+                <input type="text" id="lastname" name="lastname"
+                       placeholder="Nhập đầy đủ họ của bạn"
+                       value="${param.lastname}"
+                       class="${not empty lastNameError ? 'input-error' : ''}" required>
+                <span class="error-msg">${lastNameError}</span>
+                <span class="error-msg">${lastNameError2}</span>
+                <span class="error-msg">${lastNameError3}</span>
+            </div>
+            <div class="firstname form-group">
+                <label for="name">Tên *</label>
+                <input type="text" id="firstname" name="firstname"
+                       placeholder="Nhập đầy đủ tên của bạn"
+                       value="${param.firstname}"
+                       class="${not empty firstNameError ? 'input-error' : ''}" required>
+                <span class="error-msg">${firstNameError}</span>
+                <span class="error-msg">${firstNameError2}</span>
+                <span class="error-msg">${firstNameError3}</span>
+            </div>
         </div>
 
         <div class="username-full form-row">
