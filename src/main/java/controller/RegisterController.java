@@ -3,13 +3,12 @@ package controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import services.AuthService;
+import model.User;
 import services.UserValidationServices;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,14 +42,24 @@ public class RegisterController extends HttpServlet {
         allErrors.putAll(userValidationServices.isPasswordEqualConfirmed(plainPassword, confirmPassword));
 
         String registerUrl = "/AuthPages/Register.jsp";
-        AuthService authService = new AuthService();
         // Nếu là false thì pass
         if (allErrors.isEmpty()) {
             String fullName = lastname + " " + firstname;
             LocalDate birthDay = LocalDate.parse(birth);
             Timestamp ts = Timestamp.valueOf(birthDay.atStartOfDay());
-            authService.register(fullName, email, username, plainPassword, phoneNumber, ts);
-            response.sendRedirect("login");
+
+            // user này chỉ là tạm thời (chỉ dùng để authentication)
+            User pendingUser = new User();
+            pendingUser.setFullName(fullName);
+            pendingUser.setEmail(email);
+            pendingUser.setUsername(username);
+            pendingUser.setPasswordHash(plainPassword);
+            pendingUser.setPhoneNumber(phoneNumber);
+            pendingUser.setBirthDay(ts);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("pendingUser", pendingUser);
+            response.sendRedirect("authentication");
         } else {
             allErrors.forEach(request::setAttribute);
             request.getRequestDispatcher(registerUrl).forward(request, response);

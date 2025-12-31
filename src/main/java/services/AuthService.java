@@ -45,6 +45,12 @@ public class AuthService {
         return otp;
     }
 
+    public String generateRandomOtp() {
+        String otp = String.valueOf((int) (Math.random() * 900000) + 100000);
+        System.out.println("OTP cho mail tam thoi: " + otp);
+        return otp;
+    }
+
     public User login(String loginKey, String plainPassword) {
         User user;
         if (loginKey.contains("@")) {

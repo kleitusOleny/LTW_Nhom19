@@ -432,6 +432,10 @@
         alert("Bạn đã đăng nhập thành công!");
         window.history.replaceState({}, document.title, window.location.pathname);
     }
+    if (urlParams.has('registerSuccess=1')) {
+        alert("Xin chúc mừng! bạn đã đăng kí thành công");
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 </script>
 </body>
 </html>
