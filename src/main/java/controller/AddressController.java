@@ -12,6 +12,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import services.AddressService;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -60,7 +61,7 @@ public class AddressController extends HttpServlet {
             fakeUser.setPhoneNumber("0909999999");
             LocalDate localDate = LocalDate.of(2000, 11, 20);
             LocalDateTime birthDate = localDate.atStartOfDay();
-            fakeUser.setBirthDay(birthDate);
+            fakeUser.setBirthDay(Timestamp.valueOf(birthDate));
             fakeUser.setPasswordHash(BCrypt.hashpw("123456", BCrypt.gensalt()));
             session.setAttribute("user", fakeUser);
         }

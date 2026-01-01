@@ -60,36 +60,6 @@ public class UserService {
         return userDAO.update(currentUser);
     }
 
-    public boolean blockAccount(User newUser) {
-        User currentUser = userDAO.findById(newUser);
-
-        if (safeCheck(currentUser, newUser)) {
-            currentUser.setActive(newUser.getActive());
-        }
-
-        return userDAO.updateActiveStatus(currentUser);
-    }
-
-    public boolean addAccount(User newUser) {
-        int count = userDAO.countUserId(newUser.getEmail());
-        if (count > 0)
-            return false;
-
-        String plainPass = newUser.getPasswordHash();
-        String hashedPass = BCrypt.hashpw(plainPass, BCrypt.gensalt(12));
-
-        newUser.setEmail(newUser.getEmail());
-        newUser.setUsername(null);
-        newUser.setPasswordHash(hashedPass);
-        newUser.setPhoneNumber("");
-        newUser.setFullName("");
-        newUser.setBirthDay(null);
-        newUser.setAdministrator(0);
-        newUser.setActive(1);
-        newUser.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-
-        return userDAO.create(newUser);
-    }
     public void updateProfile(HttpServletRequest request, HttpServletResponse response)
             throws ParseException, ServletException, IOException {
         HttpSession session = request.getSession(false);

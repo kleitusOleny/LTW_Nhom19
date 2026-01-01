@@ -40,8 +40,14 @@ public class AuthService {
         String otp = null;
         if (user != null) {
             otp = String.valueOf((int) (Math.random() * 900000) + 100000);
-            System.out.println("User " + email + "has OTP: " + otp);
+            System.out.println("User " + email + " | OTP: " + otp);
         }
+        return otp;
+    }
+
+    public String generateRandomOtp() {
+        String otp = String.valueOf((int) (Math.random() * 900000) + 100000);
+        System.out.println("OTP cho mail tam thoi: " + otp);
         return otp;
     }
 
@@ -61,8 +67,8 @@ public class AuthService {
         }
     }
 
-    public void register(String fullName, String email, String username, String plainPassword, String phoneNumber, Timestamp birthday) {
-        if (userDAO.countUserId(email) > 0) return;
+    public User register(String fullName, String email, String username, String plainPassword, String phoneNumber, Timestamp birthday) {
+        if (userDAO.countUserId(email) > 0) return null;
         String hashedPass = BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
 
         User user = new User();
@@ -77,22 +83,15 @@ public class AuthService {
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         userDAO.create(user);
+        return user;
     }
 
-    // unfinished
-    public boolean startPasswordReset(String email) {
-        if (email.contains("@")) {
-            userDAO.findByEmail(email);
-            return true;
-        }
-        return false;
-    }
-
-    // unfinished
-    public boolean resetPassword(String email, String newPlainPassword) {
-        if (startPasswordReset(email)) {
+    public boolean updatePasswordAfterAuthentication(String email, String newPlainPassword) {
+        User user = userDAO.findByEmail(email);
+        if (user != null) {
             String hashedPass = BCrypt.hashpw(newPlainPassword, BCrypt.gensalt(12));
-            return userDAO.updatePassword(email, hashedPass);
+            userDAO.updatePassword(email, hashedPass);
+            return true;
         }
         return false;
     }

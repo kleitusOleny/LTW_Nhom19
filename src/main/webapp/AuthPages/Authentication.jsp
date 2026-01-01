@@ -16,8 +16,11 @@
                 <label for="email" class="label-with-icon">
                     <ion-icon name="mail-outline"></ion-icon>
                     Email</label>
-                <input type="email" id="email" name="email" placeholder="Nhập Email để lấy mã xác thực"
-                       value="${otpEmail != null ? otpEmail : param.email}"
+                <input type="email" id="email" name="email"
+                       placeholder="Nhập Email để lấy mã xác thực"
+                       value="${not empty pendingUser ? pendingUser.email : (otpEmail != null ? otpEmail : param.email)}"
+                <%-- Nếu là luồng Register (có user) thì khóa không cho sửa email --%>
+                              ${not empty user ? "readonly" : ""}
                        class="${not empty emailError ? 'input-error' : ''}" required>
             </div>
             <div class="group-message">
@@ -60,6 +63,13 @@
 
     const listFields = ['#email', '#verify-code'];
     preventspace(listFields)
+</script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('failResetPassword')) {
+        alert("Bạn phải đảm bảo là đã xác thực email trước khi tiến sang bước làm lại mật khẩu")
+        window.history.replaceState(null, '', window.location.pathname);
+    }
 </script>
 <style>
     .error-msg {
