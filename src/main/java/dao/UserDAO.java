@@ -12,12 +12,13 @@ public class UserDAO extends ADAO implements IDAO<User> {
                              id,
                              email,\s
                              username,
-                             password_hash AS passwordHash,
-                             phone_number AS phoneNumber,
+                             password_hash,
+                             phone_number,
                              active,\s
-                             created_at AS createdAt,
-                             birth_day AS birthDay,
-                             full_name AS fullName
+                             created_at,
+                             birth_day,
+                             full_name,
+                             administrator
                          FROM users
                         \s""")
                 .mapToBean(User.class)
@@ -29,14 +30,14 @@ public class UserDAO extends ADAO implements IDAO<User> {
         return jdbi.withHandle(handle ->
                 handle.createQuery("""
                                     SELECT id, email, username,
-                                           password_hash AS passwordHash,
-                                           phone_number AS phoneNumber,
-                                           full_name AS fullName,
-                                           birth_day AS birthDay,
+                                           password_hash,
+                                           phone_number,
+                                           full_name,
+                                           birth_day,
                                            administrator,
                                            active,
-                                           created_at AS createdAt,
-                                           update_at AS updateAt
+                                           created_at,
+                                           update_at
                                     FROM users
                                     WHERE id = :id
                                 """)
@@ -71,24 +72,36 @@ public boolean create(User entity) {
 
 @Override
 public boolean update(User entity) {
-    return jdbi.withHandle(handle -> handle.createUpdate("""
-                     UPDATE users
-                     SET\s
-                     username=:username,
-                     full_name=:full_name,
-                     email=:email,
-                     phone_number=:phone_number,
-                     birth_day=:birth_day,
-                     active=:active
-                    \sWHERE id=:id""")
-            .bind("id", entity.getId())
-            .bind("username", entity.getUsername())
-            .bind("full_name", entity.getFullName())
-            .bind("email", entity.getEmail())
-            .bind("phone_number", entity.getPhoneNumber())
-            .bind("birth_day", entity.getBirthDay())
-            .bind("active", entity.getActive())
-            .execute() > 0);
+    boolean hashPassword = entity.getPasswordHash() != null && !entity.getPasswordHash().trim().isEmpty();
+    StringBuilder sql = new StringBuilder("UPDATE users SET ");
+    sql.append("username=:username, ");
+    sql.append("full_name=:full_name, ");
+    sql.append("email=:email, ");
+    if (hashPassword) {
+        sql.append("password_hash:=password_hash, ");
+    }
+    sql.append("phone_number=:phone_number, ");
+    sql.append("birth_day=:birth_day, ");
+    sql.append("active=:active, ");
+    sql.append("update_at=:update_at, ");
+    sql.append("administrator=:administrator ");
+    sql.append("WHERE id=:id");
+    return jdbi.withHandle(handle -> {
+        var query = handle.createUpdate(sql.toString())
+                .bind("id", entity.getId())
+                .bind("username", entity.getUsername())
+                .bind("full_name", entity.getFullName())
+                .bind("email", entity.getEmail())
+                .bind("phone_number", entity.getPhoneNumber())
+                .bind("birth_day", entity.getBirthDay())
+                .bind("active", entity.getActive())
+                .bind("administrator", entity.getAdministrator())
+                .bind("update_at", entity.getUpdateAt());
+        if (hashPassword) {
+            query.bind("password", entity.getPasswordHash());
+        }
+        return query.execute() > 0;
+    });
 }
 
 @Override
@@ -168,6 +181,12 @@ public boolean updatePassword(String email, String newPasswordHashed) {
                     update users set password_hash =:passwordHash where email=:email""")
             .bind("passwordHash", newPasswordHashed)
             .bind("email", email).execute() > 0);
+}
+
+public boolean updateActive(int id, int activeNum) {
+        return jdbi.withHandle(handle -> handle.createUpdate("""
+                    update users set active = :activeNum where id = :id""")
+                .bind("activeNum", activeNum).execute() > 0);
 }
 
     public int countUserId(String email) {

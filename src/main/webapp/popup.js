@@ -6,22 +6,47 @@
  */
 function setupModal(modalId, openBtnId, closeBtnId) {
     const modal = document.getElementById(modalId);
-    const openBtn = document.getElementById(openBtnId);
-    const closeBtn = document.getElementById(closeBtnId);
+    if (!modal) return;
+    document.addEventListener('click', function (event) {
+        // Xử lý nút Mở Modal
+        const openBtn = event.target.closest('#' + openBtnId);
+        if (openBtn) {
+            modal.classList.add('show');
+        }
 
-    function showModal() {
-        modal.classList.add('show');
-    }
+        // Xử lý nút Đóng Modal
+        const closeBtn = event.target.closest('#' + closeBtnId);
+        if (closeBtn) {
+            modal.classList.remove('show');
+        }
 
-    function hideModal() {
-        modal.classList.remove('show');
-    }
-
-    openBtn.addEventListener('click', showModal);
-    closeBtn.addEventListener('click', hideModal);
-    modal.addEventListener('click', function (event) {
+        // Đóng khi click ra ngoài vùng modal content
         if (event.target === modal) {
-            hideModal();
+            event.target.classList.remove('show');
+        }
+    });
+}
+
+/**
+ *  Xử lý các modal lặp lại trong danh sách
+ */
+function setupDynamicModals(triggerClass, closeClass) {
+    document.addEventListener('click', function (event) {
+        const openBtn = event.target.closest('.' + triggerClass);
+        if (openBtn) {
+            const modalId = openBtn.getAttribute('data-target');
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.add('show');
+        }
+
+        const closeBtn = event.target.closest('.' + closeClass);
+        if (closeBtn) {
+            const modal = closeBtn.closest('.modal-overlay-edit_information');
+            if (modal) modal.classList.remove('show');
+        }
+
+        if (event.target.classList.contains('modal-overlay-edit_information')) {
+            event.target.classList.remove('show');
         }
     });
 }
