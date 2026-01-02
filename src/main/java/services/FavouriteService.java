@@ -16,7 +16,7 @@ public class FavouriteService {
         favouriteDAO.create(idProduct, idUser);
     }
 
-    public void delete(int idFavourite, int idProduct, int idUser) {
+    public void delete(int idFavourite, String idProduct, int idUser) {
         favouriteDAO.delete(idFavourite, idProduct, idUser);
     }
 

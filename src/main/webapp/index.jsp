@@ -130,7 +130,8 @@
                                             <div class="product-card">
                                                 <div class="product-image">
                                                     <form action="${pageContext.request.contextPath}/favorites"
-                                                        method="post" class="wishlist-form">
+                                                        method="post" class="wishlist-form"
+                                                        onsubmit="toggleFavorite(event, this)">
                                                         <input type="hidden" name="action" value="add">
                                                         <input type="hidden" name="productId" value="${fav.product_id}">
                                                         <button type="submit" class=" wishlist-btn"
@@ -207,96 +208,106 @@
                             </c:if>
 
                             <c:if test="${not empty userFavouritesList}">
+                                <h2 class="section-title">Sản Phẩm Yêu Thích Của Tôi</h2>
+                                <p class="section-subtitle">Những chai vang được yêu thích</p>
                                 <section class="featured-products container" style="position: relative;">
-                                    <h2 class="section-title">Sản Phẩm Yêu Thích Của Bạn</h2>
-                                    <p class="section-subtitle">Những chai vang bạn đã lưu vào danh sách yêu thích</p>
+                                    <div id="userFavoritesCarousel" class="carousel slide" data-bs-ride="false">
+                                        <div class="carousel-inner">
+                                            <c:forEach var="fav" items="${userFavouritesList}" varStatus="status">
+                                                <c:if test="${status.index % 4 == 0}">
+                                                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+                                                        <div class="product-grid"
+                                                            style="grid-template-columns: repeat(4, 1fr); gap: 30px;">
+                                                </c:if>
 
-                                    <!-- Navigation Buttons -->
-                                    <button class="scroll-btn scroll-btn-left" onclick="scrollUserFavorites('left')"
-                                        style="position: absolute; left: -20px; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(255,255,255,0.9); border: 1px solid #ddd; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                                        <i class="fa-solid fa-chevron-left"></i>
-                                    </button>
-                                    <button class="scroll-btn scroll-btn-right" onclick="scrollUserFavorites('right')"
-                                        style="position: absolute; right: -20px; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(255,255,255,0.9); border: 1px solid #ddd; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                                        <i class="fa-solid fa-chevron-right"></i>
-                                    </button>
+                                                <div class="product-card">
+                                                    <div class="product-image">
+                                                        <form action="${pageContext.request.contextPath}/favorites"
+                                                            method="post" class="wishlist-form"
+                                                            onsubmit="toggleFavorite(event, this)">
+                                                            <input type="hidden" name="action" value="remove">
+                                                            <input type="hidden" name="favouriteId"
+                                                                value="${fav.favourite_id}">
+                                                            <input type="hidden" name="productId"
+                                                                value="${fav.product_id}">
+                                                            <button type="submit" class="wishlist-btn active"
+                                                                aria-label="Xóa khỏi yêu thích">
+                                                                <i class="fa-solid fa-heart"></i>
+                                                            </button>
+                                                        </form>
 
-                                    <div class="product-grid" id="userFavoritesGrid"
-                                        style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none;">
-                                        <c:forEach var="fav" items="${userFavouritesList}">
-                                            <div class="product-card">
-                                                <div class="product-image">
-                                                    <form action="${pageContext.request.contextPath}/favorites"
-                                                        method="post" class="wishlist-form">
-                                                        <input type="hidden" name="action" value="remove">
-                                                        <input type="hidden" name="favouriteId"
-                                                            value="${fav.favourite_id}">
-                                                        <input type="hidden" name="productId" value="${fav.product_id}">
-                                                        <button type="submit" class="wishlist-btn active"
-                                                            aria-label="Xóa khỏi yêu thích">
-                                                            <i class="fa-solid fa-heart"></i>
-                                                        </button>
-                                                    </form>
-
-                                                    <a href="${pageContext.request.contextPath}/detail?id=${fav.product_id}"
-                                                        class="product-link">
-                                                        <c:choose>
-                                                            <c:when test="${not empty fav.image_url}">
-                                                                <img src="${pageContext.request.contextPath}/${fav.image_url}"
-                                                                    alt="${fav.product_name}">
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <img src="https://via.placeholder.com/300x400?text=Wine"
-                                                                    alt="Chưa có ảnh">
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </a>
-                                                </div>
-                                                <div class="product-info">
-                                                    <h3 class="product-name">
-                                                        <a
-                                                            href="${pageContext.request.contextPath}/detail?id=${fav.product_id}">
+                                                        <a href="${pageContext.request.contextPath}/detail?id=${fav.product_id}"
+                                                            class="product-link">
                                                             <c:choose>
-                                                                <c:when test="${fn:length(fav.product_name) > 50}">
-                                                                    ${fn:substring(fav.product_name, 0, 50)}...
+                                                                <c:when test="${not empty fav.image_url}">
+                                                                    <img src="${pageContext.request.contextPath}/${fav.image_url}"
+                                                                        alt="${fav.product_name}">
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                    ${fav.product_name}
+                                                                    <img src="https://via.placeholder.com/300x400?text=Wine"
+                                                                        alt="Chưa có ảnh">
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </a>
-                                                    </h3>
-
-                                                    <div class="product-extra-details">
-                                                        <ul>
-                                                            <li><strong>Xuất xứ:</strong> ${fav.origin}</li>
-                                                            <li><strong>Loại:</strong> ${fav.type_name}</li>
-                                                            <li><strong>Nồng độ:</strong> ${fav.alcohol}%</li>
-                                                        </ul>
                                                     </div>
+                                                    <div class="product-info">
+                                                        <h3 class="product-name">
+                                                            <a
+                                                                href="${pageContext.request.contextPath}/detail?id=${fav.product_id}">
+                                                                <c:choose>
+                                                                    <c:when test="${fn:length(fav.product_name) > 50}">
+                                                                        ${fn:substring(fav.product_name, 0, 50)}...
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        ${fav.product_name}
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </a>
+                                                        </h3>
 
-                                                    <p class="product-producer">Nhà sản xuất:
-                                                        ${fav.manufacturer_name}</p>
+                                                        <div class="product-extra-details">
+                                                            <ul>
+                                                                <li><strong>Xuất xứ:</strong> ${fav.origin}</li>
+                                                                <li><strong>Loại:</strong> ${fav.type_name}</li>
+                                                                <li><strong>Nồng độ:</strong> ${fav.alcohol}%</li>
+                                                            </ul>
+                                                        </div>
 
-                                                    <p class="product-price">
-                                                        <fmt:setLocale value="vi_VN" />
-                                                        <fmt:formatNumber value="${fav.price}" type="currency"
-                                                            currencySymbol="₫" maxFractionDigits="0" />
-                                                    </p>
+                                                        <p class="product-producer">Nhà sản xuất:
+                                                            ${fav.manufacturer_name}</p>
 
-                                                    <a href="${pageContext.request.contextPath}/add-cart?productId=${fav.product_id}&quantity=1"
-                                                        class="add-to-cart-btn">Thêm vào giỏ</a>
+                                                        <p class="product-price">
+                                                            <fmt:setLocale value="vi_VN" />
+                                                            <fmt:formatNumber value="${fav.price}" type="currency"
+                                                                currencySymbol="₫" maxFractionDigits="0" />
+                                                        </p>
+
+                                                        <a href="${pageContext.request.contextPath}/add-cart?productId=${fav.product_id}&quantity=1"
+                                                            class="add-to-cart-btn">Thêm vào giỏ</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </c:forEach>
-                                    </div>
 
-                                    <style>
-                                        #userFavoritesGrid::-webkit-scrollbar {
-                                            display: none;
-                                        }
-                                    </style>
-                                </section>
+                                                <c:if test="${status.index % 4 == 3 || status.last}">
+                                        </div>
+                                    </div>
+                            </c:if>
+                            </c:forEach>
+                            </div>
+
+                            <button class="carousel-control-prev" type="button" data-bs-target="#userFavoritesCarousel"
+                                data-bs-slide="prev" style="left: -60px;">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"
+                                    style="background-color: #8c3333; border-radius: 50%; padding: 20px;"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#userFavoritesCarousel"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"
+                                    style="background-color: #8c3333; border-radius: 50%; padding: 20px;"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                            </div>
+                            </section>
                             </c:if>
 
                             <section class="featured-products container">
@@ -654,10 +665,7 @@
                                         btn.addEventListener('click', function (e) {
                                             e.preventDefault(); // Ngăn chặn click vào thẻ a bao quanh (nếu có)
 
-                                            // Toggle class active
                                             this.classList.toggle('active');
-
-                                            // Đổi icon từ rỗng (fa-regular) sang đặc (fa-solid) và ngược lại
                                             const icon = this.querySelector('i');
                                             if (this.classList.contains('active')) {
                                                 icon.classList.remove('fa-regular');
@@ -671,7 +679,6 @@
                                 });
                             </script>
                             <script>
-                                // Scroll function for favorites section
                                 function scrollFavorites(direction) {
                                     const grid = document.getElementById('topFavoritesGrid');
                                     const scrollAmount = 300; // pixels to scroll
@@ -683,7 +690,6 @@
                                     }
                                 }
 
-                                // Scroll function for user favorites section
                                 function scrollUserFavorites(direction) {
                                     const grid = document.getElementById('userFavoritesGrid');
                                     const scrollAmount = 300; // pixels to scroll
@@ -700,6 +706,142 @@
                                 if (urlParams.has('loginSuccess')) {
                                     alert("Bạn đã đăng nhập thành công!");
                                     window.history.replaceState({}, document.title, window.location.pathname);
+                                }
+                            </script>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    // Guest Favorites Logic
+                                    const isLoggedIn = "${not empty sessionScope.user}" === "true";
+
+                                    // 1. Initialize UI from localStorage if guest
+                                    if (!isLoggedIn) {
+                                        const guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
+                                        document.querySelectorAll('.wishlist-form').forEach(form => {
+                                            const productId = form.querySelector('input[name="productId"]').value;
+                                            const button = form.querySelector('button');
+                                            const icon = button.querySelector('i');
+
+                                            if (guestFavorites.includes(productId)) {
+                                                button.classList.add('active');
+                                                icon.classList.remove('fa-regular');
+                                                icon.classList.add('fa-solid');
+                                            }
+                                        });
+                                    }
+
+                                    // 2. Sync if logged in and has pending favorites
+                                    if (isLoggedIn) {
+                                        const guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
+                                        if (guestFavorites.length > 0) {
+                                            console.log('Syncing guest favorites:', guestFavorites);
+                                            fetch('favorites', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                                    'X-Requested-With': 'XMLHttpRequest'
+                                                },
+                                                body: new URLSearchParams({
+                                                    action: 'sync',
+                                                    productIds: guestFavorites.join(',')
+                                                })
+                                            })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.status === 'success') {
+                                                        console.log('Sync successful');
+                                                        localStorage.removeItem('guestFavorites');
+                                                    }
+                                                })
+                                                .catch(err => console.error('Sync failed:', err));
+                                        }
+                                    }
+                                });
+
+                                function toggleFavorite(event, form) {
+                                    event.preventDefault(); // Prevent default form submission
+
+                                    const isLoggedIn = "${not empty sessionScope.user}" === "true";
+                                    const formData = new FormData(form);
+                                    const productId = formData.get('productId');
+                                    const url = form.getAttribute('action');
+                                    const button = form.querySelector('button');
+                                    const icon = button.querySelector('i');
+                                    const wasActive = button.classList.contains('active');
+
+                                    // Optimistic UI Update
+                                    button.classList.toggle('active');
+                                    if (button.classList.contains('active')) {
+                                        icon.classList.remove('fa-regular');
+                                        icon.classList.add('fa-solid');
+                                    } else {
+                                        icon.classList.remove('fa-solid');
+                                        icon.classList.add('fa-regular');
+                                    }
+
+                                    if (!isLoggedIn) {
+                                        // Handle Guest Mode (localStorage)
+                                        let guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
+
+                                        if (wasActive) {
+                                            // Remove
+                                            guestFavorites = guestFavorites.filter(id => id !== productId);
+                                        } else {
+                                            // Add
+                                            if (!guestFavorites.includes(productId)) {
+                                                guestFavorites.push(productId);
+                                            }
+                                        }
+
+                                        localStorage.setItem('guestFavorites', JSON.stringify(guestFavorites));
+                                        console.log('Guest favorites updated:', guestFavorites);
+                                        return; // Stop here, don't call server
+                                    }
+
+                                    fetch(url, {
+                                        method: 'POST',
+                                        body: new URLSearchParams(formData),
+                                        headers: {
+                                            'X-Requested-With': 'XMLHttpRequest',
+                                            'Content-Type': 'application/x-www-form-urlencoded'
+                                        }
+                                    })
+                                        .then(response => {
+                                            if (response.status === 401) {
+                                                window.location.href = '${pageContext.request.contextPath}/AuthPages/Login.jsp';
+                                                return;
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            if (data && data.status === 'success') {
+                                                // Success
+                                            } else {
+                                                // Revert UI
+                                                console.error('Action failed, reverting UI');
+                                                if (wasActive) {
+                                                    button.classList.add('active');
+                                                    icon.classList.remove('fa-regular');
+                                                    icon.classList.add('fa-solid');
+                                                } else {
+                                                    button.classList.remove('active');
+                                                    icon.classList.remove('fa-solid');
+                                                    icon.classList.add('fa-regular');
+                                                }
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            // Revert UI
+                                            if (wasActive) {
+                                                button.classList.add('active');
+                                                icon.classList.remove('fa-regular');
+                                                icon.classList.add('fa-solid');
+                                            } else {
+                                                button.classList.remove('active');
+                                                icon.classList.remove('fa-solid');
+                                                icon.classList.add('fa-regular');
+                                            }
+                                        });
                                 }
                             </script>
                 </body>

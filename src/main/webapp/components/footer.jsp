@@ -53,30 +53,5 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const wishlistBtns = document.querySelectorAll('.wishlist-btn');
-
-            wishlistBtns.forEach(btn => {
-                btn.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    this.classList.toggle('active');
-                    const icon = this.querySelector('i');
-                    if (this.classList.contains('active')) {
-                        icon.classList.remove('fa-regular');
-                        icon.classList.add('fa-solid');
-                    } else {
-                        icon.classList.remove('fa-solid');
-                        icon.classList.add('fa-regular');
-                    }
-
-                    if (this.type === 'submit') {
-                        const form = this.closest('form');
-                        if (form) {
-                            form.submit();
-                        }
-                    }
-                });
-            });
-        });
+        // Script removed to prevent conflict with AJAX handling in store.jsp and index.jsp
     </script>

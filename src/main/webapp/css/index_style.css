@@ -30,7 +30,7 @@ ul {
     border-bottom: 1px solid #eee;
 }
 
-.header-top>.container {
+.header-top > .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -74,7 +74,7 @@ ul {
     z-index: 1000;
 }
 
-.header-nav-bar>.container {
+.header-nav-bar > .container {
     width: 100%;
     max-width: 1300px;
     margin: 0 auto;
@@ -149,7 +149,7 @@ ul {
     z-index: 999;
 }
 
-.header-nav ul li.has-dropdown:hover>.mega-menu {
+.header-nav ul li.has-dropdown:hover > .mega-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -1011,9 +1011,9 @@ CSS RESPONSIVE (Cho Blog)
 
 /* Thiết lập chiều cao cố định cho slide */
 .carousel-item {
-    height: 60vh;
+    height: 90vh;
     min-height: 500px;
-    background-color: #222;
+    background-color: #ffff;
     position: relative;
 }
 
@@ -1151,4 +1151,94 @@ CSS RESPONSIVE (Cho Blog)
     font-size: 12px;
     color: #666;
     margin-left: 5px;
+}
+
+/*
+CSS FOR PRODUCT SLIDER
+*/
+.product-slider {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE 10+ */
+    padding-bottom: 10px;
+}
+
+.product-slider::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari/Webkit */
+}
+
+.product-slider .product-card {
+    min-width: 280px;
+    flex: 0 0 auto;
+}
+
+/* Custom 5-column grid for carousel */
+.col-custom-5 {
+    flex: 0 0 20%;
+    max-width: 20%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Constrain image height in carousel for compact look */
+#userFavoritesCarousel .product-image img {
+    max-height: 200px;
+    width: auto;
+    padding: 10px;
+}
+
+#userFavoritesCarousel .product-name {
+    font-size: 16px;
+    /* Smaller font */
+    height: 48px;
+}
+
+#userFavoritesCarousel .product-price {
+    font-size: 15px;
+    margin: 10px;
+}
+
+/* Center and compact the carousel */
+#userFavoritesCarousel {
+    /* max-width: 1200px;  Removed to allow full width alignment */
+    margin: 0 auto;
+    /* padding: 0 50px; Removed padding */
+    position: relative;
+    max-width: none;
+    /* Remove width constraint */
+    padding: 0;
+    /* Remove padding */
+    overflow: visible;
+    /* Allow arrows to sit outside */
+}
+
+
+#userFavoritesCarousel .carousel-control-prev {
+    width: 50px;
+    left: -100px;
+    /* Move further outside */
+    justify-content: center;
+    opacity: 1;
+    /* Ensure visible */
+}
+
+#userFavoritesCarousel .carousel-control-next {
+    width: 50px;
+    right: -60px;
+    /* Move further outside */
+    justify-content: center;
+    opacity: 1;
+    /* Ensure visible */
+}
+
+/* Ensure the container of the section doesn't clip the arrows */
+.featured-products.container {
+    overflow: visible;
 }
