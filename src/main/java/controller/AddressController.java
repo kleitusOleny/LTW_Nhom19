@@ -32,7 +32,7 @@ public class AddressController extends HttpServlet {
         try {
             HttpSession session = request.getSession(false);
             if (session == null) {
-                response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+                response.sendRedirect(request.getContextPath() + "login");
                 return;
             }
             User user = (User) session.getAttribute("user");
@@ -43,7 +43,7 @@ public class AddressController extends HttpServlet {
                     response.getWriter().write("{\"error\":\"not_authenticated\"}");
                     return;
                 }
-                response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+                response.sendRedirect(request.getContextPath() + "login");
                 return;
             }
             List<Address> addressList = addressService.getByUserID(user.getId());
@@ -61,7 +61,7 @@ public class AddressController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath() + "/AuthPages/Login");
+            response.sendRedirect(request.getContextPath() + "login");
             return;
         }
         User user = (User) session.getAttribute("user");

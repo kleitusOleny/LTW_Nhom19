@@ -21,12 +21,10 @@ import java.util.Date;
 
 @WebServlet(name = "UserController", value = "/user")
 public class UserController extends HttpServlet {
-    private AuthService authService;
     private UserService userService;
 
     @Override
     public void init() {
-        authService = new AuthService();
         userService = new UserService();
     }
 
@@ -41,7 +39,7 @@ public class UserController extends HttpServlet {
                 response.getWriter().write("{\"error\":\"not_authenticated\"}");
                 return;
             }
-            response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+            response.sendRedirect(request.getContextPath() + "login");
             return;
         }
         User user = (User) session.getAttribute("user");

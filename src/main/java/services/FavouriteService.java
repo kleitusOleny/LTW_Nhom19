@@ -12,7 +12,7 @@ public class FavouriteService {
         this.favouriteDAO = new FavouriteDAO();
     }
 
-    public void create(int idProduct, int idUser) {
+    public void create(String idProduct, int idUser) {
         favouriteDAO.create(idProduct, idUser);
     }
 
