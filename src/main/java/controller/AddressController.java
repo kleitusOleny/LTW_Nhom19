@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "AddressController", value = "/address")
 public class AddressController extends HttpServlet {
@@ -28,12 +29,22 @@ public class AddressController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession(true);
-            if (session == null || session.getAttribute("user") == null) {
+            HttpSession session = request.getSession(false);
+            if (session == null) {
                 response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
                 return;
             }
             User user = (User) session.getAttribute("user");
+            if (user == null) {
+                String requestedWith = request.getHeader("X-Requested-With");
+                if ("XMLHttpRequest".equals(requestedWith)) {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().write("{\"error\":\"not_authenticated\"}");
+                    return;
+                }
+                response.sendRedirect(request.getContextPath() + "/AuthPages/Login.jsp");
+                return;
+            }
             List<Address> addressList = addressService.getByUserID(user.getId());
             request.setAttribute("addressList", addressList);
             request.getRequestDispatcher("/infoUsers/addresses.jsp").forward(request, response);
@@ -47,22 +58,10 @@ public class AddressController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        // if (session == null || session.getAttribute("user") == null) {
-        // response.sendRedirect(request.getContextPath() + "/login");
-        // return;
-        // }
-        if (session.getAttribute("user") == null) {
-            User fakeUser = new User();
-            fakeUser.setId(1);
-            fakeUser.setFullName("Nguyễn Văn A");
-            fakeUser.setEmail("test@gmail.com");
-            fakeUser.setPhoneNumber("0909999999");
-            LocalDate localDate = LocalDate.of(2000, 11, 20);
-            LocalDateTime birthDate = localDate.atStartOfDay();
-            fakeUser.setBirthDay(birthDate);
-            fakeUser.setPasswordHash(BCrypt.hashpw("123456", BCrypt.gensalt()));
-            session.setAttribute("user", fakeUser);
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect(request.getContextPath() + "/AuthPages/Login");
+            return;
         }
         User user = (User) session.getAttribute("user");
         String action = request.getParameter("action");
@@ -96,7 +95,8 @@ public class AddressController extends HttpServlet {
         } catch (Exception e) {
             session.setAttribute("error", e.getMessage());
         }
-        response.sendRedirect(request.getContextPath() + "/infoUsers/user_sidebar.jsp#" + request.getContextPath() + "/address");
+        response.sendRedirect(
+                request.getContextPath() + "/infoUsers/user_sidebar.jsp#" + request.getContextPath() + "/address");
     }
 
 }
