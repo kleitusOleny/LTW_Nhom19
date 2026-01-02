@@ -5,6 +5,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Product;
+import services.ProductService;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,7 @@ public class StoreController extends HttpServlet {
         
         // 2. Lấy dữ liệu
         List<Product> products = dao.getProducts(pageSize, offset);
-        int totalProducts = dao.countTotalProducts();
+        int totalProducts = ProductService.countTotalProducts();
         double maxPrice = dao.getMaxPrice();
         request.setAttribute("maxPrice", maxPrice > 0 ? maxPrice : 10000000);
         

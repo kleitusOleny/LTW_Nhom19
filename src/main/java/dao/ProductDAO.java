@@ -91,13 +91,6 @@ public class ProductDAO extends ADAO {
                         .list()
         );
     }
-
-    public int countTotalProducts() {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT COUNT(*) FROM products WHERE is_delete = 0")
-                        .mapTo(Integer.class).stream().findFirst().orElse(0)
-        );
-    }
     
     public Product getProductById(String id) {
         return jdbi.withHandle(handle ->
