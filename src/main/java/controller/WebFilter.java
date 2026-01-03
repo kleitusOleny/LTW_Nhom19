@@ -19,11 +19,19 @@ public class WebFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        String uri = request.getRequestURI();
+        String contextPath = request.getContextPath();
+        String path = uri.substring(contextPath.length());
+        if (path.matches(".*\\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|mp4|webp)$")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         HttpSession session = request.getSession(false);
-        String path = request.getServletPath();
 
         boolean isProtected = false;
-        for (String protectedUrl : PROTECTED_AUTH_URLS){
+        for (String protectedUrl : PROTECTED_AUTH_URLS) {
             if (path.startsWith(protectedUrl)) {
                 isProtected = true;
                 break;

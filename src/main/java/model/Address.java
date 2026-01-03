@@ -26,9 +26,6 @@ public class Address {
     @ColumnName("ward")
     private String ward;
 
-    @ColumnName("country")
-    private String country;
-
     @ColumnName("is_default")
     private boolean isDefault;
 
@@ -100,16 +97,16 @@ public class Address {
         this.ward = ward;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public boolean isDefault() {
         return isDefault;
+    }
+
+    public boolean getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(boolean isDefault) {
+        this.isDefault = isDefault;
     }
 
     public void setDefault(boolean aDefault) {
@@ -150,7 +147,6 @@ public class Address {
                 ", addressLine='" + addressLine + '\'' +
                 ", city='" + city + '\'' +
                 ", ward='" + ward + '\'' +
-                ", country='" + country + '\'' +
                 ", isDefault=" + isDefault +
                 ", createdAt=" + createdAt +
                 ", updateAt=" + updateAt +

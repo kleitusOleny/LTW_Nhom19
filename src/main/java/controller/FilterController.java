@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import dao.FavouriteDAO;
+import model.User;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "FilterController", value = "/filter")
 public class FilterController extends HttpServlet {
@@ -71,7 +75,21 @@ public class FilterController extends HttpServlet {
         request.setAttribute("selectedOrigins", origins != null ? Arrays.asList(origins) : new ArrayList<>());
         request.setAttribute("selectedCapacities", capacities != null ? Arrays.asList(capacities) : new ArrayList<>());
         request.setAttribute("selectedTags", tags != null ? Arrays.asList(tags) : new ArrayList<>());
-        
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                FavouriteDAO favouriteDAO = new FavouriteDAO();
+                List<Map<String, Object>> userFavourites = favouriteDAO.getFavouritesWithProductsByUserID(user.getId());
+                Map<String, Boolean> favouriteProductMap = new HashMap<>();
+                for (Map<String, Object> fav : userFavourites) {
+                    favouriteProductMap.put((String) fav.get("product_id"), true);
+                }
+                request.setAttribute("favouriteProductMap", favouriteProductMap);
+            }
+        }
+
         request.getRequestDispatcher("store.jsp").forward(request, response);
     }
 }

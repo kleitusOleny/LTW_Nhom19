@@ -18,7 +18,7 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
     public Address findById(Address address) {
         return jdbi.withHandle(handle -> {
             return handle.createQuery(
-                    "select id, user_id, full_name, phone_number, address_line, city, ward, country, is_default from addresses where user_id = :user_id AND id = :id")
+                    "select id, user_id, full_name, phone_number, address_line, city, ward, is_default from addresses where user_id = :user_id AND id = :id")
                     .bind("user_id", address.getUserId())
                     .bind("id", address.getId())
                     .mapToBean(Address.class)
@@ -31,15 +31,14 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
         return jdbi.withHandle(handle -> handle
                 .createUpdate(
                         """
-                                INSERT INTO addresses (user_id, full_name, phone_number, city, ward, country, address_line)
-                                VALUES (:user_id, :full_name, :phone_number, :city, :ward, :country, :address_line)
+                                INSERT INTO addresses (user_id, full_name, phone_number, city, ward, address_line)
+                                VALUES (:user_id, :full_name, :phone_number, :city, :ward, :address_line)
                                 """)
                 .bind("user_id", entity.getUserId())
                 .bind("full_name", entity.getFullName())
                 .bind("phone_number", entity.getPhoneNumber())
                 .bind("city", entity.getCity())
                 .bind("ward", entity.getWard())
-                .bind("country", entity.getCountry())
                 .bind("address_line", entity.getAddressLine())
                 .execute() > 0);
     }
@@ -52,7 +51,6 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
                      phone_number = :phone_number,
                      city = :city,
                      ward = :ward,
-                     country = :country,
                      address_line = :address_line
                  WHERE user_id = :user_id AND id = :id
                 """)
@@ -62,7 +60,6 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
                 .bind("phone_number", entity.getPhoneNumber())
                 .bind("city", entity.getCity())
                 .bind("ward", entity.getWard())
-                .bind("country", entity.getCountry())
                 .bind("address_line", entity.getAddressLine())
                 .execute() > 0);
     }
@@ -101,7 +98,7 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
     public List<Address> getByUserID(int id) {
         return jdbi.withHandle(handle -> {
             return handle.createQuery(
-                    "select id, user_id, full_name, phone_number, address_line, city, country, ward, is_default from addresses where user_id = :user_id")
+                    "select id, user_id, full_name, phone_number, address_line, city, ward, is_default from addresses where user_id = :user_id")
                     .bind("user_id", id)
                     .mapToBean(Address.class)
                     .list();

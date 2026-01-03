@@ -12,11 +12,11 @@ public class FavouriteService {
         this.favouriteDAO = new FavouriteDAO();
     }
 
-    public void create(int idProduct, int idUser) {
+    public void create(String idProduct, int idUser) {
         favouriteDAO.create(idProduct, idUser);
     }
 
-    public void delete(int idFavourite, int idProduct, int idUser) {
+    public void delete(int idFavourite, String idProduct, int idUser) {
         favouriteDAO.delete(idFavourite, idProduct, idUser);
     }
 

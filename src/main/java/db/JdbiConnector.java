@@ -26,6 +26,7 @@ public class JdbiConnector {
                     DBProperties.username(), DBProperties.password());
             // Install SqlObjectPlugin to enable @ColumnName annotation mapping
             jdbi.installPlugin(new SqlObjectPlugin());
+            jdbi.open().close();
         }
         return jdbi;
     }
