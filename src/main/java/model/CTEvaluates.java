@@ -3,6 +3,7 @@ package model;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class CTEvaluates {
@@ -12,20 +13,17 @@ public class CTEvaluates {
     @ColumnName("content")
     private String content;
 
-    @ColumnName("img")
-    private String img;
-
     @ColumnName("star")
     private double star;
 
     @ColumnName("create_at")
-    private Timestamp createAt;
+    private LocalDateTime createAt;
 
     @ColumnName("update_at")
-    private Timestamp updateAt;
+    private LocalDateTime updateAt;
 
     @ColumnName("is_delete")
-    private boolean isDelete;
+    private LocalDateTime isDelete;
 
     public CTEvaluates() {
     }
@@ -46,14 +44,6 @@ public class CTEvaluates {
         this.content = content;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
     public double getStar() {
         return star;
     }
@@ -62,27 +52,35 @@ public class CTEvaluates {
         this.star = star;
     }
 
-    public Date getCreateAt() {
+    public LocalDateTime getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
+    public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }
 
-    public Date getUpdateAt() {
+    public LocalDateTime getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
+    public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
     }
 
-    public boolean isDelete() {
+    public LocalDateTime getIsDelete() {
         return isDelete;
     }
 
-    public void setDelete(boolean delete) {
-        isDelete = delete;
+    public void setIsDelete(LocalDateTime isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public boolean isDelete() {
+        return isDelete != null;
+    }
+
+    public Date getCreateAtAsDate() {
+        return createAt == null ? null : Timestamp.valueOf(createAt);
     }
 }
