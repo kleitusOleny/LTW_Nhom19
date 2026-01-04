@@ -34,17 +34,85 @@ main {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    background-color: #fff;
 }
 
 .cart-details th,
 .cart-details td {
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cart-details th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    font-size: 14px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.cart-product-image {
+    width: 100px;
+    text-align: center;
+}
+
+.cart-product-image img {
+    max-width: 45px;
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.cart-product-name a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+.cart-product-name a:hover {
+    color: #8c3333;
+}
+
+.cart-product-price,
+.cart-product-subtotal {
+    font-weight: 600;
+    color: #333;
+}
+
+.cart-product-quantity {
+    width: 120px;
+}
+
+.quantity-selector input {
+    width: 60px;
+    padding: 5px;
     border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.remove-item-btn {
+    color: #999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 5px;
+}
+
+.remove-item-btn:hover {
+    color: #dc3545;
 }
 
 .cart-details thead {
-    background-color: #f7f7f7;
+    background-color: #f8f9fa;
 }
 
 .remove-item {
@@ -131,7 +199,7 @@ main {
 .order-summary td {
     border: 1px solid #ddd;
     padding: 10px;
-    text-align: left;
+    text-align: center;
 }
 
 .age-verification {
@@ -310,7 +378,9 @@ main {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 }
 
-.close-button, .close-button-success, .close-add-address-modal {
+.close-button,
+.close-button-success,
+.close-add-address-modal {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -320,7 +390,9 @@ main {
 .close-button:hover,
 .close-button:focus,
 .close-button-success:hover,
-.close-button-success:focus, .close-add-address-modal:hover, .close-add-address-modal:focus {
+.close-button-success:focus,
+.close-add-address-modal:hover,
+.close-add-address-modal:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -340,7 +412,8 @@ main {
     border-radius: 4px;
 }
 
-.billing-details, .order-summary {
+.billing-details,
+.order-summary {
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 5px;
@@ -619,6 +692,7 @@ main {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -629,6 +703,7 @@ main {
         transform: scale(0.9) translateY(-20px);
         opacity: 0;
     }
+
     to {
         transform: scale(1) translateY(0);
         opacity: 1;
@@ -944,7 +1019,8 @@ main {
     cursor: pointer;
 }
 
-.close-btn:hover, .close-btn:focus {
+.close-btn:hover,
+.close-btn:focus {
     color: black;
 }
 
@@ -1014,66 +1090,93 @@ dialog iframe {
 /* Styles for embedded bank payment details */
 #bank-transfer-details .bank-payment-container {
     background-color: #fff;
-    max-width: 100%; /* Adjust to fit within the parent container */
-    margin: 20px 0; /* Adjusted margin */
-    padding: 30px; /* Adjusted padding */
+    max-width: 100%;
+    /* Adjust to fit within the parent container */
+    margin: 20px 0;
+    /* Adjusted margin */
+    padding: 30px;
+    /* Adjusted padding */
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    /* Lighter shadow */
     text-align: center;
-    border: 1px solid #eee; /* Added a subtle border */
+    border: 1px solid #eee;
+    /* Added a subtle border */
 }
 
 #bank-transfer-details .bank-payment-container h1 {
     color: #8c3333;
-    margin-bottom: 20px; /* Adjusted margin */
-    font-size: 24px; /* Adjusted font size */
+    margin-bottom: 20px;
+    /* Adjusted margin */
+    font-size: 24px;
+    /* Adjusted font size */
     font-weight: 700;
-    border-bottom: 2px solid #8c3333; /* Stronger border for heading */
+    border-bottom: 2px solid #8c3333;
+    /* Stronger border for heading */
     padding-bottom: 10px;
-    display: inline-block; /* To make border only under text */
+    display: inline-block;
+    /* To make border only under text */
 }
 
 #bank-transfer-details .bank-info {
     text-align: left;
-    margin-top: 25px; /* Adjusted margin */
-    border-top: 1px solid #f0f0f0; /* Lighter border */
-    padding-top: 25px; /* Adjusted padding */
+    margin-top: 25px;
+    /* Adjusted margin */
+    border-top: 1px solid #f0f0f0;
+    /* Lighter border */
+    padding-top: 25px;
+    /* Adjusted padding */
 }
 
 #bank-transfer-details .bank-info p {
-    font-size: 16px; /* Adjusted font size */
-    line-height: 1.6; /* Adjusted line height */
-    margin-bottom: 10px; /* Adjusted margin */
-    display: flex; /* Use flex for alignment */
+    font-size: 16px;
+    /* Adjusted font size */
+    line-height: 1.6;
+    /* Adjusted line height */
+    margin-bottom: 10px;
+    /* Adjusted margin */
+    display: flex;
+    /* Use flex for alignment */
     align-items: baseline;
 }
 
 #bank-transfer-details .bank-info strong {
-    color: #333; /* Darker color for labels */
+    color: #333;
+    /* Darker color for labels */
     display: inline-block;
-    width: 180px; /* Increased width for labels */
-    flex-shrink: 0; /* Prevent shrinking */
-    font-weight: 600; /* Slightly bolder */
+    width: 180px;
+    /* Increased width for labels */
+    flex-shrink: 0;
+    /* Prevent shrinking */
+    font-weight: 600;
+    /* Slightly bolder */
 }
 
 #bank-transfer-details .bank-info .account-number,
 #bank-transfer-details .bank-info .amount {
     font-weight: bold;
     color: #8c3333;
-    flex-grow: 1; /* Allow content to take remaining space */
-    text-align: right; /* Align values to the right */
+    flex-grow: 1;
+    /* Allow content to take remaining space */
+    text-align: right;
+    /* Align values to the right */
 }
 
 #bank-transfer-details .instruction {
-    margin-top: 30px; /* Adjusted margin */
+    margin-top: 30px;
+    /* Adjusted margin */
     padding: 20px;
-    background-color: #fefefe; /* Lighter background */
-    border-left: 5px solid #c8a165; /* Changed border color */
+    background-color: #fefefe;
+    /* Lighter background */
+    border-left: 5px solid #c8a165;
+    /* Changed border color */
     text-align: left;
-    font-size: 15px; /* Adjusted font size */
+    font-size: 15px;
+    /* Adjusted font size */
     line-height: 1.5;
     color: #555;
-    border-radius: 5px; /* Added border radius */
+    border-radius: 5px;
+    /* Added border radius */
 }
 
 #bank-transfer-details .instruction p {

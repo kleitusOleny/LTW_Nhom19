@@ -128,6 +128,14 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
                 .execute());
     }
 
+    public Address getById(int id) {
+        return jdbi.withHandle(handle -> handle.createQuery(
+                "select id, user_id, full_name, phone_number, address_line, city, ward, is_default from addresses where id = :id")
+                .bind("id", id)
+                .mapToBean(Address.class)
+                .findFirst().orElse(null));
+    }
+
     public static void main(String[] args) {
         AddressDAO d = new AddressDAO();
         List<Address> ls = d.getByUserID(1);

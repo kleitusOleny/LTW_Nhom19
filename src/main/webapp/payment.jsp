@@ -17,10 +17,18 @@
 <%@ include file="components/header.jsp" %>
 
 <main class="container">
+    <c:if test="${not empty sessionScope.errorMessage}">
+        <div class="alert alert-danger"
+             style="color: red; background-color: #f8d7da; border-color: #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                ${sessionScope.errorMessage}
+        </div>
+        <c:remove var="errorMessage" scope="session"/>
+    </c:if>
     <div class="cart-details">
         <table>
             <thead>
             <tr>
+                <th>HÌNH ẢNH</th>
                 <th>SẢN PHẨM</th>
                 <th>GIÁ</th>
                 <th>SỐ LƯỢNG</th>
@@ -29,50 +37,76 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>
-                    <img src="https://via.placeholder.com/50" alt="Wine Bottle"> Rượu Vang Đỏ
-                </td>
-                <td>1.500.000 VND</td>
-                <td>
-                    <div class="quantity">
-                        1
-                    </div>
-                </td>
-                <td>1.500.000 VND</td>
-                <td class="last">
-                    <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
-                </td>
-            </tr>
-
+            <c:forEach items="${requestScope.order.items}" var="oi">
+                <c:set var="product" value="${requestScope.productMap[oi.productId]}"/>
+                <tr class="cart-item-row">
+                    <td class="cart-product-image">
+                        <a><img src=${product.imageUrl} alt="${product.productName}"></a>
+                    </td>
+                    <td class="cart-product-name">
+                        <a>${product.productName}</a>
+                    </td>
+                    <td class="cart-product-price">
+                        <fmt:setLocale value="vi_VN"/>
+                        <fmt:formatNumber value="${oi.unitPrice}" type="currency" currencySymbol="₫"
+                                          maxFractionDigits="0"/>
+                    </td>
+                    <td class="cart-product-quantity">
+                        <div class="quantity-selector">${oi.quantity}</div>
+                    </td>
+                    <td class="cart-product-subtotal">
+                        <fmt:setLocale value="vi_VN"/>
+                        <fmt:formatNumber value="${oi.quantity * oi.unitPrice}" type="currency"
+                                          currencySymbol="₫" maxFractionDigits="0"/>
+                    </td>
+                    <td class="cart-product-remove">
+                        <form action="delete-cart" method="post">
+                            <input type="hidden" name="id" value="${product.id}">
+                            <input type="hidden" name="redirect" value="checkout">
+                            <input type="hidden" name="cartType" value="${sessionScope.checkoutType}">
+                            <button class="remove-item-btn" aria-label="Xóa sản phẩm"
+                                    style="border: 0; background: white">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>
     <dialog id="pageDialog">
         <button id="closeDialog" aria-label="Đóng">&times;</button>
-        <iframe src="infoUsers/addresses.jsp"></iframe>
+        <iframe src="${pageContext.request.contextPath}/address?view=popup"
+                style="width: 100%; height: 100%; border: none;"></iframe>
     </dialog>
-    <div class="payment-form">
+    <form id="checkoutForm" class="payment-form" action="" method="post">
+        <input type="hidden" name="totalBill" value="${requestScope.order.totalPrice}">
         <div class="billing-details">
             <div class="billing-header">
                 <h2>THÔNG TIN THANH TOÁN</h2>
-                <button class="btn-edit-info">Thay đổi thông tin</button>
+                <button type="button" class="btn-edit-info">Thay đổi thông tin</button>
             </div>
             <div id="user-info">
-                <p><strong>Họ và tên:</strong> <span id="display-fullname">Nguyễn Văn A</span></p>
-                <p><strong>Địa chỉ giao hàng:</strong> <span id="display-address">123 Đường ABC, Phường XYZ, Quận 1,
-                            TP. Hồ Chí Minh</span></p>
-                <p><strong>Số điện thoại:</strong> <span id="display-phone">0987654321</span></p>
-                <p><strong>Địa chỉ email:</strong> <span id="display-email">nguyenvan@example.com</span></p>
+                <p><strong>Họ và tên:</strong> <span
+                        id="display-fullname">${shippingAddress.fullName}</span></p>
+                <p><strong>Địa chỉ giao hàng:</strong> <span
+                        id="display-address">${shippingAddress.addressLine}, ${shippingAddress.ward},
+                    ${shippingAddress.city}</span></p>
+                <p><strong>Số điện thoại:</strong> <span
+                        id="display-phone">${shippingAddress.phoneNumber}</span></p>
+                <p><strong>Địa chỉ email:</strong> <span
+                        id="display-email">${sessionScope.user.email}</span></p>
             </div>
             <h2>THÔNG TIN BỔ SUNG</h2>
             <p>
-                <label for="notes">Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết
-                    hơn.</label>
+                <label for="notes">Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng
+                    chi
+                    tiết hơn.</label>
                 <textarea id="notes" name="notes"></textarea>
             </p>
             <div class="cart-actions">
-                <a href="store.jsp" class="continue-shopping"> TIẾP TỤC
+                <a href="${pageContext.request.contextPath}/store" class="continue-shopping"> TIẾP TỤC
                     XEM SẢN PHẨM</a>
             </div>
         </div>
@@ -85,36 +119,41 @@
             <table>
                 <tbody>
                 <tr>
-                    <th>SẢN PHẨM</th>
-                    <td>Rượu Vang Đỏ × 1</td>
-                </tr>
-                <tr>
                     <th>Số lượng</th>
-                    <td>1</td>
+                    <td>${requestScope.order.items.size()}</td>
                 </tr>
                 <tr>
                     <th>Tổng phụ</th>
-                    <td>1.500.000 VND</td>
+                    <td>
+                        <fmt:formatNumber value="${requestScope.order.totalPrice}" type="currency"
+                                          currencySymbol="₫" maxFractionDigits="0"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>Khuyến mãi</th>
-                    <td>- 0 VND</td>
+                    <td>-
+                        <fmt:formatNumber value="0" type="currency" currencySymbol="₫"
+                                          maxFractionDigits="0"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>Tổng</th>
-                    <td><strong>1.500.000 VND</strong></td>
+                    <td><strong>
+                        <fmt:formatNumber value="${requestScope.order.totalPrice}" type="currency"
+                                          currencySymbol="₫" maxFractionDigits="0"/>
+                    </strong></td>
                 </tr>
                 </tbody>
             </table>
             <div class="payment-methods">
                 <h3>Phương thức thanh toán</h3>
                 <div class="selected-payment-display">
-                    <span id="selected-payment-text">Thanh toán khi nhận hàng</span>
+                    <span id="selected-payment-text">Chọn phương thức thanh toán</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="payment-options-list">
                     <div class="payment-option" data-value="cod">
-                        <input type="radio" id="cod" name="payment_method" value="cod" checked>
+                        <input type="radio" id="cod" name="payment_method" value="cod">
                         <label for="cod">
                             <div class="payment-icon">
                                 <i class="fas fa-money-bill-wave"></i>
@@ -145,27 +184,10 @@
             </div>
             <div class="group-button">
                 <button type="button" class="button-cancel" onclick="window.history.back()">HỦY</button>
-                <button type="submit" class="button" id="place-order-btn">ĐẶT HÀNG</button>
+                <button type="button" class="button" id="place-order-btn">ĐẶT HÀNG</button>
             </div>
         </div>
-    </div>
-    <div id="success-modal" class="modal">
-        <div class="modal-content success-modal-content">
-            <div class="success-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h2>Đặt hàng thành công!</h2>
-            <p>Cảm ơn bạn đã mua hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất có thể.</p>
-            <div class="order-details-summary">
-                <h3>Chi tiết đơn hàng</h3>
-                <p><strong>Mã đơn hàng:</strong> <span id="order-id">#123456</span></p>
-                <p><strong>Ngày đặt:</strong> <span id="order-date">11/08/2025</span></p>
-                <p><strong>Tổng cộng:</strong> <span id="order-total">1.500.000 VND</span></p>
-                <p><strong>Phương thức thanh toán:</strong> <span>Thanh toán khi nhận hàng</span></p>
-            </div>
-            <button id="back-to-home" class="button"><a href="index.jsp">Quay về trang chủ </a></button>
-        </div>
-    </div>
+    </form>
 </main>
 
 <%@ include file="components/footer.jsp" %>
@@ -185,9 +207,6 @@
             'card': 'Thẻ tín dụng/ghi nợ'
         };
 
-        ageVerifyCheckbox.addEventListener('change', function () {
-            placeOrderBtn.disabled = !this.checked;
-        });
 
         selectedPaymentDisplay.addEventListener('click', function () {
             const chevron = this.querySelector('i');
@@ -214,7 +233,6 @@
         });
 
         placeOrderBtn.addEventListener('click', function (e) {
-            e.preventDefault();
             if (!ageVerifyCheckbox.checked) {
                 document.querySelector('.age-verification').classList.add('error');
                 alert("Bạn phải xác nhận đủ tuổi để đặt hàng.");
@@ -223,22 +241,39 @@
             document.querySelector('.age-verification').classList.remove('error');
 
             const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
-            let paymentText = 'Thanh toán khi nhận hàng';
-            if (selectedPayment) {
-                paymentText = paymentNames[selectedPayment.value];
+
+            if (!selectedPayment) {
+                alert("Vui lòng chọn phương thức thanh toán.");
+                return;
             }
-            document.querySelector('.order-details-summary p:nth-child(4) span').textContent = paymentText;
 
-            successModal.style.display = "block";
+            const form = document.getElementById('checkoutForm');
+            form.action = "${pageContext.request.contextPath}/checkout";
+            form.submit();
         });
-
     });
 </script>
 <script>
     const dialog = document.getElementById("pageDialog");
     const openBtn = document.querySelector(".btn-edit-info");
     const closeBtn = document.getElementById("closeDialog");
-    openBtn.addEventListener("click", () => dialog.showModal());
-    closeBtn.addEventListener("click", () => dialog.close());
+    openBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        dialog.showModal();
+    });
+    closeBtn.addEventListener("click", () => {
+        dialog.close();
+        window.location.reload(); // Reload to reflect changes
+    });
+
+    window.addEventListener('message', function (event) {
+        if (event.data.type === 'SELECT_ADDRESS') {
+            const data = event.data.data;
+            document.getElementById('display-fullname').textContent = data.fullName;
+            document.getElementById('display-phone').textContent = data.phone;
+            document.getElementById('display-address').textContent = data.address;
+            dialog.close();
+        }
+    });
 </script>
 </body>

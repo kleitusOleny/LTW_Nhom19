@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
 
     <link rel="stylesheet" href="css/cart_style.css">
 </head>
+
 <body>
 
 <%@ include file="components/header.jsp" %>
@@ -40,16 +42,18 @@
                             <td><input type="checkbox" class="select-product"></td>
                             <td class="cart-product-image">
                                 <a href="detail?id=${ci.product.id}">
-                                    <img src=${ci.product.imageUrl} alt="${ci.product.productName}">
+                                    <img src=${ci.product.imageUrl}
+                                                 alt="${ci.product.productName}">
                                 </a>
                             </td>
                             <td class="cart-product-name">
-                                <a href="detail?id=${ci.product.id}">${ci.product.productName}</a>
+                                <a
+                                        href="detail?id=${ci.product.id}">${ci.product.productName}</a>
                             </td>
                             <td class="cart-product-price">
                                 <fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber value="${ci.product.price}" type="currency" currencySymbol="₫"
-                                                  maxFractionDigits="0"/>
+                                <fmt:formatNumber value="${ci.product.price}" type="currency"
+                                                  currencySymbol="₫" maxFractionDigits="0"/>
                             </td>
                             <td class="cart-product-quantity">
                                 <div class="quantity-selector">
@@ -61,10 +65,8 @@
 
                                     <form action="update-item" method="post">
                                         <input type="hidden" name="id" value="${ci.product.id}">
-                                        <input type="number"
-                                               value="${ci.quantity}"
-                                               name="setQuantity"
-                                               onchange="this.form.submit()">
+                                        <input type="number" value="${ci.quantity}"
+                                               name="setQuantity" onchange="this.form.submit()">
                                     </form>
 
                                     <form action="update-item" method="post">
@@ -76,9 +78,8 @@
                             </td>
                             <td class="cart-product-subtotal">
                                 <fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber value="${ci.quantity * ci.product.price}" type="currency"
-                                                  currencySymbol="₫"
-                                                  maxFractionDigits="0"/>
+                                <fmt:formatNumber value="${ci.quantity * ci.product.price}"
+                                                  type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                             </td>
                             <td class="cart-product-remove">
                                 <form action="delete-cart" method="post">
@@ -95,7 +96,9 @@
                 </table>
                 <div class="cart-actions">
                     <a href="store" class="btn btn-secondary">Tiếp tục xem sản phẩm</a>
-                    <button class="btn btn-danger" id="delete-selected">Xóa sản phẩm đã chọn</button>
+                    <button class="btn btn-danger" id="delete-selected">Xóa sản phẩm đã
+                        chọn
+                    </button>
                 </div>
             </div>
 
@@ -107,8 +110,8 @@
                         <span>Tạm tính</span>
                         <strong>
                             <fmt:setLocale value="vi_VN"/>
-                            <fmt:formatNumber value="${sessionScope.cart.total}" type="currency" currencySymbol="₫"
-                                              maxFractionDigits="0"/>
+                            <fmt:formatNumber value="${sessionScope.cart.total}" type="currency"
+                                              currencySymbol="₫" maxFractionDigits="0"/>
                         </strong>
                     </div>
 
@@ -121,12 +124,12 @@
                         <span>Tổng</span>
                         <strong>
                             <fmt:setLocale value="vi_VN"/>
-                            <fmt:formatNumber value="${sessionScope.cart.total}" type="currency" currencySymbol="₫"
-                                              maxFractionDigits="0"/>
+                            <fmt:formatNumber value="${sessionScope.cart.total}" type="currency"
+                                              currencySymbol="₫" maxFractionDigits="0"/>
                         </strong>
                     </div>
 
-                    <a href="payment.jsp" class="btn btn-checkout">Tiến hành thanh toán</a>
+                    <a href="checkout" class="btn btn-checkout">Tiến hành thanh toán</a>
                 </div>
             </div>
 
