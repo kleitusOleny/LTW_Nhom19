@@ -9,11 +9,12 @@
                     <div class="header-top">
                         <div class="container">
                             <div class="header-logo">
-                                <a href="home" class="logo">LOGO</a>
+                                <a href="${pageContext.request.contextPath}/home" class="logo">LOGO</a>
                             </div>
 
                             <div class="header-center">
-                                <form class="search-form" action="filter" method="get">
+                                <form class="search-form" action="${pageContext.request.contextPath}/filter"
+                                    method="get">
                                     <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..."
                                         value="${param.search}" required>
                                     <button type="submit" aria-label="Search">
@@ -34,7 +35,8 @@
                                         <i class="fas fa-user"></i>
                                     </a>
                                 </c:if>
-                                <a href="my-cart" class="cart-link" aria-label="Cart">
+                                <a href="${pageContext.request.contextPath}/my-cart" class="cart-link"
+                                    aria-label="Cart">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                     <span class="cart-count">${sessionScope.cart.totalQuantity}</span>
                                 </a>
@@ -48,12 +50,14 @@
                                 <c:set var="current" value="${requestScope.curHeader}" />
                                 <ul>
                                     <li>
-                                        <a href="home" class=${current.equals("home") ? "active" : '' }>Trang
+                                        <a href="${pageContext.request.contextPath}/home" class=${current.equals("home")
+                                            ? "active" : '' }>Trang
                                             Chủ</a>
                                     </li>
 
                                     <li class="has-dropdown">
-                                        <a href="store" class="${current.equals(" store") ? "active" : '' }">
+                                        <a href="${pageContext.request.contextPath}/store" class="${current.equals("
+                                            store") ? "active" : '' }">
                                             Rượu Vang
                                             <i class="fa-solid fa-caret-down"></i>
                                         </a>
@@ -62,17 +66,23 @@
                                                 <div class="mega-menu-column">
                                                     <h4 class="mega-menu-title">Theo Loại Vang</h4>
                                                     <ul class="mega-menu-list">
-                                                        <li><a href="store" class="mega-menu-link">Rượu Vang Đỏ</a>
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">Rượu Vang Đỏ</a>
                                                         </li>
-                                                        <li><a href="store" class="mega-menu-link">Rượu Vang
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">Rượu Vang
                                                                 Trắng</a></li>
-                                                        <li><a href="store" class="mega-menu-link">Rượu Vang
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">Rượu Vang
                                                                 Hồng</a></li>
-                                                        <li><a href="store" class="mega-menu-link">Sâm Panh / Vang
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">Sâm Panh / Vang
                                                                 Nổ</a></li>
-                                                        <li><a href="store" class="mega-menu-link">Rượu Vang
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">Rượu Vang
                                                                 Ngọt</a></li>
-                                                        <li><a href="store" class="mega-menu-link">Cognac & Rượu
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">Cognac & Rượu
                                                                 Mạnh</a></li>
                                                     </ul>
                                                 </div>
@@ -80,17 +90,23 @@
                                                 <div class="mega-menu-column">
                                                     <h4 class="mega-menu-title">Nhãn Hàng Nổi Bật</h4>
                                                     <ul class="mega-menu-list">
-                                                        <li><a href="store" class="mega-menu-link">CHÂTEAU
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">CHÂTEAU
                                                                 CORBIN</a></li>
-                                                        <li><a href="store" class="mega-menu-link">TENUTA LUCE</a>
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">TENUTA LUCE</a>
                                                         </li>
-                                                        <li><a href="store" class="mega-menu-link">MAISON LOUIS
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">MAISON LOUIS
                                                                 LATOUR</a></li>
-                                                        <li><a href="store" class="mega-menu-link">Domaine
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">Domaine
                                                                 Faiveley</a></li>
-                                                        <li><a href="store" class="mega-menu-link">BODEGAS MUGA</a>
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">BODEGAS MUGA</a>
                                                         </li>
-                                                        <li><a href="store" class="mega-menu-link">CHAMPAGNE
+                                                        <li><a href="${pageContext.request.contextPath}/store"
+                                                                class="mega-menu-link">CHAMPAGNE
                                                                 RUINART</a></li>
                                                     </ul>
                                                 </div>

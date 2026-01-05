@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/address_style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
         <div id="address-card">
             <h2>Địa chỉ của tôi</h2>
             <c:if test="${not empty sessionScope.error}">
@@ -14,7 +17,8 @@
             </c:if>
             <div class="address-list">
                 <c:forEach var="addr" items="${addressList}">
-                    <div class="address-card">
+                    <div class="address-card" style="cursor: pointer;" data-fullname="${addr.fullName}"
+                        data-phone="${addr.phoneNumber}" data-address="${addr.addressLine}, ${addr.ward}, ${addr.city}">
                         <div class="address-card-details">
                             <p class="name">
                                 <strong>Người nhận:</strong> ${addr.fullName}
@@ -28,13 +32,14 @@
                             </p>
                         </div>
 
-                        <div class="address-card-actions"
-                            style="display: flex; flex-direction: row; align-items: center; gap: 8px;">
+                        <div class="address-card-actions" onclick="event.stopPropagation()"
+                            style="display: flex; flex-direction: row; align-items: center; gap: 8px; margin-left: auto;">
                             <c:if test="${!addr.isDefault}">
                                 <form action="${pageContext.request.contextPath}/address" method="post"
                                     style="margin: 0;">
                                     <input type="hidden" name="action" value="default">
                                     <input type="hidden" name="id" value="${addr.id}">
+                                    <input type="hidden" name="view" value="${view}">
                                     <button class="btn set-default-btn" title="Đặt làm mặc định">Đặt mặc định</button>
                                 </form>
                             </c:if>
@@ -50,12 +55,11 @@
                                 onsubmit="return confirm('Xóa địa chỉ này?')" style="margin: 0;">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="id" value="${addr.id}">
+                                <input type="hidden" name="view" value="${view}">
                                 <button class="btn delete-btn" title="Xóa">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
-
-
                         </div>
                     </div>
                 </c:forEach>
@@ -78,6 +82,7 @@
                 <form id="addressForm" action="${pageContext.request.contextPath}/address" method="post">
                     <input type="hidden" name="action" id="formAction" value="add">
                     <input type="hidden" name="id" id="addressId">
+                    <input type="hidden" name="view" value="${view}">
 
                     <div class="form-group">
                         <label>Họ và tên</label>
@@ -219,6 +224,18 @@
                 });
 
                 loadCities();
+
+                // HANDLE CARD CLICK
+                document.querySelectorAll('.address-card').forEach(card => {
+                    card.onclick = () => {
+                        const data = {
+                            fullName: card.dataset.fullname,
+                            phone: card.dataset.phone,
+                            address: card.dataset.address
+                        };
+                        window.parent.postMessage({ type: 'SELECT_ADDRESS', data: data }, '*');
+                    };
+                });
             })();
 
         </script>

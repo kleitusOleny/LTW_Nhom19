@@ -24,11 +24,19 @@ public class AddCart extends HttpServlet {
         
         ProductService productService = new ProductService();
         Product product = productService.getProduct(productId);
-        
-        if (product != null){
-            cart.addItem(product,quantity);
-            session.setAttribute("cart",cart);
-            response.sendRedirect("store");
+
+        if (product != null) {
+            String redirect = request.getParameter("redirect");
+            if ("checkout".equals(redirect)) {
+                Cart buyNowCart = new Cart();
+                buyNowCart.addItem(product, quantity);
+                session.setAttribute("buyNowCart", buyNowCart);
+                response.sendRedirect("checkout?from=buyNow");
+            } else {
+                cart.addItem(product, quantity);
+                session.setAttribute("cart", cart);
+                response.sendRedirect("store");
+            }
             return;
         }
         request.setAttribute("msg","Product not found");

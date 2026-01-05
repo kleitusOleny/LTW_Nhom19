@@ -48,6 +48,7 @@ public class AddressController extends HttpServlet {
             }
             List<Address> addressList = addressService.getByUserID(user.getId());
             request.setAttribute("addressList", addressList);
+            request.setAttribute("view", request.getParameter("view"));
             request.getRequestDispatcher("/infoUsers/addresses.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,8 +97,13 @@ public class AddressController extends HttpServlet {
         } catch (Exception e) {
             session.setAttribute("error", e.getMessage());
         }
-        response.sendRedirect(
-                request.getContextPath() + "/infoUsers/user_sidebar.jsp#" + request.getContextPath() + "/address");
+        String view = request.getParameter("view");
+        if ("popup".equals(view)) {
+            response.sendRedirect(request.getContextPath() + "/address?view=popup");
+        } else {
+            response.sendRedirect(
+                    request.getContextPath() + "/infoUsers/user_sidebar.jsp#" + request.getContextPath() + "/address");
+        }
     }
 
 }

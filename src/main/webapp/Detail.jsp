@@ -91,7 +91,8 @@
                                         </a>
                                     </div>
 
-                                    <button class="btn btn-secondary buy-now-detail">Mua ngay</button>
+                                    <a href="add-cart?productId=${product.id}&quantity=1&redirect=checkout"
+                                        id="buy-now-link" class="btn btn-secondary buy-now-detail">Mua ngay</a>
 
                                     <div class="product-meta">
                                         <div class="meta-item">
@@ -159,43 +160,107 @@
                                 </div>
 
                                 <div class="tab-content" id="tab-reviews">
+                                    <div class="review-filter-bar"
+                                        style="background: #fffbf8; border: 1px solid #f9ede5; padding: 30px; margin-bottom: 20px; border-radius: 2px; display: flex; align-items: center; gap: 15px;">
+                                        <button class="filter-btn active" data-star="all"
+                                            onclick="filterReviews('all', this)"
+                                            style="padding: 5px 15px; border: 1px solid rgba(0,0,0,.09); background: #fff; cursor: pointer; border-radius: 2px;">Tất
+                                            cả</button>
+                                        <button class="filter-btn" data-star="5" onclick="filterReviews(5, this)"
+                                            style="padding: 5px 15px; border: 1px solid rgba(0,0,0,.09); background: #fff; cursor: pointer; border-radius: 2px;">5
+                                            Sao</button>
+                                        <button class="filter-btn" data-star="4" onclick="filterReviews(4, this)"
+                                            style="padding: 5px 15px; border: 1px solid rgba(0,0,0,.09); background: #fff; cursor: pointer; border-radius: 2px;">4
+                                            Sao</button>
+                                        <button class="filter-btn" data-star="3" onclick="filterReviews(3, this)"
+                                            style="padding: 5px 15px; border: 1px solid rgba(0,0,0,.09); background: #fff; cursor: pointer; border-radius: 2px;">3
+                                            Sao</button>
+                                        <button class="filter-btn" data-star="2" onclick="filterReviews(2, this)"
+                                            style="padding: 5px 15px; border: 1px solid rgba(0,0,0,.09); background: #fff; cursor: pointer; border-radius: 2px;">2
+                                            Sao</button>
+                                        <button class="filter-btn" data-star="1" onclick="filterReviews(1, this)"
+                                            style="padding: 5px 15px; border: 1px solid rgba(0,0,0,.09); background: #fff; cursor: pointer; border-radius: 2px;">1
+                                            Sao</button>
+                                    </div>
+
                                     <c:if test="${not empty reviews}">
                                         <div class="reviews-list">
                                             <c:forEach var="r" items="${reviews}">
-                                                <div class="review-item"
-                                                    style="border-bottom: 1px solid #eee; padding: 15px 0;">
-                                                    <div class="review-header"
-                                                        style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                                        <strong class="reviewer-name"
-                                                            style="font-size: 1.1em;">${r.fullName}</strong>
-                                                        <span class="review-date"
-                                                            style="color: #888; font-size: 0.9em;">
-                                                            <fmt:formatDate value="${r.createAt}"
-                                                                pattern="dd/MM/yyyy" />
-                                                        </span>
+                                                <div class="review-item" data-star="${r.star}"
+                                                    style="display: flex; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,.09);">
+                                                    <div class="reviewer-avatar"
+                                                        style="margin-right: 15px; width: 40px; text-align: center;">
+                                                        <i class="fa-solid fa-circle-user"
+                                                            style="font-size: 40px; color: #ccc;"></i>
                                                     </div>
+                                                    <div class="review-body" style="flex: 1;">
+                                                        <div class="reviewer-name"
+                                                            style="font-size: 12px; color: #333; margin-bottom: 5px;">
+                                                            ${r.fullName}</div>
 
-                                                    <div class="review-stars"
-                                                        style="color: #FFD700; margin-bottom: 8px;">
-                                                        <%-- Logic hiển thị sao --%>
-                                                            <fmt:formatNumber var="starR" value="${r.star}"
-                                                                maxFractionDigits="0" />
+                                                        <div class="review-stars"
+                                                            style="color: #ee4d2d; font-size: 10px; margin-bottom: 5px;">
+                                                            <c:set var="starVal" value="${r.star}" />
                                                             <c:forEach begin="1" end="5" var="i">
                                                                 <c:choose>
-                                                                    <c:when test="${i <= starR}"><i
+                                                                    <c:when test="${i <= starVal}"><i
                                                                             class="fa-solid fa-star"></i></c:when>
+                                                                    <c:when test="${i - 0.5 <= starVal}"><i
+                                                                            class="fa-solid fa-star-half-stroke"></i>
+                                                                    </c:when>
                                                                     <c:otherwise><i class="fa-regular fa-star"
                                                                             style="color: #ddd;"></i></c:otherwise>
                                                                 </c:choose>
                                                             </c:forEach>
-                                                    </div>
+                                                        </div>
 
-                                                    <p class="review-content" style="color: #333; line-height: 1.5;">
-                                                        ${r.content}</p>
+                                                        <div class="review-meta"
+                                                            style="color: rgba(0,0,0,.54); font-size: 12px; margin-bottom: 15px;">
+                                                            <fmt:formatDate value="${r.createAt}"
+                                                                pattern="yyyy-MM-dd HH:mm" />
+                                                        </div>
+
+                                                        <div class="review-content"
+                                                            style="font-size: 14px; color: rgba(0,0,0,.87); line-height: 1.4;">
+                                                            <div>${r.content}</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </c:forEach>
                                         </div>
                                     </c:if>
+
+                                    <script>
+                                        function filterReviews(star, btn) {
+                                            // Update active button
+                                            document.querySelectorAll('.filter-btn').forEach(b => {
+                                                b.style.borderColor = 'rgba(0,0,0,.09)';
+                                                b.style.color = '#333';
+                                                b.classList.remove('active');
+                                            });
+                                            btn.style.borderColor = '#ee4d2d';
+                                            btn.style.color = '#ee4d2d';
+                                            btn.classList.add('active');
+
+                                            // Filter items
+                                            const items = document.querySelectorAll('.review-item');
+                                            items.forEach(item => {
+                                                const itemStar = parseFloat(item.getAttribute('data-star'));
+                                                if (star === 'all') {
+                                                    item.style.display = 'flex';
+                                                } else {
+                                                    // Simple logic: show if star matches integer part (e.g. 4.5 matches 4 star filter? Or 5? Usually floor or round. Let's use floor for "4 star and up" or exact match? 
+                                                    // User usually expects "5 Star" to mean 5.0. "4 Star" to mean 4.0-4.9.
+                                                    // Let's use Math.floor(itemStar) == star
+                                                    if (Math.floor(itemStar) == star) {
+                                                        item.style.display = 'flex';
+                                                    } else {
+                                                        item.style.display = 'none';
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    </script>
 
                                     <c:if test="${empty reviews}">
                                         <p style="text-align: center; color: #666; padding: 20px;">
@@ -247,11 +312,14 @@
 
                             const qtyInput = document.getElementById('product-quantity');
                             const addBtn = document.getElementById('add-to-cart-link');
+                            const buyNowBtn = document.getElementById('buy-now-link');
                             const baseHref = addBtn.getAttribute('href'); // Lấy link gốc
+                            const baseBuyNowHref = buyNowBtn.getAttribute('href');
 
                             function updateLink() {
                                 let qty = qtyInput.value;
                                 addBtn.setAttribute('href', baseHref.replace('quantity=1', 'quantity=' + qty));
+                                buyNowBtn.setAttribute('href', baseBuyNowHref.replace('quantity=1', 'quantity=' + qty));
                             }
 
                             document.getElementById('increase-qty').onclick = () => {
@@ -452,10 +520,18 @@
                                     pos = getCursorPos(e);
                                     x = pos.x - (lens.offsetWidth / 2);
                                     y = pos.y - (lens.offsetHeight / 2);
-                                    if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
-                                    if (x < 0) { x = 0; }
-                                    if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
-                                    if (y < 0) { y = 0; }
+                                    if (x > img.width - lens.offsetWidth) {
+                                        x = img.width - lens.offsetWidth;
+                                    }
+                                    if (x < 0) {
+                                        x = 0;
+                                    }
+                                    if (y > img.height - lens.offsetHeight) {
+                                        y = img.height - lens.offsetHeight;
+                                    }
+                                    if (y < 0) {
+                                        y = 0;
+                                    }
                                     lens.style.left = x + "px";
                                     lens.style.top = y + "px";
                                     result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
