@@ -148,6 +148,8 @@
     font-size: 15px;
     color: #333;
     cursor: pointer;
+    text-decoration: none; /* Xoá gạch chân của link */
+    box-sizing: border-box; /* Đảm bảo padding không làm vỡ khung */
 }
 
 .btn-menu-item:hover {
@@ -158,7 +160,7 @@
 .modal-close2 {
     position: absolute;
     top: 1px;
-    right: 0px;
+    right: 0;
     background: transparent;
     border: none;
     cursor: pointer;

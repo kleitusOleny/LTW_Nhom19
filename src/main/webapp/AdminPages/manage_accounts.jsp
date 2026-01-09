@@ -245,14 +245,14 @@
         <button class="modal-close2" id="close-modal-btn9">
             <ion-icon name="close-outline"></ion-icon>
         </button>
-        <button class="btn-menu-item">
+        <a href="${pageContext.request.contextPath}/home" class="btn-menu-item">
             <ion-icon name="person-circle-outline"></ion-icon>
             <span>Trở về trang người dùng</span>
-        </button>
-        <button class="btn-menu-item">
+        </a>
+        <a href="${pageContext.request.contextPath}/logout" class="btn-menu-item">
             <ion-icon name="log-out-outline"></ion-icon>
             <span>Đăng xuất tài khoản</span>
-        </button>
+        </a>
     </div>
 </div>
 <c:if test="${errorSource == 'edit_account' and not empty editingId}">
@@ -321,6 +321,8 @@
         setupModal('add-account-modal', 'open-modal-btn', 'close-modal-btn');
         setupModal('excel-account-modal', 'excel-modal-btn', 'close-modal-btn5');
         setupModal('deleteAll-account-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
+        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
         setupDynamicModals('edit-btn-trigger', 'close-edit-modal');
 
         $(document).ready(function () {

@@ -268,14 +268,14 @@
         <button class="modal-close2" id="close-modal-btn9">
             <ion-icon name="close-outline"></ion-icon>
         </button>
-        <button class="btn-menu-item">
+        <a href="${pageContext.request.contextPath}/home" class="btn-menu-item">
             <ion-icon name="person-circle-outline"></ion-icon>
             <span>Trở về trang người dùng</span>
-        </button>
-        <button class="btn-menu-item">
+        </a>
+        <a href="${pageContext.request.contextPath}/logout" class="btn-menu-item">
             <ion-icon name="log-out-outline"></ion-icon>
             <span>Đăng xuất tài khoản</span>
-        </button>
+        </a>
     </div>
 </div>
 

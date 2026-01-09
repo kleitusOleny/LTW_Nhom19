@@ -168,7 +168,7 @@ public User findByUsername(String username) {
                         created_at AS createdAt,
                         update_at AS updateAt
                     FROM users
-                    WHERE username=:username AND active=1
+                    WHERE username=:username
                     """)
             .bind("username", username)
             .mapToBean(User.class)

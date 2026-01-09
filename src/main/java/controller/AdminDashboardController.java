@@ -3,6 +3,8 @@ package controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import model.User;
+import services.AuthService;
 
 import java.io.IOException;
 

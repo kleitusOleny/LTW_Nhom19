@@ -168,6 +168,8 @@ body, html {
     font-size: 15px;
     color: #333;
     cursor: pointer;
+    text-decoration: none; /* Xoá gạch chân của link */
+    box-sizing: border-box; /* Đảm bảo padding không làm vỡ khung */
 }
 
 .btn-menu-item:hover {
