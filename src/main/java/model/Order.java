@@ -4,6 +4,7 @@ import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Order {
     @ColumnName("id")
@@ -29,6 +30,27 @@ public class Order {
 
     @ColumnName("is_delete")
     private boolean isDelete;
+
+    @ColumnName("note")
+    private String note;
+
+    private List<OrderItem> items;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public java.util.List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(java.util.List<OrderItem> items) {
+        this.items = items;
+    }
 
     public Order() {
     }

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <!DOCTYPE html>
         <html lang="vi">
 
@@ -23,21 +23,22 @@
                                 <li><a href="#" data-url="<%= request.getContextPath() %>/address"><i
                                             class="fa-solid fa-location-dot"></i> <span data-lang-key="address">Địa
                                             chỉ</span></a></li>
-                                <li><a href="#" data-url="<%= request.getContextPath() %>/favorites"><i
-                                            class="fa-solid fa-heart"></i> <span data-lang-key="viewHistory">Yêu
-                                            thích</span></a></li>
                                 <li><a href="#" data-url="<%= request.getContextPath() %>/orders"><i
                                             class="fa-solid fa-box"></i> <span data-lang-key="myOrders">Đơn
                                             hàng của tôi</span></a></li>
-                                <li><a href="review_history.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                <li><a href="review_history.jsp"
+                                        data-url="<%= request.getContextPath() %>/user?page=reviews"><i
                                             class="fa-solid fa-star"></i> <span data-lang-key="reviewHistory">Lịch
                                             sử đánh giá</span></a></li>
                                 <hr>
-                                <li><a href="settings.jsp" data-url="<%= request.getContextPath() %>/user"><i
+                                <li><a href="settings.jsp"
+                                        data-url="<%= request.getContextPath() %>/user?page=settings"><i
                                             class="fa-solid fa-gear"></i> <span data-lang-key="settings">Cài
                                             đặt</span></a></li>
-                                <li><a href="support.jsp"><i class="fa-solid fa-circle-question"></i> <span
-                                            data-lang-key="support">Hỗ trợ</span></a></li>
+                                <li><a href="support.jsp"
+                                        data-url="<%= request.getContextPath() %>/user?page=support"><i
+                                            class="fa-solid fa-circle-question"></i> <span data-lang-key="support">Hỗ
+                                            trợ</span></a></li>
                                 <hr>
                                 <li>
                                     <button type="button" class="logout-button">
@@ -93,7 +94,7 @@
                                     loadContent(pageUrl);
                                 });
                             });
-                            const defaultPage = '<%= request.getContextPath() %>/user';
+                            const defaultPage = '<%= request.getAttribute("initialPage") != null ? request.getAttribute("initialPage") : request.getContextPath() + "/user" %>';
                             const hashPage = location.hash.replace('#', '');
                             if (hashPage) {
                                 if (hashPage.startsWith('/')) {

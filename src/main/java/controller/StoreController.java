@@ -1,13 +1,14 @@
 package controller;
 
 import dao.ProductDAO;
+import dao.FavouriteDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Product;
+import model.User;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "StoreController", value = "/store")
 public class StoreController extends HttpServlet {
@@ -40,8 +41,24 @@ public class StoreController extends HttpServlet {
         
         // 3. Tính tổng số trang
         int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
-        
-        // 4. Gửi dữ liệu sang JSP
+
+        // 4. Load user's favorite product IDs if logged in
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                FavouriteDAO favouriteDAO = new FavouriteDAO();
+                List<Map<String, Object>> userFavourites = favouriteDAO.getFavouritesWithProductsByUserID(user.getId());
+
+                Map<String, Boolean> favouriteProductMap = new HashMap<>();
+                for (Map<String, Object> fav : userFavourites) {
+                    favouriteProductMap.put((String) fav.get("product_id"), true);
+                }
+                request.setAttribute("favouriteProductMap", favouriteProductMap);
+            }
+        }
+
+        // 5. Gửi dữ liệu sang JSP
         request.setAttribute("products", products);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);

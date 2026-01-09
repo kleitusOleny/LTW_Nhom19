@@ -8,7 +8,9 @@ import model.Product;
 import model.Review;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "DetailController", value = "/detail")
 public class DetailController extends HttpServlet {
@@ -31,7 +33,22 @@ public class DetailController extends HttpServlet {
         
         List<Product> relatedProducts = dao.getRelatedProducts();
         List<Review> reviews = dao.getReviews(id);
-        
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            model.User user = (model.User) session.getAttribute("user");
+            if (user != null) {
+                dao.FavouriteDAO favouriteDAO = new dao.FavouriteDAO();
+                List<Map<String, Object>> userFavourites = favouriteDAO
+                        .getFavouritesWithProductsByUserID(user.getId());
+                Map<String, Boolean> favouriteProductMap = new HashMap<>();
+                for (Map<String, Object> fav : userFavourites) {
+                    favouriteProductMap.put((String) fav.get("product_id"), true);
+                }
+                request.setAttribute("favouriteProductMap", favouriteProductMap);
+            }
+        }
+
         request.setAttribute("product", product);
         request.setAttribute("relatedProducts", relatedProducts);
         request.setAttribute("reviews", reviews);

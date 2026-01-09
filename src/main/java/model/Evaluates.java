@@ -3,13 +3,10 @@ package model;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 public class Evaluates {
-    @ColumnName("product_id")
     private String id;
 
-    @ColumnName("user_id")
     private int userId;
 
-    @ColumnName("evaluate_id")
     private int evaluatesId;
 
     public Evaluates() {
@@ -19,6 +16,7 @@ public class Evaluates {
         return id;
     }
 
+    @ColumnName("product_id")
     public void setId(String id) {
         this.id = id;
     }
@@ -27,6 +25,7 @@ public class Evaluates {
         return userId;
     }
 
+    @ColumnName("user_id")
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -35,6 +34,7 @@ public class Evaluates {
         return evaluatesId;
     }
 
+    @ColumnName("evaluate_id")
     public void setEvaluatesId(int evaluatesId) {
         this.evaluatesId = evaluatesId;
     }

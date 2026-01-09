@@ -7,19 +7,49 @@ public class Review {
     private Double star;
     private String content;
     private Timestamp createAt;
-    
-    public Review() {}
-    
-    // Getters and Setters
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-    
-    public Double getStar() { return star; }
-    public void setStar(Double star) { this.star = star; }
-    
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
-    
-    public Timestamp getCreateAt() { return createAt; }
-    public void setCreateAt(Timestamp createAt) { this.createAt = createAt; }
+
+    private int id;
+
+    public Review() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Double getStar() {
+        return star;
+    }
+
+    public void setStar(Double star) {
+        this.star = star;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Timestamp getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Timestamp createAt) {
+        this.createAt = createAt;
+    }
 }

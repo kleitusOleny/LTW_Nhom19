@@ -6,13 +6,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta name="description" content="">
         <meta name="author" content="">
         <title>Tạo mới đơn hàng</title>
-        <!-- Bootstrap core CSS -->
         <link href="../vnpay/assets/bootstrap.min.css" rel="stylesheet" />
-        <!-- Custom styles for this template -->
         <link href="../vnpay/assets/jumbotron-narrow.css" rel="stylesheet">
     </head>
 
@@ -20,7 +17,6 @@
 
         <div class="container">
             <div class="header clearfix">
-
                 <h3 class="text-muted">VNPAY DEMO</h3>
             </div>
             <h3>Tạo mới đơn hàng</h3>

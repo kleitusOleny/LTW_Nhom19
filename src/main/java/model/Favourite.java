@@ -10,7 +10,7 @@ public class Favourite {
     private String productId;
 
     @ColumnName("user_id")
-    private String userId;
+    private int userId;
 
     public Favourite() {
     }
@@ -31,11 +31,11 @@ public class Favourite {
         this.productId = productId;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 }

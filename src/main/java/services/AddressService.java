@@ -78,12 +78,12 @@ public class AddressService {
 
         if (address == null)
             return "Dữ liệu không hợp lệ";
+        System.out.println(address);
 
         String name = address.getFullName();
         String phone = address.getPhoneNumber();
         String city = address.getCity();
         String ward = address.getWard();
-        String country = address.getCountry();
         String addressLine = address.getAddressLine();
 
         if (name == null || !name.matches(VN_TEXT_REGEX)) {
@@ -100,17 +100,6 @@ public class AddressService {
 
         if (ward == null || !ward.matches(VN_TEXT_REGEX)) {
             return "Phường/Xã không hợp lệ";
-        }
-
-        if (country == null || country.trim().isEmpty()) {
-            return "Quốc gia không được để trống";
-        }
-
-        String normalizedCountry = country.trim().toLowerCase();
-        if (!(normalizedCountry.equals("việt nam")
-                || normalizedCountry.equals("vietnam")
-                || normalizedCountry.equals("viet nam"))) {
-            return "Quốc gia phải là Việt Nam";
         }
 
         if (addressLine == null || addressLine.trim().length() < 5) {
@@ -166,9 +155,8 @@ public class AddressService {
 
         address.setFullName(req.getParameter("fullName"));
         address.setPhoneNumber(req.getParameter("phone"));
-        address.setCity(req.getParameter("city"));
         address.setWard(req.getParameter("ward"));
-        address.setCountry("Việt Nam");
+        address.setCity(req.getParameter("city"));
         address.setAddressLine(req.getParameter("addressLine"));
 
         return address;

@@ -402,7 +402,8 @@ footer
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Màu đen, mờ 50% */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Màu đen, mờ 50% */
     z-index: 1;
 }
 
@@ -515,7 +516,7 @@ Product Grid
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     padding-top: 5px;
 }
@@ -739,9 +740,11 @@ Product Grid
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.3);
     }
+
     100% {
         transform: scale(1);
     }
@@ -1008,9 +1011,9 @@ CSS RESPONSIVE (Cho Blog)
 
 /* Thiết lập chiều cao cố định cho slide */
 .carousel-item {
-    height: 60vh;
+    height: 90vh;
     min-height: 500px;
-    background-color: #222;
+    background-color: #ffff;
     position: relative;
 }
 
@@ -1061,7 +1064,8 @@ CSS RESPONSIVE (Cho Blog)
     color: #fff;
 }
 
-.carousel-control-prev, .carousel-control-next {
+.carousel-control-prev,
+.carousel-control-next {
     z-index: 3;
     width: 5%;
 }
@@ -1096,4 +1100,145 @@ CSS RESPONSIVE (Cho Blog)
     .carousel-item {
         min-height: 400px;
     }
+}
+
+/* Product Link */
+.product-link {
+    display: inline-block;
+    pointer-events: none;
+    /* Make link transparent to clicks */
+}
+
+.product-link img {
+    pointer-events: auto;
+    /* Image itself is clickable */
+}
+
+/* Wishlist Form */
+.wishlist-form {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 9999;
+    margin: 0;
+    padding: 0;
+    pointer-events: auto;
+}
+
+.product-rating {
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-rating .fa-star {
+    font-size: 16px;
+    margin: 0 1px;
+}
+
+.product-rating .fa-solid.fa-star {
+    color: #FFD700;
+}
+
+.product-rating .fa-regular.fa-star {
+    color: #ccc;
+}
+
+.product-rating span {
+    font-size: 12px;
+    color: #666;
+    margin-left: 5px;
+}
+
+/*
+CSS FOR PRODUCT SLIDER
+*/
+.product-slider {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE 10+ */
+    padding-bottom: 10px;
+}
+
+.product-slider::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari/Webkit */
+}
+
+.product-slider .product-card {
+    min-width: 280px;
+    flex: 0 0 auto;
+}
+
+/* Custom 5-column grid for carousel */
+.col-custom-5 {
+    flex: 0 0 20%;
+    max-width: 20%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Constrain image height in carousel for compact look */
+#userFavoritesCarousel .product-image img {
+    max-height: 200px;
+    width: auto;
+    padding: 10px;
+}
+
+#userFavoritesCarousel .product-name {
+    font-size: 16px;
+    /* Smaller font */
+    height: 48px;
+}
+
+#userFavoritesCarousel .product-price {
+    font-size: 15px;
+    margin: 10px;
+}
+
+/* Center and compact the carousel */
+#userFavoritesCarousel {
+    /* max-width: 1200px;  Removed to allow full width alignment */
+    margin: 0 auto;
+    /* padding: 0 50px; Removed padding */
+    position: relative;
+    max-width: none;
+    /* Remove width constraint */
+    padding: 0;
+    /* Remove padding */
+    overflow: visible;
+    /* Allow arrows to sit outside */
+}
+
+
+#userFavoritesCarousel .carousel-control-prev {
+    width: 50px;
+    left: -100px;
+    /* Move further outside */
+    justify-content: center;
+    opacity: 1;
+    /* Ensure visible */
+}
+
+#userFavoritesCarousel .carousel-control-next {
+    width: 50px;
+    right: -60px;
+    /* Move further outside */
+    justify-content: center;
+    opacity: 1;
+    /* Ensure visible */
+}
+
+/* Ensure the container of the section doesn't clip the arrows */
+.featured-products.container {
+    overflow: visible;
 }

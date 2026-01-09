@@ -1,441 +1,620 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Store</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+            <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+                <!DOCTYPE html>
+                <html lang="vi">
 
-    <link rel="stylesheet" href="css/store_style.css">
-    <style>
-        .price-slider-wrapper {
-            width: 100%;
-            padding: 10px 0;
-            position: relative;
-        }
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Store</title>
+                    <link rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+                        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+                        crossorigin="anonymous" referrerpolicy="no-referrer" />
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/store_style.css?v=3">
+                    <style>
+                        .price-slider-wrapper {
+                            width: 100%;
+                            padding: 10px 0;
+                            position: relative;
+                        }
 
-        .slider-track-bg {
-            width: 100%;
-            height: 6px;
-            background-color: #e0e0e0;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            border-radius: 3px;
-            z-index: 1;
-        }
+                        .slider-track-bg {
+                            width: 100%;
+                            height: 6px;
+                            background-color: #e0e0e0;
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            border-radius: 3px;
+                            z-index: 1;
+                        }
 
-        .slider-track-progress {
-            height: 6px;
-            background-color: #8c3333;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 2;
-            border-radius: 3px;
-        }
+                        .slider-track-progress {
+                            height: 6px;
+                            background-color: #8c3333;
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            z-index: 2;
+                            border-radius: 3px;
+                        }
 
-        .range-input-container {
-            position: relative;
-            width: 100%;
-        }
+                        .range-input-container {
+                            position: relative;
+                            width: 100%;
+                        }
 
-        .range-input-container input[type="range"] {
-            position: absolute;
-            width: 100%;
-            top: -3px;
-            left: 0;
-            height: 6px;
-            -webkit-appearance: none;
-            background: none;
-            pointer-events: none;
-            z-index: 3;
-        }
+                        .range-input-container input[type="range"] {
+                            position: absolute;
+                            width: 100%;
+                            top: -3px;
+                            left: 0;
+                            height: 6px;
+                            -webkit-appearance: none;
+                            background: none;
+                            pointer-events: none;
+                            z-index: 3;
+                        }
 
-        .range-input-container input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #8c3333;
-            cursor: pointer;
-            pointer-events: auto;
-            border: 2px solid #fff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
+                        .range-input-container input[type="range"]::-webkit-slider-thumb {
+                            -webkit-appearance: none;
+                            height: 20px;
+                            width: 20px;
+                            border-radius: 50%;
+                            background: #8c3333;
+                            cursor: pointer;
+                            pointer-events: auto;
+                            border: 2px solid #fff;
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                        }
 
-        .range-input-container input[type="range"]::-moz-range-thumb {
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #8c3333;
-            cursor: pointer;
-            pointer-events: auto;
-            border: 2px solid #fff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
+                        .range-input-container input[type="range"]::-moz-range-thumb {
+                            height: 20px;
+                            width: 20px;
+                            border-radius: 50%;
+                            background: #8c3333;
+                            cursor: pointer;
+                            pointer-events: auto;
+                            border: 2px solid #fff;
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                        }
 
-        .price-values {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            font-size: 15px;
-            color: #333;
-            font-weight: 500;
-        }
-    </style>
-</head>
-<body>
+                        .price-values {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-top: 15px;
+                            font-size: 15px;
+                            color: #333;
+                            font-weight: 500;
+                        }
+                    </style>
+                </head>
 
-<%@ include file="components/header.jsp" %>
-<main>
-    <div class="content-container">
-        <aside class="filter-content">
-            <h3 class="filter-title">Bộ Lọc Sản Phẩm</h3>
-            <form action="filter" method="get">
-                <c:if test="${not empty searchKeyword}">
-                    <input type="hidden" name="search" value="${searchKeyword}">
-                </c:if>
-                <%-- 1. LỌC GIÁ --%>
-                    <fmt:formatNumber var="maxPriceInt" value="${maxPrice}" maxFractionDigits="0" groupingUsed="false"/>
-                    <div class="filter-widget">
-                        <h4 class="widget-title">Lọc theo giá</h4>
-                        <c:set var="minVal" value="0"/>
-                        <c:set var="maxVal" value="${maxPriceInt}"/>
+                <body>
 
-                        <c:if test="${not empty selectedPrices && selectedPrices.size() > 0}">
-                            <c:set var="priceRange" value="${selectedPrices[0]}"/>
-                            <c:set var="parts" value="${fn:split(priceRange, '-')}"/>
-                            <c:if test="${fn:length(parts) == 2}">
-                                <c:set var="minVal" value="${parts[0]}"/>
-                                <c:set var="maxVal" value="${parts[1] == 'max' ? maxPriceInt : parts[1]}"/>
-                            </c:if>
-                        </c:if>
+                    <%@ include file="components/header.jsp" %>
+                        <main>
+                            <div class="content-container"
+                                style="display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start;">
+                                <aside class="filter-content">
+                                    <h3 class="filter-title">Bộ Lọc Sản Phẩm</h3>
+                                    <form action="filter" method="get">
+                                        <c:if test="${not empty searchKeyword}">
+                                            <input type="hidden" name="search" value="${searchKeyword}">
+                                        </c:if>
+                                        <%-- 1. LỌC GIÁ --%>
+                                            <fmt:formatNumber var="maxPriceInt" value="${maxPrice}"
+                                                maxFractionDigits="0" groupingUsed="false" />
+                                            <div class="filter-widget">
+                                                <h4 class="widget-title">Lọc theo giá</h4>
+                                                <c:set var="minVal" value="0" />
+                                                <c:set var="maxVal" value="${maxPriceInt}" />
 
-                        <div class="price-slider-wrapper">
-                            <div class="slider-track-bg"></div> <div class="slider-track-progress" id="visual-track"></div> <div class="range-input-container">
-                            <input type="range" id="input-min" min="0" max="${maxPriceInt}" step="10000" value="${minVal}">
-                            <input type="range" id="input-max" min="0" max="${maxPriceInt}" step="10000" value="${maxVal}">
-                        </div>
+                                                <c:if test="${not empty selectedPrices && selectedPrices.size() > 0}">
+                                                    <c:set var="priceRange" value="${selectedPrices[0]}" />
+                                                    <c:set var="parts" value="${fn:split(priceRange, '-')}" />
+                                                    <c:if test="${fn:length(parts) == 2}">
+                                                        <c:set var="minVal" value="${parts[0]}" />
+                                                        <c:set var="maxVal"
+                                                            value="${parts[1] == 'max' ? maxPriceInt : parts[1]}" />
+                                                    </c:if>
+                                                </c:if>
 
-                            <input type="hidden" name="price" id="hidden-price-filter" value="${minVal}-${maxVal}">
-                        </div>
+                                                <div class="price-slider-wrapper">
+                                                    <div class="slider-track-bg"></div>
+                                                    <div class="slider-track-progress" id="visual-track"></div>
+                                                    <div class="range-input-container">
+                                                        <input type="range" id="input-min" min="0" max="${maxPriceInt}"
+                                                            step="10000" value="${minVal}">
+                                                        <input type="range" id="input-max" min="0" max="${maxPriceInt}"
+                                                            step="10000" value="${maxVal}">
+                                                    </div>
 
-                        <div class="price-values">
-                            <span id="min-price-display">0 ₫</span>
-                            <span id="max-price-display">
-                                <fmt:formatNumber value="${maxPrice}" type="currency" currencySymbol="₫"/>
-                            </span>
-                        </div>
+                                                    <input type="hidden" name="price" id="hidden-price-filter"
+                                                        value="${minVal}-${maxVal}">
+                                                </div>
 
-                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Áp dụng</button>
-                    </div>
+                                                <div class="price-values">
+                                                    <span id="min-price-display">0 ₫</span>
+                                                    <span id="max-price-display">
+                                                        <fmt:formatNumber value="${maxPrice}" type="currency"
+                                                            currencySymbol="₫" />
+                                                    </span>
+                                                </div>
 
-                <%-- 2. DANH MỤC --%>
-                <div class="filter-widget">
-                    <h4 class="widget-title">Danh Mục</h4>
-                    <ul class="filter-list">
-                        <c:forEach var="c" items="${categories}">
-                            <c:set var="cid" value="${c.id}"/>
-                            <li>
-                                <input type="checkbox" id="cat-${c.id}" name="category" value="${c.id}"
-                                    ${fn:contains(selectedCategories, String.valueOf(cid)) ? 'checked' : ''}>
-                                <label for="cat-${c.id}">${c.categoryName}</label>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+                                                <button type="submit" class="btn btn-primary"
+                                                    style="width: 100%; margin-top: 10px;">Áp dụng
+                                                </button>
+                                            </div>
 
-                <%-- 3. LOẠI RƯỢU --%>
-                <div class="filter-widget">
-                    <h4 class="widget-title">Loại Rượu</h4>
-                    <ul class="filter-list">
-                        <c:forEach var="t" items="${types}">
-                            <c:set var="tid" value="${t.id}"/>
-                            <li>
-                                <input type="checkbox" id="type-${t.id}" name="type" value="${t.id}"
-                                    ${fn:contains(selectedTypes, String.valueOf(tid)) ? 'checked' : ''}>
-                                <label for="type-${t.id}">${t.typeName}</label>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+                                            <%-- 2. DANH MỤC --%>
+                                                <div class="filter-widget">
+                                                    <h4 class="widget-title">Danh Mục</h4>
+                                                    <ul class="filter-list">
+                                                        <c:forEach var="c" items="${categories}">
+                                                            <c:set var="cid" value="${c.id}" />
+                                                            <li>
+                                                                <input type="checkbox" id="cat-${c.id}" name="category"
+                                                                    value="${c.id}" ${fn:contains(selectedCategories,
+                                                                    String.valueOf(cid)) ? 'checked' : '' }>
+                                                                <label for="cat-${c.id}">${c.categoryName}</label>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
 
-                <%-- 4. XUẤT XỨ --%>
-                <div class="filter-widget">
-                    <h4 class="widget-title">Xuất Xứ</h4>
-                    <ul class="filter-list">
-                        <c:forEach var="o" items="${origins}" varStatus="loop">
-                            <li>
-                                <input type="checkbox" id="origin-${loop.index}" name="origin" value="${o}"
-                                    ${fn:contains(selectedOrigins, o) ? 'checked' : ''}>
-                                <label for="origin-${loop.index}">${o}</label>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+                                                <%-- 3. LOẠI RƯỢU --%>
+                                                    <div class="filter-widget">
+                                                        <h4 class="widget-title">Loại Rượu</h4>
+                                                        <ul class="filter-list">
+                                                            <c:forEach var="t" items="${types}">
+                                                                <c:set var="tid" value="${t.id}" />
+                                                                <li>
+                                                                    <input type="checkbox" id="type-${t.id}" name="type"
+                                                                        value="${t.id}" ${fn:contains(selectedTypes,
+                                                                        String.valueOf(tid)) ? 'checked' : '' }>
+                                                                    <label for="type-${t.id}">${t.typeName}</label>
+                                                                </li>
+                                                            </c:forEach>
+                                                        </ul>
+                                                    </div>
 
-                <%-- 5. NHÀ SẢN XUẤT--%>
-                <div class="filter-widget">
-                    <h4 class="widget-title">Nhà sản xuất</h4>
-                    <ul class="filter-list">
-                        <c:forEach var="m" items="${manufacturers}">
-                            <c:set var="mid" value="${m.id}"/>
-                            <li>
-                                <input type="checkbox" id="manu-${m.id}" name="manufacturer" value="${m.id}"
-                                    ${fn:contains(selectedManufacturers, String.valueOf(mid)) ? 'checked' : ''}>
-                                <label for="manu-${m.id}">${m.manufacturerName}</label>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+                                                    <%-- 4. XUẤT XỨ --%>
+                                                        <div class="filter-widget">
+                                                            <h4 class="widget-title">Xuất Xứ</h4>
+                                                            <ul class="filter-list">
+                                                                <c:forEach var="o" items="${origins}" varStatus="loop">
+                                                                    <li>
+                                                                        <input type="checkbox" id="origin-${loop.index}"
+                                                                            name="origin" value="${o}"
+                                                                            ${fn:contains(selectedOrigins, o)
+                                                                            ? 'checked' : '' }>
+                                                                        <label for="origin-${loop.index}">${o}</label>
+                                                                    </li>
+                                                                </c:forEach>
+                                                            </ul>
+                                                        </div>
 
-                <%-- 6. DUNG TÍCH --%>
-                <div class="filter-widget">
-                    <h4 class="widget-title">Dung tích</h4>
-                    <ul class="filter-list">
-                        <c:forEach var="cap" items="${capacities}" varStatus="loop">
-                            <li>
-                                <input type="checkbox" id="cap-${loop.index}" name="capacity" value="${cap}"
-                                    ${fn:contains(selectedCapacities, cap) ? 'checked' : ''}>
+                                                        <%-- 5. NHÀ SẢN XUẤT--%>
+                                                            <div class="filter-widget">
+                                                                <h4 class="widget-title">Nhà sản xuất</h4>
+                                                                <ul class="filter-list">
+                                                                    <c:forEach var="m" items="${manufacturers}">
+                                                                        <c:set var="mid" value="${m.id}" />
+                                                                        <li>
+                                                                            <input type="checkbox" id="manu-${m.id}"
+                                                                                name="manufacturer" value="${m.id}"
+                                                                                ${fn:contains(selectedManufacturers,
+                                                                                String.valueOf(mid)) ? 'checked' : '' }>
+                                                                            <label
+                                                                                for="manu-${m.id}">${m.manufacturerName}</label>
+                                                                        </li>
+                                                                    </c:forEach>
+                                                                </ul>
+                                                            </div>
 
-                                <label for="cap-${loop.index}">${cap}</label>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+                                                            <%-- 6. DUNG TÍCH --%>
+                                                                <div class="filter-widget">
+                                                                    <h4 class="widget-title">Dung tích</h4>
+                                                                    <ul class="filter-list">
+                                                                        <c:forEach var="cap" items="${capacities}"
+                                                                            varStatus="loop">
+                                                                            <li>
+                                                                                <input type="checkbox"
+                                                                                    id="cap-${loop.index}"
+                                                                                    name="capacity" value="${cap}"
+                                                                                    ${fn:contains(selectedCapacities,
+                                                                                    cap) ? 'checked' : '' }>
 
-                <div class="filter-widget">
-                    <h4 class="widget-title">Tags nổi bật</h4>
-                    <ul class="filter-list">
-                        <c:forEach var="tag" items="${tags}">
-                            <c:set var="tagid" value="${tag.id}"/>
-                            <li>
-                                <input type="checkbox" id="tag-${tag.id}" name="tag" value="${tag.id}"
-                                    ${fn:contains(selectedTags, String.valueOf(tagid)) ? 'checked' : ''}>
-                                <label for="tag-${tag.id}">${tag.tagName}</label>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+                                                                                <label
+                                                                                    for="cap-${loop.index}">${cap}</label>
+                                                                            </li>
+                                                                        </c:forEach>
+                                                                    </ul>
+                                                                </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; border: #000000 2px solid ;">Áp dụng bộ lọc</button>
+                                                                <div class="filter-widget">
+                                                                    <h4 class="widget-title">Tags nổi bật</h4>
+                                                                    <ul class="filter-list">
+                                                                        <c:forEach var="tag" items="${tags}">
+                                                                            <c:set var="tagid" value="${tag.id}" />
+                                                                            <li>
+                                                                                <input type="checkbox"
+                                                                                    id="tag-${tag.id}" name="tag"
+                                                                                    value="${tag.id}"
+                                                                                    ${fn:contains(selectedTags,
+                                                                                    String.valueOf(tagid)) ? 'checked'
+                                                                                    : '' }>
+                                                                                <label
+                                                                                    for="tag-${tag.id}">${tag.tagName}</label>
+                                                                            </li>
+                                                                        </c:forEach>
+                                                                    </ul>
+                                                                </div>
 
-            </form>
-        </aside>
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    style="width: 100%; margin-top: 10px; border: #000000 2px solid ;">Áp
+                                                                    dụng bộ lọc
+                                                                </button>
 
-        <div class="product-content">
-            <div class="shop-content">
-                <c:choose>
-                    <c:when test="${not empty searchKeyword}">
-                        <h3 class="type-wine">Kết quả tìm kiếm cho: "${searchKeyword}"</h3>
-                        <p>Tìm thấy ${products.size()} sản phẩm</p>
-                    </c:when>
-                    <c:otherwise>
-                        <h3 class="type-wine">Tất cả sản phẩm</h3>
-                    </c:otherwise>
-                </c:choose>
+                                    </form>
+                                </aside>
 
-                <div class="display-container">
-                    <p>Hiển thị kết quả 1-24 trong số</p>
-                    <div class="display-mode-container">
-                        <select id="view-mode">
-                            <option value="default">Thứ tự mặc định</option>
-                            <option value="price-asc">Giá: Thấp đến Cao</option>
-                            <option value="price-desc">Giá: Cao đến Thấp</option>
-                            <option value="rating">Đánh giá cao nhất</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="product-grid">
-                <jsp:useBean id="products" scope="request" type="java.util.List"/>
-                <c:if test="${empty products}">
-                    <p style="text-align: center; width: 100%;">Không tìm thấy sản phẩm nào phù hợp.</p>
-                </c:if>
+                                <div class="product-content">
+                                    <div class="shop-content">
+                                        <c:choose>
+                                            <c:when test="${not empty searchKeyword}">
+                                                <h3 class="type-wine">Kết quả tìm kiếm cho: "${searchKeyword}"</h3>
+                                                <p>Tìm thấy ${products.size()} sản phẩm</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h3 class="type-wine">Tất cả sản phẩm</h3>
+                                            </c:otherwise>
+                                        </c:choose>
 
-                <c:forEach var="p" items="${products}">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <a href="detail?id=${p.id}">
-                                <c:choose>
-                                    <c:when test="${not empty p.imageUrl}">
-                                        <img src="${p.imageUrl}" alt="${p.productName}">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img src="https://via.placeholder.com/300x400?text=Wine" alt="Chưa có ảnh">
-                                    </c:otherwise>
-                                </c:choose>
-                            </a>
-                            <button class="wishlist-btn" aria-label="Thêm vào yêu thích" data-id="${p.id}">
-                                <i class="fa-regular fa-heart"></i>
-                            </button>
-                        </div>
+                                        <div class="display-container">
+                                            <p>Hiển thị kết quả 1-24 trong số</p>
+                                            <div class="display-mode-container">
+                                                <select id="view-mode">
+                                                    <option value="default">Thứ tự mặc định</option>
+                                                    <option value="price-asc">Giá: Thấp đến Cao</option>
+                                                    <option value="price-desc">Giá: Cao đến Thấp</option>
+                                                    <option value="rating">Đánh giá cao nhất</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-grid">
 
-                        <div class="product-info">
-                            <h3 class="product-name">
-                                <a href="detail?id=${p.id}">${p.productName}</a>
-                            </h3>
+                                        <c:if test="${empty products}">
+                                            <p style="text-align: center; width: 100%;">Không tìm thấy sản phẩm nào phù
+                                                hợp.</p>
+                                        </c:if>
+                                        <c:forEach var="p" items="${products}">
+                                            <div class="product-card">
+                                                <div class="product-image">
+                                                    <form action="favorites" method="post" class="wishlist-form"
+                                                        onsubmit="toggleFavorite(event, this)">
+                                                        <c:choose>
+                                                            <c:when
+                                                                test="${not empty favouriteProductMap and favouriteProductMap[p.id]}">
+                                                                <input type="hidden" name="action" value="remove">
+                                                                <input type="hidden" name="productId" value="${p.id}">
+                                                                <button type="submit" class="wishlist-btn active"
+                                                                    aria-label="Xóa khỏi yêu thích">
+                                                                    <i class="fa-solid fa-heart"></i>
+                                                                </button>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <input type="hidden" name="action" value="add">
+                                                                <input type="hidden" name="productId" value="${p.id}">
+                                                                <button type="submit" class="wishlist-btn"
+                                                                    aria-label="Thêm vào yêu thích">
+                                                                    <i class="fa-regular fa-heart"></i>
+                                                                </button>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </form>
 
-                            <div class="product-extra-details">
-                                <ul>
-                                    <li><strong>Xuất xứ:</strong> ${p.origin}</li>
+                                                    <a href="detail?id=${p.id}" class="product-link">
+                                                        <c:choose>
+                                                            <c:when test="${not empty p.imageUrl}">
+                                                                <img src="${p.imageUrl}" alt="${p.productName}">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="https://via.placeholder.com/300x400?text=Wine"
+                                                                    alt="Chưa có ảnh">
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </a>
+                                                </div>
+                                                <div class="product-info">
+                                                    <h3 class="product-name">
+                                                        <a href="detail?id=${p.id}">${p.productName}</a>
+                                                    </h3>
 
-                                    <li><strong>Loại:</strong> ${p.typeId}</li>
+                                                    <div class="product-extra-details">
+                                                        <ul>
+                                                            <li><strong>Xuất xứ:</strong> ${p.origin}</li>
 
-                                    <li><strong>Nồng độ:</strong> ${p.alcohol}%</li>
-                                </ul>
+                                                            <li><strong>Loại:</strong> ${p.typeId}</li>
+
+                                                            <li><strong>Nồng độ:</strong> ${p.alcohol}%</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <p class="product-producer">Nhà sản xuất: ${p.manufacturerId}</p>
+
+                                                    <div class="product-rating">
+                                                        <fmt:formatNumber var="roundedRating" value="${p.rating}"
+                                                            maxFractionDigits="0" />
+
+                                                        <c:forEach begin="1" end="5" var="i">
+                                                            <c:choose>
+                                                                <c:when test="${i <= roundedRating}">
+                                                                    <i class="fa-solid fa-star"
+                                                                        style="color: #FFD700;"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <i class="fa-regular fa-star"
+                                                                        style="color: #ccc;"></i>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+
+                                                        <span
+                                                            style="font-size: 12px; color: #666;">(${p.totalReviews})</span>
+                                                    </div>
+
+                                                    <p class="product-price">
+                                                        <fmt:setLocale value="vi_VN" />
+                                                        <fmt:formatNumber value="${p.price}" type="currency"
+                                                            currencySymbol="₫" maxFractionDigits="0" />
+                                                    </p>
+
+                                                    <a href="add-cart?productId=${p.id}&quantity=1"
+                                                        class="add-to-cart-btn">Thêm vào giỏ</a>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                    <nav class="pagination-container" aria-label="Page navigation">
+
+                                        <%-- Xác định đường dẫn gốc: store hay filter --%>
+                                            <c:set var="baseUrl"
+                                                value="${requestScope['javax.servlet.forward.servlet_path'] == '/filter' ? 'filter' : 'store'}" />
+
+                                            <ul class="pagination">
+                                                <%-- Nút Previous --%>
+                                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                                        <%-- Link: baseUrl + page mới + filterParams cũ --%>
+                                                            <a class="page-link"
+                                                                href="${baseUrl}?page=${currentPage - 1}${filterParams}"
+                                                                aria-label="Previous">
+                                                                <i class="fa-solid fa-angle-left"></i>
+                                                            </a>
+                                                    </li>
+
+                                                    <%-- Các số trang --%>
+                                                        <c:forEach begin="1" end="${totalPages}" var="i">
+                                                            <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                                                <a class="page-link"
+                                                                    href="${baseUrl}?page=${i}${filterParams}">${i}</a>
+                                                            </li>
+                                                        </c:forEach>
+
+                                                        <%-- Nút Next --%>
+                                                            <li
+                                                                class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                                                <a class="page-link"
+                                                                    href="${baseUrl}?page=${currentPage + 1}${filterParams}"
+                                                                    aria-label="Next">
+                                                                    <i class="fa-solid fa-angle-right"></i>
+                                                                </a>
+                                                            </li>
+                                            </ul>
+                                    </nav>
+                                </div>
                             </div>
+                        </main>
+                        <%@ include file="components/footer.jsp" %>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    const rangeMin = document.getElementById("input-min");
+                                    const rangeMax = document.getElementById("input-max");
+                                    const visualTrack = document.getElementById("visual-track");
+                                    const displayMin = document.getElementById("min-price-display");
+                                    const displayMax = document.getElementById("max-price-display");
+                                    const hiddenInput = document.getElementById("hidden-price-filter");
 
-                            <p class="product-producer">Nhà sản xuất: ${p.manufacturerId}</p>
+                                    const minLimit = 0;
+                                    const maxLimit = parseInt(rangeMax.max);
+                                    const gap = maxLimit / 20;// Khoảng cách tối thiểu giữa 2 nút
 
-                            <div class="product-rating">
-                                <fmt:formatNumber var="roundedRating" value="${p.rating}" maxFractionDigits="0"/>
+                                    function formatCurrency(value) {
+                                        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+                                    }
 
-                                <c:forEach begin="1" end="5" var="i">
-                                    <c:choose>
-                                        <c:when test="${i <= roundedRating}">
-                                            <i class="fa-solid fa-star" style="color: #FFD700;"></i>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <i class="fa-regular fa-star" style="color: #ccc;"></i>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
+                                    function updateSlider() {
+                                        let minVal = parseInt(rangeMin.value);
+                                        let maxVal = parseInt(rangeMax.value);
 
-                                <span style="font-size: 12px; color: #666;">(${p.totalReviews})</span>
-                            </div>
+                                        // Chặn không cho 2 nút kéo qua nhau
+                                        if (maxVal - minVal < gap) {
+                                            if (this === rangeMin) {
+                                                rangeMin.value = maxVal - gap;
+                                                minVal = maxVal - gap;
+                                            } else {
+                                                rangeMax.value = minVal + gap;
+                                                maxVal = minVal + gap;
+                                            }
+                                        }
 
-                            <p class="product-price">
-                                <fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫"
-                                                  maxFractionDigits="0"/>
-                            </p>
+                                        // Tính toán % để vẽ thanh màu đỏ
+                                        // Công thức: left = % của nút min, right = 100% - % của nút max
+                                        let percentMin = (minVal / maxLimit) * 100;
+                                        let percentMax = (maxVal / maxLimit) * 100;
 
-                            <a href="add-cart?productId=${p.id}&quantity=1" class="add-to-cart-btn">Thêm vào giỏ</a>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-            <nav class="pagination-container" aria-label="Page navigation">
+                                        visualTrack.style.left = percentMin + "%";
+                                        visualTrack.style.width = (percentMax - percentMin) + "%";
 
-                <%-- Xác định đường dẫn gốc: store hay filter --%>
-                <c:set var="baseUrl"
-                       value="${requestScope['javax.servlet.forward.servlet_path'] == '/filter' ? 'filter' : 'store'}"/>
+                                        // Hiển thị text
+                                        displayMin.textContent = formatCurrency(minVal);
+                                        displayMax.textContent = formatCurrency(maxVal);
 
-                <ul class="pagination">
-                    <%-- Nút Previous --%>
-                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                        <%-- Link: baseUrl + page mới + filterParams cũ --%>
-                        <a class="page-link" href="${baseUrl}?page=${currentPage - 1}${filterParams}"
-                           aria-label="Previous">
-                            <i class="fa-solid fa-angle-left"></i>
-                        </a>
-                    </li>
+                                        // Cập nhật input ẩn
+                                        hiddenInput.value = minVal + "-" + maxVal;
+                                    }
 
-                    <%-- Các số trang --%>
-                    <c:forEach begin="1" end="${totalPages}" var="i">
-                        <li class="page-item ${currentPage == i ? 'active' : ''}">
-                            <a class="page-link" href="${baseUrl}?page=${i}${filterParams}">${i}</a>
-                        </li>
-                    </c:forEach>
+                                    rangeMin.addEventListener("input", updateSlider);
+                                    rangeMax.addEventListener("input", updateSlider);
 
-                    <%-- Nút Next --%>
-                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                        <a class="page-link" href="${baseUrl}?page=${currentPage + 1}${filterParams}" aria-label="Next">
-                            <i class="fa-solid fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</main>
-<%@ include file="components/footer.jsp" %>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const wishlistBtns = document.querySelectorAll('.wishlist-btn');
+                                    // Khởi chạy lần đầu
+                                    updateSlider();
+                                });
+                            </script>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    // ... existing slider code ...
 
-        wishlistBtns.forEach(btn => {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
+                                    // Guest Favorites Logic
+                                    const isLoggedIn = "${not empty sessionScope.user}" === "true";
 
-                this.classList.toggle('active');
+                                    // 1. Initialize UI from localStorage if guest
+                                    if (!isLoggedIn) {
+                                        const guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
+                                        document.querySelectorAll('.wishlist-form').forEach(form => {
+                                            const productId = form.querySelector('input[name="productId"]').value;
+                                            const button = form.querySelector('button');
+                                            const icon = button.querySelector('i');
 
-                // Đổi icon
-                const icon = this.querySelector('i');
-                if (this.classList.contains('active')) {
-                    icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid');
-                } else {
-                    icon.classList.remove('fa-solid');
-                    icon.classList.add('fa-regular');
-                }
-            });
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const rangeMin = document.getElementById("input-min");
-        const rangeMax = document.getElementById("input-max");
-        const visualTrack = document.getElementById("visual-track");
-        const displayMin = document.getElementById("min-price-display");
-        const displayMax = document.getElementById("max-price-display");
-        const hiddenInput = document.getElementById("hidden-price-filter");
+                                            if (guestFavorites.includes(productId)) {
+                                                button.classList.add('active');
+                                                icon.classList.remove('fa-regular');
+                                                icon.classList.add('fa-solid');
+                                                // Update form action to 'remove' visually (though logic is handled in toggle)
+                                            }
+                                        });
+                                    }
 
-        const minLimit = 0;
-        const maxLimit = parseInt(rangeMax.max);
-        const gap = maxLimit / 20;// Khoảng cách tối thiểu giữa 2 nút
+                                    // 2. Sync if logged in and has pending favorites
+                                    if (isLoggedIn) {
+                                        const guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
+                                        if (guestFavorites.length > 0) {
+                                            console.log('Syncing guest favorites:', guestFavorites);
+                                            fetch('favorites', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                                    'X-Requested-With': 'XMLHttpRequest'
+                                                },
+                                                body: new URLSearchParams({
+                                                    action: 'sync',
+                                                    productIds: guestFavorites.join(',')
+                                                })
+                                            })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.status === 'success') {
+                                                        console.log('Sync successful');
+                                                        localStorage.removeItem('guestFavorites');
+                                                        // Optional: Reload to reflect server state, or just let it be
+                                                        // window.location.reload(); 
+                                                    }
+                                                })
+                                                .catch(err => console.error('Sync failed:', err));
+                                        }
+                                    }
+                                });
 
-        function formatCurrency(value) {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-        }
+                                function toggleFavorite(event, form) {
+                                    event.preventDefault();
 
-        function updateSlider() {
-            let minVal = parseInt(rangeMin.value);
-            let maxVal = parseInt(rangeMax.value);
+                                    const isLoggedIn = "${not empty sessionScope.user}" === "true";
+                                    const formData = new FormData(form);
+                                    const productId = formData.get('productId');
+                                    const button = form.querySelector('button');
+                                    const icon = button.querySelector('i');
+                                    const wasActive = button.classList.contains('active');
 
-            // Chặn không cho 2 nút kéo qua nhau
-            if (maxVal - minVal < gap) {
-                if (this === rangeMin) {
-                    rangeMin.value = maxVal - gap;
-                    minVal = maxVal - gap;
-                } else {
-                    rangeMax.value = minVal + gap;
-                    maxVal = minVal + gap;
-                }
-            }
+                                    // Optimistic UI Update
+                                    button.classList.toggle('active');
+                                    if (button.classList.contains('active')) {
+                                        icon.classList.remove('fa-regular');
+                                        icon.classList.add('fa-solid');
+                                    } else {
+                                        icon.classList.remove('fa-solid');
+                                        icon.classList.add('fa-regular');
+                                    }
 
-            // Tính toán % để vẽ thanh màu đỏ
-            // Công thức: left = % của nút min, right = 100% - % của nút max
-            let percentMin = (minVal / maxLimit) * 100;
-            let percentMax = (maxVal / maxLimit) * 100;
+                                    if (!isLoggedIn) {
+                                        // Handle Guest Mode (localStorage)
+                                        let guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
 
-            visualTrack.style.left = percentMin + "%";
-            visualTrack.style.width = (percentMax - percentMin) + "%";
+                                        if (wasActive) {
+                                            // Remove
+                                            guestFavorites = guestFavorites.filter(id => id !== productId);
+                                        } else {
+                                            // Add
+                                            if (!guestFavorites.includes(productId)) {
+                                                guestFavorites.push(productId);
+                                            }
+                                        }
 
-            // Hiển thị text
-            displayMin.textContent = formatCurrency(minVal);
-            displayMax.textContent = formatCurrency(maxVal);
+                                        localStorage.setItem('guestFavorites', JSON.stringify(guestFavorites));
+                                        console.log('Guest favorites updated:', guestFavorites);
+                                        return; // Stop here, don't call server
+                                    }
 
-            // Cập nhật input ẩn
-            hiddenInput.value = minVal + "-" + maxVal;
-        }
+                                    // Handle Logged In Mode (Server)
+                                    const url = form.getAttribute('action');
+                                    fetch(url, {
+                                        method: 'POST',
+                                        body: new URLSearchParams(formData),
+                                        headers: {
+                                            'X-Requested-With': 'XMLHttpRequest',
+                                            'Content-Type': 'application/x-www-form-urlencoded'
+                                        }
+                                    })
+                                        .then(response => {
+                                            if (response.status === 401) {
+                                                // Should not happen if isLoggedIn check works, but just in case
+                                                window.location.href = '${pageContext.request.contextPath}/AuthPages/Login.jsp';
+                                                return;
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            if (data && data.status === 'success') {
+                                                // Success
+                                            } else {
+                                                // Revert UI
+                                                console.error('Action failed, reverting UI');
+                                                revertUI(button, icon, wasActive);
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            revertUI(button, icon, wasActive);
+                                        });
+                                }
 
-        rangeMin.addEventListener("input", updateSlider);
-        rangeMax.addEventListener("input", updateSlider);
+                                function revertUI(button, icon, wasActive) {
+                                    if (wasActive) {
+                                        button.classList.add('active');
+                                        icon.classList.remove('fa-regular');
+                                        icon.classList.add('fa-solid');
+                                    } else {
+                                        button.classList.remove('active');
+                                        icon.classList.remove('fa-solid');
+                                        icon.classList.add('fa-regular');
+                                    }
+                                }
+                            </script>
+                </body>
 
-        // Khởi chạy lần đầu
-        updateSlider();
-    });
-</script>
-</body>
-</html>
+                </html>
