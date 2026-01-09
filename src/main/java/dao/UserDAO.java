@@ -145,7 +145,7 @@ public User findByEmail(String email) {
                         created_at AS createdAt,
                         update_at AS updateAt
                     FROM users
-                    WHERE email=:email AND active=1
+                    WHERE email=:email
                     """)
             .bind("email", email)
             .mapToBean(User.class)

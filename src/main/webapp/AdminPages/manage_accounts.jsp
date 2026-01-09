@@ -16,13 +16,13 @@
                 <img src="${pageContext.request.contextPath}/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn" alt=""/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.jsp" class="a-with-icon">
+            <li><a href="${pageContext.request.contextPath}/dashboard" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
             <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.jsp" class="a-with-icon selected">
+            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon selected">
                 <ion-icon name="people"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
             <li><a href="manage_orders.jsp" class="a-with-icon">
@@ -255,10 +255,10 @@
         </button>
     </div>
 </div>
-<c:if test="${errorSource == 'edit_account' and targetId == user.id}">
+<c:if test="${errorSource == 'edit_account' and not empty editingId}">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const modal = document.getElementById('modal-edit-${user.id}');
+            const modal = document.getElementById('modal-edit-${editingId}');
             if (modal) modal.classList.add('show');
         });
     </script>

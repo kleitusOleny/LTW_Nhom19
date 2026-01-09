@@ -25,7 +25,7 @@
 
                             <div class="header-right">
                                 <c:if test="${empty sessionScope.user}">
-                                    <a href="${pageContext.request.contextPath}/AuthPages/Login.jsp" aria-label="Login">
+                                    <a href="${pageContext.request.contextPath}/login" aria-label="Login">
                                         <span style="text-decoration-color: red">Đăng nhập</span>
                                     </a>
                                 </c:if>

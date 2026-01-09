@@ -8,7 +8,11 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class EmailServices {
-    Dotenv dotenv = Dotenv.load();
+    Dotenv dotenv = Dotenv.configure()
+            .filename(".env")
+            .systemProperties()
+            .ignoreIfMissing()
+            .load();
     String username = dotenv.get("EMAIL");
     String password = dotenv.get("APP_PASSWORD");
 
