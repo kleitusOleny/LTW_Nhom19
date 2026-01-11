@@ -4,6 +4,9 @@ import model.Banner;
 import java.util.List;
 
 public class BannerDAO extends ADAO {
+    public static void main(String[] args) {
+        System.out.println(new BannerDAO().getAllBanners().size());
+    }
     
     // 1. Lấy tất cả banner
     public List<Banner> getAllBanners() {

@@ -18,14 +18,12 @@ public class BannerManagerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BannerDAO dao = new BannerDAO();
-        
-        // Lấy danh sách banner từ DB
+
         List<Banner> banners = dao.getAllBanners();
-        
-        // Gửi sang JSP
+
         request.setAttribute("banners", banners);
         
-        request.getRequestDispatcher("manage_banner.jsp").forward(request, response);
+        request.getRequestDispatcher("AdminPages/manage_banner.jsp").forward(request, response);
     }
     
     @Override
@@ -35,10 +33,9 @@ public class BannerManagerController extends HttpServlet {
         BannerDAO dao = new BannerDAO();
         
         if ("add".equals(action)) {
-            // Xử lý thêm mới
             Banner b = new Banner();
-            b.setUrlBanner(request.getParameter("urlBanner")); // Đường dẫn ảnh
-            b.setTargetUrl(request.getParameter("targetUrl")); // Link đích
+            b.setUrlBanner(request.getParameter("urlBanner"));
+            b.setTargetUrl(request.getParameter("targetUrl"));
             
             String dateStr = request.getParameter("eventDate");
             if(dateStr != null && !dateStr.isEmpty()) {
@@ -55,8 +52,7 @@ public class BannerManagerController extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             dao.deleteBanner(id);
         }
-        
-        // Sau khi xử lý xong thì reload lại trang
+
         response.sendRedirect("banner-manager");
     }
 }
