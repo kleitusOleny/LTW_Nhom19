@@ -128,7 +128,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${product}" var="p">
+                    <c:forEach items="${products}" var="p">
                         <tr>
                             <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                             <td>
@@ -470,7 +470,6 @@
                         "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
                     }
                 },
-                // Dom option để sắp xếp lại vị trí các thành phần (nếu cần)
                 // l: length changing input control, f: filtering input, r: processing, t: table, i: info, p: pagination
                 "dom": '<"top"l>rt<"bottom"ip><"clear">'
             });
@@ -485,7 +484,7 @@
                 $('#min-price').val('');
                 $('#max-price').val('');
                 $('#filter-stock').val('');
-                table.search('').draw(); // Xóa cả ô tìm kiếm nhanh
+                table.search('').draw();
             });
         });
     });

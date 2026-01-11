@@ -83,71 +83,45 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="row">
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">MAIN_BANNER</td>
-                        <td class="cell-img">
-                            <img class="banner-preview" src="../assets/main_banner.jpg" alt="Banner Preview">
-                        </td>
-                        <td class="cell-link">
-                            <a href="#" title="/store?promo=sale11">/index.html</a>
-                        </td>
-                        <td class="cell-date">2025-11-10</td>
-                        <td class="cell-duration" style="text-align: center;">5</td>
-                        <td class="cell-status" style="text-align: center;">
-                            <span class="status-badge active">Active</span>
-                        </td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-modal-btn-1">Sửa</button>
-                                <button class="delete btn" id="del-modal-btn-1">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
+                    <c:forEach var="b" items="${banners}">
+                        <tr class="row">
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" value="${b.id}"/></td>
+                            <td class="cell-id">${b.id}</td>
+                            <td class="cell-img">
+                                <img class="banner-preview" src="${b.urlBanner}" alt="Banner Preview"
+                                     onerror="this.src='../assets/default-banner.jpg'">
+                            </td>
+                            <td class="cell-link">
+                                <a href="${b.targetUrl}" target="_blank" title="${b.targetUrl}">${b.targetUrl}</a>
+                            </td>
+                            <td class="cell-date">
+                                <fmt:formatDate value="${b.eventDate}" pattern="yyyy-MM-dd"/>
+                            </td>
+                            <td class="cell-duration" style="text-align: center;">${b.lifeTime}</td>
+                            <td class="cell-status" style="text-align: center;">
+                                    <%-- Hiển thị trạng thái Active/Inactive --%>
+                                <c:choose>
+                                    <c:when test="${b.active}">
+                                        <span class="status-badge active">Active</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="status-badge inactive">Inactive</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <div class="cell-action">
+                                    <button class="edit btn" onclick="editBanner(${b.id})">Sửa</button>
 
-                    <tr class="row">
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">BANNER_VANG_BORDEAUX</td>
-                        <td class="cell-img">
-                            <img class="banner-preview" src="../assets/banner-vang-bordeaux.jpg" alt="Banner Preview">
-                        </td>
-                        <td class="cell-link">
-                            <a href="#" title="/store?category=new">/store?category=bordeaux</a>
-                        </td>
-                        <td class="cell-date">2025-11-01</td>
-                        <td class="cell-duration" style="text-align: center;">30</td>
-                        <td class="cell-status" style="text-align: center;">
-                            <span class="status-badge active">Active</span>
-                        </td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr class="row">
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">BANNER_VANG_BOURGOGNE</td>
-                        <td class="cell-img">
-                            <img class="banner-preview" src="../assets/banner-vang-bourgogne.jpg" alt="Banner Preview">
-                        </td>
-                        <td class="cell-link">
-                            <a href="#" title="/blog/post-1">/store?category=bourgogne</a>
-                        </td>
-                        <td class="cell-date">2025-10-01</td>
-                        <td class="cell-duration" style="text-align: center;">10</td>
-                        <td class="cell-status" style="text-align: center;">
-                            <span class="status-badge inactive">Inactive</span>
-                        </td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
+                                    <form action="banner-manager" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id" value="${b.id}">
+                                        <button type="submit" class="delete btn">Xoá</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

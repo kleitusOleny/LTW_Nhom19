@@ -1,8 +1,6 @@
 package dao;
 
 import model.*;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductDAO extends ADAO {
@@ -46,9 +44,7 @@ public class ProductDAO extends ADAO {
                 " JOIN ct_evaluates ct ON e.evaluate_id = ct.id " +
                 " WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS rating, " +
 
-                "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews "
-                +
-
+                "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews " +
                 "FROM products p " +
                 "LEFT JOIN product_types t ON p.type_id = t.id " +
                 "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
@@ -71,9 +67,7 @@ public class ProductDAO extends ADAO {
                 " JOIN ct_evaluates ct ON e.evaluate_id = ct.id " +
                 " WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS rating, " +
 
-                "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews "
-                +
-
+                "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews " +
                 "FROM products p " +
                 "LEFT JOIN product_types t ON p.type_id = t.id " +
                 "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
