@@ -7,102 +7,87 @@ public class EvaluateDAO extends ADAO implements IDAO<Evaluates> {
 
     @Override
     public List<Evaluates> getAll() {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM evaluates")
-                        .mapToBean(Evaluates.class)
-                        .list()
-        );
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM evaluates")
+                .mapToBean(Evaluates.class)
+                .list());
     }
 
     @Override
     public Evaluates findById(Evaluates e) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("""
-                    SELECT * FROM evaluates WHERE id = :id
+        return jdbi.withHandle(handle -> handle.createQuery("""
+                    SELECT * FROM evaluates WHERE product_id = :id
                 """)
-                        .bind("id", e.getId())
-                        .mapToBean(Evaluates.class)
-                        .findFirst()
-                        .orElse(null)
-        );
+                .bind("id", e.getId())
+                .mapToBean(Evaluates.class)
+                .findFirst()
+                .orElse(null));
     }
 
     @Override
     public boolean create(Evaluates e) {
-        return jdbi.withHandle(handle ->
-                handle.createUpdate("""
-                    INSERT INTO evaluates(id, user_id, evaluates_id)
+        return jdbi.withHandle(handle -> handle.createUpdate("""
+                    INSERT INTO evaluates(product_id, user_id, evaluate_id)
                     VALUES (:id, :uid, :eid)
                 """)
-                        .bind("id", e.getId())
-                        .bind("uid", e.getUserId())
-                        .bind("eid", e.getEvaluatesId())
-                        .execute() > 0
-        );
+                .bind("id", e.getId())
+                .bind("uid", e.getUserId())
+                .bind("eid", e.getEvaluatesId())
+                .execute() > 0);
     }
 
     @Override
     public boolean update(Evaluates e) {
-        return jdbi.withHandle(handle ->
-                handle.createUpdate("""
+        return jdbi.withHandle(handle -> handle.createUpdate("""
                     UPDATE evaluates SET
                         user_id = :uid,
-                        evaluates_id = :eid
-                    WHERE id = :id
+                        evaluate_id = :eid
+                    WHERE product_id = :id
                 """)
-                        .bind("id", e.getId())
-                        .bind("uid", e.getUserId())
-                        .bind("eid", e.getEvaluatesId())
-                        .execute() > 0
-        );
+                .bind("id", e.getId())
+                .bind("uid", e.getUserId())
+                .bind("eid", e.getEvaluatesId())
+                .execute() > 0);
     }
 
     @Override
     public boolean delete(Evaluates e) {
-        return jdbi.withHandle(handle ->
-                handle.createUpdate("""
-                    DELETE FROM evaluates WHERE id = :id
+        return jdbi.withHandle(handle -> handle.createUpdate("""
+                    DELETE FROM evaluates WHERE product_id = :id
                 """)
-                        .bind("id", e.getId())
-                        .execute() > 0
-        );
+                .bind("id", e.getId())
+                .execute() > 0);
     }
 
     @Override
     public List<Evaluates> search(String keyword) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("""
+        return jdbi.withHandle(handle -> handle.createQuery("""
                     SELECT * FROM evaluates
-                    WHERE id LIKE :kw
+                    WHERE product_id LIKE :kw
                 """)
-                        .bind("kw", "%" + keyword + "%")
-                        .mapToBean(Evaluates.class)
-                        .list()
-        );
+                .bind("kw", "%" + keyword + "%")
+                .mapToBean(Evaluates.class)
+                .list());
     }
 
     @Override
     public boolean exists(Evaluates e) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("""
+        return jdbi.withHandle(handle -> handle.createQuery("""
                     SELECT COUNT(*) FROM evaluates
-                    WHERE id = :id
+                    WHERE product_id = :id
                 """)
-                        .bind("id", e.getId())
-                        .mapTo(Integer.class)
-                        .findFirst().isPresent()
-        );
+                .bind("id", e.getId())
+                .mapTo(Integer.class)
+                .findFirst().isPresent());
     }
 
     public List<Evaluates> getByUserId(int userId) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("""
+        return jdbi.withHandle(handle -> handle.createQuery("""
                     SELECT * FROM evaluates
                     WHERE user_id = :uid
                 """)
-                        .bind("uid", userId)
-                        .mapToBean(Evaluates.class)
-                        .list()
-        );
+                .bind("uid", userId)
+                .mapToBean(Evaluates.class)
+                .list());
     }
+
 }

@@ -64,7 +64,7 @@
                                         <input type="number"
                                                value="${ci.quantity}"
                                                name="setQuantity"
-                                               onchange="this.form.submit()" style="align-content: center;">
+                                               onchange="this.form.submit()">
                                     </form>
 
                                     <form action="update-item" method="post">
@@ -126,7 +126,7 @@
                         </strong>
                     </div>
 
-                    <a href="payment.jsp" class="btn btn-checkout">Tiến hành thanh toán</a>
+                    <a href="checkout" class="btn btn-checkout">Tiến hành thanh toán</a>
                 </div>
             </div>
 

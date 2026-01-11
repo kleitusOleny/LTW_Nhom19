@@ -5,8 +5,11 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.User;
 import services.AuthService;
+import services.UserValidationServices;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "NormalLogin", value = "/login")
 public class NormalLogin extends HttpServlet {
@@ -19,21 +22,13 @@ public class NormalLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
+        UserValidationServices userValidationServices = new UserValidationServices();
 
-        boolean hasError = false;
-        if (username == null || pass == null || username.isEmpty() || pass.isEmpty()) {
-            request.setAttribute("inputError", "Tên tài khoản/email hoặc mật khẩu hiện không chứa nội dung gì");
-            hasError = true;
-        }
-
-        if (username.length() < 4 || username.length() > 80) {
-            request.setAttribute("usernameError", "Tên tài khoản hoặc email quá ngắn hoặc quá dài");
-            hasError = true;
-        }
+        Map<String, String> allErrors = new HashMap<>(userValidationServices.validateBothUsernameAndEmail(username, pass));
 
         User account;
         AuthService authService = new AuthService();
-        if (!hasError) {
+        if (allErrors.isEmpty()) {
             account = authService.login(username, pass);
             if (account != null) {
                 HttpSession session = request.getSession();
@@ -44,6 +39,7 @@ public class NormalLogin extends HttpServlet {
                 request.getRequestDispatcher("/AuthPages/Login.jsp").forward(request, response);
             }
         } else {
+            allErrors.forEach(request::setAttribute);
             request.getRequestDispatcher("/AuthPages/Login.jsp").forward(request, response);
         }
     }
