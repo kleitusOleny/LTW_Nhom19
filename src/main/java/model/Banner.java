@@ -3,7 +3,6 @@ package model;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Banner {
     @ColumnName("id")
@@ -60,7 +59,7 @@ public class Banner {
         this.targetUrl = targetUrl;
     }
 
-    public Date getEventDate() {
+    public Timestamp getEventDate() {
         return eventDate;
     }
 
@@ -84,7 +83,7 @@ public class Banner {
         this.active = active;
     }
 
-    public Date getCreateAt() {
+    public Timestamp getCreateAt() {
         return createAt;
     }
 
@@ -92,7 +91,7 @@ public class Banner {
         this.createAt = createAt;
     }
 
-    public Date getUpdateAt() {
+    public Timestamp getUpdateAt() {
         return updateAt;
     }
 

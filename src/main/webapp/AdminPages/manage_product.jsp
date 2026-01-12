@@ -10,7 +10,7 @@
     <title>Quản Lí Sản Phẩm</title>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="../popup.js"></script>
+    <script src="<%= request.getContextPath() %>/popup.js"></script>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/manage_product_style.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
 </head>
@@ -19,7 +19,7 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="../assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <img src="<%= request.getContextPath() %>/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
             <li><a href="admin_dashboard.jsp" class="a-with-icon">
@@ -64,7 +64,7 @@
                         <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden-file-input">
                     </label>
 
-                    <button class="btn btn-primary" id="add-product-btn">
+                    <button class="btn btn-primary add-product-btn">
                         <ion-icon name="add-outline"></ion-icon>
                         Thêm Sản Phẩm
                     </button>
@@ -128,7 +128,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${product}" var="p">
+                    <c:forEach items="${products}" var="p">
                         <tr>
                             <td class="cell-tick"><input type="checkbox" class="row-checkbox"></td>
                             <td>
@@ -142,16 +142,15 @@
                                 <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫"
                                                   maxFractionDigits="0"/>
                             </td>
-                            <td class="center-align"><span class="stock-status in-stock">150</span></td>
+                            <td class="center-align"><span class="stock-status in-stock">${p.quantity}</span></td>
                             <td>
                                 <div class="cell-action">
-                                    <button class="edit btn" id="edit-product-btn-1">Sửa</button>
-                                    <button class="delete btn" id="delete-product-btn-1">Xoá</button>
+                                    <button class="edit btn edit-button">Sửa</button>
+                                    <button class="delete btn delete-button">Xoá</button>
                                 </div>
                             </td>
                         </tr>
                     </c:forEach>
-
                     </tbody>
                 </table>
             </div>
@@ -189,7 +188,7 @@
         </button>
     </div>
 </div>
-<div class="modal-overlay-form" id="product-form-modal">
+<div class="modal-overlay-form product-form-modal">
     <div class="modal-content-form">
         <button class="modal-close-form" id="close-form-btn">
             <ion-icon name="close-outline"></ion-icon>
@@ -243,8 +242,13 @@
             </div>
 
             <div class="form-group">
-                <label for="prod-tag">Thẻ (tag)</label>
-                <input type="text" id="prod-tag" value="">
+                <label for="tag-typing">Thẻ (tag) - Nhập và nhấn Enter hoặc phẩy</label>
+
+                <div class="tag-container" id="tag-wrapper">
+                    <input type="text" id="tag-typing" placeholder="Nhập tag..." class="tag-input-typing">
+                </div>
+
+                <input type="hidden" id="prod-tag" name="tags" value="">
             </div>
 
             <div class="form-group">
@@ -263,15 +267,16 @@
             </div>
 
             <div class="form-actions">
-                <button type="button" class="btn btn-secondary" id="cancel-form-btn">Hủy Bỏ</button>
+                <button type="button" class="btn btn-secondary cancel-form-btn">Hủy Bỏ</button>
                 <button type="submit" class="btn btn-primary">Lưu Sản Phẩm</button>
             </div>
         </form>
     </div>
 </div>
-<div class="modal-overlay-form" id="delete-confirm-modal" style="--modal-width: 450px;">
+
+<div class="modal-overlay-form delete-confirm-modal" style="--modal-width: 450px;">
     <div class="modal-content-form">
-        <button class="modal-close-form" id="close-delete-btn">
+        <button class="modal-close-form close-delete-btn">
             <ion-icon name="close-outline"></ion-icon>
         </button>
         <h2 class="modal-confirm-title">
@@ -281,7 +286,7 @@
         <p class="modal-confirm-text">Bạn có chắc chắn muốn xóa sản phẩm này không? Hành động này không thể hoàn
             tác.</p>
         <div class="form-actions">
-            <button type="button" class="btn btn-secondary" id="cancel-delete-btn">Hủy Bỏ</button>
+            <button type="button" class="btn btn-secondary cancel-delete-btn">Hủy Bỏ</button>
             <button type="button" class="btn btn-danger" id="ac-delete-btn">Xác Nhận Xóa</button>
         </div>
     </div>
@@ -308,16 +313,108 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Setup Modals (Giữ nguyên code cũ của bạn)
-        // setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
-        // setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
-        // setupModal('product-form-modal', 'add-product-btn', 'close-form-btn');
-        // setupModal('product-form-modal', 'add-product-btn', 'cancel-form-btn');
-        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'cancel-delete-btn');
-        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'ac-delete-btn');
-        // setupModal('delete-confirm-modal', 'delete-selected-btn', 'close-delete-btn');
-        // setupModal('product-form-modal', 'edit-product-btn-1', 'close-form-btn');
-        // setupModal('delete-confirm-modal', 'delete-product-btn-1', 'cancel-delete-btn');
+        setupModal(
+            '.product-form-modal',
+            '.add-product-btn',
+            '.modal-close-form, .cancel-form-btn'
+        );
+
+        setupModal(
+            '.delete-confirm-modal',
+            '.delete-button', // Áp dụng cho tất cả nút có class "delete" và "btn"
+            '.close-delete-btn, .cancel-delete-btn'
+        );
+
+        // --- LOGIC XỬ LÝ TAGS INPUT ---
+
+        const tagWrapper = $('#tag-wrapper');
+        const tagInput = $('#tag-typing');
+        const hiddenInput = $('#prod-tag');
+
+        let tags = [];
+
+        function renderTags() {
+            tagWrapper.find('.tag-item').remove();
+
+            tags.forEach((tagText, index) => {
+                let $tagDiv = $('<div>', {
+                    class: 'tag-item'
+                });
+
+                let $spanText = $('<span>', {
+                    class: 'text-content',
+                    text: tagText
+                });
+
+                let $removeBtn = $('<span>', {
+                    class: 'remove-tag',
+                    html: '&times;',
+                    'data-index': index
+                });
+
+                $tagDiv.append($spanText).append($removeBtn);
+
+                tagInput.before($tagDiv);
+            });
+
+            hiddenInput.val(tags.join(', '));
+
+            console.log("Current Tags:", tags);
+        }
+
+        function addTag(text) {
+            let cleanText = text.replace(/,/g, '').trim();
+            if (cleanText && !tags.includes(cleanText)) {
+                tags.push(cleanText);
+                renderTags();
+            }
+
+            tagInput.val('');
+            tagInput.focus();
+        }
+
+        tagInput.on('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                addTag($(this).val());
+            }
+
+            if (e.key === 'Backspace' && $(this).val() === '' && tags.length > 0) {
+                tags.pop();
+                renderTags();
+            }
+        });
+
+        tagWrapper.on('click', '.remove-tag', function() {
+            const index = $(this).data('index');
+            tags.splice(index, 1);
+            renderTags();
+        });
+
+        tagWrapper.on('click', function() {
+            tagInput.focus();
+        });
+
+
+        $('#product-datatable tbody').on('click', '.edit.btn', function () {
+            let currentTagsString = "";
+
+            if(currentTagsString){
+                tags = currentTagsString.split(',').map(t => t.trim());
+            } else {
+                tags = [];
+            }
+            renderTags();
+
+        });
+
+        $('#add-product-btn').on('click', function () {
+            tags = [];
+            renderTags();
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
 
         $(document).ready(function () {
             // 1. Cấu hình Custom Filter cho Giá (Price Range)
@@ -373,7 +470,6 @@
                         "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
                     }
                 },
-                // Dom option để sắp xếp lại vị trí các thành phần (nếu cần)
                 // l: length changing input control, f: filtering input, r: processing, t: table, i: info, p: pagination
                 "dom": '<"top"l>rt<"bottom"ip><"clear">'
             });
@@ -388,7 +484,7 @@
                 $('#min-price').val('');
                 $('#max-price').val('');
                 $('#filter-stock').val('');
-                table.search('').draw(); // Xóa cả ô tìm kiếm nhanh
+                table.search('').draw();
             });
         });
     });

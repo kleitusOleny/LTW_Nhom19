@@ -41,7 +41,7 @@
 
                                         <div class="carousel-item active">
                                             <div class="hero-overlay"></div>
-                                            <img src="assets/main_banner.jpg" class="d-block w-100" alt="Banner 1">
+                                            <img src="assets/banners/main_banner.jpg" class="d-block w-100" alt="Banner 1">
                                             <div class="carousel-caption d-none d-md-block hero-content">
                                                 <h1 class="hero-title">Bộ Sưu Tập Vang Thượng Hạng</h1>
                                                 <p class="hero-subtitle">Khám phá hương vị tinh tế từ những vườn nho nổi
@@ -54,8 +54,8 @@
 
                                         <div class="carousel-item">
                                             <div class="hero-overlay"></div>
-                                            <img src="assets/banner-vang-bordeaux.jpg" class="d-block w-100"
-                                                alt="Banner 2">
+                                            <img src="assets/banners/banner-vang-bordeaux.jpg" class="d-block w-100"
+                                                 alt="Banner 2">
                                             <div class="carousel-caption d-none d-md-block hero-content">
                                                 <h1 class="hero-title">Hương Vị Mùa Hè Tươi Mát</h1>
                                                 <p class="hero-subtitle">Tuyển tập những chai vang trắng và vang hồng
@@ -68,8 +68,8 @@
 
                                         <div class="carousel-item">
                                             <div class="hero-overlay"></div>
-                                            <img src="assets/banner-vang-bourgogne.jpg" class="d-block w-100"
-                                                alt="Banner 3">
+                                            <img src="assets/banners/banner-vang-bourgogne.jpg" class="d-block w-100"
+                                                 alt="Banner 3">
                                             <div class="carousel-caption d-none d-md-block hero-content">
                                                 <h1 class="hero-title">Quà Tặng Doanh Nghiệp</h1>
                                                 <p class="hero-subtitle">Giải pháp quà tặng sang trọng, đẳng cấp dành
@@ -82,8 +82,8 @@
 
                                         <div class="carousel-item">
                                             <div class="hero-overlay"></div>
-                                            <img src="assets/banner-vang-bordeaux.jpg" class="d-block w-100"
-                                                alt="Banner 4">
+                                            <img src="assets/banners/banner-vang-bordeaux.jpg" class="d-block w-100"
+                                                 alt="Banner 4">
                                             <div class="carousel-caption d-none d-md-block hero-content">
                                                 <h1 class="hero-title">Hương Vị Mùa Hè Tươi Mát</h1>
                                                 <p class="hero-subtitle">Tuyển tập những chai vang trắng và vang hồng

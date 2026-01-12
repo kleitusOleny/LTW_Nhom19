@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="../popup.js"></script>
+    <script src="<%= request.getContextPath() %>/popup.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
-    <link rel="stylesheet" href="../css/manage_banner_style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/manage_banner_style.css">
 </head>
 
 <body>
 <div class="dashboard-container">
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
-            <div class="group-avatar"><img src="../assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+            <div class="group-avatar"><img src="<%= request.getContextPath() %>/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
             <li><a href="admin_dashboard.jsp" class="a-with-icon">
@@ -83,71 +86,44 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="row">
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">MAIN_BANNER</td>
-                        <td class="cell-img">
-                            <img class="banner-preview" src="../assets/main_banner.jpg" alt="Banner Preview">
-                        </td>
-                        <td class="cell-link">
-                            <a href="#" title="/store?promo=sale11">/index.html</a>
-                        </td>
-                        <td class="cell-date">2025-11-10</td>
-                        <td class="cell-duration" style="text-align: center;">5</td>
-                        <td class="cell-status" style="text-align: center;">
-                            <span class="status-badge active">Active</span>
-                        </td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn" id="edit-modal-btn-1">Sửa</button>
-                                <button class="delete btn" id="del-modal-btn-1">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
+                    <c:forEach var="b" items="${banners}">
+                        <tr class="row">
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" value="${b.id}"/></td>
+                            <td class="cell-id">${b.id}</td>
+                            <td class="cell-img">
+                                <img class="banner-preview" src="<%= request.getContextPath() %>/${b.urlBanner}" alt="Banner Preview"
+                                     onerror="this.src='<%= request.getContextPath() %>/assets/banners/main_banner.jpg'">
+                            </td>
+                            <td class="cell-link">
+                                <a href="${b.targetUrl}" target="_blank" title="${b.targetUrl}">${b.targetUrl}</a>
+                            </td>
+                            <td class="cell-date">
+                                <fmt:formatDate value="${b.eventDate}" pattern="yyyy-MM-dd"/>
+                            </td>
+                            <td class="cell-duration" style="text-align: center;">${b.lifeTime}</td>
+                            <td class="cell-status" style="text-align: center;">
+                                <c:choose>
+                                    <c:when test="${b.active}">
+                                        <span class="status-badge active">Active</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="status-badge inactive">Inactive</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <div class="cell-action">
+                                    <button class="edit btn" onclick="editBanner(${b.id})">Sửa</button>
 
-                    <tr class="row">
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">BANNER_VANG_BORDEAUX</td>
-                        <td class="cell-img">
-                            <img class="banner-preview" src="../assets/banner-vang-bordeaux.jpg" alt="Banner Preview">
-                        </td>
-                        <td class="cell-link">
-                            <a href="#" title="/store?category=new">/store?category=bordeaux</a>
-                        </td>
-                        <td class="cell-date">2025-11-01</td>
-                        <td class="cell-duration" style="text-align: center;">30</td>
-                        <td class="cell-status" style="text-align: center;">
-                            <span class="status-badge active">Active</span>
-                        </td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr class="row">
-                        <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
-                        <td class="cell-id">BANNER_VANG_BOURGOGNE</td>
-                        <td class="cell-img">
-                            <img class="banner-preview" src="../assets/banner-vang-bourgogne.jpg" alt="Banner Preview">
-                        </td>
-                        <td class="cell-link">
-                            <a href="#" title="/blog/post-1">/store?category=bourgogne</a>
-                        </td>
-                        <td class="cell-date">2025-10-01</td>
-                        <td class="cell-duration" style="text-align: center;">10</td>
-                        <td class="cell-status" style="text-align: center;">
-                            <span class="status-badge inactive">Inactive</span>
-                        </td>
-                        <td>
-                            <div class="cell-action">
-                                <button class="edit btn">Sửa</button>
-                                <button class="delete btn">Xoá</button>
-                            </div>
-                        </td>
-                    </tr>
+                                    <form action="banner-manager" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id" value="${b.id}">
+                                        <button type="submit" class="delete btn">Xoá</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -208,26 +184,23 @@
         </button>
         <h2>Thêm / Cập Nhật Banner</h2>
 
-        <form action="#">
-            <div class="form-group">
-                <label for="banner-id">ID BANNER</label>
-                <input type="text" id="banner-id" placeholder="VD: MAIN_BANNER">
-            </div>
+        <form action="banner-manager" method="post">
+            <input type="hidden" name="action" value="add">
 
             <div class="form-group">
                 <label for="banner-link">LINK ĐÍCH</label>
-                <input type="text" id="banner-link" placeholder="VD: /index.html hoặc /store?category=...">
+                <input type="text" id="banner-link" name="targetUrl" placeholder="VD: /store?category=..." required>
             </div>
 
             <div class="form-grid">
                 <div class="form-group">
                     <label for="banner-date">NGÀY SỰ KIỆN</label>
-                    <input type="date" id="banner-date">
+                    <input type="date" id="banner-date" name="eventDate" required>
                 </div>
 
                 <div class="form-group">
                     <label for="banner-duration">T/G TỒN TẠI (Ngày)</label>
-                    <input type="number" id="banner-duration" placeholder="VD: 5" min="0">
+                    <input type="number" id="banner-duration" name="lifeTime" placeholder="VD: 5" min="0" required>
                 </div>
 
                 <div class="form-group">
@@ -241,14 +214,8 @@
             </div>
 
             <div class="form-group">
-                <label for="banner-image">ẢNH BANNER</label>
-                <div class="file-upload-wrapper">
-                    <input type="file" id="banner-image" class="file-upload-input" accept="image/png, image/jpeg">
-                    <label for="banner-image" class="file-upload-label">
-                        <ion-icon name="cloud-upload-outline"></ion-icon>
-                        <span>Nhấn để tải banner lên</span>
-                    </label>
-                </div>
+                <label for="banner-image">URL ẢNH BANNER</label>
+                <input type="text" id="banner-image-url" name="urlBanner" class="form-control" placeholder="Nhập link ảnh..." required>
             </div>
 
             <div class="form-actions">
@@ -265,19 +232,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
-        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
 
-        setupModal('delete-confirm-modal', 'delete-selected-btn', 'cancel-delete-btn')
-        setupModal('delete-confirm-modal', 'delete-selected-btn', 'ac-delete-btn')
-        setupModal('delete-confirm-modal', 'delete-selected-btn', 'close-delete-btn')
-
-        setupModal('banner-form-modal', 'add-banner-btn', 'close-form-btn')
-        setupModal('banner-form-modal', 'add-banner-btn', 'cancel-form-btn')
-        setupModal('banner-form-modal', 'add-banner-btn', 'ac-form-btn')
-
-        setupModal('banner-form-modal', 'edit-modal-btn-1', 'close-form-btn')
-        setupModal('delete-confirm-modal', 'del-modal-btn-1', 'close-delete-btn')
         $(document).ready(function () {
             $('#banner-datatable').DataTable({
                 // Tắt sắp xếp cho cột Ảnh và Hành động
