@@ -364,8 +364,27 @@
     border: solid 2px #ccc;
 }
 
-.cell-action .delete, .cell-action .edit {
+.cell-action .lock,
+.cell-action .edit,
+.cell-action .unlock {
     width: 50px;
+    display: inline-block;
+    text-align: center;
+    padding: 0;
+}
+
+.cell-action .lock,
+.cell-action .unlock {
+    color: #fff;
+    font-weight: bold;
+}
+
+.cell-action .lock {
+    background-color: #bf2626;
+}
+
+.cell-action .unlock {
+    background-color: #28a745;
 }
 
 .cell-action .btn:hover {

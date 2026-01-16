@@ -91,7 +91,16 @@
                             <td class="cell-create">${user.createdAt}</td>
                             <td class="cell-action">
                                 <button class="edit btn edit-btn-trigger" data-target="modal-edit-${user.id}">Sửa</button>
-                                <button class="delete btn" onclick="deleteUser(${user.id})">Khoá</button>
+                                <c:choose>
+                                    <c:when test="${user.active == 1}">
+                                        <%-- Đang hoạt động --%>
+                                        <button class="lock btn" onclick="toggleUserStatus(${user.id}, 'block')">Khoá</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <%-- Đang bị khoá --%>
+                                        <button class="unlock btn" onclick="toggleUserStatus(${user.id}, 'unlock')">Mở</button>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
 
@@ -337,6 +346,36 @@
 <script>
     const listFields = ['#username, #password, #email, #password_, #birth, #username_, #phone-number'];
     preventspace(listFields)
+
+    function toggleUserStatus(userId, currentAction) {
+        // Tạo tin nhắn xác nhận tuỳ theo hành động
+        let message = (currentAction === 'block')
+            ? "Bạn có chắc chắn muốn KHOÁ tài khoản này không?"
+            : "Bạn có chắc chắn muốn MỞ KHOÁ tài khoản này không?";
+
+        if (confirm(message)) {
+            // Gọi xuống Servlet
+            fetch('${pageContext.request.contextPath}/accountmanager/toggle-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'id=' + userId
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Nếu thành công, load lại trang để cập nhật giao diện
+                        location.reload();
+                    } else {
+                        alert("Có lỗi xảy ra, vui lòng thử lại!");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Lỗi kết nối tới server.");
+                });
+        }
+    }
 </script>
 </body>
 </html>
