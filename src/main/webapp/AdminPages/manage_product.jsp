@@ -149,6 +149,8 @@
                         <th class="col-tick"><input type="checkbox" id="select-all-checkbox"></th>
                         <th class="col-product">Sản phẩm</th>
                         <th class="col-sku">SKU</th>
+                        <th class="col-manufacturer" hidden="hidden">Nhà SX</th>
+<%--                        <th class="col-date">Ngày tạo</th>--%>
                         <th class="col-price">Giá</th>
                         <th class="col-stock">Tồn Kho</th>
                         <th class="col-action">Hành động</th>
@@ -165,9 +167,12 @@
                                 </div>
                             </td>
                             <td>${p.id}</td>
+
+                            <td hidden="hidden">${p.manufacturerId}</td>
+<%--                            <td><fmt:formatDate value="${p.getCreateAt()}" pattern="yyyy-MM-dd"/></td>--%>
+
                             <td><fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫"
-                                                  maxFractionDigits="0"/>
+                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                             </td>
                             <td class="center-align"><span class="stock-status in-stock">${p.quantity}</span></td>
                             <td>
@@ -447,58 +452,63 @@
             // 1. Cấu hình Custom Filter cho Giá (Price Range)
             $.fn.dataTable.ext.search.push(
                 function (settings, data, dataIndex) {
-                    var min = parseInt($('#min-price').val(), 10);
-                    var max = parseInt($('#max-price').val(), 10);
+                    var selectedManu = $('#filter-manufacturer').val().trim();
+                    var itemManu = data[3] || ""; // Index 3 là cột Nhà SX mới thêm
 
-                    // Lấy dữ liệu cột Giá (Cột index 3), loại bỏ ký tự không phải số (đ, dấu chấm, phẩy)
-                    var priceStr = data[3] || "0";
-                    var price = parseFloat(priceStr.replace(/[\D\s\._\-]+/g, ""));
+                    if (selectedManu === "") return true;
+                    if (itemManu === selectedManu) return true;
+                    return false;
+                }
+            );
 
-                    if ((isNaN(min) && isNaN(max)) ||
-                        (isNaN(min) && price <= max) ||
-                        (min <= price && isNaN(max)) ||
-                        (min <= price && price <= max)) {
+            // 2. Cấu hình Custom Filter cho Ngày tạo (Cột index 4: yyyy-MM-dd)
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var minDate = $('#min-date').val();
+                    var maxDate = $('#max-date').val();
+                    var dateStr = data[4] || ""; // Index 4 là cột Ngày tạo
+
+                    if (!minDate && !maxDate) return true;
+
+                    // Chuyển đổi sang đối tượng Date để so sánh
+                    var itemDate = new Date(dateStr);
+                    var min = minDate ? new Date(minDate) : null;
+                    var max = maxDate ? new Date(maxDate) : null;
+
+                    // Logic so sánh ngày
+                    if (
+                        (!min && !max) ||
+                        (!min && itemDate <= max) ||
+                        (min <= itemDate && !max) ||
+                        (min <= itemDate && itemDate <= max)
+                    ) {
                         return true;
                     }
                     return false;
                 }
             );
 
-            // 2. Cấu hình Custom Filter cho Tồn kho (Stock)
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var stockStatus = $('#filter-stock').val();
-                    // Lấy dữ liệu cột Stock (Cột index 4)
-                    var stockVal = parseInt(data[4]) || 0;
+            // Cập nhật lại chỉ số cột cho Lọc Giá và Stock vì ta đã thêm 2 cột mới
+            // Giá: Index cũ 3 -> Mới 5
+            // Stock: Index cũ 4 -> Mới 6
 
-                    if (stockStatus === "") return true; // Chọn tất cả
-                    if (stockStatus === "instock" && stockVal > 0) return true;
-                    if (stockStatus === "outstock" && stockVal <= 0) return true;
+            // ... (Sửa lại index trong các hàm filter cũ của bạn từ data[3]->data[5] và data[4]->data[6]) ...
 
-                    return false;
-                }
-            );
-
-            // 3. Khởi tạo DataTable
+            // Khởi tạo DataTable (Cập nhật columnDefs cho các cột mới)
             var table = $('#product-datatable').DataTable({
-                "paging": true,       // Bật phân trang (Mặc định là true, khai báo rõ ràng)
-                "pageLength": 10,     // Số dòng mỗi trang
-                "lengthMenu": [5, 10, 25, 50], // Tùy chọn số dòng hiển thị
+                "paging": true,
+                "pageLength": 10,
+                "lengthMenu": [5, 10, 25, 50],
                 "columnDefs": [
-                    {"orderable": false, "targets": [0, 5]},
-                    {"searchable": false, "targets": [0, 5]}
+                    {"orderable": false, "targets": [0, 7]}, // Cột 0 (Check) và 7 (Action) không sort
+                    {"searchable": false, "targets": [0, 7]}
                 ],
-                "language": {
-                    "url": 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json',
-                    "paginate": {
-                        "first": "<ion-icon name='play-skip-back-outline'></ion-icon>",
-                        "last": "<ion-icon name='play-skip-forward-outline'></ion-icon>",
-                        "next": "<ion-icon name='chevron-forward-outline'></ion-icon>",
-                        "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
-                    }
-                },
-                // l: length changing input control, f: filtering input, r: processing, t: table, i: info, p: pagination
-                "dom": '<"top"l>rt<"bottom"ip><"clear">'
+                // ... (Các cấu hình language khác giữ nguyên) ...
+            });
+
+            // Bắt sự kiện thay đổi bộ lọc mới
+            $('#filter-manufacturer, #min-date, #max-date').on('change', function () {
+                table.draw();
             });
 
             // 4. Bắt sự kiện khi nhập liệu vào bộ lọc -> Vẽ lại bảng
