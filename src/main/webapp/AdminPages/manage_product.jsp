@@ -100,6 +100,33 @@
                         </div>
                     </div>
 
+                    <div class="filter-item">
+                        <span class="label-text">Nhà sản xuất</span>
+                        <div class="select-wrapper">
+                            <ion-icon name="business-outline" class="field-icon"></ion-icon>
+                            <select id="filter-manufacturer" class="form-control">
+                                <option value="">Tất cả</option>
+                                <c:forEach items="${manufacturers}" var="m">
+                                    <option value="${m.manufacturerName}">${m.manufacturerName}</option>
+                                </c:forEach>
+                            </select>
+                            <ion-icon name="chevron-down-outline" class="arrow-icon"></ion-icon>
+                        </div>
+                    </div>
+
+                    <div class="filter-item">
+                        <span class="label-text">Ngày tạo</span>
+                        <div class="price-group">
+                            <div class="input-wrapper">
+                                <input type="date" id="min-date" class="form-control" placeholder="Từ ngày">
+                            </div>
+                            <span class="divider">-</span>
+                            <div class="input-wrapper">
+                                <input type="date" id="max-date" class="form-control" placeholder="Đến ngày">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="filter-item item-bottom">
                         <button id="btn-reset-filter" class="btn-reset" title="Đặt lại">
                             <ion-icon name="refresh-outline"></ion-icon>
