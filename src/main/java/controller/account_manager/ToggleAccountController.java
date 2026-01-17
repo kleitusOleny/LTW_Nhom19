@@ -1,4 +1,4 @@
-package controller;
+package controller.account_manager;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -7,8 +7,8 @@ import services.AccountManagerService;
 
 import java.io.IOException;
 
-@WebServlet(name = "ToggleAccountServlet", urlPatterns = {"/accountmanager/toggle-status"})
-public class ToggleAccountServlet extends HttpServlet {
+@WebServlet(name = "ToggleAccountController", urlPatterns = {"/accountmanager/toggle-status"})
+public class ToggleAccountController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
