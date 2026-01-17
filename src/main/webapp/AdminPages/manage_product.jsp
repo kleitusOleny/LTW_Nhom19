@@ -449,11 +449,10 @@
     document.addEventListener("DOMContentLoaded", function () {
 
         $(document).ready(function () {
-            // 1. Cấu hình Custom Filter cho Giá (Price Range)
             $.fn.dataTable.ext.search.push(
                 function (settings, data, dataIndex) {
                     var selectedManu = $('#filter-manufacturer').val().trim();
-                    var itemManu = data[3] || ""; // Index 3 là cột Nhà SX mới thêm
+                    var itemManu = data[3] || "";
 
                     if (selectedManu === "") return true;
                     if (itemManu === selectedManu) return true;
@@ -461,16 +460,14 @@
                 }
             );
 
-            // 2. Cấu hình Custom Filter cho Ngày tạo (Cột index 4: yyyy-MM-dd)
             $.fn.dataTable.ext.search.push(
                 function (settings, data, dataIndex) {
                     var minDate = $('#min-date').val();
                     var maxDate = $('#max-date').val();
-                    var dateStr = data[4] || ""; // Index 4 là cột Ngày tạo
+                    var dateStr = data[4] || "";
 
                     if (!minDate && !maxDate) return true;
 
-                    // Chuyển đổi sang đối tượng Date để so sánh
                     var itemDate = new Date(dateStr);
                     var min = minDate ? new Date(minDate) : null;
                     var max = maxDate ? new Date(maxDate) : null;
@@ -488,35 +485,24 @@
                 }
             );
 
-            // Cập nhật lại chỉ số cột cho Lọc Giá và Stock vì ta đã thêm 2 cột mới
-            // Giá: Index cũ 3 -> Mới 5
-            // Stock: Index cũ 4 -> Mới 6
-
-            // ... (Sửa lại index trong các hàm filter cũ của bạn từ data[3]->data[5] và data[4]->data[6]) ...
-
-            // Khởi tạo DataTable (Cập nhật columnDefs cho các cột mới)
             var table = $('#product-datatable').DataTable({
                 "paging": true,
                 "pageLength": 10,
                 "lengthMenu": [5, 10, 25, 50],
                 "columnDefs": [
-                    {"orderable": false, "targets": [0, 7]}, // Cột 0 (Check) và 7 (Action) không sort
-                    {"searchable": false, "targets": [0, 7]}
+                    {"orderable": false, "targets": [0, 6]},
+                    {"searchable": false, "targets": [0, 6]}
                 ],
-                // ... (Các cấu hình language khác giữ nguyên) ...
             });
 
-            // Bắt sự kiện thay đổi bộ lọc mới
             $('#filter-manufacturer, #min-date, #max-date').on('change', function () {
                 table.draw();
             });
 
-            // 4. Bắt sự kiện khi nhập liệu vào bộ lọc -> Vẽ lại bảng
             $('#min-price, #max-price, #filter-stock').on('keyup change', function () {
                 table.draw();
             });
 
-            // 5. Nút Reset bộ lọc
             $('#btn-reset-filter').on('click', function () {
                 $('#min-price').val('');
                 $('#max-price').val('');
