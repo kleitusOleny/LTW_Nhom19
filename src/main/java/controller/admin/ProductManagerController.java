@@ -16,7 +16,7 @@ public class ProductManagerController extends HttpServlet {
 
         List<Product> products = dao.getProducts();
 
-        request.setAttribute("product",products);
+        request.setAttribute("products",products);
         
         request.getRequestDispatcher("AdminPages/manage_product.jsp").forward(request,response);
     }

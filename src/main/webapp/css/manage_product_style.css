@@ -1130,3 +1130,88 @@
     .filter-right { width: 100%; max-width: 100%; margin: 0; }
     .search-input { width: 100%; }
 }
+
+/* Container bao quanh giống input thường */
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid #ddd; /* Màu viền giống các input khác của bạn */
+    border-radius: 8px;     /* Bo góc giống các input khác */
+    background-color: #fff;
+    min-height: 45px;
+    cursor: text;
+}
+
+.tag-container:focus-within {
+    border-color: #007bff; /* Màu highlight khi focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Từng khối Tag */
+.tag-item {
+    display: inline-flex;  /* Dùng inline-flex để khối co giãn theo chữ */
+    align-items: center;
+    background-color: #e9ecef; /* Màu nền xám rõ hơn */
+    color: #333333 !important; /* !important để đảm bảo chữ màu đen */
+    padding: 5px 10px;
+    margin-right: 5px;     /* Khoảng cách giữa các tag */
+    margin-bottom: 5px;    /* Khoảng cách khi xuống dòng */
+    border-radius: 20px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    max-width: 100%;       /* Tránh vỡ khung nếu text quá dài */
+}
+
+/* Định dạng riêng cho phần chữ bên trong tag */
+.tag-item span.text-content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 150px; /* Giới hạn chiều dài chữ nếu cần */
+    vertical-align: middle;
+}
+
+/* Nút xóa */
+.tag-item .remove-tag {
+    margin-left: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ff4d4f;
+    font-size: 16px;
+    line-height: 1;
+    display: inline-flex;
+}
+
+/* Nút xóa tag (icon x) */
+.tag-item .remove-tag {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #888;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+}
+
+.tag-item .remove-tag:hover {
+    background-color: #ccc;
+    color: #d00;
+}
+
+/* Input để gõ chữ */
+.tag-input-typing {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    padding: 4px 0;
+    font-size: 14px;
+    min-width: 100px;
+    background: transparent;
+}

@@ -48,7 +48,6 @@ public class AddressController extends HttpServlet {
             }
             List<Address> addressList = addressService.getByUserID(user.getId());
             request.setAttribute("addressList", addressList);
-            request.setAttribute("view", request.getParameter("view"));
             request.getRequestDispatcher("/infoUsers/addresses.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
