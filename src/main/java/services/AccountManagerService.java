@@ -66,7 +66,7 @@ public class AccountManagerService {
         return false;
     }
 
-    public boolean updateStatus(int id, int status) {
-        return userDAO.updateActive(id, status);
+    public void updateStatus(int id, int status) {
+        userDAO.updateActive(id, status);
     }
 }
