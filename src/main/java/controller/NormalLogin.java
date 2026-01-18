@@ -31,9 +31,24 @@ public class NormalLogin extends HttpServlet {
         if (allErrors.isEmpty()) {
             account = authService.login(username, pass);
             if (account != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", account);
-                response.sendRedirect(request.getContextPath() + "/index.jsp?loginSuccess=1");
+                if (account.getActive() == 1) {
+                    // Session Fixation
+                    HttpSession oldSession = request.getSession(false);
+                    if (oldSession != null) {
+                        oldSession.invalidate(); // Huỷ session cũ
+                    }
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("user", account);
+                    // ---
+                    if (account.getAdministrator() == 1) {
+                        response.sendRedirect("dashboard");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/index.jsp?loginSuccess=1");
+                    }
+                } else {
+                    request.setAttribute("loginError", "Tài khoản của bạn đã bị khoá, vui lòng liên hệ Admin để giải quyết");
+                    request.getRequestDispatcher("/AuthPages/Login.jsp").forward(request, response);
+                }
             } else {
                 request.setAttribute("loginError", "Bạn đã nhập sai tên tài khoản hoặc mật khẩu");
                 request.getRequestDispatcher("/AuthPages/Login.jsp").forward(request, response);

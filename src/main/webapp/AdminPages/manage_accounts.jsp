@@ -16,13 +16,13 @@
                 <img src="${pageContext.request.contextPath}/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn" alt=""/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.jsp" class="a-with-icon">
+            <li><a href="${pageContext.request.contextPath}/dashboard" class="a-with-icon">
                 <ion-icon name="home-outline"></ion-icon>
                 Trang Chủ</a></li>
             <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.jsp" class="a-with-icon selected">
+            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon selected">
                 <ion-icon name="people"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
             <li><a href="manage_orders.jsp" class="a-with-icon">
@@ -55,6 +55,10 @@
                         <ion-icon name="trash-outline"></ion-icon>
                         Khoá (Đã Chọn)
                     </button>
+                    <button class="button unlockAll" id="unlock-modal-btn">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                        Mở (Đã Chọn)
+                    </button>
                     <button class="button add" id="open-modal-btn">
                         <ion-icon name="add-outline" class="type-needCss"></ion-icon>
                         Thêm
@@ -82,7 +86,7 @@
                     <tbody>
                     <c:forEach var="user" items="${listAccount}">
                         <tr class="accounts">
-                            <td class="cell-tick"><input type="checkbox" class="row-checkbox"/></td>
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" value="${user.id}"/></td>
                             <td class="cell-id">${user.id}</td>
                             <td class="cell-email">${user.email}</td>
                             <td class="cell-administrator">${user.administrator}</td>
@@ -91,7 +95,16 @@
                             <td class="cell-create">${user.createdAt}</td>
                             <td class="cell-action">
                                 <button class="edit btn edit-btn-trigger" data-target="modal-edit-${user.id}">Sửa</button>
-                                <button class="delete btn" onclick="deleteUser(${user.id})">Khoá</button>
+                                <c:choose>
+                                    <c:when test="${user.active == 1}">
+                                        <%-- Đang hoạt động --%>
+                                        <button class="lock btn" onclick="toggleUserStatus(${user.id}, 'block')">Khoá</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <%-- Đang bị khoá --%>
+                                        <button class="unlock btn" onclick="toggleUserStatus(${user.id}, 'unlock')">Mở</button>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
 
@@ -225,6 +238,21 @@
         </div>
     </div>
 </div>
+<div class="modal-overlay-unlockAll" id="unlock-account-btn">
+    <div class="modal-content-unlockAll">
+        <div class="group-text-unlockAll">
+            <p class="p-deleteAll1">Bạn có chắc chắn muốn mở khoá toàn bộ tài khoản của các ô được chọn?</p>
+            <p class="p-deleteAll2">
+                <ion-icon name="warning-outline" class="icon-warning"></ion-icon>
+                Có thể hoàn tác hành động này
+            </p>
+        </div>
+        <div class="group-button-action delete-all">
+            <button type="button" class="element-button" id="close-modal-btn7">Huỷ</button>
+            <button type="submit" class="unlockAll-button">Mở Khoá Tất Cả</button>
+        </div>
+    </div>
+</div>
 <div class="modal-overlay-notification" id="notification-account-modal">
     <div class="modal-content-notification">
         <div class="group-notification">
@@ -245,20 +273,20 @@
         <button class="modal-close2" id="close-modal-btn9">
             <ion-icon name="close-outline"></ion-icon>
         </button>
-        <button class="btn-menu-item">
+        <a href="${pageContext.request.contextPath}/home" class="btn-menu-item">
             <ion-icon name="person-circle-outline"></ion-icon>
             <span>Trở về trang người dùng</span>
-        </button>
-        <button class="btn-menu-item">
+        </a>
+        <a href="${pageContext.request.contextPath}/logout" class="btn-menu-item">
             <ion-icon name="log-out-outline"></ion-icon>
             <span>Đăng xuất tài khoản</span>
-        </button>
+        </a>
     </div>
 </div>
-<c:if test="${errorSource == 'edit_account' and targetId == user.id}">
+<c:if test="${errorSource == 'edit_account' and not empty editingId}">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const modal = document.getElementById('modal-edit-${user.id}');
+            const modal = document.getElementById('modal-edit-${editingId}');
             if (modal) modal.classList.add('show');
         });
     </script>
@@ -321,6 +349,9 @@
         setupModal('add-account-modal', 'open-modal-btn', 'close-modal-btn');
         setupModal('excel-account-modal', 'excel-modal-btn', 'close-modal-btn5');
         setupModal('deleteAll-account-modal', 'deleteAll-modal-btn', 'close-modal-btn6');
+        setupModal('unlock-account-btn', 'unlock-modal-btn', 'close-modal-btn7');
+        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
         setupDynamicModals('edit-btn-trigger', 'close-edit-modal');
 
         $(document).ready(function () {
@@ -333,8 +364,94 @@
     });
 </script>
 <script>
+    $(document).ready(function () {
+        // Hàm dùng chung để lấy ID và gửi AJAX
+        // status: true (Khoá), false (Mở khoá)
+        // modalId: ID của modal đang mở để đóng lại nếu người dùng chưa chọn gì
+        function handleBulkAction(e, status, modalId) {
+            e.preventDefault();
+
+            var ids = [];
+            var table = $('#account-table-main').DataTable();
+
+            // Lấy tất cả các checkbox đã tick
+            table.$('input.row-checkbox:checked').each(function () {
+                ids.push($(this).val());
+            });
+
+            if (ids.length === 0) {
+                alert("Vui lòng chọn ít nhất một tài khoản!");
+                // Đóng modal tương ứng
+                if(document.getElementById(modalId)) {
+                    document.getElementById(modalId).classList.remove('show');
+                }
+                return;
+            }
+
+            // Gửi danh sách ID và status về Server
+            $.ajax({
+                url: '${pageContext.request.contextPath}/accountmanager/lock-multiple',
+                type: 'POST',
+                data: {
+                    ids: ids.join(','),
+                    status: status
+                },
+                success: function (response) {
+                    var actionText = status ? "Khoá" : "Mở khoá";
+                    alert("Đã " + actionText + " các tài khoản đã chọn thành công!");
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("Có lỗi xảy ra khi xử lý.");
+                }
+            });
+        }
+
+        // Xử lý nút khoá tất cả (status = true)
+        $('.deleteAll-button').click(function (e) {
+            handleBulkAction(e, true, 'deleteAll-account-modal');
+        });
+
+        // Xử lý nút mở khoá tất cả (status = false)
+        $('.unlockAll-button').click(function (e) {
+            handleBulkAction(e, false, 'unlock-account-btn');
+        });
+    });
+</script>
+<script>
     const listFields = ['#username, #password, #email, #password_, #birth, #username_, #phone-number'];
     preventspace(listFields)
+
+    function toggleUserStatus(userId, currentAction) {
+        // Tạo tin nhắn xác nhận tuỳ theo hành động
+        let message = (currentAction === 'block')
+            ? "Bạn có chắc chắn muốn KHOÁ tài khoản này không?"
+            : "Bạn có chắc chắn muốn MỞ KHOÁ tài khoản này không?";
+
+        if (confirm(message)) {
+            // Gọi xuống Servlet
+            fetch('${pageContext.request.contextPath}/accountmanager/toggle-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'id=' + userId
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Nếu thành công, load lại trang để cập nhật giao diện
+                        location.reload();
+                    } else {
+                        alert("Có lỗi xảy ra, vui lòng thử lại!");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Lỗi kết nối tới server.");
+                });
+        }
+    }
 </script>
 </body>
 </html>

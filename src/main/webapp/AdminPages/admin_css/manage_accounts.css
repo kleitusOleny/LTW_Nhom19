@@ -148,6 +148,8 @@
     font-size: 15px;
     color: #333;
     cursor: pointer;
+    text-decoration: none; /* Xoá gạch chân của link */
+    box-sizing: border-box; /* Đảm bảo padding không làm vỡ khung */
 }
 
 .btn-menu-item:hover {
@@ -158,7 +160,7 @@
 .modal-close2 {
     position: absolute;
     top: 1px;
-    right: 0px;
+    right: 0;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -362,8 +364,27 @@
     border: solid 2px #ccc;
 }
 
-.cell-action .delete, .cell-action .edit {
+.cell-action .lock,
+.cell-action .edit,
+.cell-action .unlock {
     width: 50px;
+    display: inline-block;
+    text-align: center;
+    padding: 0;
+}
+
+.cell-action .lock,
+.cell-action .unlock {
+    color: #fff;
+    font-weight: bold;
+}
+
+.cell-action .lock {
+    background-color: #bf2626;
+}
+
+.cell-action .unlock {
+    background-color: #28a745;
 }
 
 .cell-action .btn:hover {
@@ -402,7 +423,7 @@
     background-color: #bb2c3b;
 }
 
-.add, .excel, .del {
+.add, .excel, .del, .unlockAll {
     margin-left: 10px;
     color: #fff;
     transition: 0.2s;
@@ -430,6 +451,10 @@
     background-color: #108814;
 }
 
+.unlockAll {
+    background-color: #4889b8;
+}
+
 .type-needCss {
     font-size: 20px;
 }
@@ -441,7 +466,8 @@
 .modal-overlay,
 .modal-overlay-excel,
 .modal-overlay-deleteAll,
-.modal-overlay-edit_information {
+.modal-overlay-edit_information,
+.modal-overlay-unlockAll {
     position: fixed;
     top: 0;
     left: 0;
@@ -505,7 +531,8 @@
 /* Phần fadein popup */
 .modal-overlay,
 .modal-overlay-deleteAll,
-.modal-overlay-edit_information {
+.modal-overlay-edit_information,
+.modal-overlay-unlockAll {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -515,14 +542,16 @@
 .modal-overlay.show,
 .modal-overlay-excel.show,
 .modal-overlay-deleteAll.show,
-.modal-overlay-edit_information.show {
+.modal-overlay-edit_information.show,
+.modal-overlay-unlockAll.show {
     opacity: 1;
     visibility: visible;
 }
 
 .modal-content,
 .modal-content-deleteAll,
-.modal-content-edit_information {
+.modal-content-edit_information,
+.modal-content-unlockAll {
     background-color: white;
     border-radius: 12px;
     gap: 25px;
@@ -534,7 +563,8 @@
     gap: 0 !important;
 }
 
-.modal-content-deleteAll {
+.modal-content-deleteAll,
+.modal-content-unlockAll {
     display: flex;
     flex-direction: column;
     padding: 30px 40px;
@@ -565,10 +595,17 @@
     color: #333;
 }
 
-.modal-content-deleteAll p {
+.modal-content-deleteAll p, .modal-content-unlockAll p {
     font-size: 1.2rem;
     text-align: center;
+}
+
+.modal-content-deleteAll p {
     color: red;
+}
+
+.modal-content-unlockAll p {
+    color: #1e3cd2;
 }
 
 .sort-option label {
@@ -637,7 +674,7 @@
     margin-top: 10px;
 }
 
-.element-button, .deleteAll-button {
+.element-button, .deleteAll-button, .unlockAll-button {
     width: 100px;
     padding: 14px 0;
     font-size: 1rem;
@@ -653,7 +690,7 @@
     width: 70px;
 }
 
-.deleteAll-button {
+.deleteAll-button, .unlockAll-button {
     width: 150px;
 }
 
@@ -679,6 +716,13 @@
 
 .deleteAll-button:hover {
     background: #c70d0d;
+}
+
+.unlockAll-button {
+    background: #28a745;
+}
+.unlockAll-button:hover {
+    background: #218838;
 }
 
 .edit-information-account {
@@ -709,22 +753,25 @@
     margin-bottom: 10px;
 }
 
-.group-text-deleteAll {
+.group-text-deleteAll, .group-text-unlockAll {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.group-text-deleteAll .p-deleteAll1 {
+.group-text-deleteAll .p-deleteAll1,
+.group-text-unlockAll .p-deleteAll1 {
     font-size: 1.1rem;
     width: 100%;
 }
 
-.group-text-deleteAll .icon-warning {
+.group-text-deleteAll .icon-warning,
+.group-text-unlockAll .icon-warning {
     font-size: 16px;
 }
 
-.group-text-deleteAll .p-deleteAll2 {
+.group-text-deleteAll .p-deleteAll2,
+.group-text-unlockAll .p-deleteAll2 {
     display: flex;
     align-items: center;
     justify-content: center;

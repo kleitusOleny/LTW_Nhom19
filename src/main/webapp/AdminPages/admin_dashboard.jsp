@@ -15,13 +15,13 @@
                 <img src="${pageContext.request.contextPath}/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn" alt=""/>
                 <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.jsp" class="a-with-icon selected">
+            <li><a href="${pageContext.request.contextPath}/dashboard" class="a-with-icon selected">
                 <ion-icon name="home"></ion-icon>
                 Trang Chủ</a></li>
             <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.jsp" class="a-with-icon">
+            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon">
                 <ion-icon name="people-outline"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
             <li><a href="manage_orders.jsp" class="a-with-icon">
@@ -152,14 +152,14 @@
         <button class="modal-close2" id="close-modal-btn9">
             <ion-icon name="close-outline"></ion-icon>
         </button>
-        <button class="btn-menu-item">
+        <a href="${pageContext.request.contextPath}/home" class="btn-menu-item">
             <ion-icon name="person-circle-outline"></ion-icon>
             <span>Trở về trang người dùng</span>
-        </button>
-        <button class="btn-menu-item">
+        </a>
+        <a href="${pageContext.request.contextPath}/logout" class="btn-menu-item">
             <ion-icon name="log-out-outline"></ion-icon>
             <span>Đăng xuất tài khoản</span>
-        </button>
+        </a>
     </div>
 </div>
 <div class="modal-overlay-todo" id="todo-list-modal-1">
