@@ -55,27 +55,18 @@ public class AccountManagerService {
         }
     }
 
-    public boolean blockAccount(User user, String presentStatus) {
-        if (presentStatus.equals("Khoá")) {
-            User currentUser = userDAO.findById(user);
-            if (currentUser.getId() == user.getId()) {
-                currentUser.setActive(0);
-                int isActive = currentUser.getActive();
-                return userDAO.updateActive(currentUser.getId(), isActive);
-            }
+    public boolean toggleStatus(int id){
+        User searchEntity = new User();
+        searchEntity.setId(id);
+        User currentUser = userDAO.findById(searchEntity);
+        if (currentUser != null) {
+            int newStatus = (currentUser.getActive() == 1) ? 0 : 1;
+            return userDAO.updateActive(currentUser.getId(), newStatus);
         }
         return false;
     }
 
-    public boolean unlockAccount(User user, String presentStatus) {
-        if (presentStatus.equals("Mở")) {
-            User currentUser = userDAO.findById(user);
-            if (currentUser.getId() == user.getId()) {
-                currentUser.setActive(1);
-                int isActive = currentUser.getActive();
-                return userDAO.updateActive(currentUser.getId(), isActive);
-            }
-        }
-        return false;
+    public void updateStatus(int id, int status) {
+        userDAO.updateActive(id, status);
     }
 }

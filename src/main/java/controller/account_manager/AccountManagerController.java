@@ -1,4 +1,4 @@
-package controller;
+package controller.account_manager;
 
 import dao.UserDAO;
 import jakarta.servlet.*;

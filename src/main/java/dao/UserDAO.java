@@ -78,7 +78,7 @@ public boolean update(User entity) {
     sql.append("full_name=:full_name, ");
     sql.append("email=:email, ");
     if (hashPassword) {
-        sql.append("password_hash:=password_hash, ");
+        sql.append("password_hash=:password_hash, ");
     }
     sql.append("phone_number=:phone_number, ");
     sql.append("birth_day=:birth_day, ");
@@ -98,7 +98,7 @@ public boolean update(User entity) {
                 .bind("administrator", entity.getAdministrator())
                 .bind("update_at", entity.getUpdateAt());
         if (hashPassword) {
-            query.bind("password", entity.getPasswordHash());
+            query.bind("password_hash", entity.getPasswordHash());
         }
         return query.execute() > 0;
     });
@@ -145,7 +145,7 @@ public User findByEmail(String email) {
                         created_at AS createdAt,
                         update_at AS updateAt
                     FROM users
-                    WHERE email=:email AND active=1
+                    WHERE email=:email
                     """)
             .bind("email", email)
             .mapToBean(User.class)
@@ -168,7 +168,7 @@ public User findByUsername(String username) {
                         created_at AS createdAt,
                         update_at AS updateAt
                     FROM users
-                    WHERE username=:username AND active=1
+                    WHERE username=:username
                     """)
             .bind("username", username)
             .mapToBean(User.class)
@@ -186,7 +186,9 @@ public boolean updatePassword(String email, String newPasswordHashed) {
 public boolean updateActive(int id, int activeNum) {
         return jdbi.withHandle(handle -> handle.createUpdate("""
                     update users set active = :activeNum where id = :id""")
-                .bind("activeNum", activeNum).execute() > 0);
+                .bind("activeNum", activeNum)
+                .bind("id", id)
+                .execute() > 0);
 }
 
     public int countUserId(String email) {

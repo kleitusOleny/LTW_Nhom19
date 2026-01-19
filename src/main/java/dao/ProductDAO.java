@@ -1,8 +1,6 @@
 package dao;
 
 import model.*;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductDAO extends ADAO {
@@ -46,9 +44,7 @@ public class ProductDAO extends ADAO {
                 " JOIN ct_evaluates ct ON e.evaluate_id = ct.id " +
                 " WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS rating, " +
 
-                "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews "
-                +
-
+                "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews " +
                 "FROM products p " +
                 "LEFT JOIN product_types t ON p.type_id = t.id " +
                 "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
@@ -71,9 +67,7 @@ public class ProductDAO extends ADAO {
                 " JOIN ct_evaluates ct ON e.evaluate_id = ct.id " +
                 " WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS rating, " +
 
-                "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews "
-                +
-
+                "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews " +
                 "FROM products p " +
                 "LEFT JOIN product_types t ON p.type_id = t.id " +
                 "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
@@ -146,7 +140,7 @@ public class ProductDAO extends ADAO {
                 .mapToBean(Review.class)
                 .list());
     }
-
+    
     public List<Category> getAllCategories() {
         return jdbi.withHandle(handle -> handle
                 .createQuery("SELECT id, category_name AS categoryName FROM categorys WHERE is_delete = 0")
@@ -205,38 +199,39 @@ public class ProductDAO extends ADAO {
                         "FROM products p " +
                         "LEFT JOIN product_types t ON p.type_id = t.id " +
                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
-                        "WHERE p.is_delete = 0 ");
-
+                        "WHERE p.is_delete = 0 "
+        );
+        
         // Gọi hàm nối chuỗi điều kiện
         appendFilterConditions(sql, prices, categories, manufacturers, types, origins, capacities, tags, keyword);
-
+        
         sql.append(" LIMIT :limit OFFSET :offset");
-
+        
         return jdbi.withHandle(handle -> {
             // Tạo query
             var query = handle.createQuery(sql.toString())
                     .bind("limit", limit)
                     .bind("offset", offset);
-
+            
             // Bind tham số keyword nếu có
             if (keyword != null && !keyword.trim().isEmpty()) {
                 query.bind("keyword", "%" + keyword.trim() + "%");
             }
-
+            
             return query.mapToBean(Product.class).list();
         });
     }
-
-    public int countFilteredProducts(String[] prices, String[] categories, String[] manufacturers, String[] types,
-            String[] origins, String[] capacities, String[] tags, String keyword) {
+    
+    public int countFilteredProducts(String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags, String keyword) {
         StringBuilder sql = new StringBuilder(
                 "SELECT COUNT(*) FROM products p " +
                         "LEFT JOIN product_types t ON p.type_id = t.id " +
                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
-                        "WHERE p.is_delete = 0 ");
-
+                        "WHERE p.is_delete = 0 "
+        );
+        
         appendFilterConditions(sql, prices, categories, manufacturers, types, origins, capacities, tags, keyword);
-
+        
         return jdbi.withHandle(handle -> {
             var query = handle.createQuery(sql.toString());
             if (keyword != null && !keyword.trim().isEmpty()) {
@@ -245,11 +240,10 @@ public class ProductDAO extends ADAO {
             return query.mapTo(Integer.class).findOnly();
         });
     }
-
+    
     // Phương thức private hỗ trợ nối chuỗi SQL cho lọc
-    private void appendFilterConditions(StringBuilder sql, String[] prices, String[] categories, String[] manufacturers,
-            String[] types, String[] origins, String[] capacities, String[] tags, String keyword) {
-
+    private void appendFilterConditions(StringBuilder sql, String[] prices, String[] categories, String[] manufacturers, String[] types, String[] origins, String[] capacities, String[] tags,String keyword) {
+        
         if (categories != null && categories.length > 0) {
             sql.append(" AND p.category_id IN (");
             for (int i = 0; i < categories.length; i++) {

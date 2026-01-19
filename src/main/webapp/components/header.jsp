@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-        <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-            <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+  <!DOCTYPE html>
+  <html lang="en">
 
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index_style.css">
 
@@ -25,7 +27,7 @@
 
                             <div class="header-right">
                                 <c:if test="${empty sessionScope.user}">
-                                    <a href="${pageContext.request.contextPath}/AuthPages/Login.jsp" aria-label="Login">
+                                    <a href="${pageContext.request.contextPath}/login" aria-label="Login">
                                         <span style="text-decoration-color: red">Đăng nhập</span>
                                     </a>
                                 </c:if>
