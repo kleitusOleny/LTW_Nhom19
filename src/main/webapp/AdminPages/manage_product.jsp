@@ -150,7 +150,7 @@
                         <th class="col-product">Sản phẩm</th>
                         <th class="col-sku">SKU</th>
                         <th class="col-manufacturer" hidden="hidden">Nhà SX</th>
-<%--                        <th class="col-date">Ngày tạo</th>--%>
+                        <th class="col-date">Ngày tạo</th>
                         <th class="col-price">Giá</th>
                         <th class="col-stock">Tồn Kho</th>
                         <th class="col-action">Hành động</th>
@@ -169,12 +169,14 @@
                             <td>${p.id}</td>
 
                             <td hidden="hidden">${p.manufacturerId}</td>
-<%--                            <td><fmt:formatDate value="${p.getCreateAt()}" pattern="yyyy-MM-dd"/></td>--%>
+                            <td><fmt:formatDate value="${p.getCreateAt()}" pattern="yyyy-MM-dd"/></td>
 
                             <td><fmt:setLocale value="vi_VN"/>
                                 <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                             </td>
-                            <td class="center-align"><span class="stock-status in-stock">${p.quantity}</span></td>
+                            <td class="center-align"><span class="stock-status ${p.quantity > 0 ? 'in-stock' : 'out-of-stock'}">
+                                    ${p.quantity > 0 ? p.quantity : '0'}
+                            </span></td>
                             <td>
                                 <div class="cell-action">
                                     <button class="edit btn edit-button">Sửa</button>
@@ -353,7 +355,7 @@
 
         setupModal(
             '.delete-confirm-modal',
-            '.delete-button', // Áp dụng cho tất cả nút có class "delete" và "btn"
+            '.delete-button',
             '.close-delete-btn, .cancel-delete-btn'
         );
 
@@ -448,67 +450,93 @@
 
     document.addEventListener("DOMContentLoaded", function () {
 
-        $(document).ready(function () {
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var selectedManu = $('#filter-manufacturer').val().trim();
-                    var itemManu = data[3] || "";
 
-                    if (selectedManu === "") return true;
-                    if (itemManu === selectedManu) return true;
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                // 1. Lấy giá trị từ các ô input
+                var minPrice      = parseInt($('#min-price').val(), 10);
+                var maxPrice      = parseInt($('#max-price').val(), 10);
+                var stockStatus   = $('#filter-stock').val();
+                var selectedManu  = $('#filter-manufacturer').val().trim();
+                var minDate       = $('#min-date').val();
+                var maxDate       = $('#max-date').val();
+
+                // 2. Lấy dữ liệu từ dòng hiện tại trong bảng (Lưu ý chỉ số cột)
+                var manuData      = data[3] || ""; // Cột 3: Nhà sản xuất
+                var dateData      = data[4] || ""; // Cột 4: Ngày tạo
+                var priceData     = data[5] || "0"; // Cột 5: Giá
+                var stockData     = parseInt(data[6]) || 0; // Cột 6: Tồn kho
+
+                // --- LOGIC LỌC GIÁ ---
+                var priceVal = parseFloat(priceData.replace(/[^\d]/g, ''));
+                if (
+                    (!isNaN(minPrice) && priceVal < minPrice) ||
+                    (!isNaN(maxPrice) && priceVal > maxPrice)
+                ) {
                     return false;
                 }
-            );
 
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var minDate = $('#min-date').val();
-                    var maxDate = $('#max-date').val();
-                    var dateStr = data[4] || "";
+                // --- LOGIC LỌC TỒN KHO ---
+                if (stockStatus === "instock" && stockData <= 0) return false;
+                if (stockStatus === "outstock" && stockData > 0) return false;
 
-                    if (!minDate && !maxDate) return true;
-
-                    var itemDate = new Date(dateStr);
-                    var min = minDate ? new Date(minDate) : null;
-                    var max = maxDate ? new Date(maxDate) : null;
-
-                    // Logic so sánh ngày
-                    if (
-                        (!min && !max) ||
-                        (!min && itemDate <= max) ||
-                        (min <= itemDate && !max) ||
-                        (min <= itemDate && itemDate <= max)
-                    ) {
-                        return true;
-                    }
+                // --- LOGIC LỌC NHÀ SẢN XUẤT ---
+                if (selectedManu !== "" && manuData !== selectedManu) {
                     return false;
                 }
-            );
 
-            var table = $('#product-datatable').DataTable({
-                "paging": true,
-                "pageLength": 10,
-                "lengthMenu": [5, 10, 25, 50],
-                "columnDefs": [
-                    {"orderable": false, "targets": [0, 6]},
-                    {"searchable": false, "targets": [0, 6]}
-                ],
-            });
+                // --- LOGIC LỌC NGÀY TẠO ---
+                if (minDate || maxDate) {
+                    var itemDate = new Date(dateData);
+                    var minD = minDate ? new Date(minDate) : null;
+                    var maxD = maxDate ? new Date(maxDate) : null;
 
-            $('#filter-manufacturer, #min-date, #max-date').on('change', function () {
-                table.draw();
-            });
+                    if (minD && itemDate < minD) return false;
+                    if (maxD && itemDate > maxD) return false;
+                }
 
-            $('#min-price, #max-price, #filter-stock').on('keyup change', function () {
-                table.draw();
-            });
+                return true;
+            }
+        );
 
-            $('#btn-reset-filter').on('click', function () {
-                $('#min-price').val('');
-                $('#max-price').val('');
-                $('#filter-stock').val('');
-                table.search('').draw();
-            });
+        // KHỞI TẠO DATATABLE
+        var table = $('#product-datatable').DataTable({
+            "paging": true,
+            "pageLength": 10,
+            "lengthMenu": [5, 10, 25, 50],
+            "columnDefs": [
+                {"orderable": false, "targets": [0, 7]},
+                {"searchable": false, "targets": [0, 7]}
+            ],
+            "language": {
+                "url": 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json',
+                "paginate": {
+                    "first": "<ion-icon name='play-skip-back-outline'></ion-icon>",
+                    "last": "<ion-icon name='play-skip-forward-outline'></ion-icon>",
+                    "next": "<ion-icon name='chevron-forward-outline'></ion-icon>",
+                    "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
+                }
+            },
+            "dom": '<"top"l>rt<"bottom"ip><"clear">'
+        });
+
+        $('#custom-search-input').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+
+        $('#min-price, #max-price, #filter-stock, #filter-manufacturer, #min-date, #max-date').on('keyup change', function () {
+            table.draw();
+        });
+
+        $('#btn-reset-filter').on('click', function () {
+            $('#min-price').val('');
+            $('#max-price').val('');
+            $('#filter-stock').val('');
+            $('#filter-manufacturer').val('');
+            $('#min-date').val('');
+            $('#max-date').val('');
+
+            table.search('').draw();
         });
     });
 </script>
