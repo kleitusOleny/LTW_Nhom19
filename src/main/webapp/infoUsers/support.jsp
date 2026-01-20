@@ -9,7 +9,7 @@
     </p>
 
     <div class="support-form">
-        <form>
+        <form action="${pageContext.request.contextPath}/todo_list" method="POST">
             <div class="form-group">
                 <label for="name" data-lang-key="yourName">Tên của bạn</label>
                 <input type="text" id="name" name="name" required>
