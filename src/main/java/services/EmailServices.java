@@ -1,5 +1,6 @@
 package services;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -7,8 +8,13 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class EmailServices {
-    private final String username = "yurichangirl752@gmail.com";
-    private final String password = "cieg xskp pojn vhzp";
+    Dotenv dotenv = Dotenv.configure()
+            .filename(".env")
+            .systemProperties()
+            .ignoreIfMissing()
+            .load();
+    String username = dotenv.get("EMAIL");
+    String password = dotenv.get("APP_PASSWORD");
 
     public boolean sendOtpEmail(String toEmail, String otp) {
         // Cấu hình SMTP Server của Gmail
