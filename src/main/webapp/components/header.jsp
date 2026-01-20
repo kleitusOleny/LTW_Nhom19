@@ -26,6 +26,15 @@
                             </div>
 
                             <div class="header-right">
+                                <c:if test="${not empty sessionScope.user}">
+                                    <c:if test="${sessionScope.user.administrator == 1}">
+                                        <a href="${pageContext.request.contextPath}/dashboard"
+                                           aria-label="Admin Dashboard"
+                                           title="Trang quản trị"
+                                           class="admin-nav-link"> <i class="fas fa-user-shield"></i>
+                                        </a>
+                                    </c:if>
+                                </c:if>
                                 <c:if test="${empty sessionScope.user}">
                                     <a href="${pageContext.request.contextPath}/login" aria-label="Login">
                                         <span style="text-decoration-color: red">Đăng nhập</span>
@@ -33,12 +42,12 @@
                                 </c:if>
                                 <c:if test="${not empty sessionScope.user}">
                                     <a href="${pageContext.request.contextPath}/infoUsers/user_sidebar.jsp"
-                                        aria-label="Account">
+                                        aria-label="Account" title="Thông tin tài khoản">
                                         <i class="fas fa-user"></i>
                                     </a>
                                 </c:if>
                                 <a href="${pageContext.request.contextPath}/my-cart" class="cart-link"
-                                    aria-label="Cart">
+                                    aria-label="Cart" title="Giỏ hàng">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                     <span class="cart-count">${sessionScope.cart.totalQuantity}</span>
                                 </a>
