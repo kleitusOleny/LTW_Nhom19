@@ -67,8 +67,8 @@
                         <h3>Sắp Hết Hàng</h3>
                         <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
                     </div>
-                    <p class="stat-number">2</p>
-                    <span class="stat-description">Sản phẩm có SL < 5</span>
+                    <p class="stat-number">${outOfStockList.size()}</p>
+                    <span class="stat-description">Sản phẩm có SL <= 5</span>
                 </div>
             </div>
         </main>
@@ -172,14 +172,19 @@
             <ion-icon name="close-outline" id="close-modal-out_of_stock"></ion-icon>
         </div>
         <div class="out-of-stocks-container">
-            <div class="text-name">
-                <p>- Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022</p>
-                <p class="text-b">(VD/1193-22)</p>
-            </div>
-            <div class="text-name">
-                <p>- Rượu Sâm Panh Champagne Ruinart Rosé</p>
-                <p class="text-b">(VD/1233)</p>
-            </div>
+            <c:choose>
+                <c:when test="${not empty outOfStockList}">
+                    <c:forEach items="${outOfStockList}" var="p">
+                        <div class="text-name">
+                            <p>- ${p.productName}</p>
+                            <p class="text-b">(SL: ${p.quantity} - ID: ${p.id})</p>
+                        </div>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <p>Hiện không có sản phẩm nào sắp hết hàng.</p>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </div>

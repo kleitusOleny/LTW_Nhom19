@@ -24,9 +24,9 @@ public class MultiToggleStatusAccountsController extends HttpServlet {
             for (String idString : idArray) {
                 int id = Integer.parseInt(idString);
                 if (status) {
-                    accountManagerService.updateStatus(id, 1);
-                } else {
                     accountManagerService.updateStatus(id, 0);
+                } else {
+                    accountManagerService.updateStatus(id, 1);
                 }
             }
         }

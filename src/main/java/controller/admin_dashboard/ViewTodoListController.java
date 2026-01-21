@@ -1,10 +1,12 @@
 package controller.admin_dashboard;
 
 import dao.FeedbackDAO;
+import dao.ProductDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Feedback;
+import model.Product;
 import services.FeedbackService;
 
 import java.io.IOException;
@@ -15,8 +17,11 @@ public class ViewTodoListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
+        ProductDAO productDAO = new ProductDAO();
         List<Feedback> pendingList = feedbackDAO.getPendingFeedbacks();
         List<Feedback> doneList = feedbackDAO.getCompletedFeedbacks();
+        List<Product> outOfStockList = productDAO.countOutOfStocks();
+        request.setAttribute("outOfStockList", outOfStockList);
         request.setAttribute("pendingList", pendingList);
         request.setAttribute("doneList", doneList);
         request.getRequestDispatcher("AdminPages/admin_dashboard.jsp").forward(request, response);

@@ -33,7 +33,7 @@ public class ProductDAO extends ADAO {
 
     public List<Product> getProducts() {
         return jdbi.withHandle(handle -> handle.createQuery("SELECT " +
-                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, " +
+                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, p.create_at," +
                 "t.type_name AS typeId, " +
                 "m.manufacturer_name AS manufacturerId, " +
 
@@ -56,7 +56,7 @@ public class ProductDAO extends ADAO {
 
     public List<Product> getProducts(int limit, int offset) {
         return jdbi.withHandle(handle -> handle.createQuery("SELECT " +
-                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, " +
+                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, p.create_at, " +
                 "t.type_name AS typeId, " +
                 "m.manufacturer_name AS manufacturerId, " +
 
@@ -361,5 +361,12 @@ public class ProductDAO extends ADAO {
                 .bind("quantity", quantity)
                 .bind("id", productId)
                 .execute() > 0);
+    }
+
+    // ==========
+    public List<Product> countOutOfStocks() {
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM products WHERE quantity <= 5 AND is_delete = 0")
+                .mapToBean(Product.class)
+                .list());
     }
 }
