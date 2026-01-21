@@ -29,13 +29,13 @@ public class FeedbackDAO extends ADAO implements IDAO<Feedback> {
     }
 
     public List<Feedback> getPendingFeedbacks(){
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM feedback where status = 0 ORDER BY create_at DESC")
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM feedback where status = 0 AND is_delete = 0 ORDER BY create_at DESC")
                 .mapToBean(Feedback.class)
                 .list());
     }
 
     public List<Feedback> getCompletedFeedbacks() {
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM feedback where status = 1 ORDER BY create_at DESC")
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM feedback where status = 1 AND is_delete = 0 ORDER BY create_at DESC")
                 .mapToBean(Feedback.class)
                 .list());
     }
@@ -50,9 +50,9 @@ public class FeedbackDAO extends ADAO implements IDAO<Feedback> {
     }
 
     @Override
-    public boolean delete(Feedback id) {
-        return jdbi.withHandle(handle -> handle.createUpdate("UPDATE feedback SET is_delete = :is_delete WHERE id =:id")
-                .bind("id", id)
+    public boolean delete(Feedback entity) {
+        return jdbi.withHandle(handle -> handle.createUpdate("UPDATE feedback SET is_delete = 1 WHERE id =:id")
+                .bind("id", entity.getId())
                 .execute() > 0);
     }
 

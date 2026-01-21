@@ -31,6 +31,10 @@ public class TodoListController extends HttpServlet {
             boolean status = Boolean.parseBoolean(request.getParameter("status"));
             feedbackService.updateFeedback(id, status);
             response.sendRedirect("dashboard");
+        } else if ("delete_task".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("taskId"));
+            feedbackService.deleteFeedback(id);
+            response.sendRedirect("dashboard");
         } else {
             String title = request.getParameter("subject");
             String content = request.getParameter("message");

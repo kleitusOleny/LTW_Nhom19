@@ -141,8 +141,8 @@
 </div>
 <div class="modal-overlay-todo" id="generic-todo-modal">
     <div class="modal-content-todo">
-        <form action="${pageContext.request.contextPath}/todo_list" method="POST">
-            <input type="hidden" name="action" value="update_status">
+        <form id="todo-form" action="${pageContext.request.contextPath}/todo_list" method="POST">
+            <input type="hidden" name="action" id="modal-action" value="update_status">
             <input type="hidden" name="taskId" id="modal-task-id"> <div class="todo-container">
             <h2 id="modal-task-title">Tiêu đề task</h2>
             <p id="modal-task-content" style="color: #555;"></p>
@@ -156,6 +156,7 @@
         </div>
             <div class="group-button-action section">
                 <button type="button" class="cancel element-button close-todo-modal">Huỷ</button>
+                <button type="button" class="delete element-button" onclick="submitDelete()">Xoá</button>
                 <button type="submit" class="fix-btn element-button">Cập nhật</button>
             </div>
         </form>
@@ -187,15 +188,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/popup.js"></script>
 <script>
-    // Run Pop-up function
-    document.addEventListener("DOMContentLoaded", function () {
-        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
-        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
-        setupModal('todo-list-modal-1', 'todo-modal-btn-1', 'close-modal-btn-11');
-        setupModal('out_of_stocks-modal', 'out_of_stocks-modal-btn', 'close-modal-out_of_stock');
-    });
-</script>
-<script>
     document.addEventListener("DOMContentLoaded", function () {
         setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
         setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
@@ -223,6 +215,13 @@
             });
         });
     });
+    function submitDelete() {
+        if (confirm("Bạn có chắc chắn muốn xoá phản hồi này không?")) {
+            // Thay đổi action thành delete_task
+            document.getElementById('modal-action').value = 'delete_task';
+            document.getElementById('todo-form').submit();
+        }
+    }
 </script>
 </body>
 </html>

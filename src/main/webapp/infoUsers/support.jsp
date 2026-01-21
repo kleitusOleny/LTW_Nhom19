@@ -11,14 +11,6 @@
     <div class="support-form">
         <form action="${pageContext.request.contextPath}/todo_list" method="POST">
             <div class="form-group">
-                <label for="name" data-lang-key="yourName">Tên của bạn</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email" data-lang-key="yourEmail">Email của bạn</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
                 <label for="subject" data-lang-key="subject">Chủ đề</label>
                 <input type="text" id="subject" name="subject" required>
             </div>

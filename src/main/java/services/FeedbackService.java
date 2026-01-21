@@ -28,4 +28,11 @@ public class FeedbackService {
 
         feedbackDAO.update(feedback);
     }
+
+    public void deleteFeedback(int id) {
+        Feedback feedback = new Feedback();
+        feedback.setId(id);
+
+        feedbackDAO.delete(feedback);
+    }
 }
