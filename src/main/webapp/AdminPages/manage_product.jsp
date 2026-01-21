@@ -100,6 +100,33 @@
                         </div>
                     </div>
 
+                    <div class="filter-item">
+                        <span class="label-text">Nhà sản xuất</span>
+                        <div class="select-wrapper">
+                            <ion-icon name="business-outline" class="field-icon"></ion-icon>
+                            <select id="filter-manufacturer" class="form-control">
+                                <option value="">Tất cả</option>
+                                <c:forEach items="${manufacturers}" var="m">
+                                    <option value="${m.manufacturerName}">${m.manufacturerName}</option>
+                                </c:forEach>
+                            </select>
+                            <ion-icon name="chevron-down-outline" class="arrow-icon"></ion-icon>
+                        </div>
+                    </div>
+
+                    <div class="filter-item">
+                        <span class="label-text">Ngày tạo</span>
+                        <div class="price-group">
+                            <div class="input-wrapper">
+                                <input type="date" id="min-date" class="form-control" placeholder="Từ ngày">
+                            </div>
+                            <span class="divider">-</span>
+                            <div class="input-wrapper">
+                                <input type="date" id="max-date" class="form-control" placeholder="Đến ngày">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="filter-item item-bottom">
                         <button id="btn-reset-filter" class="btn-reset" title="Đặt lại">
                             <ion-icon name="refresh-outline"></ion-icon>
@@ -122,6 +149,8 @@
                         <th class="col-tick"><input type="checkbox" id="select-all-checkbox"></th>
                         <th class="col-product">Sản phẩm</th>
                         <th class="col-sku">SKU</th>
+                        <th class="col-manufacturer" hidden="hidden">Nhà SX</th>
+                        <th class="col-date">Ngày tạo</th>
                         <th class="col-price">Giá</th>
                         <th class="col-stock">Tồn Kho</th>
                         <th class="col-action">Hành động</th>
@@ -138,11 +167,16 @@
                                 </div>
                             </td>
                             <td>${p.id}</td>
+
+                            <td hidden="hidden">${p.manufacturerId}</td>
+                            <td><fmt:formatDate value="${p.getCreateAt()}" pattern="yyyy-MM-dd"/></td>
+
                             <td><fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫"
-                                                  maxFractionDigits="0"/>
+                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                             </td>
-                            <td class="center-align"><span class="stock-status in-stock">${p.quantity}</span></td>
+                            <td class="center-align"><span class="stock-status ${p.quantity > 0 ? 'in-stock' : 'out-of-stock'}">
+                                    ${p.quantity > 0 ? p.quantity : '0'}
+                            </span></td>
                             <td>
                                 <div class="cell-action">
                                     <button class="edit btn edit-button">Sửa</button>
@@ -321,7 +355,7 @@
 
         setupModal(
             '.delete-confirm-modal',
-            '.delete-button', // Áp dụng cho tất cả nút có class "delete" và "btn"
+            '.delete-button',
             '.close-delete-btn, .cancel-delete-btn'
         );
 
@@ -416,76 +450,93 @@
 
     document.addEventListener("DOMContentLoaded", function () {
 
-        $(document).ready(function () {
-            // 1. Cấu hình Custom Filter cho Giá (Price Range)
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var min = parseInt($('#min-price').val(), 10);
-                    var max = parseInt($('#max-price').val(), 10);
 
-                    // Lấy dữ liệu cột Giá (Cột index 3), loại bỏ ký tự không phải số (đ, dấu chấm, phẩy)
-                    var priceStr = data[3] || "0";
-                    var price = parseFloat(priceStr.replace(/[\D\s\._\-]+/g, ""));
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                // 1. Lấy giá trị từ các ô input
+                var minPrice      = parseInt($('#min-price').val(), 10);
+                var maxPrice      = parseInt($('#max-price').val(), 10);
+                var stockStatus   = $('#filter-stock').val();
+                var selectedManu  = $('#filter-manufacturer').val().trim();
+                var minDate       = $('#min-date').val();
+                var maxDate       = $('#max-date').val();
 
-                    if ((isNaN(min) && isNaN(max)) ||
-                        (isNaN(min) && price <= max) ||
-                        (min <= price && isNaN(max)) ||
-                        (min <= price && price <= max)) {
-                        return true;
-                    }
+                // 2. Lấy dữ liệu từ dòng hiện tại trong bảng (Lưu ý chỉ số cột)
+                var manuData      = data[3] || ""; // Cột 3: Nhà sản xuất
+                var dateData      = data[4] || ""; // Cột 4: Ngày tạo
+                var priceData     = data[5] || "0"; // Cột 5: Giá
+                var stockData     = parseInt(data[6]) || 0; // Cột 6: Tồn kho
+
+                // --- LOGIC LỌC GIÁ ---
+                var priceVal = parseFloat(priceData.replace(/[^\d]/g, ''));
+                if (
+                    (!isNaN(minPrice) && priceVal < minPrice) ||
+                    (!isNaN(maxPrice) && priceVal > maxPrice)
+                ) {
                     return false;
                 }
-            );
 
-            // 2. Cấu hình Custom Filter cho Tồn kho (Stock)
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var stockStatus = $('#filter-stock').val();
-                    // Lấy dữ liệu cột Stock (Cột index 4)
-                    var stockVal = parseInt(data[4]) || 0;
+                // --- LOGIC LỌC TỒN KHO ---
+                if (stockStatus === "instock" && stockData <= 0) return false;
+                if (stockStatus === "outstock" && stockData > 0) return false;
 
-                    if (stockStatus === "") return true; // Chọn tất cả
-                    if (stockStatus === "instock" && stockVal > 0) return true;
-                    if (stockStatus === "outstock" && stockVal <= 0) return true;
-
+                // --- LOGIC LỌC NHÀ SẢN XUẤT ---
+                if (selectedManu !== "" && manuData !== selectedManu) {
                     return false;
                 }
-            );
 
-            // 3. Khởi tạo DataTable
-            var table = $('#product-datatable').DataTable({
-                "paging": true,       // Bật phân trang (Mặc định là true, khai báo rõ ràng)
-                "pageLength": 10,     // Số dòng mỗi trang
-                "lengthMenu": [5, 10, 25, 50], // Tùy chọn số dòng hiển thị
-                "columnDefs": [
-                    {"orderable": false, "targets": [0, 5]},
-                    {"searchable": false, "targets": [0, 5]}
-                ],
-                "language": {
-                    "url": 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json',
-                    "paginate": {
-                        "first": "<ion-icon name='play-skip-back-outline'></ion-icon>",
-                        "last": "<ion-icon name='play-skip-forward-outline'></ion-icon>",
-                        "next": "<ion-icon name='chevron-forward-outline'></ion-icon>",
-                        "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
-                    }
-                },
-                // l: length changing input control, f: filtering input, r: processing, t: table, i: info, p: pagination
-                "dom": '<"top"l>rt<"bottom"ip><"clear">'
-            });
+                // --- LOGIC LỌC NGÀY TẠO ---
+                if (minDate || maxDate) {
+                    var itemDate = new Date(dateData);
+                    var minD = minDate ? new Date(minDate) : null;
+                    var maxD = maxDate ? new Date(maxDate) : null;
 
-            // 4. Bắt sự kiện khi nhập liệu vào bộ lọc -> Vẽ lại bảng
-            $('#min-price, #max-price, #filter-stock').on('keyup change', function () {
-                table.draw();
-            });
+                    if (minD && itemDate < minD) return false;
+                    if (maxD && itemDate > maxD) return false;
+                }
 
-            // 5. Nút Reset bộ lọc
-            $('#btn-reset-filter').on('click', function () {
-                $('#min-price').val('');
-                $('#max-price').val('');
-                $('#filter-stock').val('');
-                table.search('').draw();
-            });
+                return true;
+            }
+        );
+
+        // KHỞI TẠO DATATABLE
+        var table = $('#product-datatable').DataTable({
+            "paging": true,
+            "pageLength": 10,
+            "lengthMenu": [5, 10, 25, 50],
+            "columnDefs": [
+                {"orderable": false, "targets": [0, 7]},
+                {"searchable": false, "targets": [0, 7]}
+            ],
+            "language": {
+                "url": 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json',
+                "paginate": {
+                    "first": "<ion-icon name='play-skip-back-outline'></ion-icon>",
+                    "last": "<ion-icon name='play-skip-forward-outline'></ion-icon>",
+                    "next": "<ion-icon name='chevron-forward-outline'></ion-icon>",
+                    "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
+                }
+            },
+            "dom": '<"top"l>rt<"bottom"ip><"clear">'
+        });
+
+        $('#custom-search-input').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+
+        $('#min-price, #max-price, #filter-stock, #filter-manufacturer, #min-date, #max-date').on('keyup change', function () {
+            table.draw();
+        });
+
+        $('#btn-reset-filter').on('click', function () {
+            $('#min-price').val('');
+            $('#max-price').val('');
+            $('#filter-stock').val('');
+            $('#filter-manufacturer').val('');
+            $('#min-date').val('');
+            $('#max-date').val('');
+
+            table.search('').draw();
         });
     });
 </script>

@@ -3,6 +3,7 @@ import dao.ProductDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import model.Manufacturer;
 import model.Product;
 
 import java.io.IOException;
@@ -15,8 +16,10 @@ public class ProductManagerController extends HttpServlet {
         ProductDAO dao = new ProductDAO();
 
         List<Product> products = dao.getProducts();
-
-        request.setAttribute("products",products);
+        List<Manufacturer> manufacturers = dao.getAllManufacturers();
+        
+        request.setAttribute("products", products);
+        request.setAttribute("manufacturers", manufacturers);
         
         request.getRequestDispatcher("AdminPages/manage_product.jsp").forward(request,response);
     }
