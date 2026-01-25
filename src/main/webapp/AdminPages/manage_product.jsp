@@ -54,7 +54,7 @@
             <div class="main-header">
                 <h1>Quản Lí Sản Phẩm</h1>
                 <div class="header-actions">
-                    <button class="btn btn-danger" id="delete-selected-btn">
+                    <button class="btn btn-danger remove-product-btn" data-target="delete-product">
                         <ion-icon name="trash-outline"></ion-icon>
                         Xóa (Đã chọn)
                     </button>
@@ -229,75 +229,63 @@
         </button>
         <h2>Thêm Sản Phẩm Mới</h2>
 
-        <form action="#">
+        <form id="add-product-form" action="add-product" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="prod-id">ID (Khóa chính / SKU)</label>
-                <input type="text" id="prod-id" value="SKU: VD/0998-18">
+                <input type="text" id="prod-id" name="id" value="SKU: VD/0998-18">
             </div>
             <div class="form-group">
                 <label for="prod-name">Tên sản phẩm</label>
-                <input type="text" id="prod-name" value="Rượu vang đỏ Château La Vieille Cure...">
+                <input type="text" id="prod-name" name="productName" value="Rượu vang đỏ Château La Vieille Cure...">
             </div>
 
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="prod-type">Loại rượu (typealcohol)</label>
-                    <input type="text" id="prod-type" value="Rượu Vang Đỏ">
+                    <label for="prod-type">Loại rượu</label>
+                    <input type="text" id="prod-type" name="type" value="Rượu Vang Đỏ">
                 </div>
                 <div class="form-group">
-                    <label for="prod-origin">Xuất xứ (origin)</label>
-                    <input type="text" id="prod-origin" value="Pháp">
+                    <label for="prod-origin">Xuất xứ</label>
+                    <input type="text" id="prod-origin" name="origin" value="Pháp">
                 </div>
                 <div class="form-group">
-                    <label for="prod-manufacturer">Nhà sản xuất (manufacturer)</label>
-                    <input type="text" id="prod-manufacturer" value="Château La Vieille Cure">
+                    <label for="prod-manufacturer">Nhà sản xuất</label>
+                    <input type="text" id="prod-manufacturer" name="manufacturer" value="Château La Vieille Cure">
                 </div>
                 <div class="form-group">
-                    <label for="prod-price">Giá (price)</label>
-                    <input type="number" id="prod-price" value="1573000">
+                    <label for="prod-price">Giá</label>
+                    <input type="number" id="prod-price" name="price" value="1573000">
                 </div>
                 <div class="form-group">
-                    <label for="prod-capacity">Dung tích (capacity)</label>
-                    <input type="text" id="prod-capacity" value="750ML">
+                    <label for="prod-capacity">Dung tích</label>
+                    <input type="text" id="prod-capacity" name="capacity" value="750ML">
                 </div>
                 <div class="form-group">
-                    <label for="prod-alcohol">Nồng độ (alcohol)</label>
-                    <input type="text" id="prod-alcohol" value="15.0">
+                    <label for="prod-alcohol">Nồng độ</label>
+                    <input type="text" id="prod-alcohol" name="alcohol" value="15.0">
                 </div>
                 <div class="form-group">
                     <label for="prod-stock">Số lượng tồn kho</label>
-                    <input type="number" id="prod-stock" value="150">
+                    <input type="number" id="prod-stock" name="stock" value="150">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="prod-category">Danh mục (category)</label>
-                <input type="text" id="prod-category" value="Bordeaux, Fronsac, Rượu Vang Nhập Khẩu...">
+                <label for="prod-category">Danh mục</label>
+                <input type="text" id="prod-category" name="category" value="Bordeaux, Fronsac...">
             </div>
 
-            <div class="form-group">
-                <label for="tag-typing">Thẻ (tag) - Nhập và nhấn Enter hoặc phẩy</label>
-
-                <div class="tag-container" id="tag-wrapper">
-                    <input type="text" id="tag-typing" placeholder="Nhập tag..." class="tag-input-typing">
-                </div>
-
-                <input type="hidden" id="prod-tag" name="tags" value="">
-            </div>
+            <input type="hidden" id="prod-tag" name="tags" value="">
 
             <div class="form-group">
                 <label for="prod-image">Hình ảnh sản phẩm</label>
                 <div class="file-upload-wrapper">
-                    <input type="file" id="prod-image" class="file-upload-input" accept="image/png, image/jpeg">
-                    <label for="prod-image" class="file-upload-label">
-                        <ion-icon name="cloud-upload-outline"></ion-icon>
-                        <span>Nhấn để tải ảnh lên</span>
-                    </label>
+                    <input type="file" id="prod-image" name="image" class="file-upload-input" accept="image/png, image/jpeg">
                 </div>
             </div>
             <div class="form-group">
-                <label for="prod-detail">Mô tả chi tiết (detail)</label>
-                <textarea id="prod-detail" rows="6"></textarea>
+                <label for="prod-detail">Mô tả chi tiết</label>
+                <textarea id="prod-detail" name="detail" rows="6"></textarea>
             </div>
 
             <div class="form-actions">
@@ -308,7 +296,7 @@
     </div>
 </div>
 
-<div class="modal-overlay-form delete-confirm-modal" style="--modal-width: 450px;">
+<div class="modal-overlay-form delete-confirm-modal" id="delete-product" style="--modal-width: 450px;">
     <div class="modal-content-form">
         <button class="modal-close-form close-delete-btn">
             <ion-icon name="close-outline"></ion-icon>
@@ -349,11 +337,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         setupDynamicModals('add-product-btn', 'modal-close-form')
 
-        setupModal(
-            '.delete-confirm-modal',
-            '.delete-button',
-            '.close-delete-btn, .cancel-delete-btn'
-        );
+        setupDynamicModals('remove-product-btn','cancel-delete-btn')
 
         // --- LOGIC XỬ LÝ TAGS INPUT ---
 
@@ -441,6 +425,27 @@
         $('#add-product-btn').on('click', function () {
             tags = [];
             renderTags();
+        });
+
+        $('#add-product-form').on('submit', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: 'add-product',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert('Thêm sản phẩm thành công!');
+                    location.reload(); // Hoặc cập nhật lại DataTable
+                },
+                error: function (xhr) {
+                    alert('Có lỗi xảy ra: ' + xhr.responseText);
+                }
+            });
         });
     });
 

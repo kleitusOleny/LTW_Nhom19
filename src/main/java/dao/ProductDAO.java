@@ -362,4 +362,18 @@ public class ProductDAO extends ADAO {
                 .bind("id", productId)
                 .execute() > 0);
     }
+    
+    public void insert(Product p) {
+        jdbi.useHandle(handle -> {
+            handle.createUpdate("INSERT INTO products (id, product_name, slug, type_id, price, capacity, alcohol, origin, manufacturer_id, category_id, detail, quantity, create_at, is_delete) " +
+                            "VALUES (:id, :productName, :slug, :typeId, :price, :capacity, :alcohol, :origin, :manufacturerId, :categoryId, :detail, :quantity, NOW(), 0)")
+                    .bindBean(p)
+                    .execute();
+            
+            handle.createUpdate("INSERT INTO p_img (product_id, url_img) VALUES (?, ?)")
+                    .bind(0, p.getId())
+                    .bind(1, p.getImageUrl())
+                    .execute();
+        });
+    }
 }
