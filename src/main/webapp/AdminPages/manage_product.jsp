@@ -64,7 +64,7 @@
                         <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden-file-input">
                     </label>
 
-                    <button class="btn btn-primary add-product-btn">
+                    <button class="btn btn-primary add-product-btn" data-target="modal-san-pham">
                         <ion-icon name="add-outline"></ion-icon>
                         Thêm Sản Phẩm
                     </button>
@@ -222,7 +222,7 @@
         </button>
     </div>
 </div>
-<div class="modal-overlay-form product-form-modal">
+<div class="modal-overlay-form product-form-modal" id="modal-san-pham">
     <div class="modal-content-form">
         <button class="modal-close-form" id="close-form-btn">
             <ion-icon name="close-outline"></ion-icon>
@@ -347,11 +347,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        setupModal(
-            '.product-form-modal',
-            '.add-product-btn',
-            '.modal-close-form, .cancel-form-btn'
-        );
+        setupDynamicModals('add-product-btn', 'modal-close-form')
 
         setupModal(
             '.delete-confirm-modal',
