@@ -20,7 +20,7 @@ public class StoreController extends HttpServlet {
         ProductDAO dao = new ProductDAO();
         
         // 1. Cấu hình phân trang
-        int pageSize = 24;
+        int pageSize = 16;
         int page = 1;
         
         String pageParam = request.getParameter("page");
@@ -32,11 +32,16 @@ public class StoreController extends HttpServlet {
             }
         }
         
+        String sort = request.getParameter("sort");
+        if (sort == null) {
+            sort = "default";
+        }
+        
         // Tính toán vị trí bắt đầu
         int offset = (page - 1) * pageSize;
         
         // 2. Lấy dữ liệu
-        List<Product> products = dao.getProducts(pageSize, offset);
+        List<Product> products = dao.getProducts(pageSize, offset,sort);
         int totalProducts = ProductService.countTotalProducts();
         double maxPrice = dao.getMaxPrice();
         request.setAttribute("maxPrice", maxPrice > 0 ? maxPrice : 10000000);
@@ -59,7 +64,10 @@ public class StoreController extends HttpServlet {
                 request.setAttribute("favouriteProductMap", favouriteProductMap);
             }
         }
-
+        
+        
+        request.setAttribute("currentSort", sort);
+        
         // 5. Gửi dữ liệu sang JSP
         request.setAttribute("products", products);
         request.setAttribute("totalPages", totalPages);

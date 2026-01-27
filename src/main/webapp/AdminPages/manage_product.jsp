@@ -54,7 +54,7 @@
             <div class="main-header">
                 <h1>Quản Lí Sản Phẩm</h1>
                 <div class="header-actions">
-                    <button class="btn btn-danger" id="delete-selected-btn">
+                    <button class="btn btn-danger remove-product-btn" data-target="delete-product">
                         <ion-icon name="trash-outline"></ion-icon>
                         Xóa (Đã chọn)
                     </button>
@@ -64,7 +64,7 @@
                         <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden-file-input">
                     </label>
 
-                    <button class="btn btn-primary add-product-btn">
+                    <button class="btn btn-primary add-product-btn" data-target="modal-san-pham">
                         <ion-icon name="add-outline"></ion-icon>
                         Thêm Sản Phẩm
                     </button>
@@ -222,82 +222,77 @@
         </button>
     </div>
 </div>
-<div class="modal-overlay-form product-form-modal">
+<div class="modal-overlay-form product-form-modal" id="modal-san-pham">
     <div class="modal-content-form">
         <button class="modal-close-form" id="close-form-btn">
             <ion-icon name="close-outline"></ion-icon>
         </button>
         <h2>Thêm Sản Phẩm Mới</h2>
 
-        <form action="#">
+        <form id="add-product-form" action="add-product" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="prod-id">ID (Khóa chính / SKU)</label>
-                <input type="text" id="prod-id" value="SKU: VD/0998-18">
-            </div>
-            <div class="form-group">
-                <label for="prod-name">Tên sản phẩm</label>
-                <input type="text" id="prod-name" value="Rượu vang đỏ Château La Vieille Cure...">
-            </div>
-
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="prod-type">Loại rượu (typealcohol)</label>
-                    <input type="text" id="prod-type" value="Rượu Vang Đỏ">
-                </div>
-                <div class="form-group">
-                    <label for="prod-origin">Xuất xứ (origin)</label>
-                    <input type="text" id="prod-origin" value="Pháp">
-                </div>
-                <div class="form-group">
-                    <label for="prod-manufacturer">Nhà sản xuất (manufacturer)</label>
-                    <input type="text" id="prod-manufacturer" value="Château La Vieille Cure">
-                </div>
-                <div class="form-group">
-                    <label for="prod-price">Giá (price)</label>
-                    <input type="number" id="prod-price" value="1573000">
-                </div>
-                <div class="form-group">
-                    <label for="prod-capacity">Dung tích (capacity)</label>
-                    <input type="text" id="prod-capacity" value="750ML">
-                </div>
-                <div class="form-group">
-                    <label for="prod-alcohol">Nồng độ (alcohol)</label>
-                    <input type="text" id="prod-alcohol" value="15.0">
-                </div>
-                <div class="form-group">
-                    <label for="prod-stock">Số lượng tồn kho</label>
-                    <input type="number" id="prod-stock" value="150">
-                </div>
+                <label for="prod-type">Loại rượu</label>
+                <select id="prod-type" name="type" class="form-control">
+                    <option value="">-- Chọn loại rượu --</option>
+                    <c:forEach items="${types}" var="t">
+                        <option value="${t.id}">${t.typeName}</option>
+                    </c:forEach>
+                </select>
             </div>
 
             <div class="form-group">
-                <label for="prod-category">Danh mục (category)</label>
-                <input type="text" id="prod-category" value="Bordeaux, Fronsac, Rượu Vang Nhập Khẩu...">
+                <label for="prod-origin">Xuất xứ</label>
+                <input type="text" id="prod-origin" name="origin" placeholder="Ví dụ: Pháp">
             </div>
 
             <div class="form-group">
-                <label for="tag-typing">Thẻ (tag) - Nhập và nhấn Enter hoặc phẩy</label>
-
-                <div class="tag-container" id="tag-wrapper">
-                    <input type="text" id="tag-typing" placeholder="Nhập tag..." class="tag-input-typing">
-                </div>
-
-                <input type="hidden" id="prod-tag" name="tags" value="">
+                <label for="prod-manufacturer">Nhà sản xuất</label>
+                <select id="prod-manufacturer" name="manufacturer" class="form-control">
+                    <option value="">-- Chọn nhà sản xuất --</option>
+                    <c:forEach items="${manufacturers}" var="m">
+                        <option value="${m.id}">${m.manufacturerName}</option>
+                    </c:forEach>
+                </select>
             </div>
+
+            <div class="form-group">
+                <label for="prod-price">Giá</label>
+                <input type="number" id="prod-price" name="price" placeholder="Nhập giá bán">
+            </div>
+            <div class="form-group">
+                <label for="prod-capacity">Dung tích</label>
+                <input type="text" id="prod-capacity" name="capacity" placeholder="Ví dụ: 750ML">
+            </div>
+            <div class="form-group">
+                <label for="prod-alcohol">Nồng độ</label>
+                <input type="text" id="prod-alcohol" name="alcohol" placeholder="Ví dụ: 15.0">
+            </div>
+            <div class="form-group">
+                <label for="prod-stock">Số lượng tồn kho</label>
+                <input type="number" id="prod-stock" name="stock" value="0">
+            </div>
+
+            <div class="form-group">
+                <label for="prod-category">Danh mục</label>
+                <select id="prod-category" name="category" class="form-control">
+                    <option value="">-- Chọn danh mục --</option>
+                    <c:forEach items="${categories}" var="c">
+                        <option value="${c.id}">${c.categoryName}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <input type="hidden" id="prod-tag" name="tags" value="">
 
             <div class="form-group">
                 <label for="prod-image">Hình ảnh sản phẩm</label>
                 <div class="file-upload-wrapper">
-                    <input type="file" id="prod-image" class="file-upload-input" accept="image/png, image/jpeg">
-                    <label for="prod-image" class="file-upload-label">
-                        <ion-icon name="cloud-upload-outline"></ion-icon>
-                        <span>Nhấn để tải ảnh lên</span>
-                    </label>
+                    <input type="file" id="prod-image" name="image" class="file-upload-input" accept="image/png, image/jpeg">
                 </div>
             </div>
             <div class="form-group">
-                <label for="prod-detail">Mô tả chi tiết (detail)</label>
-                <textarea id="prod-detail" rows="6"></textarea>
+                <label for="prod-detail">Mô tả chi tiết</label>
+                <textarea id="prod-detail" name="detail" rows="6"></textarea>
             </div>
 
             <div class="form-actions">
@@ -308,7 +303,7 @@
     </div>
 </div>
 
-<div class="modal-overlay-form delete-confirm-modal" style="--modal-width: 450px;">
+<div class="modal-overlay-form delete-confirm-modal" id="delete-product" style="--modal-width: 450px;">
     <div class="modal-content-form">
         <button class="modal-close-form close-delete-btn">
             <ion-icon name="close-outline"></ion-icon>
@@ -347,17 +342,9 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        setupModal(
-            '.product-form-modal',
-            '.add-product-btn',
-            '.modal-close-form, .cancel-form-btn'
-        );
+        setupDynamicModals('add-product-btn', 'modal-close-form')
 
-        setupModal(
-            '.delete-confirm-modal',
-            '.delete-button',
-            '.close-delete-btn, .cancel-delete-btn'
-        );
+        setupDynamicModals('remove-product-btn','cancel-delete-btn')
 
         // --- LOGIC XỬ LÝ TAGS INPUT ---
 
@@ -445,6 +432,27 @@
         $('#add-product-btn').on('click', function () {
             tags = [];
             renderTags();
+        });
+
+        $('#add-product-form').on('submit', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: 'add-product',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert('Thêm sản phẩm thành công!');
+                    location.reload(); // Hoặc cập nhật lại DataTable
+                },
+                error: function (xhr) {
+                    alert('Có lỗi xảy ra: ' + xhr.responseText);
+                }
+            });
         });
     });
 

@@ -31,6 +31,12 @@ public class FilterController extends HttpServlet {
         String[] tags = request.getParameterValues("tag");
         
         String search = request.getParameter("search");
+        
+        String sort = request.getParameter("sort");
+        if (sort == null) {
+            sort = "default";
+        }
+        
         //Xử lý phân trang
         int pageSize = 24;
         int page = 1;
@@ -39,7 +45,7 @@ public class FilterController extends HttpServlet {
         } catch (NumberFormatException e) { page = 1; }
         int offset = (page - 1) * pageSize;
         
-        List<Product> products = dao.filterProducts(prices, categories, manufacturers, types, origins, capacities, tags, search, pageSize, offset);
+        List<Product> products = dao.filterProducts(prices, categories, manufacturers, types, origins, capacities, tags, search, pageSize, offset,sort);
         int totalFiltered = dao.countFilteredProducts(prices, categories, manufacturers, types, origins, capacities, tags, search);
         int totalPages = (int) Math.ceil((double) totalFiltered / pageSize);
         
