@@ -19,22 +19,32 @@ import java.nio.file.Paths;
 public class AddProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8"); // Đảm bảo tiếng Việt
         try {
-            // Lấy dữ liệu chuỗi
+            // Lấy dữ liệu cơ bản
             String id = request.getParameter("id");
             String name = request.getParameter("productName");
-            String type = request.getParameter("type");
             String origin = request.getParameter("origin");
-            String manufacturer = request.getParameter("manufacturer");
-            double price = Double.parseDouble(request.getParameter("price"));
+            
+            // XỬ LÝ SỐ LIỆU (Parse cẩn thận)
+            double price = 0;
+            try { price = Double.parseDouble(request.getParameter("price")); } catch (NumberFormatException e) {}
+            
+            double alcohol = 0;
+            try { alcohol = Double.parseDouble(request.getParameter("alcohol")); } catch (NumberFormatException e) {}
+            
+            int stock = 0;
+            try { stock = Integer.parseInt(request.getParameter("stock")); } catch (NumberFormatException e) {}
+            
             String capacity = request.getParameter("capacity");
-            String alcohol = request.getParameter("alcohol");
-            int stock = Integer.parseInt(request.getParameter("stock"));
-            String category = request.getParameter("category");
-            String tags = request.getParameter("tags");
             String detail = request.getParameter("detail");
             
-            // Xử lý file ảnh
+            // --- THAY ĐỔI QUAN TRỌNG: Lấy ID từ dropdown ---
+            int typeId = Integer.parseInt(request.getParameter("type"));
+            int manufacturerId = Integer.parseInt(request.getParameter("manufacturer"));
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+            
+            // Xử lý file ảnh (Giữ nguyên logic cũ)
             Part filePart = request.getPart("image");
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             String imageUrl = "";
@@ -46,29 +56,39 @@ public class AddProductController extends HttpServlet {
                 imageUrl = "assets/products/" + fileName;
             }
             
-            // Đóng gói vào object (Giả sử model Product của bạn có các field này)
+            // Đóng gói object Product
             Product p = new Product();
             p.setId(id);
             p.setProductName(name);
+            p.setSlug(toSlug(name)); // Bạn nên có hàm tạo slug
             p.setPrice(BigDecimal.valueOf(price));
             p.setCapacity(capacity);
-            p.setAlcohol(Double.parseDouble(alcohol));
+            p.setAlcohol(alcohol);
             p.setOrigin(origin);
             p.setQuantity(stock);
             p.setDetail(detail);
             p.setImageUrl(imageUrl);
             
-            ProductDAO dao = new ProductDAO();
-            boolean success = dao.insertProduct(p, type, manufacturer, category, tags);
+            // Set các ID khóa ngoại
+//            p.setTypeId(typeId);              // Cần đảm bảo Model Product có setter này
+//            p.setManufacturerId(manufacturerId); // Cần đảm bảo Model Product có setter này
+//            p.setCategoryId(categoryId);      // Cần đảm bảo Model Product có setter này
             
-            if (success) {
-                response.sendRedirect("product-manager");
-            } else {
-                response.getWriter().write("Lỗi khi thêm sản phẩm.");
-            }
+            ProductDAO dao = new ProductDAO();
+            dao.insert(p);
+            
+            
+            response.sendRedirect("manage_product.jsp"); // Hoặc redirect về controller load danh sách
+            
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dữ liệu đầu vào không hợp lệ.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dữ liệu đầu vào không hợp lệ: " + e.getMessage());
         }
+    }
+    
+    // Hàm tiện ích tạo slug đơn giản (nếu chưa có)
+    private String toSlug(String input) {
+        if (input == null) return "";
+        return input.toLowerCase().replaceAll("[^a-z0-9\\s]", "").replaceAll("\\s+", "-");
     }
 }

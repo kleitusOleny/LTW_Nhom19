@@ -23,15 +23,15 @@
         <exception-type>org.jdbi.v3.core.ConnectionException</exception-type>
         <location>/error/db_error.jsp</location>
     </error-page>
-    <error-page>
-        <exception-type>java.lang.RuntimeException</exception-type>
-        <location>/error/error_500.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <exception-type>java.lang.RuntimeException</exception-type>-->
+<!--        <location>/error/error_500.jsp</location>-->
+<!--    </error-page>-->
 
-    <error-page>
-        <error-code>500</error-code>
-        <location>/error/error_500.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <error-code>500</error-code>-->
+<!--        <location>/error/error_500.jsp</location>-->
+<!--    </error-page>-->
 
     <!-- Explicit mapping for static resources to bypass filters -->
     <servlet-mapping>

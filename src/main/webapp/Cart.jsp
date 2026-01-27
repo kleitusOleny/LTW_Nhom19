@@ -57,6 +57,7 @@
                                     <input type="number"
                                            id="qty-${ci.product.id}"
                                            value="${ci.quantity}"
+                                           data-old-value="${ci.quantity}"
                                            onchange="updateQuantity('${ci.product.id}', 0, this.value)">
 
                                     <button type="button" class="quantity-btn" onclick="updateQuantity('${ci.product.id}', 1)">+</button>
@@ -90,11 +91,11 @@
 
                     <div class="summary-row">
                         <span>Tạm tính</span>
-                        <strong>
-                            <fmt:setLocale value="vi_VN"/>
-                            <fmt:formatNumber value="${sessionScope.cart.total}" type="currency" currencySymbol="₫"
-                                              maxFractionDigits="0"/>
-                        </strong>
+                            <strong>
+                                <fmt:setLocale value="vi_VN"/>
+                                <fmt:formatNumber value="${sessionScope.cart.total}" type="currency" currencySymbol="₫"
+                                                  maxFractionDigits="0"/>
+                            </strong>
                     </div>
 
                     <div class="summary-row">
@@ -158,6 +159,9 @@
     // Hàm cập nhật số lượng (AJAX)
     function updateQuantity(id, delta, setValue = null) {
         const input = document.getElementById('qty-' + id);
+        // Lưu lại giá trị hợp lệ gần nhất để nếu lỗi thì quay lại số này
+        let oldQty = parseInt(input.getAttribute('data-old-value') || input.value);
+
         let currentQty = parseInt(input.value);
         let newQty = currentQty;
 
@@ -180,14 +184,20 @@
         })
             .then(response => response.json())
             .then(data => {
-                // Cập nhật input
-                input.value = data.quantity;
+                // --- XỬ LÝ LỖI TỒN KHO ---
+                if (data.status === 'error') {
+                    alert(data.message); // Hiện thông báo: "Xin lỗi, kho chỉ còn..."
+                    input.value = data.currentQuantity; // Reset về số lượng cũ
+                    return;
+                }
+                // -------------------------
 
-                // Cập nhật text hiển thị thành tiền của item
+                // Xử lý thành công
+                input.value = data.quantity;
+                input.setAttribute('data-old-value', data.quantity); // Cập nhật số cũ mới
+
                 const subtotalEl = document.getElementById('subtotal-' + id);
                 subtotalEl.innerText = formatCurrency(data.subtotal);
-
-                // Cập nhật giá trị thô để tính toán
                 subtotalEl.setAttribute('data-value', data.subtotal);
 
                 updateSelectedTotal();

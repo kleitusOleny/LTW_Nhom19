@@ -5,20 +5,25 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Cart;
 import model.CartItem;
+import model.Product;
+import services.ProductService; // Import Service
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal; // Import BigDecimal
+import java.math.BigDecimal;
 
 @WebServlet(name = "UpdateItem", value = "/update-item")
 public class UpdateItem extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-    }
+    
+    // Khai báo service để truy xuất DB
+    ProductService productService = new ProductService();
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Cart cart = (Cart) request.getSession().getAttribute("cart");
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
         
         if (cart == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -29,55 +34,60 @@ public class UpdateItem extends HttpServlet {
         String setQuantityStr = request.getParameter("setQuantity");
         String quantityStr = request.getParameter("quantity");
         
-        // Logic update giỏ hàng
-        if (setQuantityStr != null) {
-            try {
-                cart.updateItem(id, Integer.parseInt(setQuantityStr));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        } else if (quantityStr != null) {
-            try {
-                int quantity = Integer.parseInt(quantityStr);
-                cart.updateQuantity(id, quantity);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-        
-        // Tính toán lại subtotal cho item vừa update
-        BigDecimal itemSubtotal = BigDecimal.ZERO;
-        int newQuantity = 0;
-        
-        // Cần duyệt danh sách để tìm đúng item và lấy giá trị mới nhất
+        Product product = productService.getProduct(id);
+        int currentStock = (product != null) ? product.getQuantity() : 0;
+
+        int currentInCart = 0;
         for (CartItem item : cart.getItems()) {
             if (item.getProduct().getId().equals(id)) {
-                // getPrice() là BigDecimal, quantity là int
-                // subtotal = price * quantity
-                itemSubtotal = item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
-                newQuantity = item.getQuantity();
+                currentInCart = item.getQuantity();
                 break;
             }
         }
         
-        // Lấy tổng giỏ hàng (Giả định cart.getTotal() cũng trả về BigDecimal hoặc double)
-        // Nếu cart.getTotal() trả về double, bạn dùng new BigDecimal(cart.getTotal())
-        // Nếu cart.getTotal() trả về BigDecimal, dùng trực tiếp.
-        // Ở đây mình viết an toàn cho cả hai trường hợp bằng cách ép sang String rồi tạo BigDecimal
-        BigDecimal cartTotal = new BigDecimal(String.valueOf(cart.getTotal()));
+        int newQuantity = currentInCart;
+        try {
+            if (setQuantityStr != null) {
+                // Trường hợp khách nhập số trực tiếp (VD: nhập 10)
+                newQuantity = Integer.parseInt(setQuantityStr);
+            } else if (quantityStr != null) {
+                // Trường hợp khách bấm nút +/-
+                int delta = Integer.parseInt(quantityStr);
+                newQuantity += delta;
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        if (newQuantity > currentStock) {
+            out.print("{\"status\":\"error\", \"message\":\"Xin lỗi, kho chỉ còn " + currentStock + " sản phẩm.\", \"currentQuantity\":" + currentInCart + "}");
+            out.flush();
+            return;
+        }
+
+        if (setQuantityStr != null) {
+            cart.updateItem(id, newQuantity);
+        } else if (quantityStr != null) {
+            cart.updateQuantity(id, Integer.parseInt(quantityStr));
+        }
+
+        BigDecimal itemSubtotal = BigDecimal.ZERO;
+        int finalQuantity = 0;
         
-        // Trả về JSON
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        for (CartItem item : cart.getItems()) {
+            if (item.getProduct().getId().equals(id)) {
+                // Tính lại thành tiền
+                finalQuantity = item.getQuantity();
+                itemSubtotal = item.getProduct().getPrice().multiply(BigDecimal.valueOf(finalQuantity));
+                break;
+            }
+        }
         
-        PrintWriter out = response.getWriter();
         StringBuilder json = new StringBuilder();
         json.append("{");
-        json.append("\"quantity\":").append(newQuantity).append(",");
-        // subtotal và total gửi về dạng số nguyên (bỏ phần thập phân nếu muốn giống fmt:formatNumber maxFractionDigits="0")
-        // Hoặc gửi nguyên số thực để JS format
-        json.append("\"subtotal\":").append(itemSubtotal).append(",");
-        json.append("\"total\":").append(cartTotal);
+        json.append("\"status\":\"success\",");
+        json.append("\"quantity\":").append(finalQuantity).append(",");
+        json.append("\"subtotal\":").append(itemSubtotal);
         json.append("}");
         
         out.print(json.toString());

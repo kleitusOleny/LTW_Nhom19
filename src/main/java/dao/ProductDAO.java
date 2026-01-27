@@ -54,25 +54,43 @@ public class ProductDAO extends ADAO {
 
     }
 
-    public List<Product> getProducts(int limit, int offset) {
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT " +
+    public List<Product> getProducts(int limit, int offset,String sort) {
+        String order = "ORDER BY price ";
+        switch (sort) {
+            case "price-asc":
+                order += "ASC ";
+                break;
+            case "price-desc":
+                order += "DESC ";
+                break;
+            case "rating":
+                order += "DESC "; // Giả sử cột là rating
+                break;
+            default:
+                order += "DESC "; // Mặc định
+                break;
+        }
+        
+        String sql = "SELECT " +
                 "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, p.create_at, " +
                 "t.type_name AS typeId, " +
                 "m.manufacturer_name AS manufacturerId, " +
-
+                
                 "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl, " +
-
+                
                 "(SELECT AVG(ct.star) " +
                 " FROM evaluates e " +
                 " JOIN ct_evaluates ct ON e.evaluate_id = ct.id " +
                 " WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS rating, " +
-
+                
                 "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews " +
                 "FROM products p " +
                 "LEFT JOIN product_types t ON p.type_id = t.id " +
                 "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
                 "WHERE p.is_delete = 0 " +
-                "LIMIT :limit OFFSET :offset")
+                order +
+                "LIMIT :limit OFFSET :offset";
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind("limit", limit)
                 .bind("offset", offset)
                 .mapToBean(Product.class)
@@ -187,7 +205,23 @@ public class ProductDAO extends ADAO {
 
     // Lấy danh sách đã lọc
     public List<Product> filterProducts(String[] prices, String[] categories, String[] manufacturers, String[] types,
-            String[] origins, String[] capacities, String[] tags, String keyword, int limit, int offset) {
+            String[] origins, String[] capacities, String[] tags, String keyword, int limit, int offset,String sort) {
+        
+        String order = "ORDER BY price ";
+        switch (sort) {
+            case "price-asc":
+                order += "ASC ";
+                break;
+            case "price-desc":
+                order += "DESC ";
+                break;
+            case "rating":
+                order += "DESC "; // Giả sử cột là rating
+                break;
+            default:
+                order += "DESC "; // Mặc định
+                break;
+        }
         StringBuilder sql = new StringBuilder(
                 "SELECT p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, " +
                         "t.type_name AS typeId, m.manufacturer_name AS manufacturerId, " +
@@ -204,7 +238,7 @@ public class ProductDAO extends ADAO {
         
         // Gọi hàm nối chuỗi điều kiện
         appendFilterConditions(sql, prices, categories, manufacturers, types, origins, capacities, tags, keyword);
-        
+        sql.append(order);
         sql.append(" LIMIT :limit OFFSET :offset");
         
         return jdbi.withHandle(handle -> {
