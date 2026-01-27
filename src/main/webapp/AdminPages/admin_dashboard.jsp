@@ -13,33 +13,11 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="${pageContext.request.contextPath}/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn" alt=""/>
-                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                <%@ include file="/AdminPages/components/avatar.jsp" %>
+                <%@ include file="/AdminPages/components/notify_icon.jsp" %>
             </div>
-            <li><a href="${pageContext.request.contextPath}/dashboard" class="a-with-icon selected">
-                <ion-icon name="home"></ion-icon>
-                Trang Chủ</a></li>
-            <li><a href="manage_product.jsp" class="a-with-icon">
-                <ion-icon name="bag-remove-outline"></ion-icon>
-                Quản Lí Sản Phẩm</a></li>
-            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon">
-                <ion-icon name="people-outline"></ion-icon>
-                Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="manage_orders.jsp" class="a-with-icon">
-                <ion-icon name="cart-outline"></ion-icon>
-                Quản Lí Đơn Hàng</a></li>
-            <li><a href="manage_banner.jsp" class="a-with-icon">
-                <ion-icon name="albums-outline"></ion-icon>
-                Quản Lí Banner</a></li>
-            <li><a href="manage_blog.jsp" class="a-with-icon">
-                <ion-icon name="reader-outline"></ion-icon>
-                Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="manage_promotions.jsp" class="a-with-icon">
-                <ion-icon name="ticket-outline"></ion-icon>
-                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="charts.jsp" class="a-with-icon">
-                <ion-icon name="stats-chart-outline"></ion-icon>
-                Thống Kê</a></li>
+            <c:set var="activePage" value="dashboard" scope="request" />
+            <%@ include file="/AdminPages/components/sidebar_items_component.jsp" %>
         </ul>
         <div class="text">━ Được update tới 2025 ━</div>
     </nav>
@@ -49,17 +27,17 @@
             <div class="stat-cards-container">
                 <div class="stat-card">
                     <h3>Đơn Hàng Mới</h3>
-                    <p class="stat-number">0</p>
-                    <span class="stat-description">Trong 24 giờ qua</span>
+                    <p class="stat-number">${newOrderLastWeek}</p>
+                    <span class="stat-description">Trong tuần này</span>
                 </div>
                 <div class="stat-card">
                     <h3>Tổng Doanh Thu (Tháng)</h3>
-                    <p class="stat-number">0đ</p>
-                    <span class="stat-description">Tháng 10, 2025</span>
+                    <p class="stat-number">${sumTotalPriceLastMonth}đ</p>
+                    <span class="stat-description">Dựa theo từng tháng</span>
                 </div>
                 <div class="stat-card">
-                    <h3>Khách Hàng Mới</h3>
-                    <p class="stat-number">0</p>
+                    <h3>Tài Khoản Mới</h3>
+                    <p class="stat-number">${newUsersLastWeek}</p>
                     <span class="stat-description">Trong tuần này</span>
                 </div>
                 <div class="stat-card special" id="out_of_stocks-modal-btn">
@@ -67,8 +45,8 @@
                         <h3>Sắp Hết Hàng</h3>
                         <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
                     </div>
-                    <p class="stat-number">2</p>
-                    <span class="stat-description">Sản phẩm có SL < 5</span>
+                    <p class="stat-number">${outOfStockList.size()}</p>
+                    <span class="stat-description">Sản phẩm có SL <= 5</span>
                 </div>
             </div>
         </main>
@@ -110,20 +88,7 @@
         <h4 class="text-welcome">© 2025 Khoa Công Nghệ Thông Tin.</h4>
     </div>
 </div>
-<div class="modal-overlay-notification" id="notification-account-modal">
-    <div class="modal-content-notification">
-        <div class="group-notification">
-            <h2 class="notification-title">Thông báo</h2>
-            <button class="modal-close" id="close-modal-btn8">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
-        </div>
-        <div class="notification-empty-state">
-            <ion-icon name="notifications-off-outline"></ion-icon>
-            <p>Hiện tại chưa có thông báo mới</p>
-        </div>
-    </div>
-</div>
+<%@ include file="/AdminPages/components/notify_modal.jsp" %>
 <div class="modal-overlay-avatar" id="avatar-account-modal">
     <div class="modal-content-avatar">
         <button class="modal-close2" id="close-modal-btn9">
@@ -172,14 +137,19 @@
             <ion-icon name="close-outline" id="close-modal-out_of_stock"></ion-icon>
         </div>
         <div class="out-of-stocks-container">
-            <div class="text-name">
-                <p>- Rượu vang đỏ Famille Perrin Les Sinards Châteauneuf-Du-Pape Rouge 2022</p>
-                <p class="text-b">(VD/1193-22)</p>
-            </div>
-            <div class="text-name">
-                <p>- Rượu Sâm Panh Champagne Ruinart Rosé</p>
-                <p class="text-b">(VD/1233)</p>
-            </div>
+            <c:choose>
+                <c:when test="${not empty outOfStockList}">
+                    <c:forEach items="${outOfStockList}" var="p">
+                        <div class="text-name">
+                            <p>- ${p.productName}</p>
+                            <p class="text-b">(SL: ${p.quantity} - ID: ${p.id})</p>
+                        </div>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <p>Hiện không có sản phẩm nào sắp hết hàng.</p>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </div>

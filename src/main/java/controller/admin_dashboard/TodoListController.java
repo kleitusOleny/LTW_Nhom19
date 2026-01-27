@@ -14,7 +14,7 @@ import java.io.IOException;
 public class TodoListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("AdminPages/admin_dashboard.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/dashboard");
     }
 
     @Override
@@ -30,11 +30,11 @@ public class TodoListController extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("taskId"));
             boolean status = Boolean.parseBoolean(request.getParameter("status"));
             feedbackService.updateFeedback(id, status);
-            response.sendRedirect("dashboard");
+            response.sendRedirect(request.getContextPath() + "/dashboard");
         } else if ("delete_task".equals(action)) {
             int id = Integer.parseInt(request.getParameter("taskId"));
             feedbackService.deleteFeedback(id);
-            response.sendRedirect("dashboard");
+            response.sendRedirect(request.getContextPath() + "/dashboard");
         } else {
             String title = request.getParameter("subject");
             String content = request.getParameter("message");
@@ -42,9 +42,9 @@ public class TodoListController extends HttpServlet {
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 feedbackService.insertFeedback(user.getId(), title, content);
-                response.sendRedirect(request.getContextPath());
+                response.sendRedirect(request.getContextPath() + "/user#/user?page=support&status=success");
             } else {
-                response.sendRedirect("login");
+                response.sendRedirect(request.getContextPath() + "/login");
             }
         }
     }

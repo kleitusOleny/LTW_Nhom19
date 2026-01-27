@@ -94,7 +94,6 @@ h2 {
 .remember-me-input {
     display: flex;
     align-items: center;
-    gap: 8px;
     font-size: 0.9rem;
     color: #666;
 }
@@ -104,7 +103,7 @@ h2 {
     color: #e11da6;
     font-weight: 600;
     transition: text-decoration 0.2s ease;
-    padding-left: 120px;
+    padding-left: 278px;
 }
 
 .remember-me-input a:hover {

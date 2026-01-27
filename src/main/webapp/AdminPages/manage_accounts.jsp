@@ -13,33 +13,11 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="${pageContext.request.contextPath}/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn" alt=""/>
-                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                <%@ include file="/AdminPages/components/avatar.jsp" %>
+                <%@ include file="/AdminPages/components/notify_icon.jsp" %>
             </div>
-            <li><a href="${pageContext.request.contextPath}/dashboard" class="a-with-icon">
-                <ion-icon name="home-outline"></ion-icon>
-                Trang Chủ</a></li>
-            <li><a href="manage_product.jsp" class="a-with-icon">
-                <ion-icon name="bag-remove-outline"></ion-icon>
-                Quản Lí Sản Phẩm</a></li>
-            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon selected">
-                <ion-icon name="people"></ion-icon>
-                Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="manage_orders.jsp" class="a-with-icon">
-                <ion-icon name="cart-outline"></ion-icon>
-                Quản Lí Đơn Hàng</a></li>
-            <li><a href="manage_banner.jsp" class="a-with-icon">
-                <ion-icon name="albums-outline"></ion-icon>
-                Quản Lí Banner</a></li>
-            <li><a href="manage_blog.jsp" class="a-with-icon">
-                <ion-icon name="reader-outline"></ion-icon>
-                Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="manage_promotions.jsp" class="a-with-icon">
-                <ion-icon name="ticket-outline"></ion-icon>
-                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="charts.jsp" class="a-with-icon">
-                <ion-icon name="stats-chart-outline"></ion-icon>
-                Thống Kê</a></li>
+            <c:set var="activePage" value="account" scope="request" />
+            <%@ include file="/AdminPages/components/sidebar_items_component.jsp" %>
         </ul>
         <div class="text">━ Được update tới 2025 ━</div>
     </nav>
@@ -47,7 +25,7 @@
         <main class="dashboard-main-content">
             <div class="button-group">
                 <div class="group-text-welcome">
-                    <h2>Quản lí tài khoản khách</h2>
+                    <h2>Quản lí tài khoản</h2>
                     <p>Với các records được đánh dấu đỏ, nghĩa là đã khoá tài khoản</p>
                 </div>
                 <div class="func-group">
@@ -63,10 +41,10 @@
                         <ion-icon name="add-outline" class="type-needCss"></ion-icon>
                         Thêm
                     </button>
-                    <button class="button excel" id="excel-modal-btn">
-                        <ion-icon name="cloud-download-outline"></ion-icon>
-                        Xuất ra Excel
-                    </button>
+<%--                    <button class="button excel" id="excel-modal-btn">--%>
+<%--                        <ion-icon name="cloud-download-outline"></ion-icon>--%>
+<%--                        Xuất ra Excel--%>
+<%--                    </button>--%>
                 </div>
             </div>
             <div class="table-container">
@@ -85,7 +63,7 @@
                     </thead>
                     <tbody>
                     <c:forEach var="user" items="${listAccount}">
-                        <tr class="accounts">
+                        <tr class="accounts ${user.active != 1 ? 'locked' : ''}">
                             <td class="cell-tick"><input type="checkbox" class="row-checkbox" value="${user.id}"/></td>
                             <td class="cell-id">${user.id}</td>
                             <td class="cell-email">${user.email}</td>
@@ -253,21 +231,7 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay-notification" id="notification-account-modal">
-    <div class="modal-content-notification">
-        <div class="group-notification">
-            <h2 class="notification-title">Thông báo</h2>
-            <button class="modal-close" id="close-modal-btn8">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
-        </div>
-        <div class="notification-empty-state">
-            <ion-icon name="notifications-off-outline"></ion-icon>
-            <p>Hiện tại chưa có thông báo mới</p>
-        </div>
-    </div>
-</div>
-
+<%@ include file="/AdminPages/components/notify_modal.jsp" %>
 <div class="modal-overlay-avatar" id="avatar-account-modal">
     <div class="modal-content-avatar">
         <button class="modal-close2" id="close-modal-btn9">

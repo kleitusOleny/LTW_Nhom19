@@ -205,6 +205,13 @@ public boolean updateActive(int id, int activeNum) {
                 .findOnly());
     }
 
+    public int countNewUsersLastWeek() {
+        return jdbi.withHandle(handle -> handle.createQuery(
+                        "select COUNT(id) from users where created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")
+                .mapTo(Integer.class)
+                .findOnly());
+    }
+
 public static void main(String[] args) {
     UserDAO u = new UserDAO();
     System.out.println(u.findById(new User(1)));

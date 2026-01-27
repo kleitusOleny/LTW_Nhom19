@@ -41,7 +41,7 @@ public class NormalLogin extends HttpServlet {
                     session.setAttribute("user", account);
                     // ---
                     if (account.getAdministrator() == 1) {
-                        response.sendRedirect("dashboard");
+                        response.sendRedirect(request.getContextPath() + "/dashboard");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/index.jsp?loginSuccess=1");
                     }

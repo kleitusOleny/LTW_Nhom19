@@ -707,6 +707,10 @@
                                     alert("Bạn đã đăng nhập thành công!");
                                     window.history.replaceState({}, document.title, window.location.pathname);
                                 }
+                                if (urlParams.has('registerSuccess')) {
+                                    alert("Bạn đã đăng kí thành công!");
+                                    window.history.replaceState({}, document.title, window.location.pathname);
+                                }
                             </script>
                             <script>
                                 document.addEventListener("DOMContentLoaded", function () {
