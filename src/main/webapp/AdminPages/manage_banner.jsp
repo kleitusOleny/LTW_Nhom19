@@ -54,20 +54,20 @@
             <div class="main-header">
                 <h1>Quản Lí Slideshow Trang Chủ</h1>
                 <div class="header-actions">
-                    <button class="btn btn-danger" id="delete-selected-btn">
-                        <ion-icon name="trash-outline"></ion-icon>
-                        Xóa (Đã chọn)
-                    </button>
-                    <label for="excel-file-input" class="btn btn-secondary">
-                        <ion-icon name="cloud-upload-outline"></ion-icon>
-                        Nhập từ Excel
-                        <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden-file-input">
-                    </label>
-
                     <button class="btn btn-primary add-banner-btn" data-target="banner-form-modal">
                         <ion-icon name="add-outline"></ion-icon>
                         Thêm Banner
                     </button>
+                </div>
+            </div>
+
+            <div class="filter-card" style="display: flex; justify-content: flex-end; margin-bottom: 15px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div class="search-wrapper" style="position: relative; width: 100%; max-width: 300px;">
+                    <ion-icon name="search-outline" class="search-icon"
+                              style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #666; font-size: 18px;">
+                    </ion-icon>
+                    <input type="text" id="custom-search-input" placeholder="Tìm kiếm banner..."
+                           style="width: 100%; padding: 10px 15px 10px 38px; border: 1px solid #ddd; border-radius: 20px; outline: none; font-size: 14px;">
                 </div>
             </div>
 
@@ -76,7 +76,7 @@
                     <thead>
                     <tr class="sample">
                         <th class="col-tick">Chọn</th>
-                        <th class="col-id">ID Banner</th>
+                        <th class="col-id">ID</th>
                         <th class="col-img">Ảnh Banner</th>
                         <th class="col-link">Link Đích</th>
                         <th class="col-date">Ngày Sự Kiện</th>
@@ -113,17 +113,21 @@
                             </td>
                             <td>
                                 <div class="cell-action">
-                                    <button class="edit btn" onclick="editBanner(${b.id})">Sửa</button>
+                                    <button type="button" class="edit btn edit-banner-btn"
+                                            data-id="${b.id}"
+                                            data-url="${b.urlBanner}"
+                                            data-target="${b.targetUrl}"
+                                            data-date="<fmt:formatDate value='${b.eventDate}' pattern='yyyy-MM-dd'/>"
+                                            data-life="${b.lifeTime}"
+                                            data-active="${b.active ? 'Active' : 'Inactive'}">
+                                        Sửa
+                                    </button>
 
-                                    <form action="banner-manager" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
+                                    <form action="${pageContext.request.contextPath}/banner-manager" method="post" style="display:inline;"
+                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa banner ID: ${b.id}?');">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="${b.id}">
-                                        <button type="button"
-                                                class="delete btn btn-open-delete"
-                                                data-target="delete-confirm-modal"
-                                                data-id="${b.id}">
-                                            Xoá
-                                        </button>
+                                        <button type="submit" class="delete btn">Xoá</button>
                                     </form>
                                 </div>
                             </td>
@@ -132,56 +136,10 @@
                     </tbody>
                 </table>
             </div>
-
         </main>
     </div>
-    <div class="modal-overlay-notification" id="notification-account-modal">
-        <div class="modal-content-notification">
-            <div class="group-notification">
-                <h2 class="notification-title">Thông báo</h2>
-                <button class="modal-close" id="close-modal-btn8">
-                    <ion-icon name="close-outline"></ion-icon>
-                </button>
-            </div>
-            <div class="notification-empty-state">
-                <ion-icon name="notifications-off-outline"></ion-icon>
-                <p>Hiện tại chưa có thông báo mới</p>
-            </div>
-        </div>
-    </div>
-    <div class="modal-overlay-avatar" id="avatar-account-modal">
-        <div class="modal-content-avatar">
-            <button class="modal-close2" id="close-modal-btn9">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
-            <a href="${pageContext.request.contextPath}/home" class="btn-menu-item">
-                <ion-icon name="person-circle-outline"></ion-icon>
-                <span>Trở về trang người dùng</span>
-            </a>
-            <a href="${pageContext.request.contextPath}/logout" class="btn-menu-item">
-                <ion-icon name="log-out-outline"></ion-icon>
-                <span>Đăng xuất tài khoản</span>
-            </a>
-        </div>
-    </div>
 </div>
 
-<div class="modal-overlay-form" id="delete-confirm-modal" style="--modal-width: 450px;">
-    <div class="modal-content-form">
-        <button class="modal-close-form" id="close-delete-btn">
-            <ion-icon name="close-outline"></ion-icon>
-        </button>
-        <h2 class="modal-confirm-title">
-            <ion-icon name="warning-outline"></ion-icon>
-            Xác nhận xóa
-        </h2>
-        <p class="modal-confirm-text">Bạn có chắc chắn muốn xóa Banner này không? Hành động này không thể hoàn tác.</p>
-        <div class="form-actions">
-            <button type="button" class="btn btn-secondary" id="cancel-delete-btn">Hủy Bỏ</button>
-            <button type="button" class="btn btn-danger" id="ac-delete-btn">Xác Nhận Xóa</button>
-        </div>
-    </div>
-</div>
 <div class="modal-overlay-form" id="banner-form-modal">
     <div class="modal-content-form">
         <button class="modal-close-form" id="close-form-btn">
@@ -189,8 +147,9 @@
         </button>
         <h2>Thêm / Cập Nhật Banner</h2>
 
-        <form action="banner-manager" method="post">
-            <input type="hidden" name="action" value="add">
+        <form id="banner-form" action="${pageContext.request.contextPath}/banner-manager" method="post">
+            <input type="hidden" id="form-action" name="action" value="add">
+            <input type="hidden" id="banner-id" name="id" value="">
 
             <div class="form-group">
                 <label for="banner-link">LINK ĐÍCH</label>
@@ -210,7 +169,7 @@
 
                 <div class="form-group">
                     <label for="banner-status">TRẠNG THÁI</label>
-                    <select id="banner-status" name="status" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: #fff;">
+                    <select id="banner-status" name="status" class="form-control">
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
@@ -230,67 +189,89 @@
     </div>
 </div>
 
-<div class="modal-overlay-form modal-overlay-edit_information" id="delete-confirm-modal" style="--modal-width: 450px;">
-    <div class="modal-content-form">
-        <button type="button" class="modal-close-form btn-close-delete" id="close-delete-btn">
-            <ion-icon name="close-outline"></ion-icon>
-        </button>
-
-        <h2 class="modal-confirm-title">
-            <ion-icon name="warning-outline"></ion-icon>
-            Xác nhận xóa
-        </h2>
-
-        <p class="modal-confirm-text">
-            Bạn có chắc chắn muốn xóa Banner này không?<br>
-            Hành động này không thể hoàn tác.
-        </p>
-
-        <form action="banner-manager" method="post">
-            <input type="hidden" name="action" value="delete">
-            <input type="hidden" name="id" id="input-delete-banner-id" value="">
-
-            <div class="form-actions">
-                <button type="button" class="btn btn-secondary btn-close-delete" id="cancel-delete-btn">Hủy Bỏ</button>
-                <button type="submit" class="btn btn-danger" id="ac-delete-btn">Xác Nhận Xóa</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // 1. Setup Modal (Giữ nguyên logic cũ của bạn)
         setupDynamicModals('add-banner-btn', 'cancel-form-btn');
         setupDynamicModals('btn-open-delete','close-delete-btn');
-        setupDynamicModals('btn-open-delete','cancel-delete-btn')
-        $(document).ready(function () {
-            $('#banner-datatable').DataTable({
-                // Tắt sắp xếp cho cột Ảnh và Hành động
-                "columnDefs": [
-                    {
-                        "orderable": false,
-                        "targets": [2, 7]
-                    }
-                ],
-                "language": {
-                    "search": "Tìm kiếm:",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
-                    "info": "Hiển thị từ _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Không tìm thấy mục nào",
-                    "infoFiltered": "(được lọc từ _MAX_ mục)",
-                    "zeroRecords": "Không tìm thấy dữ liệu",
-                    "paginate": {
-                        "first": "<ion-icon name='play-skip-back-outline'></ion-icon>",
-                        "last": "<ion-icon name='play-skip-forward-outline'></ion-icon>",
-                        "next": "<ion-icon name='chevron-forward-outline'></ion-icon>",
-                        "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
-                    }
-                }
+        setupDynamicModals('btn-open-delete','cancel-delete-btn');
+
+        // 2. Kiểm tra nếu bảng đã được tạo thì hủy nó đi trước khi tạo mới (Tránh lỗi reinitialise)
+        if ($.fn.DataTable.isDataTable('#banner-datatable')) {
+            $('#banner-datatable').DataTable().destroy();
+        }
+
+        // 3. Khởi tạo DataTable Mới
+        var table = $('#banner-datatable').DataTable({
+            "columnDefs": [
+                // Tắt sort ở cột: 0(Checkbox), 2(Ảnh), 7(Hành động)
+                {"orderable": false, "targets": [0, 2, 7]}
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json"
+            },
+            // Ẩn thanh tìm kiếm mặc định để dùng thanh custom của bạn
+            "dom": '<"top"l>rt<"bottom"ip><"clear">'
+        });
+
+        // 4. KẾT NỐI THANH TÌM KIẾM CUSTOM
+        $('#custom-search-input').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+
+        // 5. LOGIC MODAL THÊM / SỬA
+        const modal = document.getElementById('banner-form-modal');
+        const openBtn = document.querySelector('.add-banner-btn');
+        const closeBtn = document.getElementById('close-form-btn');
+        const cancelBtn = document.querySelector('.cancel-form-btn');
+
+        function toggleModal(show) {
+            if (show) modal.classList.add('show');
+            else modal.classList.remove('show');
+        }
+
+        // Đóng modal
+        if(closeBtn) closeBtn.addEventListener('click', () => toggleModal(false));
+        if(cancelBtn) cancelBtn.addEventListener('click', () => toggleModal(false));
+
+        // Xử lý nút THÊM MỚI
+        if(openBtn) {
+            openBtn.addEventListener('click', function() {
+                $('#banner-form')[0].reset();
+                $('#form-action').val('add');
+                $('#banner-id').val('');
+
+                $('#banner-form-modal h2').text('Thêm Banner Mới');
+                $('#ac-form-btn').text('Lưu Banner');
+
+                toggleModal(true);
             });
+        }
+
+        // Xử lý nút SỬA (Dùng event delegation)
+        $('#banner-datatable').on('click', '.edit-banner-btn', function () {
+            let id = $(this).data('id');
+            let url = $(this).data('url');
+            let target = $(this).data('target');
+            let date = $(this).data('date');
+            let life = $(this).data('life');
+            let active = $(this).data('active');
+
+            $('#banner-id').val(id);
+            $('#banner-image-url').val(url);
+            $('#banner-link').val(target);
+            $('#banner-date').val(date);
+            $('#banner-duration').val(life);
+            $('#banner-status').val(active).change();
+
+            $('#form-action').val('edit');
+            $('#banner-form-modal h2').text('Cập Nhật Banner');
+            $('#ac-form-btn').text('Lưu Thay Đổi');
+
+            toggleModal(true);
         });
     });
 </script>

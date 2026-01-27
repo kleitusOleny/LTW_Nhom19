@@ -4,33 +4,7 @@ import model.*;
 import java.util.List;
 
 public class ProductDAO extends ADAO {
-
-    public List<Product> listProduct() {
-        return jdbi.withHandle(handle -> handle.createQuery(
-                "SELECT " +
-                        "p.id, " +
-                        "p.product_name, " +
-                        "p.slug, " +
-                        "p.price, " +
-                        "p.capacity, " +
-                        "p.alcohol, " +
-                        "p.origin, " +
-                        "p.quantity, " +
-                        "p.detail, " +
-                        "p.create_at, " +
-                        "p.update_at, " +
-                        "p.is_delete, " +
-                        "t.type_name AS typeId, " +
-                        "m.manufacturer_name AS manufacturerId, " +
-                        "c.category_name AS categoryId " +
-                        "FROM products p " +
-                        "LEFT JOIN product_types t ON p.type_id = t.id " +
-                        "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
-                        "LEFT JOIN categorys c ON p.category_id = c.id ")
-                .mapToBean(Product.class)
-                .list());
-    }
-
+    
     public List<Product> getProducts() {
         return jdbi.withHandle(handle -> handle.createQuery("SELECT " +
                 "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, p.create_at," +
@@ -391,16 +365,50 @@ public class ProductDAO extends ADAO {
                 .execute() > 0);
     }
     
+    public List<Product> listProduct() {
+        return jdbi.withHandle(handle -> handle.createQuery(
+                        "SELECT " +
+                                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, p.create_at, p.is_delete, " +
+                                "t.type_name AS typeId, " +
+                                "m.manufacturer_name AS manufacturerId, " +
+                                "c.category_name AS categoryId, " +
+                                "p.url_img AS imageUrl " + // <--- Lấy ảnh trực tiếp từ bảng products
+                                "FROM products p " +
+                                "LEFT JOIN product_types t ON p.type_id = t.id " +
+                                "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
+                                "LEFT JOIN categorys c ON p.category_id = c.id " +
+                                "WHERE p.is_delete = 0 ORDER BY p.create_at DESC")
+                .mapToBean(Product.class)
+                .list());
+    }
+    
+    // 2. Thêm sản phẩm (Lưu ảnh vào url_img)
     public void insert(Product p) {
         jdbi.useHandle(handle -> {
-            handle.createUpdate("INSERT INTO products (id, product_name, slug, type_id, price, capacity, alcohol, origin, manufacturer_id, category_id, detail, quantity, create_at, is_delete) " +
-                            "VALUES (:id, :productName, :slug, :typeId, :price, :capacity, :alcohol, :origin, :manufacturerId, :categoryId, :detail, :quantity, NOW(), 0)")
+            handle.createUpdate("INSERT INTO products (id, product_name, slug, type_id, price, capacity, alcohol, origin, manufacturer_id, category_id, detail, quantity, url_img, create_at, is_delete) " +
+                            "VALUES (:id, :productName, :slug, :typeId, :price, :capacity, :alcohol, :origin, :manufacturerId, :categoryId, :detail, :quantity, :imageUrl, NOW(), 0)")
                     .bindBean(p)
                     .execute();
-            
-            handle.createUpdate("INSERT INTO p_img (product_id, p.url_img) VALUES (?, ?)")
-                    .bind(0, p.getId())
-                    .bind(1, p.getImageUrl())
+        });
+    }
+    
+    // 3. Xóa sản phẩm
+    public void delete(String id) {
+        jdbi.useHandle(handle ->
+                handle.createUpdate("UPDATE products SET is_delete = 1 WHERE id = :id")
+                        .bind("id", id)
+                        .execute()
+        );
+    }
+    
+    public void update(Product p) {
+        jdbi.useHandle(handle -> {
+            handle.createUpdate("UPDATE products SET product_name=:productName, slug=:slug, type_id=:typeId, " +
+                            "price=:price, capacity=:capacity, alcohol=:alcohol, origin=:origin, " +
+                            "manufacturer_id=:manufacturerId, category_id=:categoryId, detail=:detail, " +
+                            "quantity=:quantity, url_img=:imageUrl, update_at=NOW() " +
+                            "WHERE id=:id")
+                    .bindBean(p)
                     .execute();
         });
     }
