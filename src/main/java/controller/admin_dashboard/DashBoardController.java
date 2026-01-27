@@ -7,13 +7,12 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Feedback;
 import model.Product;
-import services.FeedbackService;
 
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "ViewTodoList", value = "/dashboard")
-public class ViewTodoListController extends HttpServlet {
+public class DashBoardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FeedbackDAO feedbackDAO = new FeedbackDAO();

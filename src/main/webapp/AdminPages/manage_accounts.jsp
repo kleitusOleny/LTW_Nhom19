@@ -22,7 +22,7 @@
             <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon selected">
+            <li><a href="${pageContext.request.contextPath}/account-manager" class="a-with-icon selected">
                 <ion-icon name="people"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
             <li><a href="manage_orders.jsp" class="a-with-icon">

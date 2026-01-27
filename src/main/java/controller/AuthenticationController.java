@@ -73,7 +73,7 @@ public class AuthenticationController extends HttpServlet {
                         session.removeAttribute("pendingUser");
                         session.setAttribute("user", realAccount);
                         session.removeAttribute("otpCode");
-                        response.sendRedirect(request.getContextPath() + "?registerSuccess=1");
+                        response.sendRedirect("/home" + "?registerSuccess");
                     } else {
                         request.setAttribute("otpError", "Lỗi lưu dữ liệu, vui lòng thử lại!");
                         request.getRequestDispatcher("/AuthPages/Authentication.jsp").forward(request, response);

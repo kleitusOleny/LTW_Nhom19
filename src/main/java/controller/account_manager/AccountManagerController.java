@@ -9,7 +9,7 @@ import model.User;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AccountManagerController", value = "/accountmanager")
+@WebServlet(name = "AccountManagerController", value = "/account-manager")
 public class AccountManagerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
