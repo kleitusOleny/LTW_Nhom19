@@ -31,10 +31,6 @@
                                             data-lang-key="reviewHistory">Lịch
                                             sử đánh giá</span></a></li>
                                 <hr>
-                                <li><a href="settings.jsp"
-                                        data-url="<%= request.getContextPath() %>/user?page=settings"><i
-                                            class="fa-solid fa-gear"></i> <span data-lang-key="settings">Cài
-                                            đặt</span></a></li>
                                 <li><a href="support.jsp"
                                         data-url="<%= request.getContextPath() %>/user?page=support"><i
                                             class="fa-solid fa-circle-question"></i> <span data-lang-key="support">Hỗ

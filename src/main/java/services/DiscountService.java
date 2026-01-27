@@ -63,6 +63,10 @@ public class DiscountService {
         return discountDAO.findCollectableDiscounts(userId);
     }
 
+    public List<Discount> getPublicDiscounts() {
+        return discountDAO.findPublicDiscounts();
+    }
+
     public boolean collectVoucher(int userId, int discountId) {
         // Check if already collected (double check)
         List<UserVoucher> existing = userVoucherDAO.findByUserId(userId);

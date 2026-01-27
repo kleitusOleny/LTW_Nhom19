@@ -35,15 +35,38 @@ public class GetAvailableDiscountsController extends HttpServlet {
         Map<String, Object> result = new HashMap<>();
 
         if (user != null) {
-            List<Discount> userVouchers = discountService.getUserVouchers(user.getId());
-            result.put("userVouchers", userVouchers);
+            List<Discount> allUserVouchers = discountService.getUserVouchers(user.getId());
+
+            List<Discount> shippingDiscounts = new java.util.ArrayList<>();
+            List<Discount> otherVouchers = new java.util.ArrayList<>();
+
+            for (Discount d : allUserVouchers) {
+                if (d.getApplyType() != null && d.getApplyType().toUpperCase().contains("SHIP")) {
+                    shippingDiscounts.add(d);
+                } else {
+                    otherVouchers.add(d);
+                }
+            }
+
+            result.put("userVouchers", otherVouchers);
+            result.put("shippingDiscounts", shippingDiscounts);
 
             List<Discount> collectableVouchers = discountService.getCollectableVouchers(user.getId());
             result.put("collectableVouchers", collectableVouchers);
+        } else {
+            // For guests, maybe show generic shipping discounts or nothing?
+            // Original code showed getAvailableShippingDiscounts() which are global.
+            // But user requirement implies we only show what they have collected?
+            // Or maybe we still show global shipping discounts for guests?
+            // Let's keep global shipping discounts for guests if needed, but the user
+            // complaint was about collected ones.
+            // If I remove getAvailableShippingDiscounts(), guests won't see any.
+            // But the prompt says "bên ngoài cart vẫn không có mã giảm giá dù tôi đã lấy
+            // rồi" -> implies logged in user.
+            // So for logged in user, we override shippingDiscounts with collected ones.
+            List<Discount> shippingDiscounts = discountService.getAvailableShippingDiscounts();
+            result.put("shippingDiscounts", shippingDiscounts);
         }
-
-        List<Discount> shippingDiscounts = discountService.getAvailableShippingDiscounts();
-        result.put("shippingDiscounts", shippingDiscounts);
 
         if (cart != null) {
             double loyaltyRate = discountService.calculateWholesaleDiscountRate(cart.getTotalQuantity());

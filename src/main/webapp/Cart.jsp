@@ -149,12 +149,6 @@
                                             <strong id="voucher-discount-amount" style="color: green;"></strong>
                                         </div>
 
-                                        <!-- Loyalty Discount -->
-                                        <div class="summary-row" id="loyalty-discount-row" style="display: none;">
-                                            <span>Khách hàng thân thiết</span>
-                                            <strong id="loyalty-discount-amount" style="color: green;"></strong>
-                                        </div>
-
                                         <!-- Discount Selection Section -->
                                         <div class="discount-section"
                                             style="margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;">

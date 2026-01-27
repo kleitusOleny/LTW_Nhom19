@@ -28,14 +28,11 @@ public class AdminCreateOrderController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Lấy tham số tìm kiếm và lọc
             String keyword = request.getParameter("keyword");
             String filterType = request.getParameter("filterType");
             
-            // Lấy danh sách sản phẩm
-            List<Product> products = productDAO.getProducts(50, 0);
+            List<Product> products = productDAO.getProducts(50, 0,"price-asc");
             
-            // Lọc theo từ khóa nếu có
             if (keyword != null && !keyword.trim().isEmpty()) {
                 String kw = keyword.toLowerCase().trim();
                 products = products.stream()
@@ -45,7 +42,6 @@ public class AdminCreateOrderController extends HttpServlet {
                     .toList();
             }
             
-            // Lọc theo loại nếu có
             if (filterType != null && !filterType.isEmpty() && !"all".equals(filterType)) {
                 products = products.stream()
                     .filter(p -> p.getTypeId() != null && p.getTypeId().toLowerCase().contains(filterType.toLowerCase()))
@@ -56,7 +52,6 @@ public class AdminCreateOrderController extends HttpServlet {
             request.setAttribute("keyword", keyword);
             request.setAttribute("filterType", filterType != null ? filterType : "all");
             
-            // Lấy danh sách khách hàng gần đây (tùy chọn)
             List<User> recentCustomers = userDAO.getAll().stream().limit(10).toList();
             request.setAttribute("recentCustomers", recentCustomers);
             

@@ -32,7 +32,7 @@ public class UserVoucherDAO extends ADAO implements IDAO<UserVoucher> {
     @Override
     public boolean create(UserVoucher entity) {
         return jdbi.withHandle(handle -> handle.createUpdate(
-                "INSERT INTO user_vouchers (user_id, discount_id, is_used) VALUES (:userId, :discountId, :isUsed)")
+                "INSERT INTO user_vouchers (user_id, discount_id, is_used, created_at) VALUES (:userId, :discountId, :used, :createdAt)")
                 .bindBean(entity)
                 .execute() > 0);
     }

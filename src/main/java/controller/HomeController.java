@@ -33,7 +33,6 @@ public class HomeController extends HttpServlet {
 
         List<Map<String, Object>> topFavouritesList = favouriteDAO.getTopFavouritedProducts(4);
 
-    
         if (topFavouritesList != null && !topFavouritesList.isEmpty()) {
             for (Map<String, Object> fav : topFavouritesList) {
                 System.out.println("Product: " + fav.get("product_id") +
@@ -56,8 +55,17 @@ public class HomeController extends HttpServlet {
             }
         }
 
-        List<Discount> publicVouchers = discountService.getCollectableVouchers(userId);
+        List<Discount> publicVouchers = discountService.getPublicDiscounts();
         request.setAttribute("publicVouchers", publicVouchers);
+
+        java.util.Set<Integer> collectedVoucherIds = new java.util.HashSet<>();
+        if (userId > 0) {
+            List<model.Discount> userVouchers = discountService.getUserVouchers(userId);
+            for (model.Discount d : userVouchers) {
+                collectedVoucherIds.add(d.getId());
+            }
+        }
+        request.setAttribute("collectedVoucherIds", collectedVoucherIds);
 
         List<Blogs> latestBlogs = blogDAO.getLatestBlogs(3);
         request.setAttribute("latestBlogs", latestBlogs);

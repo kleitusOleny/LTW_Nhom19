@@ -72,7 +72,7 @@ public class ProductManagerController extends HttpServlet {
                 p.setProductName(name);
                 p.setSlug(name.toLowerCase().replace(" ", "-"));
                 p.setOrigin(origin);
-                p.setPrice(BigDecimal.valueOf(price));
+                p.setPrice(price);
                 p.setCapacity(capacity);
                 p.setAlcohol(alcohol);
                 p.setQuantity(quantity);

@@ -159,4 +159,16 @@ public class DiscountDAO extends ADAO implements IDAO<Discount> {
                 .mapToBean(Discount.class)
                 .list());
     }
+
+    public List<Discount> findPublicDiscounts() {
+        return jdbi.withHandle(handle -> handle.createQuery("""
+                SELECT * FROM discounts d
+                WHERE d.is_active = 1
+                  AND d.is_delete = 0
+                  AND NOW() BETWEEN d.discount_from AND d.discount_to
+                  AND d.quantity > 0
+                """)
+                .mapToBean(Discount.class)
+                .list());
+    }
 }

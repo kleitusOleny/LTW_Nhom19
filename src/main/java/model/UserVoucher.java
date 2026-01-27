@@ -1,13 +1,24 @@
 package model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class UserVoucher implements Serializable {
+    @ColumnName("id")
     private int id;
+
+    @ColumnName("user_id")
     private int userId;
+
+    @ColumnName("discount_id")
     private int discountId;
+
+    @ColumnName("is_used")
     private boolean isUsed;
+
+    @ColumnName("created_at")
     private Timestamp createdAt;
 
     public UserVoucher() {

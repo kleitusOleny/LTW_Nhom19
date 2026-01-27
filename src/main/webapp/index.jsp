@@ -1,43 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Main Menu</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-          crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/index_style.css">
-</head>
-
-<body>
-<%@ include file="components/header.jsp" %>
-<main>
-    <section class="hero-section p-0">
-        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
-             data-bs-interval="5000">
-
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"
-                        aria-label="Slide 4"></button>
-            </div>
-
-            <div class="carousel-inner">
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+            <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+                <!DOCTYPE html>
+                <html lang="en">
 
                 <head>
                     <meta charset="UTF-8">
@@ -129,19 +95,12 @@
                                             </div>
                                         </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel"
-                    data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel"
-                    data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    </section>
+                                    </div>
 
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel"
+                                        data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
                                     </button>
                                     <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel"
                                         data-bs-slide="next">
@@ -199,11 +158,20 @@
                                                                     pattern="dd/MM/yyyy" />
                                                             </small>
                                                         </div>
-                                                        <button
-                                                            class="btn btn-sm ${fn:contains(typeUpper, 'SHIP') ? 'btn-light text-success' : 'btn-dark'} ms-2"
-                                                            onclick="collectVoucherHome(${v.id})">
-                                                            Thu Thập
-                                                        </button>
+                                                        <c:choose>
+                                                            <c:when test="${collectedVoucherIds.contains(v.id)}">
+                                                                <button class="btn btn-sm btn-secondary ms-2" disabled>
+                                                                    Đã Thu Thập
+                                                                </button>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <button
+                                                                    class="btn btn-sm ${fn:contains(typeUpper, 'SHIP') ? 'btn-light text-success' : 'btn-dark'} ms-2"
+                                                                    onclick="collectVoucherHome(${v.id})">
+                                                                    Thu Thập
+                                                                </button>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </div>
                                                 </div>
                                             </c:if>
@@ -246,17 +214,11 @@
                                     <h2 class="section-title">Sản Phẩm Được Yêu Thích Nhiều Nhất</h2>
                                     <p class="section-subtitle">Những chai vang được khách hàng yêu thích và đánh giá
 
-            <!-- Navigation Buttons -->
-            <button class="scroll-btn scroll-btn-left" onclick="scrollFavorites('left')"
-                    style="position: absolute; left: -20px; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(255,255,255,0.9); border: 1px solid #ddd; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <button class="scroll-btn scroll-btn-right" onclick="scrollFavorites('right')"
-                    style="position: absolute; right: -20px; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(255,255,255,0.9); border: 1px solid #ddd; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
+                                        <!-- Navigation Buttons -->
 
-                                        cao</p>
+
+                                        cao
+                                    </p>
 
                                     <!-- Navigation Buttons -->
                                     <button class="scroll-btn scroll-btn-left" onclick="scrollFavorites('left')"
@@ -774,34 +736,35 @@
                                         </div>
                                     </div>
                                 </section>
+                            </c:if>
 
-    <section class="service-commitment-section">
-        <div class="container">
-            <div class="service-grid">
+                            <section class="service-commitment-section">
+                                <div class="container">
+                                    <div class="service-grid">
 
-                <div class="service-item">
-                    <i class="fa-solid fa-truck-fast"></i>
-                    <h4>Giao Hàng Nhanh</h4>
-                    <p>Giao hàng hỏa tốc 2H tại TP.HCM</p>
-                </div>
+                                        <div class="service-item">
+                                            <i class="fa-solid fa-truck-fast"></i>
+                                            <h4>Giao Hàng Nhanh</h4>
+                                            <p>Giao hàng hỏa tốc 2H tại TP.HCM</p>
+                                        </div>
 
-                <div class="service-item">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <h4>100% Chính Hãng</h4>
-                    <p>Cam kết sản phẩm nhập khẩu chính ngạch</p>
-                </div>
+                                        <div class="service-item">
+                                            <i class="fa-solid fa-shield-halved"></i>
+                                            <h4>100% Chính Hãng</h4>
+                                            <p>Cam kết sản phẩm nhập khẩu chính ngạch</p>
+                                        </div>
 
-                <div class="service-item">
-                    <i class="fa-solid fa-comments"></i>
-                    <h4>Tư Vấn Chuyên Nghiệp</h4>
-                    <p>Đội ngũ am hiểu, hỗ trợ 24/7</p>
-                </div>
+                                        <div class="service-item">
+                                            <i class="fa-solid fa-comments"></i>
+                                            <h4>Tư Vấn Chuyên Nghiệp</h4>
+                                            <p>Đội ngũ am hiểu, hỗ trợ 24/7</p>
+                                        </div>
 
-                <div class="service-item">
-                    <i class="fa-solid fa-box-open"></i>
-                    <h4>Đóng Gói An Toàn</h4>
-                    <p>Bảo vệ sản phẩm cẩn thận, an toàn</p>
-                </div>
+                                        <div class="service-item">
+                                            <i class="fa-solid fa-box-open"></i>
+                                            <h4>Đóng Gói An Toàn</h4>
+                                            <p>Bảo vệ sản phẩm cẩn thận, an toàn</p>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -893,38 +856,38 @@
                                 document.addEventListener("DOMContentLoaded", function () {
                                     const wishlistBtns = document.querySelectorAll('.wishlist-btn');
 
-        wishlistBtns.forEach(btn => {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault(); // Ngăn chặn click vào thẻ a bao quanh (nếu có)
+                                    wishlistBtns.forEach(btn => {
+                                        btn.addEventListener('click', function (e) {
+                                            e.preventDefault(); // Ngăn chặn click vào thẻ a bao quanh (nếu có)
 
-                this.classList.toggle('active');
-                const icon = this.querySelector('i');
-                if (this.classList.contains('active')) {
-                    icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid');
-                } else {
-                    icon.classList.remove('fa-solid');
-                    icon.classList.add('fa-regular');
-                }
-            });
-        });
-    });
-</script>
-<script>
-    function scrollFavorites(direction) {
-        const grid = document.getElementById('topFavoritesGrid');
-        const scrollAmount = 300; // pixels to scroll
+                                            this.classList.toggle('active');
+                                            const icon = this.querySelector('i');
+                                            if (this.classList.contains('active')) {
+                                                icon.classList.remove('fa-regular');
+                                                icon.classList.add('fa-solid');
+                                            } else {
+                                                icon.classList.remove('fa-solid');
+                                                icon.classList.add('fa-regular');
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                            <script>
+                                function scrollFavorites(direction) {
+                                    const grid = document.getElementById('topFavoritesGrid');
+                                    const scrollAmount = 300; // pixels to scroll
 
-        if (direction === 'left') {
-            grid.scrollLeft -= scrollAmount;
-        } else {
-            grid.scrollLeft += scrollAmount;
-        }
-    }
+                                    if (direction === 'left') {
+                                        grid.scrollLeft -= scrollAmount;
+                                    } else {
+                                        grid.scrollLeft += scrollAmount;
+                                    }
+                                }
 
-    function scrollUserFavorites(direction) {
-        const grid = document.getElementById('userFavoritesGrid');
-        const scrollAmount = 300; // pixels to scroll
+                                function scrollUserFavorites(direction) {
+                                    const grid = document.getElementById('userFavoritesGrid');
+                                    const scrollAmount = 300; // pixels to scroll
 
                                     if (direction === 'left') {
                                         grid.scrollLeft -= scrollAmount;
@@ -949,137 +912,137 @@
                                     // Guest Favorites Logic
                                     const isLoggedIn = "${not empty sessionScope.user}" === "true";
 
-        // 1. Initialize UI from localStorage if guest
-        if (!isLoggedIn) {
-            const guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
-            document.querySelectorAll('.wishlist-form').forEach(form => {
-                const productId = form.querySelector('input[name="productId"]').value;
-                const button = form.querySelector('button');
-                const icon = button.querySelector('i');
+                                    // 1. Initialize UI from localStorage if guest
+                                    if (!isLoggedIn) {
+                                        const guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
+                                        document.querySelectorAll('.wishlist-form').forEach(form => {
+                                            const productId = form.querySelector('input[name="productId"]').value;
+                                            const button = form.querySelector('button');
+                                            const icon = button.querySelector('i');
 
-                if (guestFavorites.includes(productId)) {
-                    button.classList.add('active');
-                    icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid');
-                }
-            });
-        }
+                                            if (guestFavorites.includes(productId)) {
+                                                button.classList.add('active');
+                                                icon.classList.remove('fa-regular');
+                                                icon.classList.add('fa-solid');
+                                            }
+                                        });
+                                    }
 
-        // 2. Sync if logged in and has pending favorites
-        if (isLoggedIn) {
-            const guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
-            if (guestFavorites.length > 0) {
-                console.log('Syncing guest favorites:', guestFavorites);
-                fetch('favorites', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: new URLSearchParams({
-                        action: 'sync',
-                        productIds: guestFavorites.join(',')
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            console.log('Sync successful');
-                            localStorage.removeItem('guestFavorites');
-                        }
-                    })
-                    .catch(err => console.error('Sync failed:', err));
-            }
-        }
-    });
+                                    // 2. Sync if logged in and has pending favorites
+                                    if (isLoggedIn) {
+                                        const guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
+                                        if (guestFavorites.length > 0) {
+                                            console.log('Syncing guest favorites:', guestFavorites);
+                                            fetch('favorites', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                                    'X-Requested-With': 'XMLHttpRequest'
+                                                },
+                                                body: new URLSearchParams({
+                                                    action: 'sync',
+                                                    productIds: guestFavorites.join(',')
+                                                })
+                                            })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.status === 'success') {
+                                                        console.log('Sync successful');
+                                                        localStorage.removeItem('guestFavorites');
+                                                    }
+                                                })
+                                                .catch(err => console.error('Sync failed:', err));
+                                        }
+                                    }
+                                });
 
-    function toggleFavorite(event, form) {
-        event.preventDefault(); // Prevent default form submission
+                                function toggleFavorite(event, form) {
+                                    event.preventDefault(); // Prevent default form submission
 
-        const isLoggedIn = "${not empty sessionScope.user}" === "true";
-        const formData = new FormData(form);
-        const productId = formData.get('productId');
-        const url = form.getAttribute('action');
-        const button = form.querySelector('button');
-        const icon = button.querySelector('i');
-        const wasActive = button.classList.contains('active');
+                                    const isLoggedIn = "${not empty sessionScope.user}" === "true";
+                                    const formData = new FormData(form);
+                                    const productId = formData.get('productId');
+                                    const url = form.getAttribute('action');
+                                    const button = form.querySelector('button');
+                                    const icon = button.querySelector('i');
+                                    const wasActive = button.classList.contains('active');
 
-        // Optimistic UI Update
-        button.classList.toggle('active');
-        if (button.classList.contains('active')) {
-            icon.classList.remove('fa-regular');
-            icon.classList.add('fa-solid');
-        } else {
-            icon.classList.remove('fa-solid');
-            icon.classList.add('fa-regular');
-        }
+                                    // Optimistic UI Update
+                                    button.classList.toggle('active');
+                                    if (button.classList.contains('active')) {
+                                        icon.classList.remove('fa-regular');
+                                        icon.classList.add('fa-solid');
+                                    } else {
+                                        icon.classList.remove('fa-solid');
+                                        icon.classList.add('fa-regular');
+                                    }
 
-        if (!isLoggedIn) {
-            // Handle Guest Mode (localStorage)
-            let guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
+                                    if (!isLoggedIn) {
+                                        // Handle Guest Mode (localStorage)
+                                        let guestFavorites = JSON.parse(localStorage.getItem('guestFavorites')) || [];
 
-            if (wasActive) {
-                // Remove
-                guestFavorites = guestFavorites.filter(id => id !== productId);
-            } else {
-                // Add
-                if (!guestFavorites.includes(productId)) {
-                    guestFavorites.push(productId);
-                }
-            }
+                                        if (wasActive) {
+                                            // Remove
+                                            guestFavorites = guestFavorites.filter(id => id !== productId);
+                                        } else {
+                                            // Add
+                                            if (!guestFavorites.includes(productId)) {
+                                                guestFavorites.push(productId);
+                                            }
+                                        }
 
-            localStorage.setItem('guestFavorites', JSON.stringify(guestFavorites));
-            console.log('Guest favorites updated:', guestFavorites);
-            return; // Stop here, don't call server
-        }
+                                        localStorage.setItem('guestFavorites', JSON.stringify(guestFavorites));
+                                        console.log('Guest favorites updated:', guestFavorites);
+                                        return; // Stop here, don't call server
+                                    }
 
-        fetch(url, {
-            method: 'POST',
-            body: new URLSearchParams(formData),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    window.location.href = '${pageContext.request.contextPath}/AuthPages/Login.jsp';
-                    return;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data && data.status === 'success') {
-                    // Success
-                } else {
-                    // Revert UI
-                    console.error('Action failed, reverting UI');
-                    if (wasActive) {
-                        button.classList.add('active');
-                        icon.classList.remove('fa-regular');
-                        icon.classList.add('fa-solid');
-                    } else {
-                        button.classList.remove('active');
-                        icon.classList.remove('fa-solid');
-                        icon.classList.add('fa-regular');
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Revert UI
-                if (wasActive) {
-                    button.classList.add('active');
-                    icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid');
-                } else {
-                    button.classList.remove('active');
-                    icon.classList.remove('fa-solid');
-                    icon.classList.add('fa-regular');
-                }
-            });
-    }
-</script>
-</body>
+                                    fetch(url, {
+                                        method: 'POST',
+                                        body: new URLSearchParams(formData),
+                                        headers: {
+                                            'X-Requested-With': 'XMLHttpRequest',
+                                            'Content-Type': 'application/x-www-form-urlencoded'
+                                        }
+                                    })
+                                        .then(response => {
+                                            if (response.status === 401) {
+                                                window.location.href = '${pageContext.request.contextPath}/AuthPages/Login.jsp';
+                                                return;
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            if (data && data.status === 'success') {
+                                                // Success
+                                            } else {
+                                                // Revert UI
+                                                console.error('Action failed, reverting UI');
+                                                if (wasActive) {
+                                                    button.classList.add('active');
+                                                    icon.classList.remove('fa-regular');
+                                                    icon.classList.add('fa-solid');
+                                                } else {
+                                                    button.classList.remove('active');
+                                                    icon.classList.remove('fa-solid');
+                                                    icon.classList.add('fa-regular');
+                                                }
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            // Revert UI
+                                            if (wasActive) {
+                                                button.classList.add('active');
+                                                icon.classList.remove('fa-regular');
+                                                icon.classList.add('fa-solid');
+                                            } else {
+                                                button.classList.remove('active');
+                                                icon.classList.remove('fa-solid');
+                                                icon.classList.add('fa-regular');
+                                            }
+                                        });
+                                }
+                            </script>
+                </body>
 
-</html>
+                </html>

@@ -102,11 +102,48 @@ public class CheckoutController extends HttpServlet {
         session.setAttribute("pendingOrder", order);
 
         DiscountService discountService = new DiscountService();
-        List<Discount> shippingDiscounts = discountService.getAvailableShippingDiscounts();
-        List<Discount> userVouchers = discountService.getUserVouchers(user.getId());
+        List<Discount> allUserVouchers = discountService.getUserVouchers(user.getId());
+
+        List<Discount> shippingDiscounts = new ArrayList<>();
+        List<Discount> otherVouchers = new ArrayList<>();
+
+        for (Discount d : allUserVouchers) {
+            if (d.getApplyType() != null && d.getApplyType().toUpperCase().contains("SHIP")) {
+                shippingDiscounts.add(d);
+            } else {
+                otherVouchers.add(d);
+            }
+        }
+
+        // Ensure applied discounts are in the list so they can be selected
+        if (cart.getShippingDiscount() != null) {
+            boolean exists = false;
+            for (Discount d : shippingDiscounts) {
+                if (d.getDiscountCode().equals(cart.getShippingDiscount().getDiscountCode())) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                shippingDiscounts.add(cart.getShippingDiscount());
+            }
+        }
+
+        if (cart.getVoucherDiscount() != null) {
+            boolean exists = false;
+            for (Discount d : otherVouchers) {
+                if (d.getDiscountCode().equals(cart.getVoucherDiscount().getDiscountCode())) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                otherVouchers.add(cart.getVoucherDiscount());
+            }
+        }
 
         request.setAttribute("shippingDiscounts", shippingDiscounts);
-        request.setAttribute("userVouchers", userVouchers);
+        request.setAttribute("userVouchers", otherVouchers);
 
         double subtotal = 0;
         for (CartItem ci : cart.getItems()) {

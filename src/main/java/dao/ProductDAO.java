@@ -38,9 +38,9 @@ public class ProductDAO extends ADAO {
             return Collections.emptyList();
         }
         return jdbi.withHandle(handle -> handle.createQuery("""
-                        SELECT id FROM products
-                        WHERE is_delete = 0 AND category_id IN (<categoryIds>)
-                        """)
+                SELECT id FROM products
+                WHERE is_delete = 0 AND category_id IN (<categoryIds>)
+                """)
                 .defineList("categoryIds", categoryIds)
                 .mapTo(String.class)
                 .list());
@@ -51,9 +51,9 @@ public class ProductDAO extends ADAO {
             return Collections.emptyList();
         }
         return jdbi.withHandle(handle -> handle.createQuery("""
-                        SELECT id FROM products
-                        WHERE is_delete = 0 AND manufacturer_id IN (<manufacturerIds>)
-                        """)
+                SELECT id FROM products
+                WHERE is_delete = 0 AND manufacturer_id IN (<manufacturerIds>)
+                """)
                 .defineList("manufacturerIds", manufacturerIds)
                 .mapTo(String.class)
                 .list());
@@ -64,9 +64,9 @@ public class ProductDAO extends ADAO {
             return Collections.emptyList();
         }
         return jdbi.withHandle(handle -> handle.createQuery("""
-                        SELECT id FROM products
-                        WHERE is_delete = 0 AND id IN (<productIds>)
-                        """)
+                SELECT id FROM products
+                WHERE is_delete = 0 AND id IN (<productIds>)
+                """)
                 .defineList("productIds", productIds)
                 .mapTo(String.class)
                 .list());
@@ -80,7 +80,7 @@ public class ProductDAO extends ADAO {
                 "d.discount_value AS discount_value, " +
                 "d.discount_type AS discount_type, " +
 
-                "p.url_img AS imageUrl, " +
+                "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl, " +
 
                 "(SELECT AVG(ct.star) " +
                 " FROM evaluates e " +
@@ -101,7 +101,7 @@ public class ProductDAO extends ADAO {
 
     }
 
-    public List<Product> getProducts(int limit, int offset,String sort) {
+    public List<Product> getProducts(int limit, int offset, String sort) {
         String order = "ORDER BY price ";
         switch (sort) {
             case "price-asc":
@@ -117,7 +117,7 @@ public class ProductDAO extends ADAO {
                 order = ""; // Mặc định
                 break;
         }
-        
+
         String sql = "SELECT " +
                 "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, p.create_at, " +
                 "t.type_name AS typeId, " +
@@ -235,7 +235,6 @@ public class ProductDAO extends ADAO {
                         .mapToBean(ProductType.class)
                         .list());
     }
-    
 
     public List<Tag> getAllTags() {
         return jdbi
@@ -262,8 +261,8 @@ public class ProductDAO extends ADAO {
 
     // Lấy danh sách đã lọc
     public List<Product> filterProducts(String[] prices, String[] categories, String[] manufacturers, String[] types,
-            String[] origins, String[] capacities, String[] tags, String keyword, int limit, int offset,String sort) {
-        
+            String[] origins, String[] capacities, String[] tags, String keyword, int limit, int offset, String sort) {
+
         String order = "ORDER BY price ";
         switch (sort) {
             case "price-asc":
@@ -518,5 +517,42 @@ public class ProductDAO extends ADAO {
                 .bind("manufacturerId", manufacturerId)
                 .mapToBean(Product.class)
                 .list());
+    }
+
+    public void insert(Product p) {
+        jdbi.useHandle(handle -> {
+            handle.createUpdate(
+                    "INSERT INTO products (id, product_name, slug, type_id, price, capacity, alcohol, origin, manufacturer_id, category_id, detail, quantity, url_img, create_at, is_delete) "
+                            +
+                            "VALUES (:id, :productName, :slug, :typeId, :price, :capacity, :alcohol, :origin, :manufacturerId, :categoryId, :detail, :quantity, :imageUrl, NOW(), 0)")
+                    .bindBean(p)
+                    .execute();
+        });
+    }
+
+    // 3. Xóa sản phẩm
+    public void delete(String id) {
+        jdbi.useHandle(handle -> handle.createUpdate("UPDATE products SET is_delete = 1 WHERE id = :id")
+                .bind("id", id)
+                .execute());
+    }
+
+    public void update(Product p) {
+        jdbi.useHandle(handle -> {
+            handle.createUpdate("UPDATE products SET product_name=:productName, slug=:slug, type_id=:typeId, " +
+                    "price=:price, capacity=:capacity, alcohol=:alcohol, origin=:origin, " +
+                    "manufacturer_id=:manufacturerId, category_id=:categoryId, detail=:detail, " +
+                    "quantity=:quantity, url_img=:imageUrl, update_at=NOW() " +
+                    "WHERE id=:id")
+                    .bindBean(p)
+                    .execute();
+        });
+    }
+
+    public List<Product> countOutOfStocks() {
+        return jdbi
+                .withHandle(handle -> handle.createQuery("SELECT * FROM products WHERE quantity <= 5 AND is_delete = 0")
+                        .mapToBean(Product.class)
+                        .list());
     }
 }
