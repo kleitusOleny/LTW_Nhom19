@@ -84,7 +84,8 @@
                             <div class="tracking-bar">
                                 <c:set var="progressWidth" value="0%" />
                                 <c:choose>
-                                    <c:when test="${shipOrder.status == 'Đang giao hàng'}">
+                                    <c:when
+                                        test="${shipOrder.status == 'Đang giao hàng' || shipOrder.status == 'Đang giao'}">
                                         <c:set var="progressWidth" value="50%" />
                                     </c:when>
                                     <c:when test="${shipOrder.status == 'Giao hàng thành công'}">
@@ -94,12 +95,12 @@
                                 <div class="tracking-progress" style="width: ${progressWidth};"></div>
 
                                 <div
-                                    class="tracking-step ${shipOrder.status == 'Chuẩn bị đơn hàng' || shipOrder.status == 'Đang giao hàng' || shipOrder.status == 'Giao hàng thành công' ? 'active' : ''}">
+                                    class="tracking-step ${shipOrder.status == 'Chuẩn bị đơn hàng' || shipOrder.status == 'Đang giao hàng' || shipOrder.status == 'Đang giao' || shipOrder.status == 'Giao hàng thành công' ? 'active' : ''}">
                                     <div class="step-dot"></div>
                                     <div class="step-label">Đang xử lý</div>
                                 </div>
                                 <div
-                                    class="tracking-step ${shipOrder.status == 'Đang giao hàng' || shipOrder.status == 'Giao hàng thành công' ? 'active' : ''}">
+                                    class="tracking-step ${shipOrder.status == 'Đang giao hàng' || shipOrder.status == 'Đang giao' || shipOrder.status == 'Giao hàng thành công' ? 'active' : ''}">
                                     <div class="step-dot"></div>
                                     <div class="step-label">Đang giao</div>
                                 </div>

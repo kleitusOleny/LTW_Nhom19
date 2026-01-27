@@ -2,7 +2,6 @@ package model;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -19,8 +18,17 @@ public class Order {
     @ColumnName("discount_id")
     private int discountId;
 
+    @ColumnName("shipping_discount_id")
+    private int shippingDiscountId;
+
+    @ColumnName("voucher_discount_id")
+    private int voucherDiscountId;
+
+    @ColumnName("loyalty_discount_id")
+    private int loyaltyDiscountId;
+
     @ColumnName("total_price")
-    private BigDecimal totalPrice;
+    private double totalPrice;
 
     @ColumnName("create_at")
     private Timestamp createAt;
@@ -87,11 +95,35 @@ public class Order {
         this.discountId = discountId;
     }
 
-    public BigDecimal getTotalPrice() {
+    public int getShippingDiscountId() {
+        return shippingDiscountId;
+    }
+
+    public void setShippingDiscountId(int shippingDiscountId) {
+        this.shippingDiscountId = shippingDiscountId;
+    }
+
+    public int getVoucherDiscountId() {
+        return voucherDiscountId;
+    }
+
+    public void setVoucherDiscountId(int voucherDiscountId) {
+        this.voucherDiscountId = voucherDiscountId;
+    }
+
+    public int getLoyaltyDiscountId() {
+        return loyaltyDiscountId;
+    }
+
+    public void setLoyaltyDiscountId(int loyaltyDiscountId) {
+        this.loyaltyDiscountId = loyaltyDiscountId;
+    }
+
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

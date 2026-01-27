@@ -29,6 +29,18 @@
                                                     alt="Chưa có ảnh" id="main-product-image">
                                             </c:otherwise>
                                         </c:choose>
+
+                                        <!-- Discount badge -->
+                                        <c:if test="${product.discountedPrice < product.price}">
+                                            <c:set var="discountPercent"
+                                                value="${((product.price - product.discountedPrice) / product.price) * 100}" />
+                                            <div
+                                                style="position: absolute; top: 10px; left: 10px; background: #dc3545; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                                                -
+                                                <fmt:formatNumber value="${discountPercent}" maxFractionDigits="0" />%
+                                            </div>
+                                        </c:if>
+
                                         <div id="lens" class="img-zoom-lens"></div>
                                         <form action="<%= request.getContextPath() %>/favorites" method="post"
                                             class="wishlist-form" onsubmit="toggleFavorite(event, this)">
@@ -71,12 +83,27 @@
                                         <li><span>Nhà sản xuất:</span> <strong>${product.manufacturerId}</strong></li>
                                     </ul>
 
-                                    <div class="product-detail-price">
-                                        <p>
-                                            <fmt:setLocale value="vi_VN" />
-                                            <fmt:formatNumber value="${product.price}" type="currency"
-                                                currencySymbol="VNĐ" maxFractionDigits="0" />
-                                        </p>
+                                    <div class="product-detail-price" style="margin: 20px 0;">
+                                        <c:choose>
+                                            <c:when test="${product.discountedPrice < product.price}">
+                                                <span
+                                                    style="color: #8c3333; font-size: 2rem; font-weight: bold; margin-right: 10px;">
+                                                    <fmt:formatNumber value="${product.discountedPrice}" type="number"
+                                                        maxFractionDigits="0" />₫
+                                                </span>
+                                                <span
+                                                    style="text-decoration: line-through; color: #999; font-size: 1.2rem;">
+                                                    <fmt:formatNumber value="${product.price}" type="number"
+                                                        maxFractionDigits="0" />₫
+                                                </span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span style="color: #8c3333; font-size: 2rem; font-weight: bold;">
+                                                    <fmt:formatNumber value="${product.price}" type="number"
+                                                        maxFractionDigits="0" />₫
+                                                </span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
 
                                     <div class="product-actions-container">

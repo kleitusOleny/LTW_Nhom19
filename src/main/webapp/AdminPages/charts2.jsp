@@ -38,7 +38,10 @@
                 Quản Lí Blog và Tin Tức</a></li>
             <li><a href="manage_promotions.jsp" class="a-with-icon">
                 <ion-icon name="ticket-outline"></ion-icon>
-                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
+                Quản Lí Mã Giảm Giá</a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/manage-reviews" class="a-with-icon">
+                <ion-icon name="star-outline"></ion-icon>
+                Quản Lí Đánh Giá</a></li>
             <li><a href="charts.jsp" class="a-with-icon selected">
                 <ion-icon name="stats-chart"></ion-icon>
                 Thống Kê</a></li>

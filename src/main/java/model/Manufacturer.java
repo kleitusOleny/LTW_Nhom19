@@ -3,7 +3,6 @@ package model;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 public class Manufacturer {
-    // Khai báo biến
     @ColumnName("id")
     private int id;
 
@@ -16,11 +15,9 @@ public class Manufacturer {
     @ColumnName("is_delete")
     private boolean isDelete;
 
-    // Constructor rỗng
     public Manufacturer() {
     }
 
-    // Getter và Setter
     public int getId() {
         return id;
     }

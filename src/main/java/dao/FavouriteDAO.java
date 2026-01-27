@@ -4,6 +4,7 @@ import model.Address;
 import model.Favourite;
 
 import java.util.List;
+import java.util.Map;
 
 public class FavouriteDAO extends ADAO {
     public List<Favourite> getAll() {
@@ -22,7 +23,6 @@ public class FavouriteDAO extends ADAO {
                             .bind("user_id", idUser)
                             .mapTo(Integer.class)
                             .one();
-
 
                     if (existing > 0) {
                         return false;
@@ -76,23 +76,28 @@ public class FavouriteDAO extends ADAO {
         });
     }
 
-    public List<java.util.Map<String, Object>> getFavouritesWithProductsByUserID(int userId) {
+    public List<Map<String, Object>> getFavouritesWithProductsByUserID(int userId) {
         return jdbi.withHandle(handle -> {
-            return handle.createQuery("""
-                    SELECT f.id AS favourite_id, f.user_id,
-                    p.id AS product_id, p.product_name, p.slug, p.price, p.capacity, p.alcohol,
-                    p.origin, p.detail, p.create_at, p.update_at,
-                    t.type_name AS type_name, m.manufacturer_name AS manufacturer_name,
-                    c.category_name AS category_name,
-                    (SELECT pi.url_img FROM p_img pi WHERE pi.product_id = p.id LIMIT 1) AS image_url
-                    FROM favourites f
-                    JOIN products p ON f.product_id = p.id
-                    LEFT JOIN product_types t ON p.type_id = t.id
-                    LEFT JOIN manufacturers m ON p.manufacturer_id = m.id
-                    LEFT JOIN categorys c ON p.category_id = c.id
-                    WHERE f.user_id = :userId AND p.is_delete = 0
-                    ORDER BY f.id DESC
-                    """)
+            return handle
+                    .createQuery(
+                            """
+                                    SELECT f.id AS favourite_id, f.user_id,
+                                    p.id AS product_id, p.product_name, p.slug, p.price, p.capacity, p.alcohol,
+                                    p.origin, p.detail, p.create_at, p.update_at,
+                                    t.type_name AS type_name, m.manufacturer_name AS manufacturer_name,
+                                    c.category_name AS category_name,
+                                    d.discount_value AS discount_value, d.discount_type AS discount_type,
+                                    (SELECT pi.url_img FROM p_img pi WHERE pi.product_id = p.id LIMIT 1) AS image_url
+                                    FROM favourites f
+                                    JOIN products p ON f.product_id = p.id
+                                    LEFT JOIN product_types t ON p.type_id = t.id
+                                    LEFT JOIN manufacturers m ON p.manufacturer_id = m.id
+                                    LEFT JOIN categorys c ON p.category_id = c.id
+                                    LEFT JOIN dis_process dp ON p.id = dp.product_id AND dp.is_delete = 0
+                                    LEFT JOIN discounts d ON dp.discount_id = d.id AND d.is_active = 1 AND d.is_delete = 0 AND NOW() BETWEEN d.discount_from AND d.discount_to
+                                    WHERE f.user_id = :userId AND p.is_delete = 0
+                                    ORDER BY f.id DESC
+                                    """)
                     .bind("userId", userId)
                     .mapToMap()
                     .list();
@@ -101,26 +106,32 @@ public class FavouriteDAO extends ADAO {
 
     public List<java.util.Map<String, Object>> getTopFavouritedProducts(int limit) {
         return jdbi.withHandle(handle -> {
-            return handle.createQuery("""
-                    SELECT p.id AS product_id, p.product_name,  p.price, p.capacity, p.alcohol,
-                    p.origin,
-                    t.type_name AS type_name, m.manufacturer_name AS manufacturer_name,
-                    c.category_name AS category_name,
-                    (SELECT pi.url_img FROM p_img pi WHERE pi.product_id = p.id LIMIT 1) AS image_url,
-                    COUNT(f.id) AS favorite_count
-                    FROM products p
-                    LEFT JOIN favourites f ON p.id = f.product_id
-                    LEFT JOIN product_types t ON p.type_id = t.id
-                    LEFT JOIN manufacturers m ON p.manufacturer_id = m.id
-                    LEFT JOIN categorys c ON p.category_id = c.id
-                    WHERE p.is_delete = 0
-                    GROUP BY p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol,
-                             p.origin, p.detail,
-                             t.type_name, m.manufacturer_name, c.category_name
-                    HAVING COUNT(f.id) > 0
-                    ORDER BY favorite_count DESC, p.id DESC
-                    LIMIT :limit
-                    """)
+            return handle
+                    .createQuery(
+                            """
+                                    SELECT p.id AS product_id, p.product_name,  p.price, p.capacity, p.alcohol,
+                                    p.origin,
+                                    t.type_name AS type_name, m.manufacturer_name AS manufacturer_name,
+                                    c.category_name AS category_name,
+                                    d.discount_value AS discount_value, d.discount_type AS discount_type,
+                                    (SELECT pi.url_img FROM p_img pi WHERE pi.product_id = p.id LIMIT 1) AS image_url,
+                                    COUNT(f.id) AS favorite_count
+                                    FROM products p
+                                    LEFT JOIN favourites f ON p.id = f.product_id
+                                    LEFT JOIN product_types t ON p.type_id = t.id
+                                    LEFT JOIN manufacturers m ON p.manufacturer_id = m.id
+                                    LEFT JOIN categorys c ON p.category_id = c.id
+                                    LEFT JOIN dis_process dp ON p.id = dp.product_id AND dp.is_delete = 0
+                                    LEFT JOIN discounts d ON dp.discount_id = d.id AND d.is_active = 1 AND d.is_delete = 0 AND NOW() BETWEEN d.discount_from AND d.discount_to
+                                    WHERE p.is_delete = 0
+                                    GROUP BY p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol,
+                                             p.origin, p.detail,
+                                             t.type_name, m.manufacturer_name, c.category_name,
+                                             d.discount_value, d.discount_type
+                                    HAVING COUNT(f.id) > 0
+                                    ORDER BY favorite_count DESC, p.id DESC
+                                    LIMIT :limit
+                                    """)
                     .bind("limit", limit)
                     .mapToMap()
                     .list();

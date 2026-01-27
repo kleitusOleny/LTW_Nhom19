@@ -2,8 +2,8 @@ package model;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Blogs {
     @ColumnName("id")
@@ -16,22 +16,25 @@ public class Blogs {
     private String content;
 
     @ColumnName("upload_at")
-    private Timestamp uploadAt;
+    private LocalDate uploadAt;
 
     @ColumnName("display")
     private boolean display;
 
     @ColumnName("blog_image")
-    private String bImage;
+    private String blogImage;
 
     @ColumnName("slug")
     private String slug;
 
+    @ColumnName("category")
+    private String category;
+
     @ColumnName("create_at")
-    private Timestamp createAt;
+    private LocalDate createAt;
 
     @ColumnName("update_at")
-    private Timestamp updateAt;
+    private LocalDate updateAt;
 
     @ColumnName("is_delete")
     private boolean isDelete;
@@ -63,11 +66,11 @@ public class Blogs {
         this.content = content;
     }
 
-    public Date getUploadAt() {
+    public LocalDate getUploadAt() {
         return uploadAt;
     }
 
-    public void setUploadAt(Timestamp uploadAt) {
+    public void setUploadAt(LocalDate uploadAt) {
         this.uploadAt = uploadAt;
     }
 
@@ -79,12 +82,12 @@ public class Blogs {
         this.display = display;
     }
 
-    public String getbImage() {
-        return bImage;
+    public String getBlogImage() {
+        return blogImage;
     }
 
-    public void setbImage(String bImage) {
-        this.bImage = bImage;
+    public void setBlogImage(String blogImage) {
+        this.blogImage = blogImage;
     }
 
     public String getSlug() {
@@ -95,19 +98,23 @@ public class Blogs {
         this.slug = slug;
     }
 
-    public Date getCreateAt() {
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public LocalDate getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
+    public void setCreateAt(LocalDate createAt) {
         this.createAt = createAt;
     }
 
-    public Date getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Timestamp updateAt) {
+    public void setUpdateAt(LocalDate updateAt) {
         this.updateAt = updateAt;
     }
 
@@ -117,5 +124,19 @@ public class Blogs {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
+    }
+
+    public String getFormattedDate() {
+        if (uploadAt != null) {
+            return uploadAt.format(java.time.format.DateTimeFormatter.ofPattern("dd 'tháng' MM, yyyy"));
+        }
+        return "";
+    }
+
+    public String getCardDate() {
+        if (uploadAt != null) {
+            return uploadAt.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy"));
+        }
+        return "";
     }
 }

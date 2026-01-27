@@ -3,7 +3,6 @@ package model;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.sql.Timestamp;
-import java.math.BigDecimal;
 
 public class Discount {
     @ColumnName("id")
@@ -16,13 +15,16 @@ public class Discount {
     private String discountType;
 
     @ColumnName("discount_value")
-    private BigDecimal discountValue;
+    private double discountValue;
 
     @ColumnName("discount_from")
     private Timestamp discountFrom;
 
     @ColumnName("discount_to")
     private Timestamp discountTo;
+
+    @ColumnName("apply_type")
+    private String applyType;
 
     @ColumnName("is_active")
     private boolean isActive;
@@ -36,11 +38,12 @@ public class Discount {
     @ColumnName("is_delete")
     private boolean isDelete;
 
-    // Constructor rỗng
+    @ColumnName("quantity")
+    private int quantity;
+
     public Discount() {
     }
 
-    // Getter và Setter
     public int getId() {
         return id;
     }
@@ -65,11 +68,11 @@ public class Discount {
         this.discountType = discountType;
     }
 
-    public BigDecimal getDiscountValue() {
+    public double getDiscountValue() {
         return discountValue;
     }
 
-    public void setDiscountValue(BigDecimal discountValue) {
+    public void setDiscountValue(double discountValue) {
         this.discountValue = discountValue;
     }
 
@@ -93,7 +96,15 @@ public class Discount {
         return isActive;
     }
 
+    public boolean getIsActive() {
+        return isActive;
+    }
+
     public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 
@@ -113,11 +124,27 @@ public class Discount {
         this.updateAt = updateAt;
     }
 
+    public String getApplyType() {
+        return applyType;
+    }
+
+    public void setApplyType(String applyType) {
+        this.applyType = applyType;
+    }
+
     public boolean getIsDelete() {
         return isDelete;
     }
 
     public void setIsDelete(boolean isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

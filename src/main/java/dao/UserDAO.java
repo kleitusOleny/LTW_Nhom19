@@ -153,6 +153,29 @@ public User findByEmail(String email) {
             .orElse(null));
 }
 
+public User findByPhoneNumber(String phoneNumber) {
+    return jdbi.withHandle(handle -> handle.createQuery("""
+                    SELECT
+                        id,
+                        email,
+                        username,
+                        password_hash AS passwordHash,
+                        phone_number AS phoneNumber,
+                        full_name AS fullName,
+                        birth_day AS birthDay,
+                        administrator,
+                        active,
+                        created_at AS createdAt,
+                        update_at AS updateAt
+                    FROM users
+                    WHERE phone_number = :phone
+                    """)
+            .bind("phone", phoneNumber)
+            .mapToBean(User.class)
+            .findFirst()
+            .orElse(null));
+}
+
 public User findByUsername(String username) {
     return jdbi.withHandle(handle -> handle.createQuery("""
                     SELECT

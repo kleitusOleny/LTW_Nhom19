@@ -21,7 +21,7 @@ ul {
 .site-header {
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 9999999;
 }
 
 .header-top {
@@ -451,7 +451,7 @@ footer
 .btn-primary:hover {
     background-color: #fff;
     color: #8c3333;
-    border-color: #fff;
+    border-color: #8c3333;
 }
 
 .hero-banner-section {
@@ -476,7 +476,7 @@ CSS CHO PHẦN SẢN PHẨM NỔI BẬT
 
 /* Định dạng chung cho 1 khu vực (section) */
 .featured-products {
-    padding-top: 50px;
+    padding-top: 0px;
     padding-bottom: 50px;
 }
 
@@ -748,10 +748,6 @@ Product Grid
     100% {
         transform: scale(1);
     }
-}
-
-.fa-star {
-    color: #fecf02;
 }
 
 /*

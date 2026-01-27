@@ -1,80 +1,140 @@
 package model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Cart implements Serializable {
-    private Map<String,CartItem> data;
+    private Map<String, CartItem> data;
     private User user;
-    
-    public Cart(){
+
+    public Cart() {
         data = new HashMap<>();
     }
-    
-    public void addItem(Product product,int quantity){
-        if (quantity <= 0) {quantity = 1;}
-        if (data.get(product.getId()) != null){
+
+    public void addItem(Product product, int quantity) {
+        if (quantity <= 0) {
+            quantity = 1;
+        }
+        if (data.get(product.getId()) != null) {
             data.get(product.getId()).upQuantity(quantity);
-        }else{
-            data.put(product.getId(),new CartItem(quantity,product.getPrice(),product));
+        } else {
+            data.put(product.getId(), new CartItem(quantity, product.getDiscountedPrice(), product));
         }
     }
-    
-    public void updateQuantity(String idProduct, int quantity){
+
+    public void updateQuantity(String idProduct, int quantity) {
         CartItem cartItem = get(idProduct);
-        if (cartItem == null || quantity == 0) return;
+        if (cartItem == null || quantity == 0)
+            return;
         int newQuantity = cartItem.getQuantity() + quantity;
-        if (newQuantity <= 0){
+        if (newQuantity <= 0) {
             removeItem(idProduct);
         }
         cartItem.setQuantity(newQuantity);
     }
-    
-    public boolean updateItem(String idProduct, int quantity){
-        if (get(idProduct) == null) return false;
-        if (quantity <= 0) quantity = 1;
+
+    public boolean updateItem(String idProduct, int quantity) {
+        if (get(idProduct) == null)
+            return false;
+        if (quantity <= 0)
+            quantity = 1;
         data.get(idProduct).setQuantity(quantity);
         return true;
     }
-    
-    public CartItem removeItem(String idProduct){
+
+    public CartItem removeItem(String idProduct) {
         return data.remove(idProduct);
     }
-    
-    public List<CartItem> removeAll(String idProduct){
+
+    public List<CartItem> removeAll(String idProduct) {
         List<CartItem> cartItems = new ArrayList<>(data.values());
         data.clear();
         return cartItems;
     }
-    
-    public List<CartItem> getItems(){
+
+    public List<CartItem> getItems() {
         return new ArrayList<>(data.values());
     }
-    
-    public CartItem get(String id){
+
+    public CartItem get(String id) {
         return data.get(id);
     }
-    
-    public int getTotalQuantity(){
+
+    public int getTotalQuantity() {
         AtomicInteger total = new AtomicInteger();
         getItems().forEach(item -> total.addAndGet(item.getQuantity()));
         return total.get();
     }
-    
-    public BigDecimal getTotal() {
-        BigDecimal total = BigDecimal.ZERO;
-        
+
+    private Discount shippingDiscount;
+    private Discount voucherDiscount;
+    private double loyaltyDiscountAmount = 0.0;
+
+    public double getOriginalSubtotal() {
+        double total = 0.0;
         for (var item : getItems()) {
-            BigDecimal subTotal = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
-            total = total.add(subTotal);
+            double subTotal = item.getPrice() * item.getQuantity();
+            total += subTotal;
         }
-        
         return total;
     }
-    
-    public void updateCustomerInfo(User user){
+
+    public double getSubtotal() {
+        double total = 0.0;
+        for (var item : getItems()) {
+            total += item.getTotalPrice();
+        }
+        return total;
+    }
+
+    public double getTotal() {
+        double subtotal = getSubtotal();
+        double totalDeduction = loyaltyDiscountAmount;
+
+        if (voucherDiscount != null) {
+            String type = voucherDiscount.getDiscountType();
+            if ("PERCENT".equalsIgnoreCase(type) || "percentage".equalsIgnoreCase(type)) {
+                totalDeduction += subtotal * (voucherDiscount.getDiscountValue() / 100.0);
+            } else {
+                // FIXED, amount, etc.
+                totalDeduction += voucherDiscount.getDiscountValue();
+            }
+        }
+
+        if (shippingDiscount != null) {
+            totalDeduction += shippingDiscount.getDiscountValue();
+        }
+
+        return Math.max(0, subtotal - totalDeduction);
+    }
+
+    public Discount getShippingDiscount() {
+        return shippingDiscount;
+    }
+
+    public void setShippingDiscount(Discount shippingDiscount) {
+        this.shippingDiscount = shippingDiscount;
+    }
+
+    public Discount getVoucherDiscount() {
+        return voucherDiscount;
+    }
+
+    public void setVoucherDiscount(Discount voucherDiscount) {
+        this.voucherDiscount = voucherDiscount;
+    }
+
+    public double getLoyaltyDiscountAmount() {
+        return loyaltyDiscountAmount;
+    }
+
+    public void setLoyaltyDiscountAmount(double loyaltyDiscountAmount) {
+        this.loyaltyDiscountAmount = loyaltyDiscountAmount;
+    }
+
+    public void updateCustomerInfo(User user) {
         this.user = user;
     }
 }

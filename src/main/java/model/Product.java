@@ -4,7 +4,7 @@ import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class Product implements Serializable {
     @ColumnName("id")
@@ -20,7 +20,7 @@ public class Product implements Serializable {
     private String typeId;
 
     @ColumnName("price")
-    private BigDecimal price;
+    private double price;
 
     @ColumnName("capacity")
     private String capacity;
@@ -56,7 +56,39 @@ public class Product implements Serializable {
     private Double rating;
     private int totalReviews;
 
+    @ColumnName("discount_value")
+    private double discountValue;
+
+    @ColumnName("discount_type")
+    private String discountType;
+
     public Product() {
+    }
+
+    public double getDiscountValue() {
+        return discountValue;
+    }
+
+    public void setDiscountValue(double discountValue) {
+        this.discountValue = discountValue;
+    }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(String discountType) {
+        this.discountType = discountType;
+    }
+
+    public double getDiscountedPrice() {
+        if (discountType == null || discountType.isEmpty() || discountValue == 0) {
+            return price;
+        }
+        if ("PERCENT".equalsIgnoreCase(discountType)) {
+            return price * (1 - discountValue / 100.0);
+        }
+        return Math.max(0, price - discountValue);
     }
 
     public int getQuantity() {
@@ -99,11 +131,11 @@ public class Product implements Serializable {
         this.typeId = typeId;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -178,31 +210,31 @@ public class Product implements Serializable {
     public void setDelete(boolean delete) {
         isDelete = delete;
     }
-    
+
     public String getImageUrl() {
         return imageUrl;
     }
-    
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
+
     public Double getRating() {
         return rating == null ? 0.0 : rating;
     }
-    
+
     public void setRating(Double rating) {
         this.rating = rating;
     }
-    
+
     public int getTotalReviews() {
         return totalReviews;
     }
-    
+
     public void setTotalReviews(int totalReviews) {
         this.totalReviews = totalReviews;
     }
-    
+
     @Override
     public String toString() {
         return "Product{" +

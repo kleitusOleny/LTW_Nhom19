@@ -15,7 +15,6 @@ body {
     border-radius: 50%;
     margin-right: 10px;
 }
-
 .nav-menu li a {
     display: block;
     padding: 10px;
@@ -110,13 +109,8 @@ body {
 .nav-menu li a span {
     font-size: 0.95em;
 }
-.fa-star{
-    color: #495057;
-}
-.fa-star:hover {
-    background-color: #8c3333;
-    color: #fff;
-}
+/* Removed .fa-star specific styling - inherits from parent link */
+
 
 .logout-button {
     width: 230px;

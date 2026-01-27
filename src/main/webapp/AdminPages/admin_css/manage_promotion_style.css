@@ -91,7 +91,8 @@
     border: 1px solid transparent;
 }
 
-.a-with-icon.selected, .a-with-icon:hover {
+.a-with-icon.selected,
+.a-with-icon:hover {
     border-color: #6341ff;
     background-color: #343746;
     color: #ffffff;
@@ -148,8 +149,10 @@
     font-size: 15px;
     color: #333;
     cursor: pointer;
-    text-decoration: none; /* Xoá gạch chân của link */
-    box-sizing: border-box; /* Đảm bảo padding không làm vỡ khung */
+    text-decoration: none;
+    /* Xoá gạch chân của link */
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm vỡ khung */
 }
 
 .btn-menu-item:hover {
@@ -183,7 +186,8 @@
     flex-shrink: 0;
 }
 
-.modal-overlay-notification, .modal-overlay-avatar {
+.modal-overlay-notification,
+.modal-overlay-avatar {
     position: fixed;
     top: 0;
     left: 0;
@@ -213,7 +217,8 @@
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.modal-overlay-notification.show, .modal-overlay-avatar.show {
+.modal-overlay-notification.show,
+.modal-overlay-avatar.show {
     opacity: 1;
     visibility: visible;
 }
@@ -308,11 +313,36 @@
 }
 
 .promotion-table td {
-    padding: 5px 5px;
+    padding: 8px 10px;
 }
 
 .cell-tick input {
-    margin-left: 20px;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.cell-id {
+    text-align: center;
+    font-weight: 600;
+}
+
+.cell-value {
+    text-align: right;
+    padding-right: 10px !important;
+    font-weight: 500;
+}
+
+.cell-quantity,
+.cell-type,
+.cell-apply-type,
+.cell-status {
+    text-align: center;
+}
+
+.cell-start,
+.cell-end {
+    text-align: center;
+    font-size: 0.85em;
 }
 
 .promotion-table thead .sample {
@@ -330,45 +360,71 @@
 }
 
 .promotion-table .col-tick {
-    width: 1%;
+    width: 40px;
+    min-width: 40px;
+    text-align: center;
 }
 
 .promotion-table .col-id {
-    width: 10%;
+    width: 50px;
+    min-width: 50px;
+    text-align: center;
 }
 
 .promotion-table .col-code {
-    width: 15%;
+    width: 120px;
+    min-width: 120px;
 }
 
 .promotion-table .col-type {
-    width: 15%;
+    width: 90px;
+    min-width: 90px;
+    text-align: center;
 }
 
 .promotion-table .col-value {
-    width: 10%;
+    width: 100px;
+    min-width: 100px;
+    text-align: right;
+}
+
+.promotion-table .col-quantity {
+    width: 80px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.promotion-table .col-apply-type {
+    width: 110px;
+    min-width: 110px;
+    text-align: center;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 .promotion-table .col-start {
-    width: 15%;
+    width: 110px;
+    min-width: 110px;
+    text-align: center;
 }
 
 .promotion-table .col-end {
-    width: 15%;
+    width: 110px;
+    min-width: 110px;
+    text-align: center;
 }
 
 .promotion-table .col-status {
-    width: 10%;
+    width: 110px;
+    min-width: 110px;
+    text-align: center;
 }
 
 .promotion-table .col-action {
-    width: 10%;
-}
-
-.promotion-table .col-action {
-    width: 12%;
+    width: 110px;
+    min-width: 110px;
     white-space: nowrap;
-    min-width: 120px;
+    text-align: center;
 }
 
 .cell-action .btn {
@@ -378,7 +434,8 @@
     border: solid 2px #ccc;
 }
 
-.cell-action .delete, .cell-action .edit {
+.cell-action .delete,
+.cell-action .edit {
     width: 50px;
 }
 
@@ -418,7 +475,9 @@
     background-color: #bb2c3b;
 }
 
-.add, .excel, .del {
+.add,
+.excel,
+.del {
     margin-left: 10px;
     color: #fff;
     transition: 0.2s;
@@ -504,9 +563,14 @@
 .modal-content-deleteAll,
 .modal-content-edit_information {
     background-color: white;
-    border-radius: 12px;
-    gap: 25px;
-    padding: 2.5rem 3rem;
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 30rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-content-deleteAll {
     width: 25rem;
 }
 
@@ -536,7 +600,8 @@
     transform: translateY(-25px);
 }
 
-.modal-content-refresh p, .modal-overlay-excel p {
+.modal-content-refresh p,
+.modal-overlay-excel p {
     font-size: 1.1rem;
     color: #333;
 }
@@ -554,57 +619,143 @@
 #add-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0;
     width: 100%;
 }
 
-.code-input, .type-input, .value-input, .start-input, .end-input, .status-input {
+.modal-content {
+    background-color: white;
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    width: 500px;
+    max-width: 90vw;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.code-input,
+.type-input,
+.value-input,
+.start-input,
+.end-input,
+.status-input,
+.quantity-input,
+.apply-type-input {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    width: 90%;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
-.code-input label, .type-input label, .value-input label, .start-input label, .end-input label, .status-input label, .text-filter-group label, .edit-information-promotion label {
-    font-weight: bold;
-    font-size: 1rem;
-    color: #555;
-    width: 200px;
-    margin-top: 5px;
+.code-input label,
+.type-input label,
+.value-input label,
+.start-input label,
+.end-input label,
+.status-input label,
+.quantity-input label,
+.apply-type-input label,
+.text-filter-group label,
+.edit-information-promotion label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.code-input input, .type-input select, .value-input input, .start-input input, .end-input input, .status-input select, #text-filter, .edit-information-promotion input, .edit-information-promotion select {
-    font-size: 1rem;
+.code-input label ion-icon,
+.type-input label ion-icon,
+.value-input label ion-icon,
+.start-input label ion-icon,
+.end-input label ion-icon,
+.status-input label ion-icon,
+.quantity-input label ion-icon,
+.apply-type-input label ion-icon {
+    font-size: 18px;
+    color: #6341ff;
+}
+
+.code-input input,
+.type-input select,
+.value-input input,
+.start-input input,
+.end-input input,
+.status-input select,
+.quantity-input input,
+.apply-type-input select,
+#text-filter,
+.edit-information-promotion input,
+.edit-information-promotion select {
+    font-size: 0.95rem;
     border-radius: 8px;
-    border: 2px solid #ccc;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.code-input input, .value-input input {
-    padding: 12px 15px;
-}
-
-.edit-information-promotion input, .edit-information-promotion select {
-    padding: 6px 6px;
-}
-
-.code-input input, .value-input input {
+    border: 1.5px solid #d0d0d0;
+    background-color: #fafafa;
+    padding: 11px 14px;
+    transition: all 0.2s ease;
     width: 100%;
+    box-sizing: border-box;
 }
 
-.type-input select, .status-input select {
-    width: 100%;
-    padding: 12px 15px;
+.code-input input:hover,
+.type-input select:hover,
+.value-input input:hover,
+.start-input input:hover,
+.end-input input:hover,
+.status-input select:hover,
+.quantity-input input:hover,
+.apply-type-input select:hover {
+    border-color: #a0a0a0;
+    background-color: #fff;
 }
 
-.code-input input:focus, .type-input select:focus, .value-input input:focus, .start-input input:focus, .end-input input:focus, .status-input select:focus, #text-filter:focus, .edit-information-promotion input:focus, .edit-information-promotion select:focus {
+.code-input input:focus,
+.type-input select:focus,
+.value-input input:focus,
+.start-input input:focus,
+.end-input input:focus,
+.status-input select:focus,
+.quantity-input input:focus,
+.apply-type-input select:focus,
+#text-filter:focus,
+.edit-information-promotion input:focus,
+.edit-information-promotion select:focus {
     border-color: #6341ff;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.08);
     outline: none;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    padding-right: 40px;
+    /* Space for unit label */
+}
+
+.unit-label {
+    position: absolute;
+    right: 15px;
+    color: #666;
+    font-weight: 600;
+    font-size: 0.95rem;
+    pointer-events: none;
+    /* Allow clicking through to input */
 }
 
 .label-with-icon {
     display: flex;
-    gap: 3px;
+    align-items: center;
+    gap: 5px;
 }
 
 .group-button-action {
@@ -618,48 +769,52 @@
     margin-top: 10px;
 }
 
-.element-button, .deleteAll-button {
-    width: 100px;
-    padding: 14px 0;
-    font-size: 1rem;
-    font-weight: bold;
+.element-button,
+.deleteAll-button {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    font-weight: 700;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.cancel {
-    width: 70px;
+.add-btn,
+.fix-btn {
+    background: linear-gradient(135deg, #08c249 0%, #06a13d 100%);
+    box-shadow: 0 4px 15px rgba(8, 194, 73, 0.3);
+}
+
+.add-btn:hover,
+.fix-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(8, 194, 73, 0.4);
 }
 
 .deleteAll-button {
-    width: 150px;
-}
-
-.add-btn, .fix-btn {
-    background: #08c249;
-}
-
-.add-btn:hover, .fix-btn:hover {
-    background: #06a13d;
-}
-
-.deleteAll-button {
-    background: #e80f0f;
-}
-
-.cancel, .delete-all .element-button {
-    background: #9daab4;
-}
-
-.cancel:hover, .delete-all .element-button:hover {
-    background: #8e96a4;
+    background: linear-gradient(135deg, #e80f0f 0%, #c70d0d 100%);
+    box-shadow: 0 4px 15px rgba(232, 15, 15, 0.3);
 }
 
 .deleteAll-button:hover {
-    background: #c70d0d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232, 15, 15, 0.4);
+}
+
+.cancel,
+.delete-all .element-button {
+    background: #9daab4;
+    color: white;
+}
+
+.cancel:hover,
+.delete-all .element-button:hover {
+    background: #8e96a4;
+    transform: translateY(-2px);
 }
 
 .edit-information-promotion {
@@ -689,9 +844,14 @@
     margin-bottom: 10px;
 }
 
+.modal-content h2,
 .modal-content-edit_information h2 {
-    color: #555;
-    margin-bottom: 10px;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
 }
 
 .group-text-deleteAll {
@@ -729,6 +889,247 @@
     border-color: #6341ff;
 }
 
-table.dataTable > tbody > tr > td {
+table.dataTable>tbody>tr>td {
     padding: 5px 5px 5px 8px !important;
+}
+
+/* ========================================== */
+/* CSS cho Modal "Áp dụng mã giảm giá" */
+/* ========================================== */
+
+/* Nút "Áp dụng mã giảm giá" */
+.button-group .apply {
+    background-color: #6341ff;
+}
+
+.button-group .apply:hover {
+    background-color: #4f2fd6;
+}
+
+/* Dropdown chọn mã giảm giá */
+.discount-select-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.discount-select-input label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.discount-select-input label ion-icon {
+    font-size: 18px;
+    color: #6341ff;
+}
+
+.discount-select-input select {
+    font-size: 0.95rem;
+    border-radius: 8px;
+    border: 1.5px solid #d0d0d0;
+    background-color: #fafafa;
+    padding: 11px 14px;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.discount-select-input select:hover {
+    border-color: #a0a0a0;
+    background-color: #fff;
+}
+
+.discount-select-input select:focus {
+    border-color: #6341ff;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.08);
+    outline: none;
+}
+
+/* Radio button group cho kiểu áp dụng */
+.apply-type-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.apply-type-radio-group>label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.apply-type-radio-group>label ion-icon {
+    font-size: 18px;
+    color: #6341ff;
+}
+
+.radio-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 10px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.radio-label:hover {
+    background-color: #f5f5f5;
+}
+
+.radio-label input[type="radio"] {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: #6341ff;
+}
+
+.radio-label span {
+    font-size: 0.95rem;
+    color: #333;
+}
+
+/* Container cho danh sách checkbox động */
+.dynamic-checkbox-container {
+    margin-bottom: 15px;
+}
+
+/* Danh sách checkbox */
+.checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checkbox-list>label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+}
+
+.checkbox-list>label ion-icon {
+    font-size: 18px;
+    color: #6341ff;
+}
+
+/* Vùng cuộn cho checkbox */
+.checkbox-scroll-area {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1.5px solid #d0d0d0;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fafafa;
+}
+
+.checkbox-scroll-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+.checkbox-scroll-area::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.checkbox-scroll-area::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.checkbox-scroll-area::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Checkbox label */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.checkbox-label:hover {
+    background-color: #e8e8e8;
+}
+
+.checkbox-label input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: #6341ff;
+}
+
+.checkbox-label span {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Filter selector dropdowns */
+.filter-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.filter-selector label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-selector label ion-icon {
+    font-size: 18px;
+    color: #6341ff;
+}
+
+.filter-select {
+    font-size: 0.95rem;
+    border-radius: 8px;
+    border: 1.5px solid #d0d0d0;
+    background-color: #fafafa;
+    padding: 11px 14px;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.filter-select:hover {
+    border-color: #a0a0a0;
+    background-color: #fff;
+}
+
+.filter-select:focus {
+    border-color: #6341ff;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.08);
+    outline: none;
 }

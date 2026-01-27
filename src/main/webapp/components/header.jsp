@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-  <!DOCTYPE html>
-  <html lang="en">
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+            <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+                <!DOCTYPE html>
+                <html lang="en">
 
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index_style.css">
 
@@ -146,9 +146,10 @@
                                         </div>
                                     </li>
 
+
                                     <li>
-                                        <a href="<%= request.getContextPath() %>/blog.jsp"
-                                            class="${fn:contains(uri, 'blog.jsp') ? 'active' : ''}">Blog</a>
+                                        <a href="<%= request.getContextPath() %>/blog"
+                                            class="${fn:contains(uri, 'blog') ? 'active' : ''}">Blog</a>
                                     </li>
 
                                     <li>

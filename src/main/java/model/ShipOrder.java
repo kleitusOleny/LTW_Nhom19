@@ -3,10 +3,9 @@ package model;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.sql.Timestamp;
-import java.math.BigDecimal;
 
 public class ShipOrder {
-    @ColumnName("ship_id")
+    @ColumnName("id")
     private int id;
 
     @ColumnName("order_id")
@@ -19,7 +18,7 @@ public class ShipOrder {
     private String trackingNumber;
 
     @ColumnName("shipping_fee")
-    private BigDecimal shippingFee;
+    private double shippingFee;
 
     @ColumnName("status")
     private String status;
@@ -62,11 +61,11 @@ public class ShipOrder {
         this.trackingNumber = trackingNumber;
     }
 
-    public BigDecimal getShippingFee() {
+    public double getShippingFee() {
         return shippingFee;
     }
 
-    public void setShippingFee(BigDecimal shippingFee) {
+    public void setShippingFee(double shippingFee) {
         this.shippingFee = shippingFee;
     }
 

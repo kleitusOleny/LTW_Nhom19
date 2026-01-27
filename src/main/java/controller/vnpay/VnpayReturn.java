@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.*;
 import dao.PaymentDAO;
 import model.Payment;
 import model.Order;
+import model.ShipOrder;
 
 import java.sql.Timestamp;
 
@@ -80,20 +81,19 @@ public class VnpayReturn extends HttpServlet {
                     payment.setStatus(transSuccess ? "Completed" : "Failed");
                     paymentDAO.create(payment);
                 } else {
+                    payment.setStatus(transSuccess ? "Completed" : "Failed");
                     payment.setPaidAt(new Timestamp(System.currentTimeMillis()));
                     paymentDAO.update(payment);
                 }
 
                 if (transSuccess) {
-                    // Create ShipOrder for successful VNPay payment
                     dao.ShipOrderDAO shipOrderDAO = new dao.ShipOrderDAO();
-                    // Check if exists to avoid duplicates if callback is called multiple times
                     if (shipOrderDAO.getByOrderId(Integer.parseInt(orderId)) == null) {
-                        model.ShipOrder shipOrder = new model.ShipOrder();
+                        ShipOrder shipOrder = new ShipOrder();
                         shipOrder.setOrderId(Integer.parseInt(orderId));
                         shipOrder.setCarrierName("Giao hàng tiêu chuẩn");
                         shipOrder.setTrackingNumber("VNP" + paymentCode);
-                        shipOrder.setShippingFee(java.math.BigDecimal.ZERO);
+                        shipOrder.setShippingFee(0.0);
                         shipOrder.setStatus("Chuẩn bị đơn hàng");
                         shipOrder.setEstimatedDeliveryDate(
                                 new Timestamp(System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000)); // +3 days

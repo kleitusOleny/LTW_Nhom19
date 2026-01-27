@@ -36,12 +36,34 @@
                     <div class="order-list">
                         <c:forEach items="${orders}" var="order">
                             <c:set var="shipOrder" value="${shipOrderMap[order.id]}" />
-                            <c:set var="status" value="${shipOrder != null ? shipOrder.status : 'Đang xử lý'}" />
+                            <c:set var="payment" value="${paymentMap[order.id]}" />
+                            <c:choose>
+                                <c:when test="${payment != null and payment.status == 'Failed'}">
+                                    <c:set var="status" value="Thanh toán thất bại" />
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="status"
+                                        value="${shipOrder != null ? shipOrder.status : 'Đang xử lý'}" />
+                                </c:otherwise>
+                            </c:choose>
 
                             <div class="order-card" data-status="${status}">
                                 <div class="order-header">
                                     <span class="order-id">#${order.id}</span>
-                                    <span class="order-status status-completed">${status}</span>
+                                    <c:choose>
+                                        <c:when test="${status == 'Thanh toán thất bại'}">
+                                            <span class="order-status status-cancelled">${status}</span>
+                                        </c:when>
+                                        <c:when test="${status == 'Đã hủy'}">
+                                            <span class="order-status status-cancelled">${status}</span>
+                                        </c:when>
+                                        <c:when test="${status == 'Đang xử lý' or status == 'Chuẩn bị đơn hàng'}">
+                                            <span class="order-status status-pending">${status}</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="order-status status-completed">${status}</span>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="order-body">
                                     <p><strong>Ngày đặt:</strong> ${order.createAt}</p>
@@ -55,7 +77,7 @@
                                     <div class="tracking-bar">
                                         <c:set var="progressWidth" value="0%" />
                                         <c:choose>
-                                            <c:when test="${status == 'Đang giao hàng'}">
+                                            <c:when test="${status == 'Đang giao hàng' || status == 'Đang giao'}">
                                                 <c:set var="progressWidth" value="50%" />
                                             </c:when>
                                             <c:when test="${status == 'Giao hàng thành công'}">
@@ -65,12 +87,12 @@
                                         <div class="tracking-progress" style="width: ${progressWidth};"></div>
 
                                         <div
-                                            class="tracking-step ${status == 'Chuẩn bị đơn hàng' || status == 'Đang giao hàng' || status == 'Giao hàng thành công' ? 'active' : ''}">
+                                            class="tracking-step ${status == 'Chuẩn bị đơn hàng' || status == 'Đang giao hàng' || status == 'Đang giao' || status == 'Giao hàng thành công' ? 'active' : ''}">
                                             <div class="step-dot"></div>
                                             <div class="step-label">Đang xử lý</div>
                                         </div>
                                         <div
-                                            class="tracking-step ${status == 'Đang giao hàng' || status == 'Giao hàng thành công' ? 'active' : ''}">
+                                            class="tracking-step ${status == 'Đang giao hàng' || status == 'Đang giao' || status == 'Giao hàng thành công' ? 'active' : ''}">
                                             <div class="step-dot"></div>
                                             <div class="step-label">Đang giao</div>
                                         </div>
@@ -105,14 +127,13 @@
 
             <script>
                 function filterOrders(btn, filterValue) {
-                    // Update active button
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     if (btn) btn.classList.add('active');
 
                     const orderCards = document.querySelectorAll('.order-card');
 
                     orderCards.forEach(card => {
-                        const status = card.getAttribute('data-status');
+                        const status = card.getAttribute('data-status').trim();
                         if (filterValue === 'all' || status === filterValue) {
                             card.style.display = 'block';
                         } else {

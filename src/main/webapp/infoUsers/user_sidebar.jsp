@@ -7,8 +7,8 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Tài khoản người dùng</title>
-            <link rel="stylesheet" href="<%= request.getContextPath() %>/css/user_sidebar_style.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+            <link rel="stylesheet" href="<%= request.getContextPath() %>/css/user_sidebar_style.css">
         </head>
 
         <body>
@@ -27,8 +27,8 @@
                                             class="fa-solid fa-box"></i> <span data-lang-key="myOrders">Đơn
                                             hàng của tôi</span></a></li>
                                 <li><a href="review_history.jsp"
-                                        data-url="<%= request.getContextPath() %>/user?page=reviews"><i
-                                            class="fa-solid fa-star"></i> <span data-lang-key="reviewHistory">Lịch
+                                        data-url="<%= request.getContextPath() %>/user?page=reviews"><i class="fa-solid fa-clock-rotate-left review-icon"></i><span
+                                            data-lang-key="reviewHistory">Lịch
                                             sử đánh giá</span></a></li>
                                 <hr>
                                 <li><a href="settings.jsp"
