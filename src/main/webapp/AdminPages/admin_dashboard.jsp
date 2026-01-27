@@ -22,7 +22,7 @@
             <li><a href="manage_product.jsp" class="a-with-icon">
                 <ion-icon name="bag-remove-outline"></ion-icon>
                 Quản Lí Sản Phẩm</a></li>
-            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon">
+            <li><a href="${pageContext.request.contextPath}/account-manager" class="a-with-icon">
                 <ion-icon name="people-outline"></ion-icon>
                 Quản Lí Tài Khoản Khách</a></li>
             <li><a href="manage_orders.jsp" class="a-with-icon">
@@ -49,17 +49,17 @@
             <div class="stat-cards-container">
                 <div class="stat-card">
                     <h3>Đơn Hàng Mới</h3>
-                    <p class="stat-number">0</p>
-                    <span class="stat-description">Trong 24 giờ qua</span>
+                    <p class="stat-number">${newOrderLastWeek}</p>
+                    <span class="stat-description">Trong tuần này</span>
                 </div>
                 <div class="stat-card">
                     <h3>Tổng Doanh Thu (Tháng)</h3>
-                    <p class="stat-number">0đ</p>
-                    <span class="stat-description">Tháng 10, 2025</span>
+                    <p class="stat-number">${sumTotalPriceLastMonth}đ</p>
+                    <span class="stat-description">Dựa theo từng tháng</span>
                 </div>
                 <div class="stat-card">
-                    <h3>Khách Hàng Mới</h3>
-                    <p class="stat-number">0</p>
+                    <h3>Tài Khoản Mới</h3>
+                    <p class="stat-number">${newUsersLastWeek}</p>
                     <span class="stat-description">Trong tuần này</span>
                 </div>
                 <div class="stat-card special" id="out_of_stocks-modal-btn">
