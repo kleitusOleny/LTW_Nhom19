@@ -231,48 +231,55 @@
 
         <form id="add-product-form" action="add-product" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="prod-id">ID (Khóa chính / SKU)</label>
-                <input type="text" id="prod-id" name="id" value="SKU: VD/0998-18">
-            </div>
-            <div class="form-group">
-                <label for="prod-name">Tên sản phẩm</label>
-                <input type="text" id="prod-name" name="productName" value="Rượu vang đỏ Château La Vieille Cure...">
+                <label for="prod-type">Loại rượu</label>
+                <select id="prod-type" name="type" class="form-control">
+                    <option value="">-- Chọn loại rượu --</option>
+                    <c:forEach items="${types}" var="t">
+                        <option value="${t.id}">${t.typeName}</option>
+                    </c:forEach>
+                </select>
             </div>
 
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="prod-type">Loại rượu</label>
-                    <input type="text" id="prod-type" name="type" value="Rượu Vang Đỏ">
-                </div>
-                <div class="form-group">
-                    <label for="prod-origin">Xuất xứ</label>
-                    <input type="text" id="prod-origin" name="origin" value="Pháp">
-                </div>
-                <div class="form-group">
-                    <label for="prod-manufacturer">Nhà sản xuất</label>
-                    <input type="text" id="prod-manufacturer" name="manufacturer" value="Château La Vieille Cure">
-                </div>
-                <div class="form-group">
-                    <label for="prod-price">Giá</label>
-                    <input type="number" id="prod-price" name="price" value="1573000">
-                </div>
-                <div class="form-group">
-                    <label for="prod-capacity">Dung tích</label>
-                    <input type="text" id="prod-capacity" name="capacity" value="750ML">
-                </div>
-                <div class="form-group">
-                    <label for="prod-alcohol">Nồng độ</label>
-                    <input type="text" id="prod-alcohol" name="alcohol" value="15.0">
-                </div>
-                <div class="form-group">
-                    <label for="prod-stock">Số lượng tồn kho</label>
-                    <input type="number" id="prod-stock" name="stock" value="150">
-                </div>
+            <div class="form-group">
+                <label for="prod-origin">Xuất xứ</label>
+                <input type="text" id="prod-origin" name="origin" placeholder="Ví dụ: Pháp">
+            </div>
+
+            <div class="form-group">
+                <label for="prod-manufacturer">Nhà sản xuất</label>
+                <select id="prod-manufacturer" name="manufacturer" class="form-control">
+                    <option value="">-- Chọn nhà sản xuất --</option>
+                    <c:forEach items="${manufacturers}" var="m">
+                        <option value="${m.id}">${m.manufacturerName}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="prod-price">Giá</label>
+                <input type="number" id="prod-price" name="price" placeholder="Nhập giá bán">
+            </div>
+            <div class="form-group">
+                <label for="prod-capacity">Dung tích</label>
+                <input type="text" id="prod-capacity" name="capacity" placeholder="Ví dụ: 750ML">
+            </div>
+            <div class="form-group">
+                <label for="prod-alcohol">Nồng độ</label>
+                <input type="text" id="prod-alcohol" name="alcohol" placeholder="Ví dụ: 15.0">
+            </div>
+            <div class="form-group">
+                <label for="prod-stock">Số lượng tồn kho</label>
+                <input type="number" id="prod-stock" name="stock" value="0">
             </div>
 
             <div class="form-group">
                 <label for="prod-category">Danh mục</label>
-                <input type="text" id="prod-category" name="category" value="Bordeaux, Fronsac...">
+                <select id="prod-category" name="category" class="form-control">
+                    <option value="">-- Chọn danh mục --</option>
+                    <c:forEach items="${categories}" var="c">
+                        <option value="${c.id}">${c.categoryName}</option>
+                    </c:forEach>
+                </select>
             </div>
 
             <input type="hidden" id="prod-tag" name="tags" value="">

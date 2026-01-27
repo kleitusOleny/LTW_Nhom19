@@ -64,7 +64,7 @@
                         <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden-file-input">
                     </label>
 
-                    <button class="btn btn-primary" id="add-banner-btn">
+                    <button class="btn btn-primary add-banner-btn" data-target="banner-form-modal">
                         <ion-icon name="add-outline"></ion-icon>
                         Thêm Banner
                     </button>
@@ -118,7 +118,12 @@
                                     <form action="banner-manager" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="${b.id}">
-                                        <button type="submit" class="delete btn">Xoá</button>
+                                        <button type="button"
+                                                class="delete btn btn-open-delete"
+                                                data-target="delete-confirm-modal"
+                                                data-id="${b.id}">
+                                            Xoá
+                                        </button>
                                     </form>
                                 </div>
                             </td>
@@ -205,8 +210,7 @@
 
                 <div class="form-group">
                     <label for="banner-status">TRẠNG THÁI</label>
-                    <select id="banner-status"
-                            style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: #fff;">
+                    <select id="banner-status" name="status" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: #fff;">
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
@@ -219,8 +223,36 @@
             </div>
 
             <div class="form-actions">
-                <button type="button" class="btn btn-secondary" id="cancel-form-btn">Hủy Bỏ</button>
+                <button type="button" class="btn btn-secondary cancel-form-btn">Hủy Bỏ</button>
                 <button type="submit" class="btn btn-primary" id="ac-form-btn">Lưu Banner</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay-form modal-overlay-edit_information" id="delete-confirm-modal" style="--modal-width: 450px;">
+    <div class="modal-content-form">
+        <button type="button" class="modal-close-form btn-close-delete" id="close-delete-btn">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+
+        <h2 class="modal-confirm-title">
+            <ion-icon name="warning-outline"></ion-icon>
+            Xác nhận xóa
+        </h2>
+
+        <p class="modal-confirm-text">
+            Bạn có chắc chắn muốn xóa Banner này không?<br>
+            Hành động này không thể hoàn tác.
+        </p>
+
+        <form action="banner-manager" method="post">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="id" id="input-delete-banner-id" value="">
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary btn-close-delete" id="cancel-delete-btn">Hủy Bỏ</button>
+                <button type="submit" class="btn btn-danger" id="ac-delete-btn">Xác Nhận Xóa</button>
             </div>
         </form>
     </div>
@@ -232,7 +264,9 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-
+        setupDynamicModals('add-banner-btn', 'cancel-form-btn');
+        setupDynamicModals('btn-open-delete','close-delete-btn');
+        setupDynamicModals('btn-open-delete','cancel-delete-btn')
         $(document).ready(function () {
             $('#banner-datatable').DataTable({
                 // Tắt sắp xếp cho cột Ảnh và Hành động
