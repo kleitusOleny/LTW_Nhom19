@@ -89,7 +89,7 @@
                         <div class="modal-overlay-edit_information" id="modal-edit-${user.id}">
                             <div class="modal-content-edit_information">
                                 <h2>Bảng thông tin</h2>
-                                <form action="${pageContext.request.contextPath}/accountmanager/edit" method="POST">
+                                <form action="${pageContext.request.contextPath}/account-manager/edit" method="POST">
                                 <div class="edit-information-account">
                                     <div class="userId-section">
                                         <label for="id">ID:</label>
@@ -167,7 +167,7 @@
 
 <div class="modal-overlay" id="add-account-modal">
     <div class="modal-content">
-        <form id="add-form" action="${pageContext.request.contextPath}/accountmanager/add" method="POST">
+        <form id="add-form" action="${pageContext.request.contextPath}/account-manager/add" method="POST">
             <div class="username-input">
                 <label for="username" class="label-with-icon">
                     <ion-icon name="person-outline"></ion-icon>
@@ -354,7 +354,7 @@
 
             // Gửi danh sách ID và status về Server
             $.ajax({
-                url: '${pageContext.request.contextPath}/accountmanager/lock-multiple',
+                url: '${pageContext.request.contextPath}/account-manager/lock-multiple',
                 type: 'POST',
                 data: {
                     ids: ids.join(','),
@@ -395,7 +395,7 @@
 
         if (confirm(message)) {
             // Gọi xuống Servlet
-            fetch('${pageContext.request.contextPath}/accountmanager/toggle-status', {
+            fetch('${pageContext.request.contextPath}/account-manager/toggle-status', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

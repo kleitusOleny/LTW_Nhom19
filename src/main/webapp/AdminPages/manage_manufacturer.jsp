@@ -16,28 +16,15 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="<%= request.getContextPath() %>/assets/avatar.jpg" class="user-avatar"/>
-                <ion-icon name="notifications-outline" class="icon-header"></ion-icon>
+                <img src="<%= request.getContextPath() %>/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
+                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
             </div>
-            <li><a href="admin_dashboard.jsp" class="a-with-icon">
-                <ion-icon name="home-outline"></ion-icon>
-                Trang Chủ</a></li>
-            <li><a href="manage_product.jsp" class="a-with-icon">
-                <ion-icon name="bag-remove-outline"></ion-icon>
-                Quản Lí Sản Phẩm</a></li>
 
-            <li><a href="category-manager" class="a-with-icon">
-                <ion-icon name="list-outline"></ion-icon>
-                Quản Lí Danh Mục</a></li>
+            <c:set var="activePage" value="manufacturer" scope="request" />
 
-            <li><a href="manage-manufacturer" class="a-with-icon selected">
-                <ion-icon name="business-outline"></ion-icon>
-                Quản Lí Nhà SX</a></li>
-
-            <li><a href="manage_orders.jsp" class="a-with-icon">
-                <ion-icon name="cart-outline"></ion-icon>
-                Quản Lí Đơn Hàng</a></li>
+            <jsp:include page="/AdminPages/components/sidebar_items_component.jsp" />
         </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
     </nav>
     <div class="dashboard-content">
         <main class="dashboard-main-content">

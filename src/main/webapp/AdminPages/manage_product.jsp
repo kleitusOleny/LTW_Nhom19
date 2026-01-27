@@ -127,7 +127,7 @@
                 </div>
 
                 <button type="button" class="btn-reset" id="btn-reset-filter">
-                    <ion-icon name="refresh-outline" style="font-size: 16px; vertical-align: middle;"></ion-icon> Xóa lọc
+                    <ion-icon name="refresh-outline" style="font-size: 16px; vertical-align: middle;"></ion-icon>
                 </button>
 
                 <div class="filter-item" style="margin-left: auto;">
@@ -347,132 +347,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Setup Modal phụ
-        setupDynamicModals('avatar-modal-btn', 'close-modal-btn9');
-        setupDynamicModals('add-product-btn', 'modal-close-form')
-
-        setupDynamicModals('remove-product-btn','cancel-delete-btn')
-        setupModal(
-            '.delete-confirm-modal',
-            '.delete-button',
-            '.close-delete-btn, .cancel-delete-btn'
-        );
-        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
-        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
-
-        // --- LOGIC XỬ LÝ TAGS INPUT ---
-
-        const tagWrapper = $('#tag-wrapper');
-        const tagInput = $('#tag-typing');
-        const hiddenInput = $('#prod-tag');
-
-        let tags = [];
-
-        function renderTags() {
-            tagWrapper.find('.tag-item').remove();
-
-            tags.forEach((tagText, index) => {
-                let $tagDiv = $('<div>', {
-                    class: 'tag-item'
-                });
-
-                let $spanText = $('<span>', {
-                    class: 'text-content',
-                    text: tagText
-                });
-
-                let $removeBtn = $('<span>', {
-                    class: 'remove-tag',
-                    html: '&times;',
-                    'data-index': index
-                });
-
-                $tagDiv.append($spanText).append($removeBtn);
-
-                tagInput.before($tagDiv);
-            });
-
-            hiddenInput.val(tags.join(', '));
-
-            console.log("Current Tags:", tags);
-        }
-
-        function addTag(text) {
-            let cleanText = text.replace(/,/g, '').trim();
-            if (cleanText && !tags.includes(cleanText)) {
-                tags.push(cleanText);
-                renderTags();
-            }
-
-            tagInput.val('');
-            tagInput.focus();
-        }
-
-        tagInput.on('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ',') {
-                e.preventDefault();
-                addTag($(this).val());
-            }
-
-            if (e.key === 'Backspace' && $(this).val() === '' && tags.length > 0) {
-                tags.pop();
-                renderTags();
-            }
-        });
-
-        tagWrapper.on('click', '.remove-tag', function() {
-            const index = $(this).data('index');
-            tags.splice(index, 1);
-            renderTags();
-        });
-
-        tagWrapper.on('click', function() {
-            tagInput.focus();
-        });
-
-
-        $('#product-datatable tbody').on('click', '.edit.btn', function () {
-            let currentTagsString = "";
-
-            if(currentTagsString){
-                tags = currentTagsString.split(',').map(t => t.trim());
-            } else {
-                tags = [];
-            }
-            renderTags();
-
-        });
-
-        $('#add-product-btn').on('click', function () {
-            tags = [];
-            renderTags();
-        });
-
-        $('#add-product-form').on('submit', function (e) {
-            e.preventDefault();
-
-            let formData = new FormData(this);
-
-            $.ajax({
-                url: 'add-product',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    alert('Thêm sản phẩm thành công!');
-                    location.reload(); // Hoặc cập nhật lại DataTable
-                },
-                error: function (xhr) {
-                    alert('Có lỗi xảy ra: ' + xhr.responseText);
-                }
-            });
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-
-
         // 1. Cấu hình DataTable
         var table = $('#product-datatable').DataTable({
             "paging": true,

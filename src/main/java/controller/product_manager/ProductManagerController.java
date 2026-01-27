@@ -29,7 +29,7 @@ public class ProductManagerController extends HttpServlet {
         req.setAttribute("categories", productDAO.getAllCategories());
         req.setAttribute("types", productDAO.getAllTypes());
         req.setAttribute("manufacturers", manufacturerDAO.getAllManufacturers());
-        req.getRequestDispatcher("AdminPages/manage_product.jsp").forward(req, resp);
+        req.getRequestDispatcher("/AdminPages/manage_product.jsp").forward(req, resp);
     }
     
     @Override

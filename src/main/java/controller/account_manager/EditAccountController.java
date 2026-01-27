@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "EditAccountController", value = "/accountmanager/edit")
+@WebServlet(name = "EditAccountController", value = "/account-manager/edit")
 public class EditAccountController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,7 +53,7 @@ public class EditAccountController extends HttpServlet {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-            response.sendRedirect(request.getContextPath() + "/accountmanager");
+            response.sendRedirect(request.getContextPath() + "/account-manager");
         } else {
             request.setAttribute("editingId", id);
             request.setAttribute("errorSource", "edit_account");

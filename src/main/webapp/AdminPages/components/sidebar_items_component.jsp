@@ -6,6 +6,13 @@
 <li><a href="${pageContext.request.contextPath}/product-manager" class="a-with-icon ${activePage == 'product' ? 'selected' : ''}">
     <ion-icon name=${activePage == 'product' ? 'bag-remove' : 'bag-remove-outline'}></ion-icon>
     Quản Lí Sản Phẩm</a></li>
+<li><a href="${pageContext.request.contextPath}/category-manager" class="a-with-icon ${activePage == 'category' ? 'selected' : ''}">
+    <ion-icon name=${activePage == 'category' ? 'list' : 'list-outline'}></ion-icon>
+    Quản Lí Danh Mục</a></li>
+
+<li><a href="${pageContext.request.contextPath}/manage-manufacturer" class="a-with-icon ${activePage == 'manufacturer' ? 'selected' : ''}">
+    <ion-icon name=${activePage == 'manufacturer' ? 'business' : 'business-outline'}></ion-icon>
+    Quản Lí Nhà Sản Xuất</a></li>
 <li><a href="${pageContext.request.contextPath}/account-manager" class="a-with-icon ${activePage == 'account' ? 'selected' : ''}">
     <ion-icon name=${activePage == 'account' ? 'people' : 'people-outline'}></ion-icon>
     Quản Lí Tài Khoản</a></li>

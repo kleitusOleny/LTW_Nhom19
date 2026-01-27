@@ -17,7 +17,7 @@ public class AccountManagerController extends HttpServlet {
         List<User> userList = userDAO.getAll();
         if (userList != null) {
             request.setAttribute("listAccount", userList);
-            request.getRequestDispatcher("/AdminPages/manage_accounts.jsp").forward(request, response);
+            request.getRequestDispatcher("AdminPages/manage_accounts.jsp").forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/accountmanage" + "?fetchDataError");
         }
