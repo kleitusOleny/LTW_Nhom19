@@ -531,6 +531,15 @@
     background: #8e96a4;
 }
 
+.delete {
+    width: 70px;
+    background: #f44336;
+}
+
+.delete:hover {
+    background: #b83329;
+}
+
 .fix-btn {
     background: #08c249;
 }

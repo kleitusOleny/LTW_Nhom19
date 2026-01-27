@@ -6,6 +6,7 @@
     <title>Trang Chủ</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/AdminPages/admin_css/admin_dashboard.css">
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 </head>
 <body>
 <div class="dashboard-container">
@@ -72,60 +73,36 @@
             </div>
         </main>
         <div class="group-todo">
-            <div class="todo-list-container not-finish">
-                <h2>
-                    <ion-icon name="document-attach-outline"></ion-icon>
-                    Danh Sách Cần Làm
-                </h2>
-                <div class="contain-todo">
-                    <div class="todo not-finish" id="todo-modal-btn-1">
-                        Fix lỗi vỡ giao diện trên Mobile (Khách báo)
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
-                    </div>
-                    <div class="todo not-finish" id="todo-modal-btn-2">
-                        Viết API lấy danh sách khách hàng VIP
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
-                    </div>
-                    <div class="todo not-finish" id="todo-modal-btn-3">
-                        Đổi màu nút "Mua ngay" sang màu đỏ
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
-                    </div>
-                    <div class="todo not-finish" id="todo-modal-btn-4">
-                        Trả lời email hỗ trợ đơn hàng #DH005
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
-                    </div>
-                    <div class="todo not-finish" id="todo-modal-btn-5">
-                        Kiểm tra lỗi bảo mật form Đăng ký
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+            <div class="group-todo">
+                <div class="todo-list-container not-finish">
+                    <h2><ion-icon name="document-attach-outline"></ion-icon> Danh Sách Cần Làm</h2>
+                    <div class="contain-todo">
+                        <c:forEach items="${pendingList}" var="f">
+                            <div class="todo not-finish todo-trigger"
+                                 data-target="generic-todo-modal"
+                                 data-id="${f.id}"
+                                 data-title="${f.title}"
+                                 data-content="${f.content}"
+                                 data-status="false">${f.title}
+                                <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
-            </div>
 
-            <div class="todo-list-container finished">
-                <h2>
-                    <ion-icon name="checkbox-outline"></ion-icon>
-                    Đã Hoàn Thành
-                </h2>
-                <div class="contain-todo">
-                    <div class="todo finish" id="todo-modal-btn-6">
-                        Thiết kế xong Banner khuyến mãi tháng 11
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
-                    </div>
-                    <div class="todo finish" id="todo-modal-btn-7">
-                        Tối ưu tốc độ load database sản phẩm
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
-                    </div>
-                    <div class="todo finish" id="todo-modal-btn-8">
-                        Gọi điện xác nhận đơn hàng lớn
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
-                    </div>
-                    <div class="todo finish" id="todo-modal-btn-9">
-                        Thêm hiệu ứng animation cho menu
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
-                    </div>
-                    <div class="todo finish" id="todo-modal-btn-10">
-                        Backup dữ liệu web lúc 12h đêm
-                        <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                <div class="todo-list-container finished">
+                    <h2><ion-icon name="checkbox-outline"></ion-icon> Đã Hoàn Thành</h2>
+                    <div class="contain-todo">
+                        <c:forEach items="${doneList}" var="f">
+                            <div class="todo finish todo-trigger"
+                                 data-target="generic-todo-modal"
+                                 data-id="${f.id}"
+                                 data-title="${f.title}"
+                                 data-content="${f.content}"
+                                 data-status="true">${f.title}
+                                <ion-icon name="chevron-forward-outline" class="icon-todo"></ion-icon>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -162,184 +139,27 @@
         </a>
     </div>
 </div>
-<div class="modal-overlay-todo" id="todo-list-modal-1">
+<div class="modal-overlay-todo" id="generic-todo-modal">
     <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Fix lỗi vỡ giao diện trên Mobile (Khách báo)</h2>
+        <form id="todo-form" action="${pageContext.request.contextPath}/todo_list" method="POST">
+            <input type="hidden" name="action" id="modal-action" value="update_status">
+            <input type="hidden" name="taskId" id="modal-task-id"> <div class="todo-container">
+            <h2 id="modal-task-title">Tiêu đề task</h2>
+            <p id="modal-task-content" style="color: #555;"></p>
             <div class="select-todo">
                 <label>Tiến độ:</label>
-                <select>
-                    <option value="yes">Hoàn Thành</option>
-                    <option value="no" selected>Chưa Hoàn Thành</option>
+                <select name="status" id="modal-task-status">
+                    <option value="false">Chưa Hoàn Thành</option>
+                    <option value="true">Hoàn Thành</option>
                 </select>
             </div>
         </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-11">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-2">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Viết API lấy danh sách khách hàng VIP</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes">Hoàn Thành</option>
-                    <option value="no" selected>Chưa Hoàn Thành</option>
-                </select>
+            <div class="group-button-action section">
+                <button type="button" class="cancel element-button close-todo-modal">Huỷ</button>
+                <button type="button" class="delete element-button" onclick="submitDelete()">Xoá</button>
+                <button type="submit" class="fix-btn element-button">Cập nhật</button>
             </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-12">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-3">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Đổi màu nút "Mua ngay" sang màu đỏ</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes">Hoàn Thành</option>
-                    <option value="no" selected>Chưa Hoàn Thành</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-13">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-4">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Trả lời email hỗ trợ đơn hàng #DH005</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes">Hoàn Thành</option>
-                    <option value="no" selected>Chưa Hoàn Thành</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-14">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-5">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Kiểm tra lỗi bảo mật form Đăng ký</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes">Hoàn Thành</option>
-                    <option value="no" selected>Chưa Hoàn Thành</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-15">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-6">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Thiết kế xong Banner khuyến mãi tháng 11</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes" selected>Hoàn Thành</option>
-                    <option value="no">Chưa Hoàn Thành</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-16">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-7">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Tối ưu tốc độ load database sản phẩm</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes" selected>Hoàn Thành</option>
-                    <option value="no">Chưa Hoàn Thành</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-17">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-8">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Gọi điện xác nhận đơn hàng lớn</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes" selected>Hoàn Thành</option>
-                    <option value="no">Chưa Hoàn Thành</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-18">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-9">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Thêm hiệu ứng animation cho menu</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes" selected>Hoàn Thành</option>
-                    <option value="no">Chưa Hoàn Thành</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-19">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay-todo" id="todo-list-modal-10">
-    <div class="modal-content-todo">
-        <div class="todo-container">
-            <h2>Backup dữ liệu web lúc 12h đêm</h2>
-            <div class="select-todo">
-                <label>Tiến độ:</label>
-                <select>
-                    <option value="yes" selected>Hoàn Thành</option>
-                    <option value="no">Chưa Hoàn Thành</option>
-                </select>
-            </div>
-        </div>
-        <div class="group-button-action section">
-            <button type="button" class="cancel element-button" id="close-modal-btn-20">Huỷ</button>
-            <button type="submit" class="fix-btn element-button">Sửa</button>
-        </div>
+        </form>
     </div>
 </div>
 <div class="modal-overlay-out_of_stocks" id="out_of_stocks-modal">
@@ -368,22 +188,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/popup.js"></script>
 <script>
-    // Run Pop-up function
     document.addEventListener("DOMContentLoaded", function () {
         setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
         setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
-        setupModal('todo-list-modal-1', 'todo-modal-btn-1', 'close-modal-btn-11');
-        setupModal('todo-list-modal-2', 'todo-modal-btn-2', 'close-modal-btn-12');
-        setupModal('todo-list-modal-3', 'todo-modal-btn-3', 'close-modal-btn-13');
-        setupModal('todo-list-modal-4', 'todo-modal-btn-4', 'close-modal-btn-14');
-        setupModal('todo-list-modal-5', 'todo-modal-btn-5', 'close-modal-btn-15');
-        setupModal('todo-list-modal-6', 'todo-modal-btn-6', 'close-modal-btn-16');
-        setupModal('todo-list-modal-7', 'todo-modal-btn-7', 'close-modal-btn-17');
-        setupModal('todo-list-modal-8', 'todo-modal-btn-8', 'close-modal-btn-18');
-        setupModal('todo-list-modal-9', 'todo-modal-btn-9', 'close-modal-btn-19');
-        setupModal('todo-list-modal-10', 'todo-modal-btn-10', 'close-modal-btn-20');
         setupModal('out_of_stocks-modal', 'out_of_stocks-modal-btn', 'close-modal-out_of_stock');
+
+        if (typeof setupDynamicModals === "function") {
+            setupDynamicModals('todo-trigger', 'close-todo-modal');
+        }
+
+        // Script điền dữ liệu
+        const taskItems = document.querySelectorAll('.todo-trigger');
+        taskItems.forEach(item => {
+            item.addEventListener('click', function () {
+                // Lấy dữ liệu từ dòng đã click
+                const id = this.getAttribute('data-id');
+                const title = this.getAttribute('data-title');
+                const content = this.getAttribute('data-content');
+                const status = this.getAttribute('data-status');
+
+                // Điền vào Form trong Modal
+                document.getElementById('modal-task-id').value = id;
+                document.getElementById('modal-task-title').innerText = title;
+                document.getElementById('modal-task-content').innerText = content;
+                document.getElementById('modal-task-status').value = status;
+            });
+        });
     });
+    function submitDelete() {
+        if (confirm("Bạn có chắc chắn muốn xoá phản hồi này không?")) {
+            // Thay đổi action thành delete_task
+            document.getElementById('modal-action').value = 'delete_task';
+            document.getElementById('todo-form').submit();
+        }
+    }
 </script>
 </body>
 </html>
