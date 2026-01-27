@@ -30,11 +30,11 @@ public class TodoListController extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("taskId"));
             boolean status = Boolean.parseBoolean(request.getParameter("status"));
             feedbackService.updateFeedback(id, status);
-            response.sendRedirect("dashboard");
+            response.sendRedirect(request.getContextPath() + "/dashboard");
         } else if ("delete_task".equals(action)) {
             int id = Integer.parseInt(request.getParameter("taskId"));
             feedbackService.deleteFeedback(id);
-            response.sendRedirect("dashboard");
+            response.sendRedirect(request.getContextPath() + "/dashboard");
         } else {
             String title = request.getParameter("subject");
             String content = request.getParameter("message");
@@ -44,7 +44,7 @@ public class TodoListController extends HttpServlet {
                 feedbackService.insertFeedback(user.getId(), title, content);
                 response.sendRedirect(request.getContextPath() + "/user#/user?page=support&status=success");
             } else {
-                response.sendRedirect("login");
+                response.sendRedirect(request.getContextPath() + "/login");
             }
         }
     }

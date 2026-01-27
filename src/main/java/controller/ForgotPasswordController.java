@@ -35,12 +35,12 @@ public class ForgotPasswordController extends HttpServlet {
             if (emailGetFromSession != null) {
                 boolean renewPassword = authService.updatePasswordAfterAuthentication(emailGetFromSession, plainPassword);
                 if (renewPassword) {
-                    response.sendRedirect("login");
+                    response.sendRedirect(request.getContextPath() + "/login");
                 } else {
                     request.setAttribute("userError", "Tài khoản này không tồn tại");
                 }
             } else {
-                response.sendRedirect("authentication" + "?failResetPassword");
+                response.sendRedirect(request.getContextPath() + "/authentication" + "?failResetPassword");
             }
         } else {
             allErrors.forEach(request::setAttribute);

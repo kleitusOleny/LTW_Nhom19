@@ -19,7 +19,7 @@ public class AccountManagerController extends HttpServlet {
             request.setAttribute("listAccount", userList);
             request.getRequestDispatcher("/AdminPages/manage_accounts.jsp").forward(request, response);
         } else {
-            response.sendRedirect("accountmanage" + "?fetchDataError");
+            response.sendRedirect(request.getContextPath() + "/accountmanage" + "?fetchDataError");
         }
     }
 

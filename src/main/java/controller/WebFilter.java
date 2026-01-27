@@ -59,12 +59,12 @@ public class WebFilter implements Filter {
         boolean loggedIn = (session != null && session.getAttribute("user") != null);
         if (loggedIn && isProtected) {
             // Nếu đã đăng nhập mà còn cố vào trong list PROTECTED_AUTH_URLS
-            response.sendRedirect("home");
+            response.sendRedirect(request.getContextPath() + "/home");
             return;
         }
         User user = (session != null) ? (User) session.getAttribute("user") : null;
         if (isAdminPath && (user == null || user.getAdministrator() == 0)) {
-            response.sendRedirect("home");
+            response.sendRedirect(request.getContextPath() + "/home");
             return;
         }
         filterChain.doFilter(request, response);

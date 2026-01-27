@@ -24,7 +24,7 @@ public class OnBoardingController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String emailToken = (String) request.getSession().getAttribute("googleEmail");
         if (emailToken == null) {
-            response.sendRedirect("login");
+            response.sendRedirect(request.getContextPath() + "login");
         }
         String lastname = request.getParameter("lastname");
         String firstname = request.getParameter("firstname");
@@ -51,9 +51,9 @@ public class OnBoardingController extends HttpServlet {
             account = authService.register(fullName, emailToken, username, null, phoneNumber, ts);
             if (account != null) {
                 session.setAttribute("user", account);
-                response.sendRedirect("/home" + "?loginSuccess");
+                response.sendRedirect(request.getContextPath() + "/home" + "?loginSuccess");
             } else {
-                response.sendRedirect("onboarding");
+                response.sendRedirect(request.getContextPath() + "onboarding");
             }
         } else {
             allErrors.forEach(request::setAttribute);

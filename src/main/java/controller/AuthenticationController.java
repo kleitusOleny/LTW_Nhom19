@@ -73,7 +73,7 @@ public class AuthenticationController extends HttpServlet {
                         session.removeAttribute("pendingUser");
                         session.setAttribute("user", realAccount);
                         session.removeAttribute("otpCode");
-                        response.sendRedirect("/home" + "?registerSuccess");
+                        response.sendRedirect(request.getContextPath() + "/home" + "?registerSuccess");
                     } else {
                         request.setAttribute("otpError", "Lỗi lưu dữ liệu, vui lòng thử lại!");
                         request.getRequestDispatcher("/AuthPages/Authentication.jsp").forward(request, response);
@@ -81,7 +81,7 @@ public class AuthenticationController extends HttpServlet {
                 } else {
                     // Luồng từ quên mật khẩu
                     session.removeAttribute("otpCode");
-                    response.sendRedirect("forgotpassword");
+                    response.sendRedirect(request.getContextPath() + "/forgotpassword");
                 }
             } else {
                 request.setAttribute("otpError", "Mã OTP không chính xác!");

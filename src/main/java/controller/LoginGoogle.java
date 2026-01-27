@@ -34,7 +34,7 @@ public class LoginGoogle extends HttpServlet {
                 session.setAttribute("user", user);
                 // ---
                 if (user.getAdministrator() == 1) {
-                    response.sendRedirect("dashboard");
+                    response.sendRedirect(request.getContextPath() + "/dashboard");
                 } else {
                     response.sendRedirect(request.getContextPath() + "/index.jsp?loginSuccess");
                 }
@@ -45,7 +45,7 @@ public class LoginGoogle extends HttpServlet {
         } else {
             System.out.println("Token: " + idTokenString);
             request.getSession().setAttribute("googleEmail", emailFromGoogleToken);
-            response.sendRedirect("onboarding");
+            response.sendRedirect(request.getContextPath() + "/onboarding");
         }
     }
 }
