@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ManufacturerDAO;
 import dao.ProductDAO;
 import dao.FavouriteDAO;
 import jakarta.servlet.*;
@@ -18,7 +19,7 @@ public class StoreController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("curHeader","store");
         ProductDAO dao = new ProductDAO();
-        
+        ManufacturerDAO manuDAO = new ManufacturerDAO();
         // 1. Cấu hình phân trang
         int pageSize = 16;
         int page = 1;
@@ -74,7 +75,7 @@ public class StoreController extends HttpServlet {
         request.setAttribute("currentPage", page);
         request.setAttribute("categories", dao.getAllCategories());
         request.setAttribute("types", dao.getAllTypes());
-        request.setAttribute("manufacturers", dao.getAllManufacturers());
+        request.setAttribute("manufacturers", manuDAO.getAllManufacturers());
         request.setAttribute("tags", dao.getAllTags());
         request.setAttribute("origins", dao.getAllOrigins());
         request.setAttribute("capacities", dao.getAllCapacities());

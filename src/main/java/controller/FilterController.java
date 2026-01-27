@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ManufacturerDAO;
 import dao.ProductDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -21,7 +22,7 @@ public class FilterController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         request.setAttribute("curHeader","store");
         ProductDAO dao = new ProductDAO();
-
+        ManufacturerDAO manuDAO = new ManufacturerDAO();
         String[] prices = request.getParameterValues("price");
         String[] categories = request.getParameterValues("category");
         String[] manufacturers = request.getParameterValues("manufacturer");
@@ -69,7 +70,7 @@ public class FilterController extends HttpServlet {
         
         request.setAttribute("categories", dao.getAllCategories());
         request.setAttribute("types", dao.getAllTypes());
-        request.setAttribute("manufacturers", dao.getAllManufacturers());
+        request.setAttribute("manufacturers", manuDAO.getAllManufacturers());
         request.setAttribute("tags", dao.getAllTags());
         request.setAttribute("origins", dao.getAllOrigins());
         request.setAttribute("capacities", dao.getAllCapacities());

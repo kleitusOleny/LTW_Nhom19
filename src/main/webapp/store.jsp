@@ -238,24 +238,7 @@
                     </ul>
                 </div>
 
-                <div class="filter-widget">
-                    <h4 class="widget-title">Tags nổi bật</h4>
-                    <ul class="filter-list">
-                        <c:forEach var="tag" items="${tags}">
-                            <c:set var="tagid" value="${tag.id}"/>
-                            <li>
-                                <input type="checkbox"
-                                       id="tag-${tag.id}" name="tag"
-                                       value="${tag.id}"
-                                    ${fn:contains(selectedTags,
-                                            String.valueOf(tagid)) ? 'checked'
-                                            : '' }>
-                                <label
-                                        for="tag-${tag.id}">${tag.tagName}</label>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+<%--               s--%>
 
                 <button type="submit" class="btn btn-primary"
                         style="width: 100%; margin-top: 10px; border: #000000 2px solid ;">Áp
