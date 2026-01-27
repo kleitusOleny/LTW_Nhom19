@@ -37,7 +37,7 @@ public class ProductDAO extends ADAO {
                 "t.type_name AS typeId, " +
                 "m.manufacturer_name AS manufacturerId, " +
 
-                "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl, " +
+                "p.url_img AS imageUrl, " +
 
                 "(SELECT AVG(ct.star) " +
                 " FROM evaluates e " +
@@ -67,7 +67,7 @@ public class ProductDAO extends ADAO {
                 order += "DESC "; // Giả sử cột là rating
                 break;
             default:
-                order += "DESC "; // Mặc định
+                order = ""; // Mặc định
                 break;
         }
         
@@ -76,7 +76,7 @@ public class ProductDAO extends ADAO {
                 "t.type_name AS typeId, " +
                 "m.manufacturer_name AS manufacturerId, " +
                 
-                "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl, " +
+                "p.url_img AS imageUrl, " +
                 
                 "(SELECT AVG(ct.star) " +
                 " FROM evaluates e " +
@@ -110,7 +110,7 @@ public class ProductDAO extends ADAO {
                         "t.type_name AS typeId, " +
                         "m.manufacturer_name AS manufacturerId, " +
                         "c.category_name AS categoryId, " +
-                        "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl " +
+                        "p.url_img AS imageUrl " +
 
                         "FROM products p " +
                         "LEFT JOIN product_types t ON p.type_id = t.id " +
@@ -130,7 +130,7 @@ public class ProductDAO extends ADAO {
                         "t.type_name AS typeId, " +
                         "m.manufacturer_name AS manufacturerId, " +
                         "c.category_name AS categoryId, " +
-                        "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl " +
+                        "p.url_img AS imageUrl " +
                         "FROM products p " +
                         "LEFT JOIN product_types t ON p.type_id = t.id " +
                         "LEFT JOIN manufacturers m ON p.manufacturer_id = m.id " +
@@ -172,13 +172,7 @@ public class ProductDAO extends ADAO {
                         .mapToBean(ProductType.class)
                         .list());
     }
-
-    public List<Manufacturer> getAllManufacturers() {
-        return jdbi.withHandle(handle -> handle
-                .createQuery("SELECT id, manufacturer_name AS manufacturerName FROM manufacturers WHERE is_delete = 0")
-                .mapToBean(Manufacturer.class)
-                .list());
-    }
+    
 
     public List<Tag> getAllTags() {
         return jdbi
@@ -219,13 +213,13 @@ public class ProductDAO extends ADAO {
                 order += "DESC "; // Giả sử cột là rating
                 break;
             default:
-                order += "DESC "; // Mặc định
+                order = ""; // Mặc định
                 break;
         }
         StringBuilder sql = new StringBuilder(
                 "SELECT p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, " +
                         "t.type_name AS typeId, m.manufacturer_name AS manufacturerId, " +
-                        "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl, " +
+                        "p.url_img AS imageUrl, " +
                         "(SELECT AVG(ct.star) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS rating, "
                         +
                         "(SELECT COUNT(*) FROM evaluates e JOIN ct_evaluates ct ON e.evaluate_id = ct.id WHERE e.product_id = p.id AND ct.is_delete IS NULL) AS totalReviews "
@@ -404,7 +398,7 @@ public class ProductDAO extends ADAO {
                     .bindBean(p)
                     .execute();
             
-            handle.createUpdate("INSERT INTO p_img (product_id, url_img) VALUES (?, ?)")
+            handle.createUpdate("INSERT INTO p_img (product_id, p.url_img) VALUES (?, ?)")
                     .bind(0, p.getId())
                     .bind(1, p.getImageUrl())
                     .execute();

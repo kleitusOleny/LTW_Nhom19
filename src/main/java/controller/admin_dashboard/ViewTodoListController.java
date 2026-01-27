@@ -10,7 +10,7 @@ import services.FeedbackService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ViewTodoList", value = "/dashboard")
+//@WebServlet(name = "ViewTodoList", value = "/dashboard")
 public class ViewTodoListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

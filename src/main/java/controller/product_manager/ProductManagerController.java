@@ -1,4 +1,5 @@
 package controller.product_manager;
+import dao.ManufacturerDAO;
 import dao.ProductDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -14,9 +15,9 @@ public class ProductManagerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductDAO dao = new ProductDAO();
-
+        ManufacturerDAO manufacturerDAO = new ManufacturerDAO();
         List<Product> products = dao.getProducts();
-        List<Manufacturer> manufacturers = dao.getAllManufacturers();
+        List<Manufacturer> manufacturers = manufacturerDAO.getAllManufacturers();
         
         request.setAttribute("products", products);
         request.setAttribute("manufacturers", manufacturers);
