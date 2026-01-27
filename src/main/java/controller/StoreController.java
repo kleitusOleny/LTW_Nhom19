@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ManufacturerDAO;
 import dao.ProductDAO;
 import dao.FavouriteDAO;
 import jakarta.servlet.*;
@@ -18,9 +19,9 @@ public class StoreController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("curHeader","store");
         ProductDAO dao = new ProductDAO();
-        
+        ManufacturerDAO manuDAO = new ManufacturerDAO();
         // 1. Cấu hình phân trang
-        int pageSize = 24;
+        int pageSize = 16;
         int page = 1;
         
         String pageParam = request.getParameter("page");
@@ -32,11 +33,16 @@ public class StoreController extends HttpServlet {
             }
         }
         
+        String sort = request.getParameter("sort");
+        if (sort == null) {
+            sort = "default";
+        }
+        
         // Tính toán vị trí bắt đầu
         int offset = (page - 1) * pageSize;
         
         // 2. Lấy dữ liệu
-        List<Product> products = dao.getProducts(pageSize, offset);
+        List<Product> products = dao.getProducts(pageSize, offset,sort);
         int totalProducts = ProductService.countTotalProducts();
         double maxPrice = dao.getMaxPrice();
         request.setAttribute("maxPrice", maxPrice > 0 ? maxPrice : 10000000);
@@ -59,14 +65,17 @@ public class StoreController extends HttpServlet {
                 request.setAttribute("favouriteProductMap", favouriteProductMap);
             }
         }
-
+        
+        
+        request.setAttribute("currentSort", sort);
+        
         // 5. Gửi dữ liệu sang JSP
         request.setAttribute("products", products);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
         request.setAttribute("categories", dao.getAllCategories());
         request.setAttribute("types", dao.getAllTypes());
-        request.setAttribute("manufacturers", dao.getAllManufacturers());
+        request.setAttribute("manufacturers", manuDAO.getAllManufacturers());
         request.setAttribute("tags", dao.getAllTags());
         request.setAttribute("origins", dao.getAllOrigins());
         request.setAttribute("capacities", dao.getAllCapacities());

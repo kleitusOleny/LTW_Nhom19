@@ -50,14 +50,14 @@ public class UserDAO extends ADAO implements IDAO<User> {
 
 @Override
 public boolean create(User entity) {
-    return jdbi.withHandle(handle -> handle
+    int generatedId = jdbi.withHandle(handle -> handle
             .createUpdate(
                     """
-                             INSERT INTO users\s
+                             INSERT INTO users 
                              (email, username, password_hash, phone_number, full_name, birth_day, administrator, active, created_at)
-                             VALUES\s
+                             VALUES 
                              (:email, :username, :passwordHash, :phoneNumber, :fullName, :birthDay, :administrator, :active, :createdAt)
-                            \s""")
+                            """)
             .bind("email", entity.getEmail())
             .bind("username", entity.getUsername())
             .bind("passwordHash", entity.getPasswordHash())
@@ -67,7 +67,14 @@ public boolean create(User entity) {
             .bind("administrator", entity.getAdministrator())
             .bind("active", entity.getActive())
             .bind("createdAt", entity.getCreatedAt())
-            .execute() > 0);
+            .executeAndReturnGeneratedKeys("id") // tự động lấy ra id
+            .mapTo(Integer.class)
+            .one());
+    if (generatedId > 0) {
+        entity.setId(generatedId);
+        return true;
+    }
+    return false;
 }
 
 @Override
@@ -217,6 +224,13 @@ public boolean updateActive(int id, int activeNum) {
     public int countUserId(String email) {
         return jdbi.withHandle(handle -> handle.createQuery("select count(id) from users where email = :email")
                 .bind("email", email)
+                .mapTo(Integer.class)
+                .findOnly());
+    }
+
+    public int countNewUsersLastWeek() {
+        return jdbi.withHandle(handle -> handle.createQuery(
+                        "select COUNT(id) from users where created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")
                 .mapTo(Integer.class)
                 .findOnly());
     }

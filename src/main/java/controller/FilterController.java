@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ManufacturerDAO;
 import dao.ProductDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -22,7 +23,7 @@ public class FilterController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         request.setAttribute("curHeader", "store");
         ProductDAO dao = new ProductDAO();
-
+        ManufacturerDAO manuDAO = new ManufacturerDAO();
         String[] prices = request.getParameterValues("price");
         String[] categories = request.getParameterValues("category");
         String[] manufacturers = request.getParameterValues("manufacturer");
@@ -32,7 +33,13 @@ public class FilterController extends HttpServlet {
         String[] tags = request.getParameterValues("tag");
 
         String search = request.getParameter("search");
-        // Xử lý phân trang
+        
+        String sort = request.getParameter("sort");
+        if (sort == null) {
+            sort = "default";
+        }
+        
+        //Xử lý phân trang
         int pageSize = 24;
         int page = 1;
         try {
@@ -41,11 +48,9 @@ public class FilterController extends HttpServlet {
             page = 1;
         }
         int offset = (page - 1) * pageSize;
-
-        List<Product> products = dao.filterProducts(prices, categories, manufacturers, types, origins, capacities, tags,
-                search, pageSize, offset);
-        int totalFiltered = dao.countFilteredProducts(prices, categories, manufacturers, types, origins, capacities,
-                tags, search);
+        
+        List<Product> products = dao.filterProducts(prices, categories, manufacturers, types, origins, capacities, tags, search, pageSize, offset,sort);
+        int totalFiltered = dao.countFilteredProducts(prices, categories, manufacturers, types, origins, capacities, tags, search);
         int totalPages = (int) Math.ceil((double) totalFiltered / pageSize);
 
         String queryString = request.getQueryString();
@@ -68,7 +73,7 @@ public class FilterController extends HttpServlet {
 
         request.setAttribute("categories", dao.getAllCategories());
         request.setAttribute("types", dao.getAllTypes());
-        request.setAttribute("manufacturers", dao.getAllManufacturers());
+        request.setAttribute("manufacturers", manuDAO.getAllManufacturers());
         request.setAttribute("tags", dao.getAllTags());
         request.setAttribute("origins", dao.getAllOrigins());
         request.setAttribute("capacities", dao.getAllCapacities());

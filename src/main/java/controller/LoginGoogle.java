@@ -71,7 +71,7 @@ public class LoginGoogle extends HttpServlet {
         } else {
             System.out.println("Token: " + idTokenString);
             request.getSession().setAttribute("googleEmail", emailFromGoogleToken);
-            response.sendRedirect("onboarding");
+            response.sendRedirect(request.getContextPath() + "/onboarding");
         }
     }
 }

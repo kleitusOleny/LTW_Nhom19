@@ -207,20 +207,7 @@
     </div>
 </div>
 
-<div class="modal-overlay-notification" id="notification-account-modal">
-    <div class="modal-content-notification">
-        <div class="group-notification">
-            <h2 class="notification-title">Thông báo</h2>
-            <button class="modal-close" id="close-modal-btn8">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
-        </div>
-        <div class="notification-empty-state">
-            <ion-icon name="notifications-off-outline"></ion-icon>
-            <p>Hiện tại chưa có thông báo mới</p>
-        </div>
-    </div>
-</div>
+<%@ include file="/AdminPages/components/notify_modal.jsp" %>
 <div class="modal-overlay-avatar" id="avatar-account-modal">
     <div class="modal-content-avatar">
         <button class="modal-close2" id="close-modal-btn9">

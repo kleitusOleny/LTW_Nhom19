@@ -41,11 +41,11 @@ function setupDynamicModals(triggerClass, closeClass) {
 
         const closeBtn = event.target.closest('.' + closeClass);
         if (closeBtn) {
-            const modal = closeBtn.closest('.modal-overlay-edit_information');
+            const modal = closeBtn.closest('[class^="modal-overlay"]');
             if (modal) modal.classList.remove('show');
         }
 
-        if (event.target.classList.contains('modal-overlay-edit_information')) {
+        if (event.target.className && typeof event.target.className === 'string' && event.target.className.includes('modal-overlay')) {
             event.target.classList.remove('show');
         }
     });

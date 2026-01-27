@@ -1,517 +1,509 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-        <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-            <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-                <!DOCTYPE html>
-                <html lang="en">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản Lí Sản Phẩm</title>
 
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
-                    <title>Quản Lí Sản Phẩm</title>
-                    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-                    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-                    <script src="<%= request.getContextPath() %>/popup.js"></script>
-                    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/manage_product_style.css">
-                    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
-                </head>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="<%= request.getContextPath() %>/popup.js"></script>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/manage_product_style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
+</head>
+<style>
+    /* Style cho thanh bộ lọc */
+    .filter-bar {
+        display: flex;
+        gap: 15px;
+        background: #fff;
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        align-items: center;
+        flex-wrap: wrap;
+        border: 1px solid #eee;
+    }
 
-                <body>
-                    <div class="dashboard-container">
-                        <nav class="dashboard-sidebar">
-                            <ul class="sidebar-items">
-                                <div class="group-avatar">
-                                    <img src="<%= request.getContextPath() %>/assets/avatar.jpg" class="user-avatar"
-                                        id="avatar-modal-btn" />
-                                    <ion-icon name="notifications-outline" class="icon-header"
-                                        id="notification-modal-btn"></ion-icon>
-                                </div>
-                                <li><a href="${pageContext.request.contextPath}/dashboard" class="a-with-icon">
-                                        <ion-icon name="home-outline"></ion-icon>
-                                        Trang Chủ</a></li>
-                                <li><a href="${pageContext.request.contextPath}/product-manager"
-                                        class="a-with-icon selected">
-                                        <ion-icon name="bag-remove"></ion-icon>
-                                        Quản Lí Sản Phẩm</a></li>
-                                <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon">
-                                        <ion-icon name="people-outline"></ion-icon>
-                                        Quản Lí Tài Khoản Khách</a></li>
-                                <li><a href="${pageContext.request.contextPath}/admin/manage-orders"
-                                        class="a-with-icon">
-                                        <ion-icon name="cart-outline"></ion-icon>
-                                        Quản Lí Đơn Hàng</a></li>
-                                <li><a href="${pageContext.request.contextPath}/banner-manager" class="a-with-icon">
-                                        <ion-icon name="albums-outline"></ion-icon>
-                                        Quản Lí Banner</a></li>
-                                <li><a href="${pageContext.request.contextPath}/admin/manage-blog" class="a-with-icon">
-                                        <ion-icon name="reader-outline"></ion-icon>
-                                        Quản Lí Blog và Tin Tức</a></li>
-                                <li><a href="${pageContext.request.contextPath}/admin/manage-promotions"
-                                        class="a-with-icon">
-                                        <ion-icon name="ticket-outline"></ion-icon>
-                                        Quản Lí Mã Giảm Giá</a></li>
-                                <li><a href="${pageContext.request.contextPath}/admin/manage-reviews" class="a-with-icon">
-                                        <ion-icon name="star-outline"></ion-icon>
-                                        Quản Lí Đánh Giá</a></li>
-                                <li><a href="charts.jsp" class="a-with-icon">
-                                        <ion-icon name="stats-chart-outline"></ion-icon>
-                                        Thống Kê</a></li>
-                            </ul>
-                            <div class="text">━ Được update tới 2025 ━</div>
-                        </nav>
-                        <div class="dashboard-content">
-                            <main class="dashboard-main-content">
-                                <div class="main-header">
-                                    <h1>Quản Lí Sản Phẩm</h1>
-                                    <div class="header-actions">
-                                        <button class="btn btn-danger" id="delete-selected-btn">
-                                            <ion-icon name="trash-outline"></ion-icon>
-                                            Xóa (Đã chọn)
-                                        </button>
-                                        <label for="excel-file-input" class="btn btn-secondary">
-                                            <ion-icon name="cloud-upload-outline"></ion-icon>
-                                            Nhập từ Excel
-                                            <input type="file" id="excel-file-input" accept=".xlsx, .xls"
-                                                class="hidden-file-input">
-                                        </label>
+    .filter-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 
-                                        <button class="btn btn-primary add-product-btn">
-                                            <ion-icon name="add-outline"></ion-icon>
-                                            Thêm Sản Phẩm
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="filter-card">
-                                    <div class="filter-left">
-                                        <div class="filter-item">
-                                            <span class="label-text">Trạng thái kho</span>
-                                            <div class="select-wrapper">
-                                                <ion-icon name="layers-outline" class="field-icon"></ion-icon>
-                                                <select id="filter-stock" class="form-control">
-                                                    <option value="">Tất cả trạng thái</option>
-                                                    <option value="instock">Còn hàng</option>
-                                                    <option value="outstock">Hết hàng</option>
-                                                </select>
-                                                <ion-icon name="chevron-down-outline" class="arrow-icon"></ion-icon>
-                                            </div>
-                                        </div>
+    .filter-item label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #555;
+    }
 
-                                        <div class="filter-item">
-                                            <span class="label-text">Khoảng giá</span>
-                                            <div class="price-group">
-                                                <div class="input-wrapper">
-                                                    <span class="currency">₫</span>
-                                                    <input type="number" id="min-price" placeholder="Từ..."
-                                                        class="form-control price-input">
-                                                </div>
-                                                <span class="divider">-</span>
-                                                <div class="input-wrapper">
-                                                    <span class="currency">₫</span>
-                                                    <input type="number" id="max-price" placeholder="Đến..."
-                                                        class="form-control price-input">
-                                                </div>
-                                            </div>
-                                        </div>
+    .filter-input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        height: 38px;
+        box-sizing: border-box;
+    }
 
-                                        <div class="filter-item item-bottom">
-                                            <button id="btn-reset-filter" class="btn-reset" title="Đặt lại">
-                                                <ion-icon name="refresh-outline"></ion-icon>
-                                            </button>
-                                        </div>
-                                    </div>
+    .filter-input:focus {
+        border-color: #6341ff;
+    }
 
-                                    <div class="filter-right">
-                                        <div class="search-wrapper">
-                                            <ion-icon name="search-outline" class="search-icon"></ion-icon>
-                                            <input type="text" id="custom-search-input"
-                                                placeholder="Tìm tên sản phẩm, mã SKU..." class="search-input">
-                                        </div>
-                                    </div>
-                                </div>
+    /* Nút Reset */
+    .btn-reset {
+        height: 38px;
+        margin-top: 23px; /* Căn thẳng hàng với input */
+        padding: 0 15px;
+        background: #f1f3f5;
+        color: #333;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.2s;
+    }
 
-                                <div class="table-container">
-                                    <table id="product-datatable" class="product-table">
-                                        <thead>
-                                            <tr class="sample">
-                                                <th class="col-tick"><input type="checkbox" id="select-all-checkbox">
-                                                </th>
-                                                <th class="col-product">Sản phẩm</th>
-                                                <th class="col-sku">SKU</th>
-                                                <th class="col-price">Giá</th>
-                                                <th class="col-stock">Tồn Kho</th>
-                                                <th class="col-action">Hành động</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${products}" var="p">
-                                                <tr>
-                                                    <td class="cell-tick"><input type="checkbox" class="row-checkbox">
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-cell">
-                                                            <img src="${p.imageUrl}" alt="Product Image">
-                                                            <span>${p.productName}</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>${p.id}</td>
-                                                    <td>
-                                                        <fmt:setLocale value="vi_VN" />
-                                                        <fmt:formatNumber value="${p.price}" type="currency"
-                                                            currencySymbol="₫" maxFractionDigits="0" />
-                                                    </td>
-                                                    <td class="center-align"><span
-                                                            class="stock-status in-stock">${p.quantity}</span></td>
-                                                    <td>
-                                                        <div class="cell-action">
-                                                            <button class="edit btn edit-button">Sửa</button>
-                                                            <button class="delete btn delete-button">Xoá</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
+    .btn-reset:hover {
+        background: #e9ecef;
+        border-color: #ced4da;
+    }
+</style>
+<body>
+<div class="dashboard-container">
 
-                            </main>
-                        </div>
+    <nav class="dashboard-sidebar">
+        <ul class="sidebar-items">
+            <div class="group-avatar">
+                <%@ include file="/AdminPages/components/avatar.jsp" %>
+                <%@ include file="/AdminPages/components/notify_icon.jsp" %>
+            </div>
+            <c:set var="activePage" value="product" scope="request" />
+            <%@ include file="/AdminPages/components/sidebar_items_component.jsp" %>
+        </ul>
+        <div class="text">━ Được update tới 2025 ━</div>
+    </nav>
+    <div class="dashboard-content">
+        <main class="dashboard-main-content">
+            <div class="main-header">
+                <h1>Quản Lí Sản Phẩm</h1>
+                <div class="header-actions">
+                    <button class="btn btn-danger remove-product-btn">
+                        <ion-icon name="trash-outline"></ion-icon>
+                        Xóa (Đã chọn)
+                    </button>
+                    <button class="btn btn-primary add-product-btn" id="btn-open-add">
+                        <ion-icon name="add-outline"></ion-icon>
+                        Thêm Sản Phẩm
+                    </button>
+                </div>
+            </div>
+
+
+
+            <div class="filter-bar">
+                <div class="filter-item">
+                    <label>Nhà sản xuất</label>
+                    <select id="filter-manufacturer" class="filter-input" style="min-width: 180px;">
+                        <option value="">-- Tất cả --</option>
+                        <c:forEach items="${manufacturers}" var="m">
+                            <option value="${m.manufacturerName}">${m.manufacturerName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Giá từ</label>
+                    <input type="number" id="min-price" class="filter-input" placeholder="0" style="width: 120px;">
+                </div>
+                <div class="filter-item">
+                    <label>Đến</label>
+                    <input type="number" id="max-price" class="filter-input" placeholder="Tối đa" style="width: 120px;">
+                </div>
+
+                <button type="button" class="btn-reset" id="btn-reset-filter">
+                    <ion-icon name="refresh-outline" style="font-size: 16px; vertical-align: middle;"></ion-icon>
+                </button>
+
+                <div class="filter-item" style="margin-left: auto;">
+                    <label>Tìm kiếm chung</label>
+                    <div class="search-wrapper" style="position: relative;">
+                        <ion-icon name="search-outline" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888;"></ion-icon>
+                        <input type="text" id="custom-search-input" class="filter-input" placeholder="Tên SP, Mã..." style="padding-left: 30px; width: 250px;">
                     </div>
+                </div>
+            </div>
 
-                    <div class="modal-overlay-notification" id="notification-account-modal">
-                        <div class="modal-content-notification">
-                            <div class="group-notification">
-                                <h2 class="notification-title">Thông báo</h2>
-                                <button class="modal-close" id="close-modal-btn8">
-                                    <ion-icon name="close-outline"></ion-icon>
-                                </button>
-                            </div>
-                            <div class="notification-empty-state">
-                                <ion-icon name="notifications-off-outline"></ion-icon>
-                                <p>Hiện tại chưa có thông báo mới</p>
-                            </div>
-                        </div>
+            <div class="table-container">
+                <table id="product-datatable" class="product-table">
+                    <thead>
+                    <tr class="sample">
+                        <th class="col-tick"><input type="checkbox" id="select-all-checkbox"></th>
+                        <th class="col-product">Sản phẩm</th>
+                        <th class="col-sku">Mã SP</th>
+                        <th class="col-manufacturer">Nhà SX</th>
+                        <th class="col-price">Giá</th>
+                        <th class="col-stock">Tồn Kho</th>
+                        <th class="col-action">Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${products}" var="p">
+                        <tr>
+                            <td class="cell-tick"><input type="checkbox" class="row-checkbox" value="${p.id}"></td>
+                            <td>
+                                <div class="product-cell">
+                                    <img src="${empty p.imageUrl ? 'assets/no-image.png' : pageContext.request.contextPath.concat('/').concat(p.imageUrl)}"
+                                         alt="Img" onerror="this.src='<%= request.getContextPath() %>/assets/no-image.png'">
+                                    <span>${p.productName}</span>
+                                </div>
+                            </td>
+                            <td class="center-align">${p.id}</td>
+                            <td class="center-align">${p.manufacturerId}</td>
+                            <td class="center-align">
+                                <fmt:setLocale value="vi_VN"/>
+                                <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                            </td>
+                            <td class="center-align">
+                                <span class="stock-status ${p.quantity > 0 ? 'in-stock' : 'out-of-stock'}">
+                                        ${p.quantity > 0 ? p.quantity : 'Hết hàng'}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="cell-action">
+                                    <button type="button" class="edit btn edit-product-btn"
+                                            data-id="${p.id}"
+                                            data-name="${p.productName}"
+                                            data-type-text="${p.typeId}"
+                                            data-cat-text="${p.categoryId}"
+                                            data-manu-text="${p.manufacturerId}"
+                                            data-origin="${p.origin}"
+                                            data-price="${p.price}"
+                                            data-stock="${p.quantity}"
+                                            data-capacity="${p.capacity}"
+                                            data-alcohol="${p.alcohol}"
+                                            data-detail="${p.detail}"
+                                            data-img="${p.imageUrl}">
+                                        Sửa
+                                    </button>
+
+                                    <form action="product-manager" method="POST" style="margin:0;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id" value="${p.id}">
+                                        <button type="submit" class="delete btn" onclick="return confirm('Xóa sản phẩm này?');">Xoá</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<%@ include file="/AdminPages/components/notify_modal.jsp" %>
+<div class="modal-overlay-avatar" id="avatar-account-modal">
+    <div class="modal-content-avatar">
+        <button class="modal-close2" id="close-modal-btn9">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <span>Trở về trang người dùng</span>
+        </button>
+        <button class="btn-menu-item">
+            <ion-icon name="log-out-outline"></ion-icon>
+            <span>Đăng xuất tài khoản</span>
+        </button>
+    </div>
+</div>
+<div class="modal-overlay-form product-form-modal" id="modal-san-pham">
+    <div class="modal-content-form">
+        <button class="modal-close-form" id="close-form-btn">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <h2>Thêm Sản Phẩm Mới</h2>
+
+        <form id="add-product-form" action="product-manager" method="POST" enctype="multipart/form-data">
+            <input type="hidden" id="form-action" name="action" value="add">
+            <input type="hidden" id="prod-id" name="id" value="">
+            <input type="hidden" id="prod-old-image" name="oldImage" value="">
+
+            <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input type="text" id="p-name" name="name" required placeholder="Nhập tên sản phẩm...">
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Loại rượu</label>
+                    <select id="p-type" name="type" class="form-control" required>
+                        <option value="">-- Chọn loại --</option>
+                        <c:forEach items="${types}" var="t">
+                            <option value="${t.id}">${t.typeName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Danh mục</label>
+                    <select id="p-category" name="category" class="form-control" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <c:forEach items="${categories}" var="c">
+                            <option value="${c.id}">${c.categoryName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Nhà sản xuất</label>
+                    <select id="p-manufacturer" name="manufacturer" class="form-control" required>
+                        <option value="">-- Chọn NSX --</option>
+                        <c:forEach items="${manufacturers}" var="m">
+                            <option value="${m.id}">${m.manufacturerName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Xuất xứ</label>
+                    <input type="text" id="p-origin" name="origin" placeholder="VD: Pháp">
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Giá bán (VNĐ)</label>
+                    <input type="text" id="p-price" name="price" required>
+                </div>
+                <div class="form-group">
+                    <label>Số lượng tồn</label>
+                    <input type="number" id="p-stock" name="stock" value="10" required>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Dung tích</label>
+                    <input type="text" id="p-capacity" name="capacity" placeholder="VD: 750ml">
+                </div>
+                <div class="form-group">
+                    <label>Nồng độ (%)</label>
+                    <input type="text" id="p-alcohol" name="alcohol" placeholder="VD: 14.5">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Hình ảnh</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="p-image" name="image" class="file-upload-input" accept="image/*">
+                    <div class="file-upload-label">
+                        <ion-icon name="cloud-upload-outline"></ion-icon>
+                        <span id="file-label-text">Nhấn để chọn ảnh đại diện</span>
                     </div>
-                    <div class="modal-overlay-avatar" id="avatar-account-modal">
-                        <div class="modal-content-avatar">
-                            <button class="modal-close2" id="close-modal-btn9">
-                                <ion-icon name="close-outline"></ion-icon>
-                            </button>
-                            <button class="btn-menu-item">
-                                <ion-icon name="person-circle-outline"></ion-icon>
-                                <span>Trở về trang người dùng</span>
-                            </button>
-                            <button class="btn-menu-item">
-                                <ion-icon name="log-out-outline"></ion-icon>
-                                <span>Đăng xuất tài khoản</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="modal-overlay-form product-form-modal">
-                        <div class="modal-content-form">
-                            <button class="modal-close-form" id="close-form-btn">
-                                <ion-icon name="close-outline"></ion-icon>
-                            </button>
-                            <h2>Thêm Sản Phẩm Mới</h2>
+                </div>
+            </div>
 
-                            <form action="#">
-                                <div class="form-group">
-                                    <label for="prod-id">ID (Khóa chính / SKU)</label>
-                                    <input type="text" id="prod-id" value="SKU: VD/0998-18">
-                                </div>
-                                <div class="form-group">
-                                    <label for="prod-name">Tên sản phẩm</label>
-                                    <input type="text" id="prod-name" value="Rượu vang đỏ Château La Vieille Cure...">
-                                </div>
+            <div class="form-group">
+                <label>Mô tả chi tiết</label>
+                <textarea id="p-detail" name="detail" rows="3"></textarea>
+            </div>
 
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="prod-type">Loại rượu (typealcohol)</label>
-                                        <input type="text" id="prod-type" value="Rượu Vang Đỏ">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="prod-origin">Xuất xứ (origin)</label>
-                                        <input type="text" id="prod-origin" value="Pháp">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="prod-manufacturer">Nhà sản xuất (manufacturer)</label>
-                                        <input type="text" id="prod-manufacturer" value="Château La Vieille Cure">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="prod-price">Giá (price)</label>
-                                        <input type="number" id="prod-price" value="1573000">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="prod-capacity">Dung tích (capacity)</label>
-                                        <input type="text" id="prod-capacity" value="750ML">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="prod-alcohol">Nồng độ (alcohol)</label>
-                                        <input type="text" id="prod-alcohol" value="15.0">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="prod-stock">Số lượng tồn kho</label>
-                                        <input type="number" id="prod-stock" value="150">
-                                    </div>
-                                </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="cancel-form-btn">Hủy Bỏ</button>
+                <button type="submit" class="btn btn-primary" id="btn-submit-form">Lưu Sản Phẩm</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-                                <div class="form-group">
-                                    <label for="prod-category">Danh mục (category)</label>
-                                    <input type="text" id="prod-category"
-                                        value="Bordeaux, Fronsac, Rượu Vang Nhập Khẩu...">
-                                </div>
+<div class="modal-overlay-notification" id="notification-account-modal">
+    <div class="modal-content-notification">
+        <div class="group-notification">
+            <h2 class="notification-title">Thông báo</h2>
+            <button class="modal-close" id="close-modal-btn8"><ion-icon name="close-outline"></ion-icon></button>
+        </div>
+        <div class="notification-empty-state"><ion-icon name="notifications-off-outline"></ion-icon><p>Chưa có thông báo</p></div>
+    </div>
+</div>
+<div class="modal-overlay-avatar" id="avatar-account-modal">
+    <div class="modal-content-avatar">
+        <button class="modal-close2" id="close-modal-btn9"><ion-icon name="close-outline"></ion-icon></button>
+        <a href="${pageContext.request.contextPath}/home" class="btn-menu-item"><ion-icon name="person-circle-outline"></ion-icon><span>Trang người dùng</span></a>
+        <a href="${pageContext.request.contextPath}/logout" class="btn-menu-item"><ion-icon name="log-out-outline"></ion-icon><span>Đăng xuất</span></a>
+    </div>
+</div>
 
-                                <div class="form-group">
-                                    <label for="tag-typing">Thẻ (tag) - Nhập và nhấn Enter hoặc phẩy</label>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 
-                                    <div class="tag-container" id="tag-wrapper">
-                                        <input type="text" id="tag-typing" placeholder="Nhập tag..."
-                                            class="tag-input-typing">
-                                    </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 1. Cấu hình DataTable
+        var table = $('#product-datatable').DataTable({
+            "paging": true,
+            "pageLength": 10,
+            "language": { "url": 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json' },
+            "columnDefs": [
+                {"orderable": false, "targets": [0, 6]},
+                {"searchable": false, "targets": [0, 6]}
+            ],
+            "dom": '<"top"l>rt<"bottom"ip><"clear">'
+        });
 
-                                    <input type="hidden" id="prod-tag" name="tags" value="">
-                                </div>
+        // Search
+        $('#custom-search-input').on('keyup', function () { table.search(this.value).draw(); });
 
-                                <div class="form-group">
-                                    <label for="prod-image">Hình ảnh sản phẩm</label>
-                                    <div class="file-upload-wrapper">
-                                        <input type="file" id="prod-image" class="file-upload-input"
-                                            accept="image/png, image/jpeg">
-                                        <label for="prod-image" class="file-upload-label">
-                                            <ion-icon name="cloud-upload-outline"></ion-icon>
-                                            <span>Nhấn để tải ảnh lên</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="prod-detail">Mô tả chi tiết (detail)</label>
-                                    <textarea id="prod-detail" rows="6"></textarea>
-                                </div>
+        // 2. LOGIC CHỌN ALL
+        $('#select-all-checkbox').on('change', function() {
+            $('.row-checkbox').prop('checked', this.checked);
+        });
 
-                                <div class="form-actions">
-                                    <button type="button" class="btn btn-secondary cancel-form-btn">Hủy Bỏ</button>
-                                    <button type="submit" class="btn btn-primary">Lưu Sản Phẩm</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+        // 3. LOGIC XÓA NHIỀU (Dùng AJAX để không cần sửa Backend)
+        $('.remove-product-btn').on('click', function() {
+            var selectedIds = [];
+            $('.row-checkbox:checked').each(function() {
+                selectedIds.push($(this).val());
+            });
 
-                    <div class="modal-overlay-form delete-confirm-modal" style="--modal-width: 450px;">
-                        <div class="modal-content-form">
-                            <button class="modal-close-form close-delete-btn">
-                                <ion-icon name="close-outline"></ion-icon>
-                            </button>
-                            <h2 class="modal-confirm-title">
-                                <ion-icon name="warning-outline"></ion-icon>
-                                Xác nhận xóa
-                            </h2>
-                            <p class="modal-confirm-text">Bạn có chắc chắn muốn xóa sản phẩm này không? Hành động này
-                                không thể hoàn
-                                tác.</p>
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-secondary cancel-delete-btn">Hủy Bỏ</button>
-                                <button type="button" class="btn btn-danger" id="ac-delete-btn">Xác Nhận Xóa</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-overlay-avatar" id="avatar-account-modal">
-                        <div class="modal-content-avatar">
-                            <button class="modal-close2" id="close-modal-btn9">
-                                <ion-icon name="close-outline"></ion-icon>
-                            </button>
-                            <a href="${pageContext.request.contextPath}/home" class="btn-menu-item">
-                                <ion-icon name="person-circle-outline"></ion-icon>
-                                <span>Trở về trang người dùng</span>
-                            </a>
-                            <a href="${pageContext.request.contextPath}/logout" class="btn-menu-item">
-                                <ion-icon name="log-out-outline"></ion-icon>
-                                <span>Đăng xuất tài khoản</span>
-                            </a>
-                        </div>
-                    </div>
+            if (selectedIds.length === 0) {
+                alert("Vui lòng chọn ít nhất một sản phẩm!");
+                return;
+            }
 
-                    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-                        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-                        crossorigin="anonymous"></script>
-                    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+            if (confirm("Bạn muốn xóa " + selectedIds.length + " sản phẩm đã chọn?")) {
+                // Gửi request xóa từng cái một
+                let promises = selectedIds.map(id => {
+                    return fetch('product-manager?action=delete&id=' + id, { method: 'POST' });
+                });
 
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function () {
-                            setupModal(
-                                '.product-form-modal',
-                                '.add-product-btn',
-                                '.modal-close-form, .cancel-form-btn'
-                            );
+                Promise.all(promises).then(() => {
+                    alert("Đã xóa thành công!");
+                    location.reload();
+                }).catch(err => {
+                    console.error(err);
+                    alert("Có lỗi xảy ra khi xóa!");
+                });
+            }
+        });
 
-                            setupModal(
-                                '.delete-confirm-modal',
-                                '.delete-button', // Áp dụng cho tất cả nút có class "delete" và "btn"
-                                '.close-delete-btn, .cancel-delete-btn'
-                            );
+        // 4. LOGIC MODAL & EDIT
+        const modal = document.getElementById('modal-san-pham');
+        const openBtn = document.getElementById('btn-open-add');
+        const closeBtn = document.getElementById('close-form-btn');
+        const cancelBtn = document.getElementById('cancel-form-btn');
 
-                            // --- LOGIC XỬ LÝ TAGS INPUT ---
+        function toggleModal(show) {
+            if (show) modal.classList.add('show'); else modal.classList.remove('show');
+        }
+        if(closeBtn) closeBtn.addEventListener('click', () => toggleModal(false));
+        if(cancelBtn) cancelBtn.addEventListener('click', () => toggleModal(false));
 
-                            const tagWrapper = $('#tag-wrapper');
-                            const tagInput = $('#tag-typing');
-                            const hiddenInput = $('#prod-tag');
+        // Nút Thêm
+        if(openBtn) openBtn.addEventListener('click', () => {
+            $('#add-product-form')[0].reset();
+            $('#form-action').val('add');
+            $('#prod-id').val('');
+            $('#prod-old-image').val('');
+            $('#file-label-text').text('Nhấn để chọn ảnh đại diện');
 
-                            let tags = [];
+            $('.modal-content-form h2').text('Thêm Sản Phẩm Mới');
+            $('#btn-submit-form').text('Lưu Sản Phẩm');
+            toggleModal(true);
+        });
 
-                            function renderTags() {
-                                tagWrapper.find('.tag-item').remove();
+        // Nút Sửa (Dùng Event Delegation)
+        $('#product-datatable').on('click', '.edit-product-btn', function() {
+            var btn = $(this);
 
-                                tags.forEach((tagText, index) => {
-                                    let $tagDiv = $('<div>', {
-                                        class: 'tag-item'
-                                    });
+            // Đổ dữ liệu text bình thường
+            $('#prod-id').val(btn.data('id'));
+            $('#p-name').val(btn.data('name'));
+            $('#p-origin').val(btn.data('origin'));
+            $('#p-price').val(btn.data('price'));
+            $('#p-stock').val(btn.data('stock'));
+            $('#p-capacity').val(btn.data('capacity'));
+            $('#p-alcohol').val(btn.data('alcohol'));
+            $('#p-detail').val(btn.data('detail'));
+            $('#prod-old-image').val(btn.data('img'));
 
-                                    let $spanText = $('<span>', {
-                                        class: 'text-content',
-                                        text: tagText
-                                    });
+            // XỬ LÝ DROPDOWN THÔNG MINH (Tìm option theo Tên)
+            setSelectedByText('#p-type', btn.data('type-text'));
+            setSelectedByText('#p-category', btn.data('cat-text'));
+            setSelectedByText('#p-manufacturer', btn.data('manu-text'));
 
-                                    let $removeBtn = $('<span>', {
-                                        class: 'remove-tag',
-                                        html: '&times;',
-                                        'data-index': index
-                                    });
+            $('#form-action').val('edit');
+            $('.modal-content-form h2').text('Cập Nhật Sản Phẩm');
+            $('#btn-submit-form').text('Lưu Thay Đổi');
+            toggleModal(true);
+        });
 
-                                    $tagDiv.append($spanText).append($removeBtn);
+        // Hàm phụ trợ: Chọn option dựa vào Text thay vì Value
+        function setSelectedByText(selectId, textToFind) {
+            $(selectId + ' option').each(function() {
+                if ($(this).text().trim() === textToFind) {
+                    $(this).prop('selected', true);
+                    return false; // break loop
+                }
+            });
+        }
 
-                                    tagInput.before($tagDiv);
-                                });
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                // Lấy giá trị min, max từ input
+                var min = parseInt($('#min-price').val(), 10);
+                var max = parseInt($('#max-price').val(), 10);
 
-                                hiddenInput.val(tags.join(', '));
+                // Lấy giá tiền từ cột thứ 5 (index 4) - Cột Giá
+                // data[4] là chuỗi dạng "1.500.000 ₫" -> Cần xóa dấu chấm và chữ đ
+                var priceStr = data[4] || "0";
+                var price = parseFloat(priceStr.replace(/[^0-9]/g, '')); // Chỉ giữ lại số
 
-                                console.log("Current Tags:", tags);
-                            }
+                if ( ( isNaN( min ) && isNaN( max ) ) ||
+                    ( isNaN( min ) && price <= max ) ||
+                    ( min <= price   && isNaN( max ) ) ||
+                    ( min <= price   && price <= max ) )
+                {
+                    return true; // Hiển thị dòng này
+                }
+                return false; // Ẩn dòng này
+            }
+        );
 
-                            function addTag(text) {
-                                let cleanText = text.replace(/,/g, '').trim();
-                                if (cleanText && !tags.includes(cleanText)) {
-                                    tags.push(cleanText);
-                                    renderTags();
-                                }
+// 2. Sự kiện khi thay đổi Giá (vẽ lại bảng)
+        $('#min-price, #max-price').on('keyup change', function() {
+            table.draw();
+        });
 
-                                tagInput.val('');
-                                tagInput.focus();
-                            }
+// 3. Sự kiện khi chọn Nhà sản xuất
+        $('#filter-manufacturer').on('change', function() {
+            // Cột Nhà SX là cột thứ 4 (index 3).
+            // Dùng regex chính xác để tránh tìm "Vin" ra "Vina" (nếu cần)
+            // Ở đây ta dùng smart search mặc định của DataTables
+            table.column(3).search(this.value).draw();
+        });
 
-                            tagInput.on('keydown', function (e) {
-                                if (e.key === 'Enter' || e.key === ',') {
-                                    e.preventDefault();
-                                    addTag($(this).val());
-                                }
+// 4. Sự kiện nút Reset
+        $('#btn-reset-filter').on('click', function() {
+            $('#min-price').val('');
+            $('#max-price').val('');
+            $('#filter-manufacturer').val('');
+            $('#custom-search-input').val('');
 
-                                if (e.key === 'Backspace' && $(this).val() === '' && tags.length > 0) {
-                                    tags.pop();
-                                    renderTags();
-                                }
-                            });
-
-                            tagWrapper.on('click', '.remove-tag', function () {
-                                const index = $(this).data('index');
-                                tags.splice(index, 1);
-                                renderTags();
-                            });
-
-                            tagWrapper.on('click', function () {
-                                tagInput.focus();
-                            });
-
-
-                            $('#product-datatable tbody').on('click', '.edit.btn', function () {
-                                let currentTagsString = "";
-
-                                if (currentTagsString) {
-                                    tags = currentTagsString.split(',').map(t => t.trim());
-                                } else {
-                                    tags = [];
-                                }
-                                renderTags();
-
-                            });
-
-                            $('#add-product-btn').on('click', function () {
-                                tags = [];
-                                renderTags();
-                            });
-                        });
-
-                        document.addEventListener("DOMContentLoaded", function () {
-
-                            $(document).ready(function () {
-                                // 1. Cấu hình Custom Filter cho Giá (Price Range)
-                                $.fn.dataTable.ext.search.push(
-                                    function (settings, data, dataIndex) {
-                                        var min = parseInt($('#min-price').val(), 10);
-                                        var max = parseInt($('#max-price').val(), 10);
-
-                                        // Lấy dữ liệu cột Giá (Cột index 3), loại bỏ ký tự không phải số (đ, dấu chấm, phẩy)
-                                        var priceStr = data[3] || "0";
-                                        var price = parseFloat(priceStr.replace(/[\D\s\._\-]+/g, ""));
-
-                                        if ((isNaN(min) && isNaN(max)) ||
-                                            (isNaN(min) && price <= max) ||
-                                            (min <= price && isNaN(max)) ||
-                                            (min <= price && price <= max)) {
-                                            return true;
-                                        }
-                                        return false;
-                                    }
-                                );
-
-                                // 2. Cấu hình Custom Filter cho Tồn kho (Stock)
-                                $.fn.dataTable.ext.search.push(
-                                    function (settings, data, dataIndex) {
-                                        var stockStatus = $('#filter-stock').val();
-                                        // Lấy dữ liệu cột Stock (Cột index 4)
-                                        var stockVal = parseInt(data[4]) || 0;
-
-                                        if (stockStatus === "") return true; // Chọn tất cả
-                                        if (stockStatus === "instock" && stockVal > 0) return true;
-                                        if (stockStatus === "outstock" && stockVal <= 0) return true;
-
-                                        return false;
-                                    }
-                                );
-
-                                // 3. Khởi tạo DataTable
-                                var table = $('#product-datatable').DataTable({
-                                    "paging": true,       // Bật phân trang (Mặc định là true, khai báo rõ ràng)
-                                    "pageLength": 10,     // Số dòng mỗi trang
-                                    "lengthMenu": [5, 10, 25, 50], // Tùy chọn số dòng hiển thị
-                                    "columnDefs": [
-                                        { "orderable": false, "targets": [0, 5] },
-                                        { "searchable": false, "targets": [0, 5] }
-                                    ],
-                                    "language": {
-                                        "url": 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json',
-                                        "paginate": {
-                                            "first": "<ion-icon name='play-skip-back-outline'></ion-icon>",
-                                            "last": "<ion-icon name='play-skip-forward-outline'></ion-icon>",
-                                            "next": "<ion-icon name='chevron-forward-outline'></ion-icon>",
-                                            "previous": "<ion-icon name='chevron-back-outline'></ion-icon>"
-                                        }
-                                    },
-                                    // l: length changing input control, f: filtering input, r: processing, t: table, i: info, p: pagination
-                                    "dom": '<"top"l>rt<"bottom"ip><"clear">'
-                                });
-
-                                // 4. Bắt sự kiện khi nhập liệu vào bộ lọc -> Vẽ lại bảng
-                                $('#min-price, #max-price, #filter-stock').on('keyup change', function () {
-                                    table.draw();
-                                });
-
-                                // 5. Nút Reset bộ lọc
-                                $('#btn-reset-filter').on('click', function () {
-                                    $('#min-price').val('');
-                                    $('#max-price').val('');
-                                    $('#filter-stock').val('');
-                                    table.search('').draw();
-                                });
-                            });
-                        });
-                    </script>
-                </body>
-
-                </html>
+            // Xóa hết bộ lọc của DataTables
+            table.search('');
+            table.columns().search('');
+            table.draw();
+        });
+    });
+</script>
+</body>
+</html>

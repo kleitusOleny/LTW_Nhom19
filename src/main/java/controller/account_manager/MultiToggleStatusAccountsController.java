@@ -7,7 +7,7 @@ import services.AccountManagerService;
 
 import java.io.IOException;
 
-@WebServlet(name = "MultiBlockAccountsController", value = "/accountmanager/lock-multiple")
+@WebServlet(name = "MultiBlockAccountsController", value = "/account-manager/lock-multiple")
 public class MultiToggleStatusAccountsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,9 +24,9 @@ public class MultiToggleStatusAccountsController extends HttpServlet {
             for (String idString : idArray) {
                 int id = Integer.parseInt(idString);
                 if (status) {
-                    accountManagerService.updateStatus(id, 1);
-                } else {
                     accountManagerService.updateStatus(id, 0);
+                } else {
+                    accountManagerService.updateStatus(id, 1);
                 }
             }
         }

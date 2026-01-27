@@ -1238,3 +1238,14 @@ CSS FOR PRODUCT SLIDER
 .featured-products.container {
     overflow: visible;
 }
+
+.header-right a.admin-nav-link i {
+    color: #FFD700 !important;
+    font-size: 22px;
+    transition: all 0.3s ease-in-out;
+}
+
+.header-right a.admin-nav-link:hover i {
+    color: #B8860B !important;
+    filter: brightness(0.8);
+}

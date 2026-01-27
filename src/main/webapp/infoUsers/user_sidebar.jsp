@@ -121,7 +121,7 @@
                             const logout = document.querySelector('.logout-button');
                             logout.addEventListener('click', function () {
                                 if (confirm('Bạn có chắc chắn muốn đăng xuất')) {
-                                    alert("Đăng xuất thành công")
+                                    window.location.href = '<%= request.getContextPath() %>/logout';
                                 }
                             })
                         });

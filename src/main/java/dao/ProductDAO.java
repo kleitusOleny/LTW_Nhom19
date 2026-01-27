@@ -74,13 +74,13 @@ public class ProductDAO extends ADAO {
 
     public List<Product> getProducts() {
         return jdbi.withHandle(handle -> handle.createQuery("SELECT " +
-                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, " +
+                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, p.create_at," +
                 "t.type_name AS typeId, " +
                 "m.manufacturer_name AS manufacturerId, " +
                 "d.discount_value AS discount_value, " +
                 "d.discount_type AS discount_type, " +
 
-                "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl, " +
+                "p.url_img AS imageUrl, " +
 
                 "(SELECT AVG(ct.star) " +
                 " FROM evaluates e " +
@@ -101,9 +101,25 @@ public class ProductDAO extends ADAO {
 
     }
 
-    public List<Product> getProducts(int limit, int offset) {
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT " +
-                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, " +
+    public List<Product> getProducts(int limit, int offset,String sort) {
+        String order = "ORDER BY price ";
+        switch (sort) {
+            case "price-asc":
+                order += "ASC ";
+                break;
+            case "price-desc":
+                order += "DESC ";
+                break;
+            case "rating":
+                order += "DESC "; // Giả sử cột là rating
+                break;
+            default:
+                order = ""; // Mặc định
+                break;
+        }
+        
+        String sql = "SELECT " +
+                "p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, p.create_at, " +
                 "t.type_name AS typeId, " +
                 "m.manufacturer_name AS manufacturerId, " +
                 "d.discount_value AS discount_value, " +
@@ -125,7 +141,9 @@ public class ProductDAO extends ADAO {
                 "LEFT JOIN discounts d ON dp.discount_id = d.id AND d.is_active = 1 AND d.is_delete = 0 AND NOW() BETWEEN d.discount_from AND d.discount_to "
                 +
                 "WHERE p.is_delete = 0 " +
-                "LIMIT :limit OFFSET :offset")
+                order +
+                "LIMIT :limit OFFSET :offset";
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind("limit", limit)
                 .bind("offset", offset)
                 .mapToBean(Product.class)
@@ -217,13 +235,7 @@ public class ProductDAO extends ADAO {
                         .mapToBean(ProductType.class)
                         .list());
     }
-
-    public List<Manufacturer> getAllManufacturers() {
-        return jdbi.withHandle(handle -> handle
-                .createQuery("SELECT id, manufacturer_name AS manufacturerName FROM manufacturers WHERE is_delete = 0")
-                .mapToBean(Manufacturer.class)
-                .list());
-    }
+    
 
     public List<Tag> getAllTags() {
         return jdbi
@@ -250,7 +262,23 @@ public class ProductDAO extends ADAO {
 
     // Lấy danh sách đã lọc
     public List<Product> filterProducts(String[] prices, String[] categories, String[] manufacturers, String[] types,
-            String[] origins, String[] capacities, String[] tags, String keyword, int limit, int offset) {
+            String[] origins, String[] capacities, String[] tags, String keyword, int limit, int offset,String sort) {
+        
+        String order = "ORDER BY price ";
+        switch (sort) {
+            case "price-asc":
+                order += "ASC ";
+                break;
+            case "price-desc":
+                order += "DESC ";
+                break;
+            case "rating":
+                order += "DESC "; // Giả sử cột là rating
+                break;
+            default:
+                order = ""; // Mặc định
+                break;
+        }
         StringBuilder sql = new StringBuilder(
                 "SELECT p.id, p.product_name, p.slug, p.price, p.capacity, p.alcohol, p.origin, p.quantity, " +
                         "t.type_name AS typeId, m.manufacturer_name AS manufacturerId, " +

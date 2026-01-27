@@ -26,7 +26,26 @@ public class Feedback {
     @ColumnName("is_delete")
     private boolean isDelete;
 
+    @ColumnName("status")
+    private boolean status;
+
     public Feedback() {
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getId() {
@@ -75,13 +94,5 @@ public class Feedback {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
-    }
-
-    public boolean isDelete() {
-        return isDelete;
-    }
-
-    public void setDelete(boolean delete) {
-        isDelete = delete;
     }
 }

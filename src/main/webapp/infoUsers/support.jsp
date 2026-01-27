@@ -9,15 +9,7 @@
     </p>
 
     <div class="support-form">
-        <form>
-            <div class="form-group">
-                <label for="name" data-lang-key="yourName">Tên của bạn</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email" data-lang-key="yourEmail">Email của bạn</label>
-                <input type="email" id="email" name="email" required>
-            </div>
+        <form action="${pageContext.request.contextPath}/todo_list" method="POST">
             <div class="form-group">
                 <label for="subject" data-lang-key="subject">Chủ đề</label>
                 <input type="text" id="subject" name="subject" required>
@@ -49,3 +41,14 @@
         </div>
     </div>
 </div>
+<script>
+    (function() {
+        const fullSearch = window.location.search || window.location.hash.substring(window.location.hash.indexOf('?'));
+        const urlParams = new URLSearchParams(fullSearch);
+        if (urlParams.get('status') === "success") {
+            alert("Gửi yêu cầu hỗ trợ thành công!");
+            const cleanUrl = window.location.pathname + window.location.hash.split('?')[0];
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
+    })();
+</script>

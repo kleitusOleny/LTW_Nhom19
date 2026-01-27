@@ -916,3 +916,79 @@ filter
     background-color: #fff;
     color: #222;
 }
+
+/* Modal thông báo Custom */
+.modal-overlay-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2147483647; /* Số lớn nhất có thể của CSS */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay-custom.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content-custom {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.modal-overlay-custom.show .modal-content-custom {
+    transform: scale(1);
+}
+
+.modal-icon-custom {
+    font-size: 60px;
+    color: #8c3333;
+    margin-bottom: 15px;
+}
+
+.modal-title-custom {
+    font-size: 22px;
+    font-weight: 800;
+    color: #2f3542;
+    margin-bottom: 10px;
+}
+
+.modal-text-custom {
+    font-size: 16px;
+    color: #57606f;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.btn-close-custom {
+    background: #8c3333;
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+    transition: transform 0.2s;
+}
+
+.btn-close-custom:hover {
+    transform: translateY(-2px);
+    background: #8c3333;
+}

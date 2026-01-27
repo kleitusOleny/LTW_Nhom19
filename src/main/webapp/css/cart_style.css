@@ -461,8 +461,10 @@ main
 .quantity-selector {
     display: flex;
     justify-content: space-between;
+    align-items: center; /* Căn giữa theo trục dọc */
     border: 1px solid #ccc;
     border-radius: 5px;
+    overflow: hidden; /* Đảm bảo nút không bị lòi ra ngoài bo góc */
 }
 
 .quantity-selector input[type="number"] {

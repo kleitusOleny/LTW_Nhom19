@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "AddAccountController", value = "/accountmanager/add")
+@WebServlet(name = "AddAccountController", value = "/account-manager/add")
 public class AddAccountController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class AddAccountController extends HttpServlet {
         if (allErrors.isEmpty()) {
             boolean isSuccess = accountManagerService.addAccount(email, plainPassword);
             if (isSuccess) {
-                response.sendRedirect(request.getContextPath() + "/accountmanager?success=true");
+                response.sendRedirect(request.getContextPath() + "/account-manager?success=true");
             } else {
                 request.setAttribute("emailError", "Email này đã tồn tại trong hệ thống!");
                 request.setAttribute("listAccount", userList);

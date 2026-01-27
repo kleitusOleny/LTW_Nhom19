@@ -403,6 +403,8 @@
     font-size: 15px;
     color: #333;
     cursor: pointer;
+    text-decoration: none; /* Xoá gạch chân của link */
+    box-sizing: border-box; /* Đảm bảo padding không làm vỡ khung */
 }
 
 .btn-menu-item:hover {
@@ -1214,4 +1216,12 @@
     font-size: 14px;
     min-width: 100px;
     background: transparent;
+}
+
+select.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
 }
