@@ -19,33 +19,11 @@
     <nav class="dashboard-sidebar">
         <ul class="sidebar-items">
             <div class="group-avatar">
-                <img src="<%= request.getContextPath() %>/assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn"/>
-                <ion-icon name="notifications-outline" class="icon-header" id="notification-modal-btn"></ion-icon>
+                <%@ include file="/AdminPages/components/avatar.jsp" %>
+                <%@ include file="/AdminPages/components/notify_icon.jsp" %>
             </div>
-            <li><a href="admin_dashboard.jsp" class="a-with-icon">
-                <ion-icon name="home-outline"></ion-icon>
-                Trang Chủ</a></li>
-            <li><a href="manage_product.jsp" class="a-with-icon selected">
-                <ion-icon name="bag-remove"></ion-icon>
-                Quản Lí Sản Phẩm</a></li>
-            <li><a href="manage_accounts.jsp" class="a-with-icon">
-                <ion-icon name="people-outline"></ion-icon>
-                Quản Lí Tài Khoản Khách</a></li>
-            <li><a href="manage_orders.jsp" class="a-with-icon">
-                <ion-icon name="cart-outline"></ion-icon>
-                Quản Lí Đơn Hàng</a></li>
-            <li><a href="manage_banner.jsp" class="a-with-icon">
-                <ion-icon name="albums-outline"></ion-icon>
-                Quản Lí Banner</a></li>
-            <li><a href="manage_blog.jsp" class="a-with-icon">
-                <ion-icon name="reader-outline"></ion-icon>
-                Quản Lí Blog và Tin Tức</a></li>
-            <li><a href="manage_promotions.jsp" class="a-with-icon">
-                <ion-icon name="ticket-outline"></ion-icon>
-                Quản Lí Mã Giảm Giá và Khuyến Mãi</a></li>
-            <li><a href="charts.jsp" class="a-with-icon">
-                <ion-icon name="stats-chart-outline"></ion-icon>
-                Thống Kê</a></li>
+            <c:set var="activePage" value="product" scope="request" />
+            <%@ include file="/AdminPages/components/sidebar_items_component.jsp" %>
         </ul>
         <div class="text">━ Được update tới 2025 ━</div>
     </nav>
@@ -193,20 +171,7 @@
     </div>
 </div>
 
-<div class="modal-overlay-notification" id="notification-account-modal">
-    <div class="modal-content-notification">
-        <div class="group-notification">
-            <h2 class="notification-title">Thông báo</h2>
-            <button class="modal-close" id="close-modal-btn8">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
-        </div>
-        <div class="notification-empty-state">
-            <ion-icon name="notifications-off-outline"></ion-icon>
-            <p>Hiện tại chưa có thông báo mới</p>
-        </div>
-    </div>
-</div>
+<%@ include file="/AdminPages/components/notify_modal.jsp" %>
 <div class="modal-overlay-avatar" id="avatar-account-modal">
     <div class="modal-content-avatar">
         <button class="modal-close2" id="close-modal-btn9">
@@ -358,6 +323,8 @@
             '.delete-button',
             '.close-delete-btn, .cancel-delete-btn'
         );
+        setupModal('avatar-account-modal', 'avatar-modal-btn', 'close-modal-btn9');
+        setupModal('notification-account-modal', 'notification-modal-btn', 'close-modal-btn8');
 
         // --- LOGIC XỬ LÝ TAGS INPUT ---
 

@@ -41,3 +41,14 @@
         </div>
     </div>
 </div>
+<script>
+    (function() {
+        const fullSearch = window.location.search || window.location.hash.substring(window.location.hash.indexOf('?'));
+        const urlParams = new URLSearchParams(fullSearch);
+        if (urlParams.get('status') === "success") {
+            alert("Gửi yêu cầu hỗ trợ thành công!");
+            const cleanUrl = window.location.pathname + window.location.hash.split('?')[0];
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
+    })();
+</script>

@@ -14,7 +14,7 @@ import java.io.IOException;
 public class TodoListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("AdminPages/admin_dashboard.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/dashboard");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class TodoListController extends HttpServlet {
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 feedbackService.insertFeedback(user.getId(), title, content);
-                response.sendRedirect(request.getContextPath());
+                response.sendRedirect(request.getContextPath() + "/user#/user?page=support&status=success");
             } else {
                 response.sendRedirect("login");
             }

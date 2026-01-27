@@ -23,7 +23,6 @@ public class DashBoardController extends HttpServlet {
         OrderDAO orderDAO = new OrderDAO();
         UserDAO userDAO = new UserDAO();
 
-        List<Feedback> pendingList = feedbackDAO.getPendingFeedbacks();
         List<Feedback> doneList = feedbackDAO.getCompletedFeedbacks();
         List<Product> outOfStockList = productDAO.countOutOfStocks();
         int countNewUsers = userDAO.countNewUsersLastWeek();
@@ -31,7 +30,6 @@ public class DashBoardController extends HttpServlet {
         double sumTotalPriceOrder = orderDAO.sumTotalPriceLastMonth();
 
         request.setAttribute("outOfStockList", outOfStockList);
-        request.setAttribute("pendingList", pendingList);
         request.setAttribute("doneList", doneList);
         request.setAttribute("newUsersLastWeek", countNewUsers);
         request.setAttribute("newOrderLastWeek", countOrderId);
