@@ -897,39 +897,68 @@ table.dataTable>tbody>tr>td {
 /* CSS cho Modal "Áp dụng mã giảm giá" */
 /* ========================================== */
 
-/* Nút "Áp dụng mã giảm giá" */
+/* Nút "Áp dụng mã giảm giá" - Style giống nút Thêm mới */
 .button-group .apply {
-    background-color: #6341ff;
+    background: linear-gradient(135deg, #08c249 0%, #06a13d 100%);
+    box-shadow: 0 4px 15px rgba(8, 194, 73, 0.3);
+    color: white;
+    transition: all 0.3s ease;
 }
 
 .button-group .apply:hover {
-    background-color: #4f2fd6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(8, 194, 73, 0.4);
 }
 
-/* Dropdown chọn mã giảm giá */
-.discount-select-input {
+/* Modal Content - Style giống manage_orders.jsp */
+.modal-content {
+    background-color: white;
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    width: 600px;
+    /* Rộng hơn chút cho thoải mái */
+    max-width: 90vw;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-height: 85vh;
+    overflow-y: auto;
+    font-family: 'Mulish', sans-serif;
+}
+
+.modal-header-custom {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
 }
 
-.discount-select-input label {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #444;
+.modal-header-custom h2 {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
 }
 
-.discount-select-input label ion-icon {
-    font-size: 18px;
+.modal-header-custom h2 ion-icon {
     color: #6341ff;
 }
 
-.discount-select-input select {
+/* Form Elements */
+.form-label-custom {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+    display: block;
+    margin-bottom: 8px;
+    margin-top: 15px;
+}
+
+.custom-select {
     font-size: 0.95rem;
     border-radius: 8px;
     border: 1.5px solid #d0d0d0;
@@ -938,198 +967,142 @@ table.dataTable>tbody>tr>td {
     transition: all 0.2s ease;
     width: 100%;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
-.discount-select-input select:hover {
-    border-color: #a0a0a0;
-    background-color: #fff;
-}
-
-.discount-select-input select:focus {
+.custom-select:focus {
     border-color: #6341ff;
     background-color: #fff;
     box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.08);
     outline: none;
 }
 
-/* Radio button group cho kiểu áp dụng */
-.apply-type-radio-group {
+/* Apply Type Pills (Radio buttons styled as pills) */
+.apply-type-group {
     display: flex;
-    flex-direction: column;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-.apply-type-radio-group>label {
+.radio-pill {
+    position: relative;
+    cursor: pointer;
+}
+
+.radio-pill input {
+    display: none;
+}
+
+.radio-pill span {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #f1f3f5;
+    border-radius: 20px;
+    font-size: 0.9rem;
     font-weight: 600;
-    font-size: 0.95rem;
-    color: #444;
+    color: #555;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.radio-pill input:checked+span {
+    background-color: #e7f5ff;
+    color: #0872fa;
+    border-color: #0872fa;
+    box-shadow: 0 2px 5px rgba(8, 114, 250, 0.2);
+}
+
+/* Apply Lists (Checkbox areas) */
+.apply-lists {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fcfcfc;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.section-title {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.checkbox-row {
     display: flex;
     align-items: center;
-    gap: 6px;
-}
-
-.apply-type-radio-group>label ion-icon {
-    font-size: 18px;
-    color: #6341ff;
-}
-
-.radio-options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-left: 10px;
-}
-
-.radio-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 8px 12px;
+    gap: 10px;
+    padding: 8px 10px;
     border-radius: 6px;
-    transition: background-color 0.2s ease;
-}
-
-.radio-label:hover {
-    background-color: #f5f5f5;
-}
-
-.radio-label input[type="radio"] {
     cursor: pointer;
+    transition: background 0.2s;
+}
+
+.checkbox-row:hover {
+    background-color: #f0f0f0;
+}
+
+.checkbox-row input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: #6341ff;
+    accent-color: #0872fa;
+    cursor: pointer;
 }
 
-.radio-label span {
+.checkbox-row span {
     font-size: 0.95rem;
     color: #333;
 }
 
-/* Container cho danh sách checkbox động */
-.dynamic-checkbox-container {
-    margin-bottom: 15px;
+.empty-note {
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
 }
 
-/* Danh sách checkbox */
-.checkbox-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.checkbox-list>label {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #444;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 5px;
-}
-
-.checkbox-list>label ion-icon {
-    font-size: 18px;
-    color: #6341ff;
-}
-
-/* Vùng cuộn cho checkbox */
-.checkbox-scroll-area {
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1.5px solid #d0d0d0;
+/* Alert Box */
+.alert-box {
+    padding: 12px 15px;
     border-radius: 8px;
-    padding: 10px;
-    background-color: #fafafa;
-}
-
-.checkbox-scroll-area::-webkit-scrollbar {
-    width: 8px;
-}
-
-.checkbox-scroll-area::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.checkbox-scroll-area::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-.checkbox-scroll-area::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-/* Checkbox label */
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 6px 8px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-}
-
-.checkbox-label:hover {
-    background-color: #e8e8e8;
-}
-
-.checkbox-label input[type="checkbox"] {
-    cursor: pointer;
-    width: 16px;
-    height: 16px;
-    accent-color: #6341ff;
-}
-
-.checkbox-label span {
+    margin-top: 15px;
     font-size: 0.9rem;
-    color: #333;
+    font-weight: 500;
 }
 
-/* Filter selector dropdowns */
-.filter-selector {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
-.filter-selector label {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #444;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }
 
-.filter-selector label ion-icon {
-    font-size: 18px;
-    color: #6341ff;
+.d-none {
+    display: none !important;
 }
 
-.filter-select {
-    font-size: 0.95rem;
-    border-radius: 8px;
-    border: 1.5px solid #d0d0d0;
-    background-color: #fafafa;
-    padding: 11px 14px;
-    transition: all 0.2s ease;
-    width: 100%;
-    box-sizing: border-box;
+/* Scrollbar for lists */
+.apply-lists::-webkit-scrollbar {
+    width: 6px;
 }
 
-.filter-select:hover {
-    border-color: #a0a0a0;
-    background-color: #fff;
+.apply-lists::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-.filter-select:focus {
-    border-color: #6341ff;
-    background-color: #fff;
-    box-shadow: 0 0 0 3px rgba(99, 65, 255, 0.08);
-    outline: none;
+.apply-lists::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.apply-lists::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
 }

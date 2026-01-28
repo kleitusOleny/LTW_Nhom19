@@ -47,14 +47,16 @@ public class AdminOrderCreateApiController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         try (BufferedReader reader = request.getReader()) {
             CreateOrderRequest payload = gson.fromJson(reader, CreateOrderRequest.class);
             if (payload == null || payload.items == null || payload.items.isEmpty()) {
-                writeJson(response, HttpServletResponse.SC_BAD_REQUEST, Map.of("success", false, "message", "Danh sách sản phẩm không hợp lệ."));
+                writeJson(response, HttpServletResponse.SC_BAD_REQUEST,
+                        Map.of("success", false, "message", "Danh sách sản phẩm không hợp lệ."));
                 return;
             }
 

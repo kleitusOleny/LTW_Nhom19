@@ -161,6 +161,15 @@
                                                     onchange="applyDiscount('shipping')"
                                                     style="width: 100%; padding: 5px;">
                                                     <option value="">Chọn mã vận chuyển</option>
+                                                    <c:forEach items="${shippingDiscounts}" var="d">
+                                                        <option value="${d.discountCode}"
+                                                            ${sessionScope.cart.shippingDiscount.discountCode==d.discountCode
+                                                            ? 'selected' : '' }>
+                                                            ${d.discountCode} - Giảm
+                                                            <fmt:formatNumber value="${d.discountValue}" type="currency"
+                                                                currencySymbol="₫" maxFractionDigits="0" />
+                                                        </option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
 
@@ -171,6 +180,25 @@
                                                     onchange="applyDiscount('voucher')"
                                                     style="width: 100%; padding: 5px;">
                                                     <option value="">Chọn voucher</option>
+                                                    <c:forEach items="${userVouchers}" var="d">
+                                                        <option value="${d.discountCode}"
+                                                            ${sessionScope.cart.voucherDiscount.discountCode==d.discountCode
+                                                            ? 'selected' : '' }>
+                                                            ${d.discountCode} - Giảm
+                                                            <c:choose>
+                                                                <c:when
+                                                                    test="${d.discountType == 'PERCENT' || d.discountType == 'percentage'}">
+                                                                    <fmt:formatNumber value="${d.discountValue}"
+                                                                        type="number" maxFractionDigits="0" />%
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <fmt:formatNumber value="${d.discountValue}"
+                                                                        type="currency" currencySymbol="₫"
+                                                                        maxFractionDigits="0" />
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
 
@@ -219,52 +247,6 @@
                                 fetch('cart/get-discounts')
                                     .then(response => response.json())
                                     .then(data => {
-                                        // Populate Shipping Discounts
-                                        const shippingSelect = document.getElementById('shipping-discount-select');
-                                        if (data.shippingDiscounts && isLoggedIn) {
-                                            data.shippingDiscounts.forEach(d => {
-                                                const option = document.createElement('option');
-                                                option.value = d.discountCode;
-                                                option.text = d.discountCode + ' (' + formatMoney(d.discountValue) + ')';
-                                                if (d.discountCode === currentShippingCode) {
-                                                    option.selected = true;
-                                                    document.getElementById('shipping-discount-row').style.display = 'flex';
-                                                    document.getElementById('shipping-discount-amount').textContent = '-' + formatMoney(d.discountValue);
-                                                }
-                                                shippingSelect.add(option);
-                                            });
-                                        } else if (!isLoggedIn) {
-                                            const option = document.createElement('option');
-                                            option.value = "";
-                                            option.text = "Đăng nhập để xem mã vận chuyển";
-                                            option.disabled = true;
-                                            option.selected = true;
-                                            shippingSelect.add(option);
-                                        }
-
-                                        // Populate User Vouchers
-                                        const voucherSelect = document.getElementById('voucher-discount-select');
-                                        if (data.userVouchers) {
-                                            data.userVouchers.forEach(d => {
-                                                const option = document.createElement('option');
-                                                option.value = d.discountCode;
-                                                option.text = d.discountCode + ' (' + (d.discountType === 'percentage' ? d.discountValue + '%' : formatMoney(d.discountValue)) + ')';
-                                                if (d.discountCode === currentVoucherCode) {
-                                                    option.selected = true;
-                                                    document.getElementById('voucher-discount-row').style.display = 'flex';
-                                                }
-                                                voucherSelect.add(option);
-                                            });
-                                        } else if (!isLoggedIn) {
-                                            const option = document.createElement('option');
-                                            option.value = "";
-                                            option.text = "Đăng nhập để xem mã giảm giá";
-                                            option.disabled = true;
-                                            option.selected = true;
-                                            voucherSelect.add(option);
-                                            voucherSelect.add(option);
-                                        }
-
                                         // Populate Collectable Vouchers
                                         const collectableSection = document.getElementById('collectable-vouchers-section');
                                         const collectableList = document.getElementById('collectable-vouchers-list');
@@ -299,14 +281,6 @@
                                         </c:if>
                                         <c:if test="${not empty sessionScope.cart.voucherDiscount}">
                                             document.getElementById('voucher-discount-row').style.display = 'flex';
-                                            // We need to calculate the actual amount for the voucher row. 
-                                            // Since we don't have the exact amount easily available in a simple variable for percentage vouchers (it depends on subtotal),
-                                            // we can calculate it or just rely on the total. 
-                                            // However, let's try to be precise.
-                                            // Actually, let's just use the total deduction logic from Cart.java if possible, or just show the code.
-                                            // Better yet, let's just show the row and maybe the value if fixed.
-                                            // For percentage, it's harder.
-                                            // Let's just ensure the row is visible.
                                         </c:if>
 
                                         // Show Loyalty Discount if applicable

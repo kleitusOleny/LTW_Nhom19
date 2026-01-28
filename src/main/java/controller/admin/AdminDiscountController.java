@@ -36,9 +36,11 @@ public class AdminDiscountController extends HttpServlet {
 
             List<Category> categories = productDAO.getAllCategories();
             List<Product> products = productDAO.listProduct();
+            List<Manufacturer> manufacturers = new dao.ManufacturerDAO().getAllManufacturers();
 
             request.setAttribute("categories", categories);
             request.setAttribute("products", products);
+            request.setAttribute("manufacturers", manufacturers);
 
             // Check for error message in session and move to request
             String errorMessage = (String) request.getSession().getAttribute("errorMessage");

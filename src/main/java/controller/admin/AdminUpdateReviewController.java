@@ -24,7 +24,7 @@ public class AdminUpdateReviewController extends HttpServlet {
             throws ServletException, IOException {
         try {
             request.setCharacterEncoding("UTF-8");
-            
+
             String idParam = request.getParameter("id");
             String content = request.getParameter("content");
             String starParam = request.getParameter("star");

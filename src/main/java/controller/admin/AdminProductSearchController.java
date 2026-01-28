@@ -30,7 +30,8 @@ public class AdminProductSearchController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -78,14 +79,14 @@ public class AdminProductSearchController extends HttpServlet {
     }
 
     private record ProductListItem(String id,
-                                   String name,
-                                   String sku,
-                                   String origin,
-                                   String type,
-                                   double price,
-                                   int stock,
-                                   String imageUrl,
-                                   String capacity) {
+            String name,
+            String sku,
+            String origin,
+            String type,
+            double price,
+            int stock,
+            String imageUrl,
+            String capacity) {
 
         static ProductListItem from(Product product) {
             String image = product.getImageUrl();
@@ -101,8 +102,7 @@ public class AdminProductSearchController extends HttpServlet {
                     product.getPrice(),
                     product.getQuantity(),
                     image,
-                    product.getCapacity()
-            );
+                    product.getCapacity());
         }
     }
 }

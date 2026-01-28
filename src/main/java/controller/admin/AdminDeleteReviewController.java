@@ -30,11 +30,11 @@ public class AdminDeleteReviewController extends HttpServlet {
             }
 
             int id = Integer.parseInt(idParam);
-            
+
             // Kiểm tra tham số hard delete
             String hardDelete = request.getParameter("hard");
             boolean success;
-            
+
             if ("true".equals(hardDelete)) {
                 // Xóa vĩnh viễn
                 success = reviewDAO.hardDeleteReview(id);

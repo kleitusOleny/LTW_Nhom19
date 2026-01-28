@@ -47,39 +47,11 @@
                     <nav class="dashboard-sidebar">
                         <ul class="sidebar-items">
                             <div class="group-avatar">
-                                <img src="../assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn" />
-                                <ion-icon name="notifications-outline" class="icon-header"
-                                    id="notification-modal-btn"></ion-icon>
+                                <%@ include file="/AdminPages/components/avatar.jsp" %>
+                                    <%@ include file="/AdminPages/components/notify_icon.jsp" %>
                             </div>
-                            <li><a href="${pageContext.request.contextPath}/dashboard" class="a-with-icon">
-                                    <ion-icon name="home-outline"></ion-icon>
-                                    Trang Chủ</a></li>
-                            <li><a href="${pageContext.request.contextPath}/product-manager" class="a-with-icon">
-                                    <ion-icon name="bag-remove-outline"></ion-icon>
-                                    Quản Lí Sản Phẩm</a></li>
-                            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon">
-                                    <ion-icon name="people-outline"></ion-icon>
-                                    Quản Lí Tài Khoản Khách</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/manage-orders"
-                                    class="a-with-icon selected">
-                                    <ion-icon name="cart"></ion-icon>
-                                    Quản Lí Đơn Hàng</a></li>
-                            <li><a href="${pageContext.request.contextPath}/banner-manager" class="a-with-icon">
-                                    <ion-icon name="albums-outline"></ion-icon>
-                                    Quản Lí Banner</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/manage-blog" class="a-with-icon">
-                                    <ion-icon name="reader-outline"></ion-icon>
-                                    Quản Lí Blog và Tin Tức</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/manage-promotions"
-                                    class="a-with-icon">
-                                    <ion-icon name="ticket-outline"></ion-icon>
-                                    Quản Lí Mã Giảm Giá</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/manage-reviews" class="a-with-icon">
-                                    <ion-icon name="star-outline"></ion-icon>
-                                    Quản Lí Đánh Giá</a></li>
-                            <li><a href="charts.jsp" class="a-with-icon">
-                                    <ion-icon name="stats-chart-outline"></ion-icon>
-                                    Thống Kê</a></li>
+                            <c:set var="activePage" value="order" scope="request" />
+                            <%@ include file="/AdminPages/components/sidebar_items_component.jsp" %>
                         </ul>
                         <div class="text">━ Được update tới 2025 ━</div>
                     </nav>
@@ -92,26 +64,29 @@
                                         <ion-icon name="trash-outline"></ion-icon>
                                         Xoá (Đã chọn)
                                     </button>
-                                    <button class="button add" onclick="window.location.href='${pageContext.request.contextPath}/admin/create-order'">
+                                    <button class="button add"
+                                        onclick="window.location.href='${pageContext.request.contextPath}/admin/create-order'">
                                         <ion-icon name="add-outline" class="type-needCss"></ion-icon>
                                         Tạo đơn mới
                                     </button>
                                 </div>
                             </div>
-                            
+
                             <c:if test="${not empty successMessage}">
-                                <div class="alert alert-success" style="background: #d4edda; color: #155724; padding: 12px 20px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <div class="alert alert-success"
+                                    style="background: #d4edda; color: #155724; padding: 12px 20px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
                                     <ion-icon name="checkmark-circle-outline"></ion-icon>
                                     ${successMessage}
                                 </div>
                             </c:if>
                             <c:if test="${not empty errorMessage}">
-                                <div class="alert alert-error" style="background: #f8d7da; color: #721c24; padding: 12px 20px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <div class="alert alert-error"
+                                    style="background: #f8d7da; color: #721c24; padding: 12px 20px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
                                     <ion-icon name="alert-circle-outline"></ion-icon>
                                     ${errorMessage}
                                 </div>
                             </c:if>
-                            
+
                             <div class="table-container">
                                 <table id="order-table-main" class="promotion-table">
                                     <thead>
@@ -286,8 +261,8 @@
                                                 <tr>
                                                     <td style="padding: 10px; border-bottom: 1px solid #eee;">
                                                         <img src="${pageContext.request.contextPath}/${item.url_img}"
-                                                             alt="${item.product_name}"
-                                                             style="width:60px;height:110px;object-fit:cover;border-radius:4px;">
+                                                            alt="${item.product_name}"
+                                                            style="width:60px;height:110px;object-fit:cover;border-radius:4px;">
                                                     </td>
                                                     <td style="padding: 10px; border-bottom: 1px solid #eee;">
                                                         ${item.product_name}</td>

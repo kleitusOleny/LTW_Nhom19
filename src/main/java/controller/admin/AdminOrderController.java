@@ -26,20 +26,20 @@ public class AdminOrderController extends HttpServlet {
         try {
             List<OrderViewModel> orders = orderDAO.getAllOrdersWithStatus();
             request.setAttribute("orders", orders);
-            
+
             // Check for messages in session
             String successMessage = (String) request.getSession().getAttribute("successMessage");
             if (successMessage != null) {
                 request.setAttribute("successMessage", successMessage);
                 request.getSession().removeAttribute("successMessage");
             }
-            
+
             String errorMessage = (String) request.getSession().getAttribute("errorMessage");
             if (errorMessage != null) {
                 request.setAttribute("errorMessage", errorMessage);
                 request.getSession().removeAttribute("errorMessage");
             }
-            
+
             request.getRequestDispatcher("/AdminPages/manage_orders.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

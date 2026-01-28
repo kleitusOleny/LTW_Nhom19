@@ -25,7 +25,7 @@ public class AdminGetReviewController extends HttpServlet {
             throws ServletException, IOException {
         try {
             String idParam = request.getParameter("id");
-            
+
             if (idParam == null || idParam.isEmpty()) {
                 request.getSession().setAttribute("errorMessage", "ID đánh giá không hợp lệ");
                 response.sendRedirect(request.getContextPath() + "/admin/manage-reviews");

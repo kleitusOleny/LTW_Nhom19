@@ -30,31 +30,32 @@ public class AdminCreateOrderController extends HttpServlet {
         try {
             String keyword = request.getParameter("keyword");
             String filterType = request.getParameter("filterType");
-            
-            List<Product> products = productDAO.getProducts(50, 0,"price-asc");
-            
+
+            List<Product> products = productDAO.getProducts(50, 0, "price-asc");
+
             if (keyword != null && !keyword.trim().isEmpty()) {
                 String kw = keyword.toLowerCase().trim();
                 products = products.stream()
-                    .filter(p -> p.getProductName().toLowerCase().contains(kw) 
-                              || p.getId().toLowerCase().contains(kw)
-                              || (p.getOrigin() != null && p.getOrigin().toLowerCase().contains(kw)))
-                    .toList();
+                        .filter(p -> p.getProductName().toLowerCase().contains(kw)
+                                || p.getId().toLowerCase().contains(kw)
+                                || (p.getOrigin() != null && p.getOrigin().toLowerCase().contains(kw)))
+                        .toList();
             }
-            
+
             if (filterType != null && !filterType.isEmpty() && !"all".equals(filterType)) {
                 products = products.stream()
-                    .filter(p -> p.getTypeId() != null && p.getTypeId().toLowerCase().contains(filterType.toLowerCase()))
-                    .toList();
+                        .filter(p -> p.getTypeId() != null
+                                && p.getTypeId().toLowerCase().contains(filterType.toLowerCase()))
+                        .toList();
             }
-            
+
             request.setAttribute("products", products);
             request.setAttribute("keyword", keyword);
             request.setAttribute("filterType", filterType != null ? filterType : "all");
-            
+
             List<User> recentCustomers = userDAO.getAll().stream().limit(10).toList();
             request.setAttribute("recentCustomers", recentCustomers);
-            
+
             request.getRequestDispatcher("/AdminPages/create_order.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
