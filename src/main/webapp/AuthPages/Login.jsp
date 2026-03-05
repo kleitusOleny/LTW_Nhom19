@@ -61,8 +61,6 @@
                     </div>
 
                     <div class="remember-me-input">
-                        <input type="checkbox" id="remember-me" name="remember-me">
-                        <label for="remember-me">Ghi nhớ đăng nhập</label>
                         <a href="authentication">Quên Mật Khẩu</a>
                     </div>
                     <button>Đăng Nhập</button>

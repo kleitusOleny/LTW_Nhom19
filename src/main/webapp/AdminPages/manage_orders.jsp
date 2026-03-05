@@ -198,7 +198,7 @@
                         </div>
 
                         <div class="modal-body"
-                            style="padding: 0 30px 30px 30px; max-height: 80vh; overflow-y: auto; background-color: #fff;">
+                            style="padding: 0 30px 30px 30px; max-height: 60vh; overflow-y: auto; background-color: #fff;">
 
                             <!-- Customer Info -->
                             <div class="section info" style="margin-bottom: 30px;">

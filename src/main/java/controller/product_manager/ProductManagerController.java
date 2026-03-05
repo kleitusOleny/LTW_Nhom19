@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
 
-@WebServlet(name = "ProductManagerController", urlPatterns = {"/product-manager"})
+@WebServlet(name = "ProductManagerController", value = "/product-manager")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10,      // 10MB

@@ -22,6 +22,7 @@ public class ProductDAO extends ADAO {
                         "p.create_at, " +
                         "p.update_at, " +
                         "p.is_delete, " +
+                        "(SELECT url_img FROM p_img WHERE product_id = p.id LIMIT 1) AS imageUrl, " +
                         "t.type_name AS typeId, " +
                         "m.manufacturer_name AS manufacturerId, " +
                         "c.category_name AS categoryId " +
@@ -522,9 +523,9 @@ public class ProductDAO extends ADAO {
     public void insert(Product p) {
         jdbi.useHandle(handle -> {
             handle.createUpdate(
-                    "INSERT INTO products (id, product_name, slug, type_id, price, capacity, alcohol, origin, manufacturer_id, category_id, detail, quantity, url_img, create_at, is_delete) "
+                    "INSERT INTO products (id, product_name, slug, type_id, price, capacity, alcohol, origin, manufacturer_id, category_id, detail, quantity, create_at, is_delete) "
                             +
-                            "VALUES (:id, :productName, :slug, :typeId, :price, :capacity, :alcohol, :origin, :manufacturerId, :categoryId, :detail, :quantity, :imageUrl, NOW(), 0)")
+                            "VALUES (:id, :productName, :slug, :typeId, :price, :capacity, :alcohol, :origin, :manufacturerId, :categoryId, :detail, :quantity, NOW(), 0)")
                     .bindBean(p)
                     .execute();
         });
@@ -542,7 +543,7 @@ public class ProductDAO extends ADAO {
             handle.createUpdate("UPDATE products SET product_name=:productName, slug=:slug, type_id=:typeId, " +
                     "price=:price, capacity=:capacity, alcohol=:alcohol, origin=:origin, " +
                     "manufacturer_id=:manufacturerId, category_id=:categoryId, detail=:detail, " +
-                    "quantity=:quantity, url_img=:imageUrl, update_at=NOW() " +
+                    "quantity=:quantity, update_at=NOW() " +
                     "WHERE id=:id")
                     .bindBean(p)
                     .execute();

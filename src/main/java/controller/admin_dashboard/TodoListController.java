@@ -42,7 +42,7 @@ public class TodoListController extends HttpServlet {
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 feedbackService.insertFeedback(user.getId(), title, content);
-                response.sendRedirect(request.getContextPath() + "/user#/user?page=support&status=success");
+                response.sendRedirect(request.getContextPath() + "/infoUsers/user_sidebar.jsp#/LTW_Nhom19_war/user?page=support");
             } else {
                 response.sendRedirect(request.getContextPath() + "/login");
             }

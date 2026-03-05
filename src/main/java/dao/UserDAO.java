@@ -67,7 +67,7 @@ public boolean create(User entity) {
             .bind("administrator", entity.getAdministrator())
             .bind("active", entity.getActive())
             .bind("createdAt", entity.getCreatedAt())
-            .executeAndReturnGeneratedKeys("id") // tự động lấy ra id
+            .executeAndReturnGeneratedKeys("id")
             .mapTo(Integer.class)
             .one());
     if (generatedId > 0) {
@@ -234,10 +234,4 @@ public boolean updateActive(int id, int activeNum) {
                 .mapTo(Integer.class)
                 .findOnly());
     }
-
-public static void main(String[] args) {
-    UserDAO u = new UserDAO();
-    System.out.println(u.findById(new User(1)));
-    // System.out.println(u.getAll());
-}
 }

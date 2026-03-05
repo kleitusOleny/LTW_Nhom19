@@ -59,8 +59,35 @@ public class Product implements Serializable {
     @ColumnName("discount_value")
     private double discountValue;
 
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @ColumnName("discount_type")
     private String discountType;
+    @ColumnName("status")
+    private int status;
+
 
     public Product() {
     }

@@ -22,39 +22,11 @@
                     <nav class="dashboard-sidebar">
                         <ul class="sidebar-items">
                             <div class="group-avatar">
-                                <img src="../assets/avatar.jpg" class="user-avatar" id="avatar-modal-btn" />
-                                <ion-icon name="notifications-outline" class="icon-header"
-                                    id="notification-modal-btn"></ion-icon>
+                                <%@ include file="/AdminPages/components/avatar.jsp" %>
+                                <%@ include file="/AdminPages/components/notify_icon.jsp" %>
                             </div>
-                            <li><a href="${pageContext.request.contextPath}/dashboard" class="a-with-icon">
-                                    <ion-icon name="home-outline"></ion-icon>
-                                    Trang Chủ</a></li>
-                            <li><a href="${pageContext.request.contextPath}/product-manager" class="a-with-icon">
-                                    <ion-icon name="bag-remove-outline"></ion-icon>
-                                    Quản Lí Sản Phẩm</a></li>
-                            <li><a href="${pageContext.request.contextPath}/accountmanager" class="a-with-icon">
-                                    <ion-icon name="people-outline"></ion-icon>
-                                    Quản Lí Tài Khoản Khách</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/manage-orders" class="a-with-icon">
-                                    <ion-icon name="cart-outline"></ion-icon>
-                                    Quản Lí Đơn Hàng</a></li>
-                            <li><a href="${pageContext.request.contextPath}/banner-manager" class="a-with-icon">
-                                    <ion-icon name="albums-outline"></ion-icon>
-                                    Quản Lí Banner</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/manage-blog"
-                                    class="a-with-icon selected">
-                                    <ion-icon name="reader"></ion-icon>
-                                    Quản Lí Blog và Tin Tức</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/manage-promotions"
-                                    class="a-with-icon">
-                                    <ion-icon name="ticket-outline"></ion-icon>
-                                    Quản Lí Mã Giảm Giá</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/manage-reviews" class="a-with-icon">
-                                    <ion-icon name="star-outline"></ion-icon>
-                                    Quản Lí Đánh Giá</a></li>
-                            <li><a href="charts.jsp" class="a-with-icon">
-                                    <ion-icon name="stats-chart-outline"></ion-icon>
-                                    Thống Kê</a></li>
+                            <c:set var="activePage" value="blog" scope="request" />
+                            <%@ include file="/AdminPages/components/sidebar_items_component.jsp" %>
                         </ul>
                         <div class="text">━ Được update tới 2025 ━</div>
                     </nav>
