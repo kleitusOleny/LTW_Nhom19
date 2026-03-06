@@ -41,17 +41,25 @@ public class OrderController extends HttpServlet {
         List<Order> orders = orderDAO.getByUserId(user.getId());
 
         dao.ShipOrderDAO shipOrderDAO = new dao.ShipOrderDAO();
+        dao.PaymentDAO paymentDAO = new dao.PaymentDAO();
         java.util.Map<Integer, ShipOrder> shipOrderMap = new java.util.HashMap<>();
+        java.util.Map<Integer, Payment> paymentMap = new java.util.HashMap<>();
 
         for (Order order : orders) {
             ShipOrder shipOrder = shipOrderDAO.getByOrderId(order.getId());
             if (shipOrder != null) {
                 shipOrderMap.put(order.getId(), shipOrder);
             }
+
+            Payment payment = paymentDAO.findByOrderId(order.getId());
+            if (payment != null) {
+                paymentMap.put(order.getId(), payment);
+            }
         }
 
         request.setAttribute("orders", orders);
         request.setAttribute("shipOrderMap", shipOrderMap);
+        request.setAttribute("paymentMap", paymentMap);
         request.getRequestDispatcher("infoUsers/my_orders.jsp").forward(request, response);
     }
 }

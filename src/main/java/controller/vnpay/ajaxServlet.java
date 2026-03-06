@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -61,7 +61,7 @@ public class ajaxServlet extends HttpServlet {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        BigDecimal amount = order.getTotalPrice();
+        double amount = order.getTotalPrice();
         String bankCode = req.getParameter("bankCode");
 
         String vnp_TxnRef = order.getId() + "";
@@ -74,7 +74,7 @@ public class ajaxServlet extends HttpServlet {
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        long amountValue = amount.multiply(new BigDecimal(100)).longValue();
+        long amountValue = (long) (amount * 100);
         vnp_Params.put("vnp_Amount", String.valueOf(amountValue));
         vnp_Params.put("vnp_CurrCode", "VND");
 

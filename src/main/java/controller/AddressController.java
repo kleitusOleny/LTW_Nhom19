@@ -67,7 +67,6 @@ public class AddressController extends HttpServlet {
         User user = (User) session.getAttribute("user");
         String action = request.getParameter("action");
         try {
-            System.out.println(action);
             switch (action) {
                 case "add": {
                     addressService.handleAdd(request, user);

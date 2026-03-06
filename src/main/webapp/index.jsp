@@ -41,7 +41,8 @@
 
                                         <div class="carousel-item active">
                                             <div class="hero-overlay"></div>
-                                            <img src="assets/banners/main_banner.jpg" class="d-block w-100" alt="Banner 1">
+                                            <img src="assets/banners/main_banner.jpg" class="d-block w-100"
+                                                alt="Banner 1">
                                             <div class="carousel-caption d-none d-md-block hero-content">
                                                 <h1 class="hero-title">Bộ Sưu Tập Vang Thượng Hạng</h1>
                                                 <p class="hero-subtitle">Khám phá hương vị tinh tế từ những vườn nho nổi
@@ -55,7 +56,7 @@
                                         <div class="carousel-item">
                                             <div class="hero-overlay"></div>
                                             <img src="assets/banners/banner-vang-bordeaux.jpg" class="d-block w-100"
-                                                 alt="Banner 2">
+                                                alt="Banner 2">
                                             <div class="carousel-caption d-none d-md-block hero-content">
                                                 <h1 class="hero-title">Hương Vị Mùa Hè Tươi Mát</h1>
                                                 <p class="hero-subtitle">Tuyển tập những chai vang trắng và vang hồng
@@ -69,7 +70,7 @@
                                         <div class="carousel-item">
                                             <div class="hero-overlay"></div>
                                             <img src="assets/banners/banner-vang-bourgogne.jpg" class="d-block w-100"
-                                                 alt="Banner 3">
+                                                alt="Banner 3">
                                             <div class="carousel-caption d-none d-md-block hero-content">
                                                 <h1 class="hero-title">Quà Tặng Doanh Nghiệp</h1>
                                                 <p class="hero-subtitle">Giải pháp quà tặng sang trọng, đẳng cấp dành
@@ -83,7 +84,7 @@
                                         <div class="carousel-item">
                                             <div class="hero-overlay"></div>
                                             <img src="assets/banners/banner-vang-bordeaux.jpg" class="d-block w-100"
-                                                 alt="Banner 4">
+                                                alt="Banner 4">
                                             <div class="carousel-caption d-none d-md-block hero-content">
                                                 <h1 class="hero-title">Hương Vị Mùa Hè Tươi Mát</h1>
                                                 <p class="hero-subtitle">Tuyển tập những chai vang trắng và vang hồng
@@ -93,6 +94,7 @@
                                                 <a href="store.jsp" class="btn btn-primary hero-btn">Khám Phá</a>
                                             </div>
                                         </div>
+
                                     </div>
 
                                     <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel"
@@ -108,11 +110,115 @@
                                 </div>
                             </section>
 
+                            <!-- Voucher Section -->
+                            <c:if test="${not empty publicVouchers}">
+                                <section class="voucher-section container my-5">
+                                    <h2 class="section-title text-center mb-4">Mã Giảm Giá Dành Cho Bạn</h2>
+                                    <div class="row g-4">
+                                        <c:forEach var="v" items="${publicVouchers}">
+                                            <c:set var="typeUpper" value="${fn:toUpperCase(v.applyType)}" />
+                                            <c:if
+                                                test="${fn:contains(typeUpper, 'USER') or fn:contains(typeUpper, 'SHIP')}">
+                                                <div class="col-md-4 col-sm-6">
+                                                    <div
+                                                        class="voucher-card ${fn:contains(typeUpper, 'SHIP') ? 'voucher-card-shipping' : 'voucher-card-premium'} p-3 rounded shadow-sm d-flex align-items-center justify-content-between">
+                                                        <div class="voucher-icon me-3">
+                                                            <c:choose>
+                                                                <c:when test="${fn:contains(typeUpper, 'SHIP')}">
+                                                                    <i
+                                                                        class="fa-solid fa-truck-fast fa-2x text-white"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <i class="fa-solid fa-gift fa-2x text-warning"></i>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </div>
+                                                        <div class="voucher-info flex-grow-1">
+                                                            <h5
+                                                                class="mb-1 fw-bold ${fn:contains(typeUpper, 'SHIP') ? 'text-white' : 'text-dark'}">
+                                                                ${v.discountCode}</h5>
+                                                            <p class="mb-0 ${fn:contains(typeUpper, 'SHIP') ? 'text-warning fw-bold' : 'text-danger fw-bold'}"
+                                                                style="font-size: 1.1em;">
+                                                                Giảm
+                                                                <c:choose>
+                                                                    <c:when
+                                                                        test="${fn:toUpperCase(v.discountType) == 'PERCENT'}">
+                                                                        <fmt:formatNumber value="${v.discountValue}"
+                                                                            type="number" maxFractionDigits="0" />%
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <fmt:formatNumber value="${v.discountValue}"
+                                                                            type="number" maxFractionDigits="0" />₫
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </p>
+                                                            <small
+                                                                class="${fn:contains(typeUpper, 'SHIP') ? 'text-white fw-bold' : 'text-dark fw-bold'}">HSD:
+                                                                <fmt:formatDate value="${v.discountTo}"
+                                                                    pattern="dd/MM/yyyy" />
+                                                            </small>
+                                                        </div>
+                                                        <c:choose>
+                                                            <c:when test="${collectedVoucherIds.contains(v.id)}">
+                                                                <button class="btn btn-sm btn-secondary ms-2" disabled>
+                                                                    Đã Thu Thập
+                                                                </button>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <button
+                                                                    class="btn btn-sm ${fn:contains(typeUpper, 'SHIP') ? 'btn-light text-success' : 'btn-dark'} ms-2"
+                                                                    onclick="collectVoucherHome(${v.id})">
+                                                                    Thu Thập
+                                                                </button>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                </section>
+                                <style>
+                                    .voucher-card-shipping {
+                                        background: linear-gradient(135deg, #28a745, #218838);
+                                        color: white;
+                                    }
+
+                                    .voucher-card-premium {
+                                        background: linear-gradient(135deg, #fff, #f8f9fa);
+                                        border: 1px solid gold;
+                                        border-left: 5px solid #ffc107;
+                                    }
+                                </style>
+                                <script>
+                                    function collectVoucherHome(discountId) {
+                                        fetch('cart/collect-voucher?discountId=' + discountId, {
+                                            method: 'POST'
+                                        })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    alert(data.message);
+                                                    location.reload();
+                                                } else {
+                                                    alert(data.message);
+                                                }
+                                            })
+                                            .catch(error => console.error('Error collecting voucher:', error));
+                                    }
+                                </script>
+                            </c:if>
+
                             <c:if test="${not empty topFavouritesList}">
                                 <section class="featured-products container" style="position: relative;">
                                     <h2 class="section-title">Sản Phẩm Được Yêu Thích Nhiều Nhất</h2>
                                     <p class="section-subtitle">Những chai vang được khách hàng yêu thích và đánh giá
-                                        cao</p>
+
+                                        <!-- Navigation Buttons -->
+
+
+                                        cao
+                                    </p>
 
                                     <!-- Navigation Buttons -->
                                     <button class="scroll-btn scroll-btn-left" onclick="scrollFavorites('left')"
@@ -128,7 +234,7 @@
                                         style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none;">
                                         <c:forEach var="fav" items="${topFavouritesList}">
                                             <div class="product-card">
-                                                <div class="product-image">
+                                                <div class="product-image" style="position: relative;">
                                                     <form action="${pageContext.request.contextPath}/favorites"
                                                         method="post" class="wishlist-form"
                                                         onsubmit="toggleFavorite(event, this)">
@@ -153,6 +259,28 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </a>
+
+                                                    <!-- DEBUG: VD/0281 | discount_type=[${fav.discount_type}] | discount_value=[${fav.discount_value}] | empty?=${empty fav.discount_type} -->
+
+                                                    <!-- Discount badge -->
+                                                    <c:if
+                                                        test="${fav.discount_type == 'PERCENT' or fav.discount_type == 'percent'}">
+                                                        <div
+                                                            style="position: absolute; top: 10px; left: 10px; background: #dc3545; color: white; padding: 8px 12px; border-radius: 5px; font-weight: bold; font-size: 14px; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                                                            -
+                                                            <fmt:formatNumber value="${fav.discount_value}"
+                                                                maxFractionDigits="0" />%
+                                                        </div>
+                                                    </c:if>
+                                                    <c:if
+                                                        test="${fav.discount_type == 'AMOUNT' or fav.discount_type == 'amount'}">
+                                                        <div
+                                                            style="position: absolute; top: 10px; left: 10px; background: #dc3545; color: white; padding: 8px 12px; border-radius: 5px; font-weight: bold; font-size: 14px; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                                                            Giảm
+                                                            <fmt:formatNumber value="${fav.discount_value}"
+                                                                maxFractionDigits="0" />₫
+                                                        </div>
+                                                    </c:if>
                                                 </div>
                                                 <div class="product-info">
                                                     <h3 class="product-name">
@@ -182,9 +310,48 @@
                                                     </p>
 
                                                     <p class="product-price">
+                                                        <c:set var="price" value="${fav.price}" />
+                                                        <c:set var="discountValue" value="${fav.discount_value}" />
+                                                        <c:set var="discountType" value="${fav.discount_type}" />
+                                                        <c:set var="discountedPrice" value="${price}" />
+
+                                                        <c:if test="${not empty discountType}">
+                                                            <c:set var="discountTypeUpper"
+                                                                value="${fn:toUpperCase(discountType)}" />
+                                                            <c:choose>
+                                                                <c:when test="${discountTypeUpper == 'PERCENT'}">
+                                                                    <c:set var="discountedPrice"
+                                                                        value="${price * (1 - discountValue / 100.0)}" />
+                                                                </c:when>
+                                                                <c:when test="${discountTypeUpper == 'AMOUNT'}">
+                                                                    <c:set var="discountedPrice"
+                                                                        value="${price - discountValue}" />
+                                                                </c:when>
+                                                            </c:choose>
+                                                        </c:if>
+
                                                         <fmt:setLocale value="vi_VN" />
-                                                        <fmt:formatNumber value="${fav.price}" type="currency"
-                                                            currencySymbol="₫" maxFractionDigits="0" />
+                                                        <c:choose>
+                                                            <c:when test="${discountedPrice < price}">
+                                                                <span
+                                                                    style="color: #8c3333; font-weight: bold; font-size: 1.1rem;"
+                                                                    class="me-2">
+                                                                    <fmt:formatNumber value="${discountedPrice}"
+                                                                        type="number" maxFractionDigits="0" />₫
+                                                                </span>
+                                                                <span class="text-muted text-decoration-line-through"
+                                                                    style="font-size: 0.9rem;">
+                                                                    <fmt:formatNumber value="${price}" type="number"
+                                                                        maxFractionDigits="0" />₫
+                                                                </span>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <span style="color: #8c3333; font-weight: bold;">
+                                                                    <fmt:formatNumber value="${price}" type="number"
+                                                                        maxFractionDigits="0" />₫
+                                                                </span>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </p>
 
                                                     <a href="${pageContext.request.contextPath}/add-cart?productId=${fav.product_id}&quantity=1"
@@ -277,9 +444,47 @@
                                                             ${fav.manufacturer_name}</p>
 
                                                         <p class="product-price">
+                                                            <c:set var="price" value="${fav.price}" />
+                                                            <c:set var="discountValue" value="${fav.discount_value}" />
+                                                            <c:set var="discountType" value="${fav.discount_type}" />
+                                                            <c:set var="discountedPrice" value="${price}" />
+
+                                                            <c:if test="${not empty discountType}">
+                                                                <c:set var="discountTypeUpper"
+                                                                    value="${fn:toUpperCase(discountType)}" />
+                                                                <c:choose>
+                                                                    <c:when test="${discountTypeUpper == 'PERCENT'}">
+                                                                        <c:set var="discountedPrice"
+                                                                            value="${price * (1 - discountValue / 100.0)}" />
+                                                                    </c:when>
+                                                                    <c:when test="${discountTypeUpper == 'AMOUNT'}">
+                                                                        <c:set var="discountedPrice"
+                                                                            value="${price - discountValue}" />
+                                                                    </c:when>
+                                                                </c:choose>
+                                                            </c:if>
+
                                                             <fmt:setLocale value="vi_VN" />
-                                                            <fmt:formatNumber value="${fav.price}" type="currency"
-                                                                currencySymbol="₫" maxFractionDigits="0" />
+                                                            <c:choose>
+                                                                <c:when test="${discountedPrice < price}">
+                                                                    <span style="color: #8c3333; font-weight: bold;"
+                                                                        class="me-2">
+                                                                        <fmt:formatNumber value="${discountedPrice}"
+                                                                            type="number" maxFractionDigits="0" />₫
+                                                                    </span>
+                                                                    <span
+                                                                        class="text-muted text-decoration-line-through small">
+                                                                        <fmt:formatNumber value="${price}" type="number"
+                                                                            maxFractionDigits="0" />₫
+                                                                    </span>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <span style="color: #8c3333; font-weight: bold;">
+                                                                        <fmt:formatNumber value="${price}" type="number"
+                                                                            maxFractionDigits="0" />₫
+                                                                    </span>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </p>
 
                                                         <a href="${pageContext.request.contextPath}/add-cart?productId=${fav.product_id}&quantity=1"
@@ -295,13 +500,13 @@
                             </div>
 
                             <button class="carousel-control-prev" type="button" data-bs-target="#userFavoritesCarousel"
-                                data-bs-slide="prev" style="left: -60px;">
+                                data-bs-slide="prev" style="left: -60px; top: -290px">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"
                                     style="background-color: #8c3333; border-radius: 50%; padding: 20px;"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>
                             <button class="carousel-control-next" type="button" data-bs-target="#userFavoritesCarousel"
-                                data-bs-slide="next">
+                                data-bs-slide="next" style="top: -240px">
                                 <span class="carousel-control-next-icon" aria-hidden="true"
                                     style="background-color: #8c3333; border-radius: 50%; padding: 20px;"></span>
                                 <span class="visually-hidden">Next</span>
@@ -489,137 +694,49 @@
                                 </div>
                             </section>
 
-                            <section class="blog-section">
-                                <div class="container">
+                            <c:if test="${not empty latestBlogs}">
+                                <section class="blog-section">
+                                    <div class="container">
 
-                                    <h2 class="section-title">Cẩm Nang Rượu Vang</h2>
-                                    <p class="section-subtitle">Khám phá kiến thức và nghệ thuật thưởng thức rượu
-                                        vang
-                                    </p>
+                                        <h2 class="section-title">Cẩm Nang Rượu Vang</h2>
+                                        <p class="section-subtitle">Khám phá kiến thức và nghệ thuật thưởng thức rượu
+                                            vang</p>
 
-                                    <div class="blog-grid">
-
-                                        <article class="blog-card">
-                                            <div class="blog-image">
-                                                <a href="blog_detail.jsp">
-                                                    <img src="img/ruou.jpg" alt="Xu hướng rượu vang 2025">
-                                                </a>
-                                                <span class="blog-date">Dec 12, 2025</span>
-                                            </div>
-                                            <div class="blog-content">
-                                                <h3 class="blog-title"><a href="blog_detail.jsp">Xu hướng rượu vang
-                                                        2025: nhẹ, tươi và
-                                                        terroir</a></h3>
-                                                <p class="blog-excerpt">Năm 2025 đánh dấu sự lên ngôi của rượu vang
-                                                    nhẹ
-                                                    và chú trọng terroir —
-                                                    những chai dễ uống, thích hợp pairing với ẩm thực hàng ngày.</p>
-                                                <a href="blog_detail.jsp" class="read-more-btn">Xem thêm <i
-                                                        class="fa-solid fa-arrow-right"></i></a>
-                                            </div>
-                                        </article>
-
-                                        <article class="blog-card">
-                                            <div class="blog-image">
-                                                <a href="blog_detail.jsp">
-                                                    <img src="img/ruou2.jpg"
-                                                        alt="Đánh giá Cabernet Sauvignon Chile 2018">
-                                                </a>
-                                                <span class="blog-date">Nov 10, 2025</span>
-                                            </div>
-                                            <div class="blog-content">
-                                                <h3 class="blog-title"><a href="blog_detail.jsp">Đánh giá Cabernet
-                                                        Sauvignon Chile 2018</a>
-                                                </h3>
-                                                <p class="blog-excerpt">Mạnh mẽ, tannin mịn, phù hợp với thịt đỏ
-                                                    nướng.
-                                                    Điểm: 88/100.</p>
-                                                <a href="blog_detail.jsp" class="read-more-btn">Xem thêm <i
-                                                        class="fa-solid fa-arrow-right"></i></a>
-                                            </div>
-                                        </article>
-
-                                        <article class="blog-card">
-                                            <div class="blog-image">
-                                                <a href="blog_detail.jsp">
-                                                    <img src="img/ruou.jpg" alt="Cách chọn vang cho người mới">
-                                                </a>
-                                                <span class="blog-date">Oct 05, 2025</span>
-                                            </div>
-                                            <div class="blog-content">
-                                                <h3 class="blog-title"><a href="blog_detail.jsp">Cách chọn vang cho
-                                                        người mới</a></h3>
-                                                <p class="blog-excerpt">Bạn mới tập uống vang? Hướng dẫn chọn vang
-                                                    theo
-                                                    phong cách: ngọt, khô,
-                                                    nhẹ, đậm.</p>
-                                                <a href="blog_detail.jsp" class="read-more-btn">Xem thêm <i
-                                                        class="fa-solid fa-arrow-right"></i></a>
-                                            </div>
-                                        </article>
-
-                                        <article class="blog-card">
-                                            <div class="blog-image">
-                                                <a href="blog_detail.jsp">
-                                                    <img src="img/ruou.jpg" alt="Xu hướng rượu vang 2025">
-                                                </a>
-                                                <span class="blog-date">Dec 12, 2025</span>
-                                            </div>
-                                            <div class="blog-content">
-                                                <h3 class="blog-title"><a href="blog_detail.jsp">Xu hướng rượu vang
-                                                        2025: nhẹ, tươi và
-                                                        terroir</a></h3>
-                                                <p class="blog-excerpt">Năm 2025 đánh dấu sự lên ngôi của rượu vang
-                                                    nhẹ
-                                                    và chú trọng terroir —
-                                                    những chai dễ uống, thích hợp pairing với ẩm thực hàng ngày.</p>
-                                                <a href="blog_detail.jsp" class="read-more-btn">Xem thêm <i
-                                                        class="fa-solid fa-arrow-right"></i></a>
-                                            </div>
-                                        </article>
-
-                                        <article class="blog-card">
-                                            <div class="blog-image">
-                                                <a href="blog_detail.jsp">
-                                                    <img src="img/ruou2.jpg"
-                                                        alt="Đánh giá Cabernet Sauvignon Chile 2018">
-                                                </a>
-                                                <span class="blog-date">Nov 10, 2025</span>
-                                            </div>
-                                            <div class="blog-content">
-                                                <h3 class="blog-title"><a href="blog_detail.jsp">Đánh giá Cabernet
-                                                        Sauvignon Chile 2018</a>
-                                                </h3>
-                                                <p class="blog-excerpt">Mạnh mẽ, tannin mịn, phù hợp với thịt đỏ
-                                                    nướng.
-                                                    Điểm: 88/100.</p>
-                                                <a href="blog_detail.jsp" class="read-more-btn">Xem thêm <i
-                                                        class="fa-solid fa-arrow-right"></i></a>
-                                            </div>
-                                        </article>
-
-                                        <article class="blog-card">
-                                            <div class="blog-image">
-                                                <a href="blog_detail.jsp">
-                                                    <img src="img/ruou.jpg" alt="Cách chọn vang cho người mới">
-                                                </a>
-                                                <span class="blog-date">Oct 05, 2025</span>
-                                            </div>
-                                            <div class="blog-content">
-                                                <h3 class="blog-title"><a href="blog_detail.jsp">Cách chọn vang cho
-                                                        người mới</a></h3>
-                                                <p class="blog-excerpt">Bạn mới tập uống vang? Hướng dẫn chọn vang
-                                                    theo
-                                                    phong cách: ngọt, khô,
-                                                    nhẹ, đậm.</p>
-                                                <a href="blog_detail.jsp" class="read-more-btn">Xem thêm <i
-                                                        class="fa-solid fa-arrow-right"></i></a>
-                                            </div>
-                                        </article>
-
+                                        <div class="blog-grid">
+                                            <c:forEach items="${latestBlogs}" var="blog" varStatus="status" end="5">
+                                                <article class="blog-card">
+                                                    <div class="blog-image">
+                                                        <a
+                                                            href="${pageContext.request.contextPath}/blog-detail?slug=${blog.slug}">
+                                                            <img src="${blog.blogImage != null ? blog.blogImage : 'img/ruou.jpg'}"
+                                                                alt="${blog.title}">
+                                                        </a>
+                                                        <span class="blog-date">
+                                                            ${blog.cardDate}
+                                                        </span>
+                                                    </div>
+                                                    <div class="blog-content">
+                                                        <h3 class="blog-title">
+                                                            <a
+                                                                href="${pageContext.request.contextPath}/blog-detail?slug=${blog.slug}">
+                                                                ${blog.title}
+                                                            </a>
+                                                        </h3>
+                                                        <p class="blog-excerpt">
+                                                            ${fn:length(blog.content) > 100 ? fn:substring(blog.content,
+                                                            0, 100).concat('...') : blog.content}
+                                                        </p>
+                                                        <a href="${pageContext.request.contextPath}/blog-detail?slug=${blog.slug}"
+                                                            class="read-more-btn">
+                                                            Xem thêm <i class="fa-solid fa-arrow-right"></i>
+                                                        </a>
+                                                    </div>
+                                                </article>
+                                            </c:forEach>
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
+                            </c:if>
 
                             <section class="service-commitment-section">
                                 <div class="container">
@@ -653,6 +770,84 @@
                                 </div>
                             </section>
                         </main>
+                        <!-- Notification Modal -->
+                        <div class="modal fade" id="notificationModal" tabindex="-1"
+                            aria-labelledby="notificationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header border-0">
+                                        <h5 class="modal-title" id="notificationModalLabel">Thông báo</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center py-4">
+                                        <div id="notificationIcon" class="mb-3"></div>
+                                        <p id="notificationMessage" class="mb-0 fs-5"></p>
+                                    </div>
+                                    <div class="modal-footer border-0 justify-content-center">
+                                        <button type="button" id="modalSecondaryBtn" class="btn btn-secondary px-4 me-2"
+                                            data-bs-dismiss="modal" style="display:none;">Không</button>
+                                        <button type="button" id="modalPrimaryBtn" class="btn btn-primary px-4"
+                                            data-bs-dismiss="modal">Đồng ý</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            function showNotification(message, type = 'info', requireLogin = false) {
+                                const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+                                const msgEl = document.getElementById('notificationMessage');
+                                const iconEl = document.getElementById('notificationIcon');
+                                const primaryBtn = document.getElementById('modalPrimaryBtn');
+                                const secondaryBtn = document.getElementById('modalSecondaryBtn');
+
+                                msgEl.textContent = message;
+
+                                // Icon
+                                if (type === 'success') {
+                                    iconEl.innerHTML = '<i class="fa-solid fa-circle-check text-success fa-3x"></i>';
+                                } else if (type === 'error') {
+                                    iconEl.innerHTML = '<i class="fa-solid fa-circle-exclamation text-danger fa-3x"></i>';
+                                } else {
+                                    iconEl.innerHTML = '<i class="fa-solid fa-circle-info text-primary fa-3x"></i>';
+                                }
+
+                                // Buttons
+                                if (requireLogin) {
+                                    secondaryBtn.style.display = 'inline-block';
+                                    secondaryBtn.textContent = 'Không';
+
+                                    primaryBtn.textContent = 'Đăng nhập';
+                                    primaryBtn.onclick = function () {
+                                        window.location.href = 'AuthPages/Login.jsp';
+                                    };
+                                } else {
+                                    secondaryBtn.style.display = 'none';
+                                    primaryBtn.textContent = 'Đồng ý';
+                                    primaryBtn.onclick = function () {
+                                        if (type === 'success') location.reload();
+                                        else modal.hide();
+                                    };
+                                }
+
+                                modal.show();
+                            }
+
+                            function collectVoucherHome(discountId) {
+                                fetch('cart/collect-voucher?discountId=' + discountId, {
+                                    method: 'POST'
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            showNotification(data.message, 'success');
+                                        } else {
+                                            showNotification(data.message, 'error', data.requireLogin);
+                                        }
+                                    })
+                                    .catch(error => console.error('Error collecting voucher:', error));
+                            }
+                        </script>
                         <%@ include file="components/footer.jsp" %>
                             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
                                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -705,6 +900,10 @@
                                 const urlParams = new URLSearchParams(window.location.search);
                                 if (urlParams.has('loginSuccess')) {
                                     alert("Bạn đã đăng nhập thành công!");
+                                    window.history.replaceState({}, document.title, window.location.pathname);
+                                }
+                                if (urlParams.has('registerSuccess')) {
+                                    alert("Bạn đã đăng kí thành công!");
                                     window.history.replaceState({}, document.title, window.location.pathname);
                                 }
                             </script>

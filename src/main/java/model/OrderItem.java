@@ -15,7 +15,7 @@ public class OrderItem {
     private int quantity;
 
     @ColumnName("unit_price")
-    private BigDecimal unitPrice;
+    private double unitPrice;
 
     public OrderItem() {
     }
@@ -44,11 +44,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public BigDecimal getUnitPrice() {
+    public double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(BigDecimal unitPrice) {
+    public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
     }
 }

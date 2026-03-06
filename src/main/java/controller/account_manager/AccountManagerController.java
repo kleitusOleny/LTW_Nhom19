@@ -9,7 +9,7 @@ import model.User;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AccountManagerController", value = "/accountmanager")
+@WebServlet(name = "AccountManagerController", value = "/account-manager")
 public class AccountManagerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -17,9 +17,9 @@ public class AccountManagerController extends HttpServlet {
         List<User> userList = userDAO.getAll();
         if (userList != null) {
             request.setAttribute("listAccount", userList);
-            request.getRequestDispatcher("/AdminPages/manage_accounts.jsp").forward(request, response);
+            request.getRequestDispatcher("AdminPages/manage_accounts.jsp").forward(request, response);
         } else {
-            response.sendRedirect("accountmanage" + "?fetchDataError");
+            response.sendRedirect(request.getContextPath() + "/accountmanage" + "?fetchDataError");
         }
     }
 

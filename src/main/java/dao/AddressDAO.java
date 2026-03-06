@@ -136,10 +136,4 @@ public class AddressDAO extends ADAO implements IDAO<Address> {
                 .findFirst().orElse(null));
     }
 
-    public static void main(String[] args) {
-        AddressDAO d = new AddressDAO();
-        List<Address> ls = d.getByUserID(1);
-        System.out.println(ls);
-    }
-
 }

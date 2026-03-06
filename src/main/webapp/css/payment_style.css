@@ -1186,3 +1186,150 @@ dialog iframe {
 #bank-transfer-details .instruction strong {
     color: #333;
 }
+
+/* Discount Section Styles */
+.discount-section {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.discount-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.discount-toggle:hover {
+    background-color: #fcfcfc;
+}
+
+.discount-toggle.active {
+    border-bottom-color: #eee;
+    background-color: #fcfcfc;
+}
+
+.discount-toggle h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    text-transform: uppercase;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.discount-toggle i.fa-chevron-down {
+    transition: transform 0.3s ease;
+    color: #888;
+}
+
+.discount-toggle.active i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.discount-content {
+    display: none;
+    padding: 20px;
+    background-color: #fff;
+    animation: slideDown 0.3s ease-out;
+}
+
+.discount-content.show {
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.discount-group {
+    margin-bottom: 20px;
+}
+
+.discount-group:last-child {
+    margin-bottom: 0;
+}
+
+.discount-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #444;
+    font-size: 14px;
+}
+
+.discount-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+    transition: all 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    cursor: pointer;
+}
+
+.discount-select:hover {
+    border-color: #aaa;
+}
+
+.discount-select:focus {
+    outline: none;
+    border-color: #8c3333;
+    box-shadow: 0 0 0 3px rgba(140, 51, 51, 0.1);
+}
+
+#loyalty-discount-display {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #f1f8e9;
+    border: 1px solid #c5e1a5;
+    border-radius: 6px;
+    color: #33691e;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#loyalty-discount-display.inactive {
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+    color: #757575;
+}
+
+.no-discount-msg {
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border: 1px dashed #ccc;
+    border-radius: 6px;
+    color: #777;
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+}

@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ManufacturerDAO;
 import dao.ProductDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -17,11 +18,12 @@ import java.util.Map;
 @WebServlet(name = "FilterController", value = "/filter")
 public class FilterController extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        request.setAttribute("curHeader","store");
+        request.setAttribute("curHeader", "store");
         ProductDAO dao = new ProductDAO();
-
+        ManufacturerDAO manuDAO = new ManufacturerDAO();
         String[] prices = request.getParameterValues("price");
         String[] categories = request.getParameterValues("category");
         String[] manufacturers = request.getParameterValues("manufacturer");
@@ -29,7 +31,7 @@ public class FilterController extends HttpServlet {
         String[] origins = request.getParameterValues("origin");
         String[] capacities = request.getParameterValues("capacity");
         String[] tags = request.getParameterValues("tag");
-        
+
         String search = request.getParameter("search");
         
         String sort = request.getParameter("sort");
@@ -42,13 +44,15 @@ public class FilterController extends HttpServlet {
         int page = 1;
         try {
             page = Integer.parseInt(request.getParameter("page"));
-        } catch (NumberFormatException e) { page = 1; }
+        } catch (NumberFormatException e) {
+            page = 1;
+        }
         int offset = (page - 1) * pageSize;
         
         List<Product> products = dao.filterProducts(prices, categories, manufacturers, types, origins, capacities, tags, search, pageSize, offset,sort);
         int totalFiltered = dao.countFilteredProducts(prices, categories, manufacturers, types, origins, capacities, tags, search);
         int totalPages = (int) Math.ceil((double) totalFiltered / pageSize);
-        
+
         String queryString = request.getQueryString();
         String keepParams = "";
         if (queryString != null) {
@@ -57,26 +61,27 @@ public class FilterController extends HttpServlet {
                 keepParams = "&" + keepParams;
             }
         }
-        
+
         double maxPrice = dao.getMaxPrice();
         request.setAttribute("maxPrice", maxPrice > 0 ? maxPrice : 10000000);
-        
+
         request.setAttribute("products", products);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
         request.setAttribute("filterParams", keepParams);
         request.setAttribute("searchKeyword", search);
-        
+
         request.setAttribute("categories", dao.getAllCategories());
         request.setAttribute("types", dao.getAllTypes());
-        request.setAttribute("manufacturers", dao.getAllManufacturers());
+        request.setAttribute("manufacturers", manuDAO.getAllManufacturers());
         request.setAttribute("tags", dao.getAllTags());
         request.setAttribute("origins", dao.getAllOrigins());
         request.setAttribute("capacities", dao.getAllCapacities());
-        
+
         request.setAttribute("selectedPrices", prices != null ? Arrays.asList(prices) : new ArrayList<>());
         request.setAttribute("selectedCategories", categories != null ? Arrays.asList(categories) : new ArrayList<>());
-        request.setAttribute("selectedManufacturers", manufacturers != null ? Arrays.asList(manufacturers) : new ArrayList<>());
+        request.setAttribute("selectedManufacturers",
+                manufacturers != null ? Arrays.asList(manufacturers) : new ArrayList<>());
         request.setAttribute("selectedTypes", types != null ? Arrays.asList(types) : new ArrayList<>());
         request.setAttribute("selectedOrigins", origins != null ? Arrays.asList(origins) : new ArrayList<>());
         request.setAttribute("selectedCapacities", capacities != null ? Arrays.asList(capacities) : new ArrayList<>());
@@ -90,7 +95,10 @@ public class FilterController extends HttpServlet {
                 List<Map<String, Object>> userFavourites = favouriteDAO.getFavouritesWithProductsByUserID(user.getId());
                 Map<String, Boolean> favouriteProductMap = new HashMap<>();
                 for (Map<String, Object> fav : userFavourites) {
-                    favouriteProductMap.put((String) fav.get("product_id"), true);
+                    Object productIdObj = fav.get("product_id");
+                    if (productIdObj != null) {
+                        favouriteProductMap.put(String.valueOf(productIdObj), true);
+                    }
                 }
                 request.setAttribute("favouriteProductMap", favouriteProductMap);
             }

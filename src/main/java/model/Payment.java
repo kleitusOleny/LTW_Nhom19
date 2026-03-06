@@ -3,7 +3,6 @@ package model;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.sql.Timestamp;
-import java.math.BigDecimal;
 
 public class Payment {
     @ColumnName("id")
@@ -19,7 +18,7 @@ public class Payment {
     private String status;
 
     @ColumnName("amount")
-    private BigDecimal amount;
+    private double amount;
 
     @ColumnName("paid_at")
     private Timestamp paidAt;
@@ -59,11 +58,11 @@ public class Payment {
         this.status = status;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

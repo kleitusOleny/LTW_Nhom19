@@ -67,7 +67,7 @@ public boolean create(User entity) {
             .bind("administrator", entity.getAdministrator())
             .bind("active", entity.getActive())
             .bind("createdAt", entity.getCreatedAt())
-            .executeAndReturnGeneratedKeys("id") // tự động lấy ra id
+            .executeAndReturnGeneratedKeys("id")
             .mapTo(Integer.class)
             .one());
     if (generatedId > 0) {
@@ -160,6 +160,29 @@ public User findByEmail(String email) {
             .orElse(null));
 }
 
+public User findByPhoneNumber(String phoneNumber) {
+    return jdbi.withHandle(handle -> handle.createQuery("""
+                    SELECT
+                        id,
+                        email,
+                        username,
+                        password_hash AS passwordHash,
+                        phone_number AS phoneNumber,
+                        full_name AS fullName,
+                        birth_day AS birthDay,
+                        administrator,
+                        active,
+                        created_at AS createdAt,
+                        update_at AS updateAt
+                    FROM users
+                    WHERE phone_number = :phone
+                    """)
+            .bind("phone", phoneNumber)
+            .mapToBean(User.class)
+            .findFirst()
+            .orElse(null));
+}
+
 public User findByUsername(String username) {
     return jdbi.withHandle(handle -> handle.createQuery("""
                     SELECT
@@ -205,9 +228,10 @@ public boolean updateActive(int id, int activeNum) {
                 .findOnly());
     }
 
-public static void main(String[] args) {
-    UserDAO u = new UserDAO();
-    System.out.println(u.findById(new User(1)));
-    // System.out.println(u.getAll());
-}
+    public int countNewUsersLastWeek() {
+        return jdbi.withHandle(handle -> handle.createQuery(
+                        "select COUNT(id) from users where created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")
+                .mapTo(Integer.class)
+                .findOnly());
+    }
 }

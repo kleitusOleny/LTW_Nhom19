@@ -22,7 +22,7 @@
                             <c:if test="${not empty product and not empty review}">
                                 <div class="rh-card">
                                     <div class="rh-product-image">
-                                        <a href="detail?id=${product.id}">
+                                        <a href="${pageContext.request.contextPath}/detail?id=${product.id}">
                                             <img src="${pageContext.request.contextPath}/${product.imageUrl}"
                                                 alt="${product.productName}"
                                                 onerror="this.src='${pageContext.request.contextPath}/img/default.png'">
@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="rh-content-wrapper">
                                         <div class="rh-product-details">
-                                            <h3><a href="detail?id=${product.id}"
+                                            <h3><a href="${pageContext.request.contextPath}/detail?id=${product.id}"
                                                     style="color: inherit; text-decoration: none;">${product.productName}</a>
                                             </h3>
                                             <p class="rh-date">Đã đánh giá vào ngày

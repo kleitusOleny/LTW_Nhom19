@@ -1,10 +1,7 @@
 package controller;
 
 import dao.*;
-import model.Order;
-import model.OrderItem;
-import model.Product;
-import model.User;
+import model.*;
 import services.ProductService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -70,15 +67,15 @@ public class OrderDetailController extends HttpServlet {
             request.setAttribute("productMap", productMap);
 
             AddressDAO addressDAO = new AddressDAO();
-            model.Address shippingAddress = addressDAO.getById(order.getShippingAddressId());
+            Address shippingAddress = addressDAO.getById(order.getShippingAddressId());
             request.setAttribute("shippingAddress", shippingAddress);
 
             PaymentDAO paymentDAO = new PaymentDAO();
-            model.Payment payment = paymentDAO.findByOrderId(orderId);
+           Payment payment = paymentDAO.findByOrderId(orderId);
             request.setAttribute("payment", payment);
 
             ShipOrderDAO shipOrderDAO = new ShipOrderDAO();
-            model.ShipOrder shipOrder = shipOrderDAO.getByOrderId(orderId);
+            ShipOrder shipOrder = shipOrderDAO.getByOrderId(orderId);
             request.setAttribute("shipOrder", shipOrder);
 
             request.getRequestDispatcher("infoUsers/detail_order.jsp").forward(request, response);
